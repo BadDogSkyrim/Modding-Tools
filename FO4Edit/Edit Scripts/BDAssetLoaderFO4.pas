@@ -333,7 +333,6 @@ begin
 
         tintOptions := ElementByPath(thisGroup, 'Options');
         Log(6, Format('Group has %d options', [integer(ElementCount(tintOptions))]));
-        raceInfo[raceID, sex].tintCount[tintType] := 0;
         for j := 0 to ElementCount(tintOptions)-1 do begin
             tintLayer := ElementByIndex(tintOptions, j);
             tintName := GetElementEditValues(tintLayer, 'TTGP');
@@ -353,10 +352,10 @@ begin
                     raceInfo[raceID, sex].tints[tintType, n].element := tintLayer;
                     raceInfo[raceID, sex].tintCount[tintType] := n+1;
                 end;
-            end
-            ;
+            end;
         end;
     end;
+
     Log(11, '>LoadTintLayerInfo');
 end;
 
@@ -719,28 +718,28 @@ var
 begin
     Log(11, '<CollectRaces');
 
-    tintlayerName.Add('Skin Tone');
-    tintlayerName.Add('Old');
-    tintlayerName.Add('Neck');
-    tintlayerName.Add('Lip Color');
-    tintlayerName.Add('Forehead');
     tintlayerName.Add('Ear');
+    tintlayerName.Add('Forehead');
+    tintlayerName.Add('Lip Color');
     tintlayerName.Add('Mask');
     tintlayerName.Add('Muzzle');
-    tintlayerName.Add('Paint');
+    tintlayerName.Add('Neck');
     tintlayerName.Add('Nose');
+    tintlayerName.Add('Old');
+    tintlayerName.Add('Paint');
+    tintlayerName.Add('Skin Tone');
     TINTLAYERS_COUNT := tintlayerName.Count;
 
-    TL_SKIN_TONE := tintlayerName.IndexOf('Skin Tone');
-    TL_OLD := tintlayerName.IndexOf('Old');
-    TL_NOSE := tintlayerName.IndexOf('Nose');
-    TL_NECK := tintlayerName.IndexOf('Neck');
     TL_EAR := tintlayerName.IndexOf('Ear');
     TL_FOREHEAD := tintlayerName.IndexOf('Forehead');
     TL_LIP_COLOR := tintlayerName.IndexOf('Lip Color');
     TL_MASK := tintlayerName.IndexOf('Mask');
     TL_MUZZLE := tintlayerName.IndexOf('Muzzle');
+    TL_NECK := tintlayerName.IndexOf('Neck');
+    TL_NOSE := tintlayerName.IndexOf('Nose');
+    TL_OLD := tintlayerName.IndexOf('Old');
     TL_PAINT := tintlayerName.IndexOf('Paint');
+    TL_SKIN_TONE := tintlayerName.IndexOf('Skin Tone');
 
     for i := 0 to tintlayerName.Count-1 do 
         Log(12, Format('[%d] %s', [i, tintlayerName[i]]));
