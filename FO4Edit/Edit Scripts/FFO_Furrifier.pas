@@ -416,8 +416,8 @@ begin
         end;
     end
     else
-        Log(5, Format('Probability check failed, no assignment: %d > %d', 
-            [integer(probCheck), integer(prob)]));
+        Log(5, Format('Probability check failed, no assignment: %d > %d, layer count %d', 
+            [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
     
     Log(5, '>ChooseTint');
 end;

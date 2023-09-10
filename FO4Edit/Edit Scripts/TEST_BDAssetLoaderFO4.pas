@@ -32,27 +32,28 @@ var
     f: IwbFile;
     fl: TStringList;
     g: IwbContainer;
+    headpart: IwbMainRecord;
     i: integer;
     j: integer;
     k: integer;
-    headpart: IwbMainRecord;
     lykaiosIndex: integer;
     lykaiosRace: IwbMainRecord;
     m: integer;
     modFile: IwbFile;
     name: string;
     npc: IwbMainRecord;
-    npcDesdemona: IwbMainRecord;
-    npcMason: IwbMainRecord;
     npcClass: integer;
+    npcDesdemona: IwbMainRecord;
     npcGroup: IwbGroupRecord;
+    npcMason: IwbMainRecord;
+    npcPiper: IwbMainRecord;
     npcRace: integer;
     race: IwbMainRecord;
     raceID: Cardinal;
     racename: string;
     racepnam: float;
 begin
-    LOGLEVEL := 1;
+    LOGLEVEL := 14;
     f := FileByIndex(0);
 
     if {Testing random numbers} FALSE then begin
@@ -114,6 +115,7 @@ begin
                     IfThen(k=MALE, 'M', 'F'), 
                     integer(raceInfo[i, k].tintProbability[j])
                     ]));
+
     Assert(raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_MASK] = 100, 'Have tint probability');
 
     // Can select skin tints of the different races.
@@ -136,6 +138,8 @@ begin
         Format('Skin tone index correct: %d = %d', [integer(TL_SKIN_TONE), tintlayerName.IndexOf('Skin Tone')]));
     Assert(SameText(raceInfo[RacenameIndex('FFOHyenaRace'), MALE].tints[TL_SKIN_TONE, 0].name, 'Skin tone'), 
         'Hyena has skin tone ' + raceInfo[RacenameIndex('FFOHyenaRace'), MALE].tints[TL_SKIN_TONE, 0].name);
+    Assert(raceInfo[RacenameIndex('FFOFoxRace'), FEMALE].tintCount[TL_MASK] = 3, 
+        'Fox Fem has 3 masks: ' + IntToStr(raceInfo[RacenameIndex('FFOFoxRace'), FEMALE].tintCount[TL_MASK]));
     Assert(StartsText('Face Mask', raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_MASK, 0].name), 
         'Fox has face mask ' + raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_MASK, 0].name);
     Assert(SameText(raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_EAR, 0].name, 'Ears'), 
@@ -213,16 +217,28 @@ begin
 
     // -------- NPC race assignment
     // Can create overwrite records.
-    LOGLEVEL := 14;
-    npcMason := FindAsset(Nil, 'NPC_', 'DLC04Mason');
+    npc := FindAsset(Nil, 'NPC_', 'DLC04Mason');
     modFile := CreateOverrideMod('TEST.esp');
-    npc := FurrifyNPC(npcMason, modFile);
-    Assert(EditorID(LinksTo(ElementByPath(npc, 'RNAM'))) = 'FFOHorseRace', 'Changed Mason`s race');
-    elist := ElementByPath(npc, 'Head Parts');
+    npcMason := FurrifyNPC(npc, modFile);
+    Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
+        'Changed Mason`s race');
+    elist := ElementByPath(npcMason, 'Head Parts');
     Assert(ElementCount(elist) >= 3, 'Have head parts');
     Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
         'Have head parts from FFO');
-    Assert(GetFileName(LinksTo(ElementByPath(npc, 'WNAM'))) = 'FurryFallout.esp', 
+    Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
+        'Have skin from FFO');
+
+    npc := FindAsset(Nil, 'NPC_', 'CompanionPiper');
+    modFile := CreateOverrideMod('TEST.esp');
+    npcPiper := FurrifyNPC(npc, modFile);
+    Assert(EditorID(LinksTo(ElementByPath(npcPiper, 'RNAM'))) = 'FFOFoxRace', 
+        'Changed Piper`s race');
+    elist := ElementByPath(npcPiper, 'Head Parts');
+    Assert(ElementCount(elist) >= 3, 'Have head parts');
+    Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
+        'Have head parts from FFO');
+    Assert(GetFileName(LinksTo(ElementByPath(npcPiper, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
 
     LOGLEVEL := 1;
