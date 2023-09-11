@@ -1,5 +1,4 @@
 {
-	Hotkey: Ctrl+Alt+G
 }
 unit BDAssetLoaderFO4;
 
@@ -190,11 +189,35 @@ begin
     Result := masterRaceList.IndexOf(racename);
 end;
 
+//=======================================================
+// Return the race of the NPC.
+// NPCs based on templates don't have valid races in their own 
+// record so we have to follow the chain of templates to find
+// the race. 
+Function GetNPCRace(npc: IwbMainRecord): IwbMainRecord;
+var
+    tpl, entry: IwbMainRecord;
+    lle: IwbElement;
+begin
+    if (GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1') then begin
+        tpl := LinksTo(ElementByPath(npc, 'TPLT'));
+        if Signature(tpl) = 'LVLN' then begin
+            lle := ElementByPath(tpl, 'Leveled List Entries');
+            entry := LinksTo(ElementByPath(ElementByIndex(lle, 0), 'LVLO\Reference'));
+            result := GetNPCRace(entry);
+        end
+        else 
+            result := GetNPCRace(tpl);
+    end
+    else 
+        result := LinksTo(ElementByPath(npc, 'RNAM'));
+end;
+
 //=====================================================
 // Return the race index of the npc
 Function GetNPCRaceID(npc: IwbMainRecord): integer;
 begin
-    Result := masterRaceList.IndexOf(EditorID(LinksTo(ElementByPath(npc, 'RNAM'))));
+    Result := masterRaceList.IndexOf(EditorID(GetNPCRace(npc)));
 end;
 
 Function GetNPCSex(npc: IwbMainRecord): integer;
@@ -325,11 +348,11 @@ begin
     if sex = MALE then rootElem := 'Male Tint Layers' else rootElem := 'Female Tint Layers';
     tintGroups := ElementByPath(theRace, rootElem);
 
-    Log(11, SmallName(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
+    Log(11, EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
     
     for i := 0 to ElementCount(tintGroups)-1 do begin
         thisGroup := ElementByIndex(tintGroups, i);
-        Log(11, 'Found tint group ' + geev(thisGroup, 'TTGP'));
+        Log(11, 'Found tint group ' + GetElementEditValues(thisGroup, 'TTGP'));
 
         tintOptions := ElementByPath(thisGroup, 'Options');
         Log(6, Format('Group has %d options', [integer(ElementCount(tintOptions))]));
@@ -537,14 +560,16 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
+    Log(10, Format('<PickRandomTintPreset %s %s %d', [hashstr, tintlayerName[tintlayer], integer(ind)]));
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     colorList := ElementByPath(raceInfo[theRace, sex].tints[tintLayer, alt].element, 'TTEC');
     if ElementCount(colorList) = 0 then
         Result := nil
     else begin
-        r := Hash(hashstr, seed, ElementCount(colorList));
+        r := Hash(hashstr, seed, ElementCount(colorList)-ind) + ind;
         Result := ElementByIndex(colorList, r);
     end;
+    Log(10, '>PickRandomTintPreset')
 end;
 
 

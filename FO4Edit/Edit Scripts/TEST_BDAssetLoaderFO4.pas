@@ -1,5 +1,4 @@
 {
-	Hotkey: Ctrl+Alt+D
 }
 unit TEST_BDAssetLoaderFO4;
 
@@ -20,6 +19,11 @@ begin
         testErrorCount := testErrorCount + 1;
         Raise Exception.Create('Assert fail');
     end;
+end;
+
+Function Initialize: integer;
+begin
+  
 end;
 
 //-------------------------------------------------------------------------
@@ -52,9 +56,16 @@ var
     raceID: Cardinal;
     racename: string;
     racepnam: float;
+    teti: string;
+    tend: float;
 begin
     LOGLEVEL := 14;
     f := FileByIndex(0);
+
+    // Asset loader has to be iniitialized before use.
+    AddMessage('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+    Log(10, 'Starting tests');
+    testErrorCount := 0;
 
     if {Testing random numbers} FALSE then begin
         AddMessage('Same hash, different seeds');
@@ -74,10 +85,13 @@ begin
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
     end;
 
-    // Asset loader has to be iniitialized before use.
-    AddMessage('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    Log(10, 'Starting tests');
-    testErrorCount := 0;
+    // ---------- NPC info
+    npc := FindAsset(FileByIndex(0), 'NPC_', 'Desdemona');
+    Assert(EditorID(GetNPCRace(npc)) = 'HumanRace', 
+        Format('Have human race for Desdemona: "%s"', [EditorID(GetNPCRace(npc))]));
+    npc := FindAsset(FileByIndex(0), 'NPC_', 'RECheckpoint_LvlGunnerSniper');
+    Assert(EditorID(GetNPCRace(npc)) = 'HumanRace', 
+        Format('Have human race for gunner: "%s"', [EditorID(GetNPCRace(npc))]));
 
     InitializeFurrifier;
 
@@ -219,7 +233,7 @@ begin
     // Can create overwrite records.
     npc := FindAsset(Nil, 'NPC_', 'DLC04Mason');
     modFile := CreateOverrideMod('TEST.esp');
-    npcMason := FurrifyNPC(npc, modFile);
+    npcMason := MakeFurryNPC(npc, modFile);
     Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
         'Changed Mason`s race');
     elist := ElementByPath(npcMason, 'Head Parts');
@@ -231,7 +245,7 @@ begin
 
     npc := FindAsset(Nil, 'NPC_', 'CompanionPiper');
     modFile := CreateOverrideMod('TEST.esp');
-    npcPiper := FurrifyNPC(npc, modFile);
+    npcPiper := MakeFurryNPC(npc, modFile);
     Assert(EditorID(LinksTo(ElementByPath(npcPiper, 'RNAM'))) = 'FFOFoxRace', 
         'Changed Piper`s race');
     elist := ElementByPath(npcPiper, 'Head Parts');
@@ -240,8 +254,18 @@ begin
         'Have head parts from FFO');
     Assert(GetFileName(LinksTo(ElementByPath(npcPiper, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
-
-    LOGLEVEL := 1;
+    elist := ElementByPath(npcPiper, 'Face Tinting Layers');
+    teti := 0;
+    for i := 0 to ElementCount(elist)-1 do begin
+        teti := GetElementEditValues(ElementByIndex(elist, i), 'TETI\Index');
+        AddMessage('Found TETI ' + teti);
+        if teti = '2699' then begin
+            tend := GetElementNativeValues(ElementByIndex(elist, i), 'TEND\Value');
+            Assert(tend > 0.1, 'Piper face mask is visible: ' + FloatToStr(tend));
+            break;
+        end;
+    end;
+    Assert(teti = '2699', 'Found a face mask for piper.');
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

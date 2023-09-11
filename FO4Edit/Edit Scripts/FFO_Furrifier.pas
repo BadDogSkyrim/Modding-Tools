@@ -3,8 +3,6 @@
   Created by Bad Dog based on code by matortheeternal
   
   Creates a NPC furry patch for a load order.
-  
-  
 }
 
 unit FFO_Furrifier;
@@ -13,7 +11,15 @@ interface
 
 implementation
 
-uses BDScriptTools, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, mteFunctions;
+uses BDScriptTools, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+
+const
+    patchfileName = 'FFOPatch.esp';
+var
+    patchFile: IwbFile;
+    patchFileCreated: boolean;
+
+    playerIDs: TStringList;
 
 
 //======================================================
@@ -260,6 +266,15 @@ begin
 end;
 
 
+//================================================================
+// Remove any head morphs.
+Procedure ZeroMorphs(npc: IwbMainRecord);
+begin
+    Remove(ElementByPath(npc, 'MSDK - Morph Keys'));
+    Remove(ElementByPath(npc, 'MSDV - Morph Values'));
+    Remove(ElementByPath(npc, 'Face Morphs'));  
+end;
+
 //=====================================================================
 // Clean NPC of any of the elements we will furrify.
 Procedure CleanNPC(npc: IwbMainRecord);
@@ -267,9 +282,7 @@ var
     elemList: IwbContainer;
     i: integer;
 begin
-    Remove(ElementByPath(npc, 'MSDK - Morph Keys'));
-    Remove(ElementByPath(npc, 'MSDV - Morph Values'));
-    Remove(ElementByPath(npc, 'Face Morphs'));
+    ZeroMorphs(npc);
 
     Remove(ElementByPath(npc, 'FTST'));
     Remove(ElementByPath(npc, 'WNAM'));
@@ -365,6 +378,7 @@ var
     color: IwbMainRecord;
     colorval: UInt32;
     facetintLayers: IwbElement;
+    ind: integer;
     layer: IwbElement;
     p: IwbElement;
     prob: integer;
@@ -381,10 +395,11 @@ begin
     sex := GetNPCSex(npc);
     prob := raceInfo[race, sex].tintProbability[tintlayer];
     probCheck := Hash(EditorID(npc), seed, 101);
+    ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
 
     if (probCheck <= prob) and (raceInfo[race, sex].tintCount[tintlayer] > 0) then begin
 
-        p := PickRandomTintPreset(EditorID(npc), seed, race, sex, tintlayer, 0);
+        p := PickRandomTintPreset(EditorID(npc), seed, race, sex, tintlayer, ind);
         Log(5, 'Selected tint preset ' + PathName(p));
         t := Hash(EditorID(npc), seed, raceInfo[race, sex].tintCount[tintLayer]);
         color := LinksTo(ElementByPath(p, 'Color'));
@@ -422,6 +437,37 @@ begin
     Log(5, '>ChooseTint');
 end;
 
+Function CreateNPCOverride(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
+begin
+    AddRecursiveMaster(targetFile, GetFile(npc));
+    result := wbCopyElementToFile(npc, targetFile, False, True);
+end;
+
+Function OverrideAndZeroMorphs(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
+var
+    newNPC: IwbMainRecord;
+begin
+    newNPC := CreateNPCOverride(npc, targetFile);
+    ZeroMorphs(newNPC);
+    result := newNPC;
+end;
+
+Procedure FurrifyNPC(npc: IwbMainRecord);
+var
+    r: integer;
+begin
+    r := ChooseNPCRace(npc);
+    SetNPCRace(npc, r);
+    ChooseHeadpart(npc, HEADPART_FACE);
+    ChooseHeadpart(npc, HEADPART_EYES);
+    ChooseHeadpart(npc, HEADPART_HAIR);
+    ChooseHeadpart(npc, HEADPART_EYEBROWS);
+    ChooseTint(npc, TL_SKIN_TONE, 9523);
+    ChooseTint(npc, TL_MASK, 2188);
+    ChooseTint(npc, TL_MUZZLE, 9487);
+    ChooseTint(npc, TL_EAR, 552);
+    ChooseTint(npc, TL_NOSE, 6529);
+end;
 
 //======================================================================
 // Furrify a single NPC.
@@ -430,36 +476,22 @@ end;
 // that have overrides.)
 // If the NPC already exists in the target mod, that definition will be overwritten.
 // Returns the new furry npc.
-Function FurrifyNPC(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
+Function MakeFurryNPC(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
 var
     furryNPC: IwbMainRecord;
-    r: integer;
-    // s: integer;
 begin
-    Log(5, Format('<FurrifyNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
+    Log(5, Format('<MakeFurryNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
 
-    AddRecursiveMaster(targetFile, GetFile(npc));
-    furryNPC := wbCopyElementToFile(npc, targetFile, False, True);
+    furryNPC := CreateNPCOverride(npc, targetFile);
     CleanNPC(furryNPC);
-
-    // s := GetNPCSex(npc);
-    r := ChooseNPCRace(npc);
-    SetNPCRace(furryNPC, r);
-    ChooseHeadpart(furryNPC, HEADPART_FACE);
-    ChooseHeadpart(furryNPC, HEADPART_EYES);
-    ChooseHeadpart(furryNPC, HEADPART_HAIR);
-    ChooseHeadpart(furryNPC, HEADPART_EYEBROWS);
-    ChooseTint(furryNPC, TL_SKIN_TONE, 9523);
-    ChooseTint(furryNPC, TL_MASK, 2188);
-    ChooseTint(furryNPC, TL_MUZZLE, 9487);
-    ChooseTint(furryNPC, TL_EAR, 552);
-    ChooseTint(furryNPC, TL_NOSE, 6529);
+    FurrifyNPC(furryNPC);
     Result := furryNPC;
-    Log(5, '>FurrifyNPC')
+    Log(5, '>MakeFurryNPC')
 end;
 
+
 //=========================================================================
-// Create the new patch mod.
+// Create the new patch mod if it doesn't exist alerady.
 Function CreateOverrideMod(filename: string): IwbFile;
 var
     f: integer;
@@ -476,22 +508,60 @@ begin
     end;
     if f >= 0 then
         Result := FileByIndex(f)
-    else 
+    else begin
         Result := AddNewFileName(filename);
+        patchFileCreated := true;
+    end;
 
-    AddRecursiveMaster(Result, FileByIndex(0));
+    if patchFileCreated then begin
+        AddRecursiveMaster(Result, FileByIndex(0));
 
-    for i := 0 to FileCount-1 do begin
-        fn := GetFileName(FileByIndex(i));
-        if StartsText('DLC', fn) then 
-            AddRecursiveMaster(Result, FileByIndex(i))
-        else if SameTExt(fn, 'FurryFallout.esp') then 
-            AddRecursiveMaster(Result, FileByIndex(i))
-        else if SameText(fn, 'FurryFalloutDLC.esp') then
-            AddRecursiveMaster(Result, FileByIndex(i));
+        for i := 0 to FileCount-1 do begin
+            fn := GetFileName(FileByIndex(i));
+            if StartsText('DLC', fn) then 
+                AddRecursiveMaster(Result, FileByIndex(i))
+            else if SameTExt(fn, 'FurryFallout.esp') then 
+                AddRecursiveMaster(Result, FileByIndex(i))
+            else if SameText(fn, 'FurryFalloutDLC.esp') then
+                AddRecursiveMaster(Result, FileByIndex(i));
+        end;
     end;
     Log(3, '>CreateOverrideMod');
 
+end;
+
+//=====================================================
+// Determine if the NPC needs to be furrified.
+// - Must be HumanRace or furry race (we redo any furry NPCs)
+// - Must not get its race from a template
+// - Must not be overridden (we'll do this NPC when we get to the last override).
+// Returns
+// 0 - No furrification required
+// 1 - Furrify the sucker
+// 2 - NPC is based on a template (need to zero its morphs)
+Function IsValidNPC(npc: IwbMainRecord): integer;
+var
+    race: IwbMainRecord;
+begin
+    race := GetNPCRace(npc);
+
+    result := 1;
+    if OverrideCount(npc) > 0 then 
+        result := 0;
+
+    if result > 0 then
+        if (masterRaceList.IndexOf(EditorID(race)) < 0) and (EditorID(race) <> 'HumanRace') then
+            result := 0
+        else if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' then
+            result := 2;
+
+    if result > 0 then
+        if playerIDs.IndexOf(EditorID(npc)) >= 0 then
+            result := 0;
+
+    if result > 0 then
+        if GetElementEditValues(npc, 'ACBS - Configuration\Flags\Is Chargen Face Preset') = '1' then
+            result := 0;
 end;
 
 Procedure InitializeFurrifier;
@@ -501,6 +571,79 @@ begin
     LoadRaceAssets;
     SetRaceDefaults;
     TailorRaces;
+
+    playerIDs := TStringList.Create();
+    playerIDs.Duplicates := dupIgnore;
+    playerIDs.Sorted := true;
+    playerIDs.Add('Player');
+    playerIDs.Add('MQ101PlayerSpouseMale');
+    playerIDs.Add('MQ101PlayerSpouseFemale');
+    playerIDs.Add('Shaun');
+    playerIDs.Add('shaun');
+    playerIDs.Add('ShaunChild');
+    playerIDs.Add('MQ203MemoryH_Shaun');
+    playerIDs.Add('ShaunChildHologram');
+
+    patchFileCreated := false;
 end;
 
+// initialize stuff
+function Initialize: integer;
+var
+  i: Integer;
+  j: Integer;
+  coll: TCollection;
+  s: string;
+  f: IwbFile;
+  haveTarget: boolean;
+begin
+	// welcome messages
+	AddMessage(#13#10);
+	AddMessage('----------------------------------------------------------');
+	AddMessage('Furry Fallout Furrifier');
+    AddMessage('');
+    AddMessage('Running on ' + wbAppName);
+	AddMessage('----------------------------------------------------------');
+	AddMessage('');
+
+    LOGLEVEL := 15;
+
+    patchFile := CreateOverrideMod(patchfileName);
+
+    InitializeFurrifier;
+end;
+
+// No Process function. The whole load order will be furrified.
+
+// Do all the work in Finalize. 
+function Finalize: integer;
+var
+    f, n: integer;
+    npc: IwbMainRecord;
+    npcList: IwbContainer;
+    npcCount: integer;
+begin
+    Log(1, 'Furrifying NPCs');
+    for f := 0 to FileCount-1 do begin
+        if (f < FileCount-1) or (not patchFileCreated) then begin
+            // Don't check the NPCs in the patch file if we created it on this run.
+            Log(2, 'File ' + GetFileName(FileByIndex(f)));
+            npcCount := 0;
+            npcList := GroupBySignature(FileByIndex(f), 'NPC_');
+            for n := 0 to ElementCount(npcList)-1 do begin
+                if (npcCount mod 100) = 0 then
+                    AddMessage(Format('Furrifying %s: %d', [GetFileName(FileByIndex(f)), npcCount]));
+
+                npc := ElementByIndex(npcList, n);
+                Case IsValidNPC(npc) of
+                    1: MakeFurryNPC(npc, patchFile);
+                    // Creating the override will zero the morphs, which we need because human
+                    // morphs won't work on furry races. 
+                    2: OverrideAndZeroMorphs(npc, patchFile);
+                end;
+                npcCount := npcCount + 1;
+            end;
+        end;
+    end;
+end;
 end.
