@@ -139,8 +139,6 @@ begin
 end;
 
 function Finalize: integer;
-var
-    t: TDateTime;
 begin
     LOGLEVEL := 0;
     InitializeFurrifier;
