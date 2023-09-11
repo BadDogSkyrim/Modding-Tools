@@ -11,7 +11,9 @@ var
     logIndent: integer;
     errCount: integer;
     
-// ------------------------------------------------------
+//================================================================
+// Adds "masterFile" as a master to "aeFile", if not already there.
+// Also adds any master files "masterFile" depends on.
 function AddRecursiveMaster(aeFile, masterFile: IwbFile): Boolean;
 var
 	i : integer;
@@ -22,7 +24,7 @@ begin
         for i := 0 to Pred(MasterCount(masterFile)) do begin
             AddRecursiveMaster(aeFile,MasterByIndex(masterFile,i));
         end;
-        AddMasterIfMissing(aeFile,GetFileName(masterFile));
+        AddMasterIfMissing(aeFile, GetFileName(masterFile));
         Result := true;
     end;
 end;

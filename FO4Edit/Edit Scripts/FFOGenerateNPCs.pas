@@ -1,7 +1,7 @@
 {
     Generate additional NPCs for NPC classes that don't have enough variety.
 
-	Hotkey: Ctrl+Alt+D
+	Hotkey: Ctrl+Alt+G
 }
 unit FFOGenerateNPCs;
 
@@ -123,8 +123,12 @@ var
 begin
     for i := 0 to num-1 do begin
         tpl := FindAsset(Nil, 'NPC_', templateNPCname);
-        newNPC := GenerateRandomNPC(targetFile, tpl, targetSex);
-        AddNPCtoLists(newNPC, tpl);
+        if Assigned(tpl) then begin
+            newNPC := GenerateRandomNPC(targetFile, tpl, targetSex);
+            AddNPCtoLists(newNPC, tpl);
+        end
+        else
+            AddMessage('ERROR: Could not find NPC ' + templateNPCname);
     end;
 end;
 
@@ -143,7 +147,7 @@ begin
     LOGLEVEL := 0;
     InitializeFurrifier;
 
-    LOGLEVEL := 1;
+    LOGLEVEL := 5;
     patchFile := CreateOverrideMod(patchfileName);
 
     GenerateNPCs(patchFile, 'EncBoSTraitsSoldierMale01', 20, -1);

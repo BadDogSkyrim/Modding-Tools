@@ -45,7 +45,8 @@ const
     CLASS_PIPER = 25;
     CLASS_X688 = 26;
     CLASS_GAGE = 27;
-    CLASS_COUNT = 28;
+    CLASS_GHOUL = 28;
+    CLASS_COUNT = 29;
 
 type TTintPreset = record
     presetColor: IwbMainRecord;
@@ -66,19 +67,6 @@ type TRaceInfo = Record
     tintCount: array [0..12 {TINTLAYERS_COUNT}] of integer;
     tintProbability: array [0..12 {TINTLAYERS_COUNT}] of integer;
     tints: array [0..12 {TINTLAYERS_COUNT}, 0..5 {texture alternatives}] of TSkinTintLayer;
-    // earProb: integer;
-    // maskCount: integer;
-    // maskProb: integer;
-    // masks: array [0..4] of TSkinTintLayer;
-    // muzzleCount: integer;
-    // muzzleProb: integer;
-    // muzzles: array [0..4] of TSkinTintLayer;
-    // noseCount: integer;
-    // noseProb: integer;
-    // noses: array [0..4] of TSkinTintLayer;
-    // paintCount: integer;
-    // paintProb: integer;
-    // paint: array [0..10] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     maskCount: integer;
     muzzleCount: integer;
@@ -260,7 +248,8 @@ begin
     else if classID = CLASS_GAGE then Result := 'CLASS_GAGE'
     else if classID = CLASS_LONGFELLOW then Result := 'CLASS_LONGFELLOW'
     else if classID = CLASS_GARVEY then Result := 'CLASS_GARVEY'
-    else Result := '???';
+    else if classID = CLASS_GHOUL then Result := 'CLASS_GHOUL'
+    else Result := 'Unknown Class';
 end;
 
 //-----------------------------------------------
@@ -729,6 +718,8 @@ begin
             else begin
                 Result := masterRaceList.Count;
                 masterRaceList.AddObject(racename, TObject(r));
+                raceInfo[Result, MALE].mainRecord := r;
+                raceInfo[Result, FEMALE].mainRecord := r;
             end;
         end;
     end;
@@ -896,8 +887,13 @@ begin
 
     Result := NONE;
 
+    // Ghouls
+    if (EditorID(GetNPCRace(theNPC)) = 'GhoulRace') or 
+        (EditorID(GetNPCRace(theNPC)) = 'GhoulChildRace') then
+        Result := CLASS_GHOUL
+        
     // Followers
-    if SameText(npcEditorID, 'CompanionCait') then Result := CLASS_CAIT
+    else if SameText(npcEditorID, 'CompanionCait') then Result := CLASS_CAIT
     else if SameText(npcEditorID, 'BoSPaladinDanse') then Result := CLASS_DANSE
     else if ContainsText(npcEditorID, 'CompanionDeacon') then Result := CLASS_DEACON
     else if SameText(npcEditorID, 'CompanionMacCready') then Result := CLASS_MACCREADY
