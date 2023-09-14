@@ -1,4 +1,5 @@
 {
+	Hotkey: Ctrl+Alt+T
 }
 unit TEST_BDAssetLoaderFO4;
 
@@ -19,6 +20,17 @@ begin
         testErrorCount := testErrorCount + 1;
         Raise Exception.Create('Assert fail');
     end;
+end;
+
+procedure AssertInt(actual, expected: integer; msg: string);
+begin
+    Assert(actual = expected, Format(msg + ': %d = %d', 
+        [integer(actual), integer(expected)]));
+end;
+
+procedure AssertStr(actual, expected: string; msg: string);
+begin
+    Assert(actual = expected, Format(msg + ': "%s" = "%s"', [actual, expected]));
 end;
 
 Function Initialize: integer;
@@ -59,7 +71,7 @@ var
     teti: string;
     tend: float;
 begin
-    LOGLEVEL := 14;
+    LOGLEVEL := 1;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
@@ -118,38 +130,52 @@ begin
         AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
 
     AddMessage('---Can iterate through tint probabilities');
-    for i := 0 to masterRaceList.Count-1 do 
-        for j := 0 to tintlayerName.Count-1 do
-            for k := MALE to FEMALE do
-                AddMessage(Format('Probability [%d/%d] %s %s %s = %d', [
-                    integer(i),
-                    integer(j),
-                    masterRaceList[i], 
-                    tintlayerName[j], 
-                    IfThen(k=MALE, 'M', 'F'), 
-                    integer(raceInfo[i, k].tintProbability[j])
-                    ]));
-
+    if {Showing race/tint probabilities} FALSE then begin
+        for i := 0 to masterRaceList.Count-1 do 
+            for j := 0 to tintlayerName.Count-1 do
+                for k := MALE to FEMALE do
+                    AddMessage(Format('Probability [%d/%d] %s %s %s = %d', [
+                        integer(i),
+                        integer(j),
+                        masterRaceList[i], 
+                        tintlayerName[j], 
+                        IfThen(k=MALE, 'M', 'F'), 
+                        integer(raceInfo[i, k].tintProbability[j])
+                        ]));
+    end;
     Assert(raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_MASK] = 100, 'Have tint probability');
 
+    AddMessage('------Tint Layers--------');
+    // Have translations between layer names in the plugin and layers we understand.
+    if {Showing tint translations} FALSE then begin
+        for i := 0 to knownTTGP.Count-1 do 
+            AddMessage(Format('%s == %d/%s', [
+                knownTTGP[i], 
+                translateTTGP[i],
+                tintlayerName[translateTTGP[i]]
+            ]));
+    end;
+    AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE, 'Have nose stripe');
+
     // Can select skin tints of the different races.
-    AddMessage('---Can list the tint layers for all race/sex combos');
-    for i := 0 to masterRaceList.Count-1 do 
-        for j := MALE to FEMALE do
-            for k := 0 to tintlayerName.Count-1 do
-                for m := 0 to raceInfo[i, j].tintCount[k]-1 do
-                    if length(raceInfo[i, j].tints[k, m].name) > 0 then // Assigned(raceInfo[i, j].tints[k, m].element) then
-                        AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s]', [
-                            masterRaceList[i],
-                            IfThen(j=MALE, 'M', 'F'),
-                            tintlayerName[k],
-                            integer(k),
-                            integer(m),
-                            raceInfo[i, j].tints[k, m].name,
-                            GetElementEditValues(ObjectToElement(raceInfo[i, j].tints[k, m].element), 'Textures\TTET')
-                        ]));
-    Assert(TL_SKIN_TONE = tintlayerName.IndexOf('Skin Tone'), 
-        Format('Skin tone index correct: %d = %d', [integer(TL_SKIN_TONE), tintlayerName.IndexOf('Skin Tone')]));
+    if {List all tint layers} FALSE then begin
+        AddMessage('---Can list the tint layers for all race/sex combos');
+        for i := 0 to masterRaceList.Count-1 do 
+            for j := MALE to FEMALE do
+                for k := 0 to tintlayerName.Count-1 do
+                    for m := 0 to raceInfo[i, j].tintCount[k]-1 do
+                        if length(raceInfo[i, j].tints[k, m].name) > 0 then // Assigned(raceInfo[i, j].tints[k, m].element) then
+                            AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s]', [
+                                masterRaceList[i],
+                                IfThen(j=MALE, 'M', 'F'),
+                                tintlayerName[k],
+                                integer(k),
+                                integer(m),
+                                raceInfo[i, j].tints[k, m].name,
+                                GetElementEditValues(ObjectToElement(raceInfo[i, j].tints[k, m].element), 'Textures\TTET')
+                            ]));
+    end;
+    AssertInt(tintlayerName.IndexOf('Skin Tone'), TL_SKIN_TONE, 'Skin tone index correct');
     Assert(SameText(raceInfo[RacenameIndex('FFOHyenaRace'), MALE].tints[TL_SKIN_TONE, 0].name, 'Skin tone'), 
         'Hyena has skin tone ' + raceInfo[RacenameIndex('FFOHyenaRace'), MALE].tints[TL_SKIN_TONE, 0].name);
     Assert(raceInfo[RacenameIndex('FFOFoxRace'), FEMALE].tintCount[TL_MASK] = 3, 
@@ -158,7 +184,6 @@ begin
         'Fox has face mask ' + raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_MASK, 0].name);
     Assert(SameText(raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_EAR, 0].name, 'Ears'), 
         'Fox has ear ' + raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_EAR, 0].name);
-
 
     // Can find tint presets for the different races.
     elem := PickRandomTintPreset('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_MUZZLE, 1);
@@ -172,6 +197,29 @@ begin
         'Dog female hair does not work on Cheetah');
     headpart := PickRandomHeadpart('Desdemona', 4219, RacenameIndex('FFOHorseRace'), FEMALE, HEADPART_EYES);
     Assert(ContainsText(EditorID(headpart), 'Ungulate'), 'Found good eyes for Desdemona: ' + EditorID(headpart));
+
+    // --------- Hair
+    LOGLEVEL := 14;
+    AddMessage('---------Hair---------');
+    Assert(vanillaHairRecords.Count > 50, 
+        'Have hair records: ' + IntToStr(vanillaHairRecords.Count));
+    if {are list all hair translations} FALSE then begin
+        for i := 0 to vanillaHairRecords.Count-1 do begin
+            for j := 0 to masterRaceList.Count-1 do begin
+                if Assigned(furryHair[i, j]) then
+                    AddMessage(Format('[%d] %s == %s (%s)', [
+                        integer(i),
+                        vanillaHairRecords[i],
+                        EditorID(furryHair[i, j]),
+                        masterRaceList[j]
+                    ]));
+            end;
+        end;
+    end;
+    // Can turn vanilla hair into corresponding furry hair
+    race := FindAsset(Nil, 'RACE', 'FFOLykaiosRace');
+    headpart := GetFurryHair(RaceIndex(race), 'HairFemale21');
+    AssertStr(EditorID(headpart), 'FFO_HairFemale21_Dog', 'Found canine hair');
 
     // --------- Classes
     // Class probabilities are as expected.
@@ -266,6 +314,12 @@ begin
         end;
     end;
     Assert(teti = '2699', 'Found a face mask for piper.');
+    elist := ElementByPath(npcPiper, 'Head Parts');
+    for i := 0 to ElementCount(elist)-1 do begin
+        headpart := LinksTo(ElementByIndex(elist, i));
+        if GetElementEditValues(headpart, 'PNAM') = 'Hair' then
+            AssertStr(EditorID(headpart), 'FFO_HairFemale01_CatDog', 'Have correct hair for Piper');
+    end;
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

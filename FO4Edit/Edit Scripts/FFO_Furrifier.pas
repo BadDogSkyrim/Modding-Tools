@@ -18,7 +18,7 @@ uses BDFurryArmorFixup, BDScriptTools, BDAssetLoaderFO4, xEditAPI, Classes, SysU
 
 const
     patchfileName = 'FFOPatch.esp'; // Set to whatever
-    USE_SELECTION = FALSE;          // or TRUE
+    USE_SELECTION = TRUE;          // FALSE or TRUE
     TARGET_RACE = '';               // Use this race for everything
     GHOUL_RACE = 'FFOSnekdogRace';  // '' to leave ghouls alone
 
@@ -205,9 +205,53 @@ begin
 end;
 
 //==================================================================================
-// Do any special tailoring of probabilities for specific races.
+// Do any special tailoring for specific races.
+Procedure SetTintLayerTranslations(); 
+begin
+    InitializeTintLayers;
+
+    // What the parts of the face are called in different races
+    SkinLayerTranslation('Blaze Narrow', TL_MUZZLE);
+    SkinLayerTranslation('Blaze Wide', TL_MUZZLE);
+    SkinLayerTranslation('Cheek Color Lower', TL_CHEEK_COLOR_LOWER);
+    SkinLayerTranslation('Cheeks', TL_CHEEK_COLOR);
+    SkinLayerTranslation('Chin', TL_CHIN);
+    SkinLayerTranslation('Ears', TL_EAR);
+    SkinLayerTranslation('Eye Lower', TL_EYESOCKET_LOWER);
+    SkinLayerTranslation('Eye Socket', TL_EYELINER);
+    SkinLayerTranslation('Eye Stripe', TL_Mask);
+    SkinLayerTranslation('Eye Tear', TL_MASK); // Snekdogs
+    SkinLayerTranslation('Eye Upper', TL_EYESOCKET_UPPER);
+    SkinLayerTranslation('Eyebrow Spot', TL_EYEBROW);
+    SkinLayerTranslation('Eyeliner', TL_EYELINER);
+    SkinLayerTranslation('Face Mask 1', TL_Mask);
+    SkinLayerTranslation('Face Mask 2', TL_Mask);
+    SkinLayerTranslation('Face Mask 3', TL_Mask);
+    SkinLayerTranslation('Face Mask 4', TL_Mask);
+    SkinLayerTranslation('Face Plate', TL_MASK);
+    SkinLayerTranslation('Head Scales', TL_FOREHEAD);
+    SkinLayerTranslation('Lips', TL_LIP_COLOR);
+    SkinLayerTranslation('Lower Jaw', TL_CHIN);
+    SkinLayerTranslation('Mask', TL_Mask);
+    SkinLayerTranslation('Mouche', TL_CHIN);
+    SkinLayerTranslation('Muzzle Stripe', TL_NOSE); // Check on deer
+    SkinLayerTranslation('Muzzle Upper', TL_NOSE); // CHeck on deer
+    SkinLayerTranslation('Muzzle', TL_MUZZLE);
+    SkinLayerTranslation('Nose Stripe 1', TL_MUZZLE); // Fox
+    SkinLayerTranslation('Nose Stripe 2', TL_MUZZLE); // Fox
+    SkinLayerTranslation('Nose Stripe', TL_MUZZLE); // Check on deer
+    SkinLayerTranslation('Nose', TL_NOSE);
+    SkinLayerTranslation('Old', TL_OLD);
+    SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
+    SkinLayerTranslation('Star', TL_FOREHEAD);
+    SkinLayerTranslation('Upper Head', TL_FOREHEAD);
+end;
+
+//==================================================================================
+// Do any special tailoring for specific races.
 Procedure TailorRaces(); 
 begin
+    // Probability of using different tints
     raceInfo[RacenameIndex('FFODeerRace'), MALE].tintProbability[TL_MASK] := 70;
     raceInfo[RacenameIndex('FFODeerRace'), FEMALE].tintProbability[TL_MASK] := 70;
 
@@ -216,6 +260,24 @@ begin
     raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_NOSE] := 50;
     raceInfo[RacenameIndex('FFOHorseRace'), FEMALE].tintProbability[TL_NOSE] := 50;
   
+    // if SameText('Skin tone', name) then 
+    //     Result := TL_SKIN_TONE
+    // else if SameText('Old', name) then 
+    //     Result := TL_OLD
+    // else if StartsText('Ear', name) then
+    //     Result := TL_EAR
+    // else if StartsText('Face Mask', name) then 
+    //     Result := TL_MASK
+    // else if StartsText('Nose', name) then 
+    //     Result := TL_NOSE
+    // else if StartsText('Muzzle', name) 
+    //     or StartsText('Blaze', name) then 
+    //     Result := TL_MUZZLE
+    // else if StartsText('Star', name) or StartsText('Forehead', name) then
+    //     Result := TL_FOREHEAD
+    // else 
+    //     Result := TL_PAINT
+    // ;
 end;
 
 //=========================================================================
@@ -295,11 +357,14 @@ end;
 
 //=====================================================================
 // Clean NPC of any of the elements we will furrify.
-Procedure CleanNPC(npc: IwbMainRecord);
+// Return the NPC's current hair. We will try to match it.
+Function CleanNPC(npc: IwbMainRecord): IwbMainRecord;
 var
     elemList: IwbContainer;
+    hp: IwbMainRecord;
     i: integer;
 begin
+    result := Nil;
     ZeroMorphs(npc);
 
     Remove(ElementByPath(npc, 'FTST'));
@@ -307,6 +372,9 @@ begin
 
     elemList := ElementByPath(npc, 'Head Parts');
     for i := ElementCount(elemList)-1 downto 0 do begin
+            hp := LinksTo(ElementByIndex(elemList, i));
+            if GetElementEditValues(hp, 'PNAM') = 'Hair' then 
+                result := hp;
             RemoveByIndex(elemList, i, true);
     end;
 
@@ -350,6 +418,9 @@ begin
 end;
 
 
+//==============================================================
+// Choose a random headpart of the given type. 
+// Hair is handled separately.
 Procedure ChooseHeadpart(npc: IwbMainRecord; hpType: integer);
 var 
     hp: IwbMainRecord;
@@ -358,6 +429,7 @@ var
     slot: IwbElement;
 begin
     targFile := GetFile(npc);
+
     hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
 
     headparts := ElementByPath(npc, 'Head Parts');
@@ -366,26 +438,26 @@ begin
         LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
 end;
 
-//=================================================================
-// Pick apart a color value
-Function RedPart(rgbVal: UInt32): UInt32;
+//==============================================================
+// Choose hair for a NPC. If possible, hair is matched to the NPC's current hair.
+Procedure ChooseHair(npc, oldHair: IwbMainRecord);
+var 
+    hp: IwbMainRecord;
+    targFile: IwbFile;
+    headparts: IwbContainer;
+    slot: IwbElement;
 begin
-    result := rgbVal and $FF;
-end;
+    targFile := GetFile(npc);
 
-Function GreenPart(rgbVal: UInt32): UInt32;
-begin
-    result := (rgbVal shr 8) and $FF;
-end;
+    hp := GetFurryHair(GetNPCRaceID(npc), EditorID(oldHair));
+    if not Assigned(hp) then
+        hp := PickRandomHeadpart(EditorID(npc), 5269, 
+            GetNPCRaceID(npc), GetNPCSex(npc), HEADPART_HAIR);
 
-Function BluePart(rgbVal: UInt32): UInt32;
-begin
-    result := (rgbVal shr 16) and $FF;
-end;
-
-Function AlphaPart(rgbVal: UInt32): single;
-begin
-    result := ((rgbVal shr 24) and $FF)/255.0;
+    headparts := ElementByPath(npc, 'Head Parts');
+    slot := ElementAssign(headparts, HighInteger, nil, false);
+    SetNativeValue(slot, 
+        LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
 end;
 
 //============================================================
@@ -470,21 +542,40 @@ begin
     result := newNPC;
 end;
 
-Procedure FurrifyNPC(npc: IwbMainRecord);
-var
-    r: integer;
+//================================================================
+// Set up a realistic deer.
+Procedure ChooseDeer(npc: IwbMainRecord);
 begin
-    r := ChooseNPCRace(npc);
-    SetNPCRace(npc, r);
     ChooseHeadpart(npc, HEADPART_FACE);
     ChooseHeadpart(npc, HEADPART_EYES);
-    ChooseHeadpart(npc, HEADPART_HAIR);
+    ChooseHair(npc, hair);
     ChooseHeadpart(npc, HEADPART_EYEBROWS);
     ChooseTint(npc, TL_SKIN_TONE, 9523);
     ChooseTint(npc, TL_MASK, 2188);
     ChooseTint(npc, TL_MUZZLE, 9487);
     ChooseTint(npc, TL_EAR, 552);
     ChooseTint(npc, TL_NOSE, 6529);
+end;
+
+Procedure FurrifyNPC(npc, hair: IwbMainRecord);
+var
+    r: integer;
+begin
+    r := ChooseNPCRace(npc);
+    SetNPCRace(npc, r);
+    case masterRaceList.IndexOf(r) of 
+        r: ChooseDeer(npc);
+    else
+        ChooseHeadpart(npc, HEADPART_FACE);
+        ChooseHeadpart(npc, HEADPART_EYES);
+        ChooseHair(npc, hair);
+        ChooseHeadpart(npc, HEADPART_EYEBROWS);
+        ChooseTint(npc, TL_SKIN_TONE, 9523);
+        ChooseTint(npc, TL_MASK, 2188);
+        ChooseTint(npc, TL_MUZZLE, 9487);
+        ChooseTint(npc, TL_EAR, 552);
+        ChooseTint(npc, TL_NOSE, 6529);
+    end;
 end;
 
 //======================================================================
@@ -497,13 +588,14 @@ end;
 Function MakeFurryNPC(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
 var
     furryNPC: IwbMainRecord;
+    npcHair: IwbMainRecord;
 begin
     Log(5, Format('<MakeFurryNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := CreateNPCOverride(npc, targetFile);
-        CleanNPC(furryNPC);
-        FurrifyNPC(furryNPC);
+        npcHair := CleanNPC(furryNPC);
+        FurrifyNPC(furryNPC, npcHair);
         furrifiedNPCs.Add(EditorID(npc));
         Result := furryNPC;
     end
@@ -615,6 +707,7 @@ end;
 Procedure InitializeFurrifier;
 begin
     InitializeAssetLoader;
+    SetTintLayerTranslations;
     SetRaceProbabilities;
     LoadRaceAssets;
     SetRaceDefaults;
@@ -705,7 +798,8 @@ begin
     Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
 
     if (furryCount mod 100) = 0 then
-        AddMessage(Format('Furrifying %s: %d', [GetFileName(GetFile(win)), furryCount]));
+        AddMessage(Format('Furrifying %s: %d', [
+            GetFileName(GetFile(win)), integer(furryCount)]));
     
     case IsValidNPC(win) of
         1: MakeFurryNPC(win, patchFile);

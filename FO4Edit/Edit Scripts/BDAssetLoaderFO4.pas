@@ -10,8 +10,8 @@ const
     LIMIT = HighInteger;
 
     // Max actor races supported. All the arrays holding race info use this.
-    MAX_RACES = 50; 
-    MAX_TEXTURES = 5; // Maximum texture alternatives for a tint layer.
+    RACES_MAX = 50; 
+    TEXTURES_MAX = 5; // Maximum texture alternatives for a tint layer.
 
     MALE = 0;
     FEMALE = 1;
@@ -48,6 +48,9 @@ const
     CLASS_GHOUL = 28;
     CLASS_COUNT = 29;
 
+    TINTLAYERS_MAX = 20;
+    HAIR_MAX = 200;
+
 type TTintPreset = record
     presetColor: IwbMainRecord;
     defaultValue: float;
@@ -64,9 +67,9 @@ type TSkinTintLayer = Record
 
 type TRaceInfo = Record
     mainRecord: IwbMainRecord;
-    tintCount: array [0..12 {TINTLAYERS_COUNT}] of integer;
-    tintProbability: array [0..12 {TINTLAYERS_COUNT}] of integer;
-    tints: array [0..12 {TINTLAYERS_COUNT}, 0..5 {texture alternatives}] of TSkinTintLayer;
+    tintCount: array [0..20 {TINTLAYERS_MAX}] of integer;
+    tintProbability: array [0..20 {TINTLAYERS_MAX}] of integer;
+    tints: array [0..20 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     maskCount: integer;
     muzzleCount: integer;
@@ -87,10 +90,10 @@ var
     scalifyGhouls: boolean;
 
     // Store all race headparts. First index is 1:1 with the "races" stringlist.
-    // There must not be more than MAX_RACES. Delphi won't let us make this a
+    // There must not be more than RACES_MAX. Delphi won't let us make this a
     // dynamic array and won't let us use the Const in the array declaration, so
     // we're stuck with this. hp index is 1:1 with "headpartsList". 
-    raceInfo: array[0..50 {MAX_RACES}, 0..2 {sex}] of TRaceInfo;
+    raceInfo: array[0..50 {RACES_MAX}, 0..2 {sex}] of TRaceInfo;
 
     // All actor races, collected from the load order.
     masterRaceList: TStringList;
@@ -101,6 +104,10 @@ var
     // All headpart types we can handle--translates between the headpart type string and 
     // an index.
     headpartsList: TStringList;
+
+    // Separate list of regular hair, with corresponding furry hair
+    vanillaHairRecords: TStringList;
+    furryHair: array [0..200 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
 
     // Add headpart names to this list and the Object will be set to the headpart
     // element for quick reference
@@ -122,6 +129,7 @@ var
     TL_CHEEK_COLOR: integer;
     TL_CHIN: integer;
     TL_EAR: integer;
+    TL_EYEBROW: integer;
     TL_EYELINER: integer;
     TL_EYESOCKET_LOWER: integer;
     TL_EYESOCKET_UPPER: integer;
@@ -135,6 +143,9 @@ var
     TL_OLD: integer;
     TL_PAINT: integer;
     TL_SKIN_TONE: integer;
+
+    knownTTGP: TStringList;
+    translateTTGP: array[0..40] of integer;
 
     // If any errors occurred during run.
     errCount: integer;
@@ -210,7 +221,7 @@ end;
 
 Function GetNPCSex(npc: IwbMainRecord): integer;
 begin
-    if GetElementNativeValues(npc, 'ACBS\Flags\female') then 
+    if GetElementNativeValues(npc, 'ACBS\Flags\female') <> 0 then 
         Result := FEMALE
     else 
         Result := MALE;
@@ -295,25 +306,33 @@ end;
 //===============================================================================
 // Given the name used for a tint, return the tint layer it implements.
 Function DetermineTintType(name: string): integer;
+var
+    n: integer;
 begin
-    if SameText('Skin tone', name) then 
-        Result := TL_SKIN_TONE
-    else if SameText('Old', name) then 
-        Result := TL_OLD
-    else if StartsText('Ear', name) then
-        Result := TL_EAR
-    else if StartsText('Face Mask', name) then 
-        Result := TL_MASK
-    else if StartsText('Nose', name) then 
-        Result := TL_NOSE
-    else if StartsText('Muzzle', name) 
-        or StartsText('Blaze', name) then 
-        Result := TL_MUZZLE
-    else if StartsText('Star', name) or StartsText('Forehead', name) then
-        Result := TL_FOREHEAD
-    else 
-        Result := TL_PAINT
-    ;
+    Log(10, '<DetermineTintType: ' + name);
+    n := knownTTGP.IndexOf(name);
+    if n < 0 then
+        result := -1
+    else result := translateTTGP[n];
+    // if SameText('Skin tone', name) then 
+    //     Result := TL_SKIN_TONE
+    // else if SameText('Old', name) then 
+    //     Result := TL_OLD
+    // else if StartsText('Ear', name) then
+    //     Result := TL_EAR
+    // else if StartsText('Face Mask', name) then 
+    //     Result := TL_MASK
+    // else if StartsText('Nose', name) then 
+    //     Result := TL_NOSE
+    // else if StartsText('Muzzle', name) 
+    //     or StartsText('Blaze', name) then 
+    //     Result := TL_MUZZLE
+    // else if StartsText('Star', name) or StartsText('Forehead', name) then
+    //     Result := TL_FOREHEAD
+    // else 
+    //     Result := TL_PAINT
+    // ;
+    Log(10, '>DetermineTintType -> ' + IntToStr(result));
 end;
 
 //==================================================================
@@ -350,21 +369,25 @@ begin
             tintName := GetElementEditValues(tintLayer, 'TTGP');
             tintType := DetermineTintType(tintName);
 
-            n := raceInfo[raceID, sex].tintCount[tintType];
+            if tintType >= 0 then begin
+                n := raceInfo[raceID, sex].tintCount[tintType];
 
-            // Log(6, Format('[%d] Found tint option "%s" -> %d', 
-            //     [integer(j), tintname, integer(tintType)]));
-            Log(6, Format('Found tint option [%d] "%s" -> [%d] %s', 
-                [integer(j), tintname, integer(n), tintlayerName[tintType]]));
+                // Log(6, Format('[%d] Found tint option "%s" -> %d', 
+                //     [integer(j), tintname, integer(tintType)]));
+                Log(6, Format('Found tint option [%d] "%s" -> [%d] %s', 
+                    [integer(j), tintname, integer(n), tintlayerName[tintType]]));
 
-            if tintType < TINTLAYERS_COUNT then begin
-                if n < MAX_TEXTURES then begin
-                    raceInfo[raceID, sex].tints[tintType, n].name := tintName;
-                    raceInfo[raceID, sex].tints[tintType, n].maskType := tintType;
-                    raceInfo[raceID, sex].tints[tintType, n].element := tintLayer;
-                    raceInfo[raceID, sex].tintCount[tintType] := n+1;
+                if tintType < TINTLAYERS_COUNT then begin
+                    if n < TEXTURES_MAX then begin
+                        raceInfo[raceID, sex].tints[tintType, n].name := tintName;
+                        raceInfo[raceID, sex].tints[tintType, n].maskType := tintType;
+                        raceInfo[raceID, sex].tints[tintType, n].element := tintLayer;
+                        raceInfo[raceID, sex].tintCount[tintType] := n+1;
+                    end;
                 end;
-            end;
+            end
+            else
+                Log(2, 'WARNING: Unknown tint type: ' + tintName);
         end;
     end;
 
@@ -587,6 +610,71 @@ begin
 end;
 
 //------------------------------------------------------------
+// Record hair so that we can match furry hair to vanilla hair.
+procedure RecordVanillaHair(hair: IwbMainRecord);
+var
+    i, j: integer;
+    race: IwbMainRecord;
+    raceID: integer;
+    raceList: IwbElement;
+    validRaces: IwbMainRecord;
+begin
+    Log(10, '<RecordVanillaHair: ' + EditorID(hair));
+    if vanillaHairRecords.IndexOf(EditorID(hair)) < 0 then begin
+        if not StartsText('FFO', EditorID(hair)) then 
+            // This is non-furry, probably vanilla hair. Create an entry so we can 
+            // add furry hair to it.
+            vanillaHairRecords.Add(EditorID(hair));
+    end;
+    Log(10, '>RecordVanillaHair');
+end;
+
+//------------------------------------------------------------
+// Record hair so that we can match furry hair to vanilla hair.
+procedure RecordFurryHair(hair: IwbMainRecord);
+var
+    i, j: integer;
+    race: IwbMainRecord;
+    raceID: integer;
+    raceList: IwbElement;
+    validRaces: IwbMainRecord;
+begin
+    Log(6, '<RecordFurryHair: ' + EditorID(hair));
+    // This is furry hair. Match it to vanilla hair if possible.
+    for i := 0 to vanillaHairRecords.Count-1 do begin
+        if ContainsStr(EditorID(hair), vanillaHairRecords[i]) then begin
+            validRaces := LinksTo(ElementByPath(hair, 'RNAM'));
+            raceList := ElementByPath(ValidRaces, 'FormIDs');
+            for j := 0 to ElementCount(raceList)-1 do begin
+                race := LinksTo(ElementByIndex(raceList, j));
+                raceID := RaceIndex(race);
+                if raceID >= 0 then begin
+                    Log(6, Format('Furry hair %s race %s == vanilla %s', [
+                        EditorID(hair), EditorID(race), vanillaHairRecords[i]
+                    ]));
+                    furryHair[i, raceID] := hair;
+                end;
+            end;
+        end;
+    end;
+    Log(6, '>RecordFurryHair');
+end;
+
+//===================================================================
+// Given a vanilla hair record and raceID, return corresponding furry hair.
+Function GetFurryHair(raceID: integer; oldHair: string): IwbMainRecord;
+var
+    n: integer;
+begin
+    n := vanillaHairRecords.IndexOf(oldHair);
+    if n < 0 then
+        result := Nil
+    else begin
+        result := furryHair[n, raceid];
+    end;
+end;
+
+//------------------------------------------------------------
 // Load the head part and add it to our races' head parts
 procedure LoadHeadPart(hp: IwbMainRecord);
 var 
@@ -636,10 +724,15 @@ begin
                             raceInfo[raceIndex, sex].headParts[facialType] := TStringList.Create;
                         raceInfo[raceIndex, sex].headParts[facialType]
                             .AddObject(EditorId(hp), hp);
+
+                        if facialType = HEADPART_HAIR then RecordFurryHair(hp);
+
                         Log(14, 'Race ' + racename + ' has HP ' + EditorID(hp));
                     end;
                 end;
-            end;
+            end
+            else
+                if facialType = HEADPART_HAIR then RecordVanillaHair(hp);
         end;
     end;
 
@@ -711,7 +804,7 @@ begin
         end
         else begin
             Log(16, EditorID(r) + ' has formID ' + IntToHex(id, 8) + ' in ' + GetFileName(FileByIndex(i)));
-            if masterRaceList.Count >= MAX_RACES then begin
+            if masterRaceList.Count >= RACES_MAX then begin
                 Err('Too many races, stopped at ' + racename);
                 Result := -1;
             end
@@ -727,14 +820,16 @@ begin
 end;
 
 
-procedure CollectRaceTintLayers;
-var
-    i: integer;
-    race: IwbMainRecord;
+procedure InitializeTintLayers;
 begin
-    Log(11, '<CollectRaces');
-
+    tintlayerName.Add('Cheek Color Lower');
+    tintlayerName.Add('Cheek Color');
+    tintlayerName.Add('Chin');
     tintlayerName.Add('Ear');
+    tintlayerName.Add('Eyebrow');
+    tintlayerName.Add('Eyeliner');
+    tintlayerName.Add('Eyesocket Lower');
+    tintlayerName.Add('Eyesocket Upper');
     tintlayerName.Add('Forehead');
     tintlayerName.Add('Lip Color');
     tintlayerName.Add('Mask');
@@ -746,7 +841,14 @@ begin
     tintlayerName.Add('Skin Tone');
     TINTLAYERS_COUNT := tintlayerName.Count;
 
+    TL_CHEEK_COLOR := tintlayerName.IndexOf('Cheek Color');
+    TL_CHEEK_COLOR_LOWER := tintlayerName.IndexOf('Cheek Color Lower');
+    TL_CHIN := tintlayerName.IndexOf('Chin');
     TL_EAR := tintlayerName.IndexOf('Ear');
+    TL_EYEBROW := tintlayerName.IndexOf('Eyebrow');
+    TL_EYELINER := tintlayerName.IndexOf('Eyeliner');
+    TL_EYESOCKET_LOWER := tintlayerName.IndexOf('Eyesocket Lower');
+    TL_EYESOCKET_UPPER := tintlayerName.IndexOf('Eyesocket Upper');
     TL_FOREHEAD := tintlayerName.IndexOf('Forehead');
     TL_LIP_COLOR := tintlayerName.IndexOf('Lip Color');
     TL_MASK := tintlayerName.IndexOf('Mask');
@@ -757,8 +859,18 @@ begin
     TL_PAINT := tintlayerName.IndexOf('Paint');
     TL_SKIN_TONE := tintlayerName.IndexOf('Skin Tone');
 
-    for i := 0 to tintlayerName.Count-1 do 
-        Log(12, Format('[%d] %s', [i, tintlayerName[i]]));
+    if TINTLAYERS_COUNT > TINTLAYERS_MAX then
+        // Should never happen
+        Err(Format('Too many tint layers: %d > %d', [
+            integer(TINTLAYERS_COUNT), integer(TINTLAYERS_MAX)]));
+end;
+
+procedure CollectRaceTintLayers;
+var
+    i: integer;
+    race: IwbMainRecord;
+begin
+    Log(11, '<CollectRaces');
 
     for i := 0 to masterRaceList.Count-1 do begin
         race := ObjectToElement(masterRaceList.Objects[i]);
@@ -997,6 +1109,22 @@ begin
     Log(11, '>CalcClassTotals');
 end;
 
+procedure SkinLayerTranslation(name: string; tintlayer: integer);
+begin
+    Log(10, Format('<SkinLayerTranslation: %s, %d', [name, integer(tintlayer)]));
+    if knownTTGP.IndexOf(name) < 0 then begin
+        if knownTTGP.Count < length(translateTTGP) then begin
+            translateTTGP[knownTTGP.Count] := tintlayer;
+            knownTTGP.Add(name);
+        end
+        else
+            // Should never happen
+            Err(Format('Too many tint layers. Found %d, max is %d', 
+                [knownTTGP.Count, length(translateTTGP)]));
+    end;
+    Log(10, '>SkinLayerTranslation');
+end;
+
 procedure InitializeAssetLoader;
 begin
     // gameAssetsStr := TStringList.Create;
@@ -1040,6 +1168,15 @@ begin
     npcRaceAssignments := TStringList.Create;
     npcRaceAssignments.Duplicates := dupIgnore;
     npcRaceAssignments.Sorted := true;
+
+    knownTTGP := TStringList.Create;
+    knownTTGP.Duplicates := dupIgnore;
+    knownTTGP.Sorted := false;
+
+    vanillaHairRecords := TStringList.Create;
+    vanillaHairRecords.Duplicates := dupIgnore;
+    vanillaHairRecords.Sorted := false;
+
 end;
 
 procedure LoadRaceAssets;
@@ -1067,6 +1204,8 @@ begin
     specialHeadparts.Free;
     tintlayerName.Free;
     npcRaceAssignments.Free;
+    knownTTGP.Free;
+    vanillaHairRecords.Free;
 end;
 
 end.

@@ -209,6 +209,28 @@ begin
     result := Hash(s, seed, maxVal-minVal) + minVal;
 end;
 
+//=================================================================
+// Pick apart a color value
+Function RedPart(rgbVal: UInt32): UInt32;
+begin
+    result := rgbVal and $FF;
+end;
+
+Function GreenPart(rgbVal: UInt32): UInt32;
+begin
+    result := (rgbVal shr 8) and $FF;
+end;
+
+Function BluePart(rgbVal: UInt32): UInt32;
+begin
+    result := (rgbVal shr 16) and $FF;
+end;
+
+Function AlphaPart(rgbVal: UInt32): single;
+begin
+    result := ((rgbVal shr 24) and $FF)/255.0;
+end;
+
 
 
 end.
