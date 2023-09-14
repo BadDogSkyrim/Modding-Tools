@@ -1,8 +1,13 @@
 {
   NPC Furry Patch Builder
-  Created by Bad Dog based on code by matortheeternal
+  Author: Bad Dog 
   
   Creates a NPC furry patch for a load order.
+
+  By default, all NPCs are changed to furry races, children included. Ghouls are changed to 
+  Nightstalkers. 
+
+  Script allows customization of race assignments and what NPCs to affect.
 
 	Hotkey: Ctrl+Alt+D
 
@@ -394,7 +399,7 @@ var
     raceID: integer;
     targFile: IwbFile;
 begin
-    Log(5, '<SetNPCRace' + EditorID(npc));
+    Log(5, '<SetNPCRace: ' + EditorID(npc));
     race := ObjectToElement(masterRaceList.Objects[raceIndex]);
     raceID := GetLoadOrderFormID(race);
     targFile := GetFile(npc);
@@ -428,10 +433,28 @@ var
     headparts: IwbContainer;
     slot: IwbElement;
 begin
+    Log(4, '<ChooseHeadpart: ' + EditorID(npc));
     targFile := GetFile(npc);
 
     hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
 
+    headparts := ElementByPath(npc, 'Head Parts');
+    slot := ElementAssign(headparts, HighInteger, nil, false);
+    SetNativeValue(slot, 
+        LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
+
+    Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
+end;
+
+//================================================================
+// Assign the given headpart to the character
+Procedure AssignHeadpart(npc, hp: IwbMainRecord);
+var
+    headparts: IwbContainer;
+    slot: IwbElement;
+    targFile: IwbFile;
+begin
+    targFile := GetFile(npc);
     headparts := ElementByPath(npc, 'Head Parts');
     slot := ElementAssign(headparts, HighInteger, nil, false);
     SetNativeValue(slot, 
@@ -443,21 +466,13 @@ end;
 Procedure ChooseHair(npc, oldHair: IwbMainRecord);
 var 
     hp: IwbMainRecord;
-    targFile: IwbFile;
-    headparts: IwbContainer;
-    slot: IwbElement;
 begin
-    targFile := GetFile(npc);
-
     hp := GetFurryHair(GetNPCRaceID(npc), EditorID(oldHair));
     if not Assigned(hp) then
         hp := PickRandomHeadpart(EditorID(npc), 5269, 
             GetNPCRaceID(npc), GetNPCSex(npc), HEADPART_HAIR);
 
-    headparts := ElementByPath(npc, 'Head Parts');
-    slot := ElementAssign(headparts, HighInteger, nil, false);
-    SetNativeValue(slot, 
-        LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
+    AssignHeadpart(npc, hp);
 end;
 
 //============================================================
@@ -544,7 +559,7 @@ end;
 
 //================================================================
 // Set up a realistic deer.
-Procedure ChooseDeer(npc: IwbMainRecord);
+Procedure FurrifyDeer(npc, hair: IwbMainRecord);
 begin
     ChooseHeadpart(npc, HEADPART_FACE);
     ChooseHeadpart(npc, HEADPART_EYES);
@@ -556,15 +571,40 @@ begin
     ChooseTint(npc, TL_EAR, 552);
     ChooseTint(npc, TL_NOSE, 6529);
 end;
+//================================================================
+// Special tailoring for lions. 50% of the males get manes.
+Procedure FurrifyLion(npc, hair: IwbMainRecord);
+begin
+    Log(4, '<FurrifyLion: ' + EditorID(npc));
+    ChooseHeadpart(npc, HEADPART_FACE);
+    ChooseHeadpart(npc, HEADPART_EYES);
+
+    if Assigned(lionMane) and 
+            ((Hash(EditorID(npc), 9203, 100) > 50) 
+                or ContainsText(EditorID(npc), 'PrestonGarvey')
+            ) then begin
+        Log(4, Format('Assigning mane: "%s"', [EditorID(lionMane)]));
+        AssignHeadpart(npc, lionMane);
+    end
+    else
+        ChooseHair(npc, hair);
+
+    ChooseHeadpart(npc, HEADPART_EYEBROWS);
+    ChooseTint(npc, TL_SKIN_TONE, 6351);
+    ChooseTint(npc, TL_NOSE, 1140);
+    Log(4, '>FurrifyLion');
+end;
 
 Procedure FurrifyNPC(npc, hair: IwbMainRecord);
 var
     r: integer;
 begin
+    Log(4, '<FurrifyNPC: ' + EditorID(npc));
     r := ChooseNPCRace(npc);
     SetNPCRace(npc, r);
-    case masterRaceList.IndexOf(r) of 
-        r: ChooseDeer(npc);
+    case r of 
+        RACE_DEER: FurrifyDeer(npc, hair);
+        RACE_LION: FurrifyLion(npc, hair);
     else
         ChooseHeadpart(npc, HEADPART_FACE);
         ChooseHeadpart(npc, HEADPART_EYES);
@@ -576,6 +616,8 @@ begin
         ChooseTint(npc, TL_EAR, 552);
         ChooseTint(npc, TL_NOSE, 6529);
     end;
+
+    Log(4, '>FurrifyNPC');
 end;
 
 //======================================================================
@@ -709,6 +751,7 @@ begin
     InitializeAssetLoader;
     SetTintLayerTranslations;
     SetRaceProbabilities;
+
     LoadRaceAssets;
     SetRaceDefaults;
     TailorRaces;
@@ -728,6 +771,17 @@ begin
     playerIDs.Add('ShaunChild');
     playerIDs.Add('MQ203MemoryH_Shaun');
     playerIDs.Add('ShaunChildHologram');
+
+    RACE_CHEETAH := masterRaceList.IndexOf('FFOCheetahRace');
+    RACE_DEER := masterRaceList.IndexOf('FFODeerRace');
+    RACE_FOX := masterRaceList.IndexOf('FFOFoxRace');
+    RACE_HORSE := masterRaceList.IndexOf('FFOHorseRace');
+    RACE_HYENA := masterRaceList.IndexOf('FFOHyenaRace');
+    RACE_LION := masterRaceList.IndexOf('FFOLionRace');
+    RACE_LYKAIOS := masterRaceList.IndexOf('FFOLykaiosRace');
+    RACE_OTTER := masterRaceList.IndexOf('FFOOtterRace');
+    RACE_SNEKDOG := masterRaceList.IndexOf('FFOSnekdogRace');
+    RACE_TIGER := masterRaceList.IndexOf('FFOTigerRace');
 
     patchFileCreated := false;
 end;
@@ -753,7 +807,7 @@ var
 begin
 	// welcome messages
 	AddMessage(#13#10);
-	AddMessage('----------------------------------------------------------');
+	AddMessage('==========================================================');
 	AddMessage('Furry Fallout Furrifier');
     AddMessage('');
     AddMessage('Running on ' + wbAppName);
@@ -791,8 +845,9 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if not USE_SELECTION then exit;
+    LOGLEVEL := 5;
 
+    if not USE_SELECTION then exit;
     win := WinningOverride(entity);
 
     Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
@@ -840,6 +895,8 @@ begin
             end;
         end;
     end;
+
+    LOGLEVEL := 1;
 
     // If we furrified the ghouls, then any headgear added by FFO that supports Snekdogs (or
     // whatever race we are turning ghouls into) needs to be modified to add the ghoul race.

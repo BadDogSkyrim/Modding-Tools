@@ -108,10 +108,23 @@ var
     // Separate list of regular hair, with corresponding furry hair
     vanillaHairRecords: TStringList;
     furryHair: array [0..200 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
+    lionMane: IwbMainRecord;
 
     // Add headpart names to this list and the Object will be set to the headpart
     // element for quick reference
     specialHeadparts: TStringList;
+
+    // Known furry races
+    RACE_CHEETAH: integer;
+    RACE_DEER: integer;
+    RACE_FOX: integer;
+    RACE_HORSE: integer;
+    RACE_HYENA: integer;
+    RACE_LION: integer;
+    RACE_LYKAIOS: integer;
+    RACE_OTTER: integer;
+    RACE_SNEKDOG: integer;
+    RACE_TIGER: integer;
 
     // Initialized to be indices into headpartsList for text-to-index translations
     HEADPART_EYEBROWS: integer;
@@ -630,7 +643,7 @@ begin
 end;
 
 //------------------------------------------------------------
-// Record hair so that we can match furry hair to vanilla hair.
+// Record furry hair so that we can match furry hair to vanilla hair.
 procedure RecordFurryHair(hair: IwbMainRecord);
 var
     i, j: integer;
@@ -640,19 +653,24 @@ var
     validRaces: IwbMainRecord;
 begin
     Log(6, '<RecordFurryHair: ' + EditorID(hair));
-    // This is furry hair. Match it to vanilla hair if possible.
-    for i := 0 to vanillaHairRecords.Count-1 do begin
-        if ContainsStr(EditorID(hair), vanillaHairRecords[i]) then begin
-            validRaces := LinksTo(ElementByPath(hair, 'RNAM'));
-            raceList := ElementByPath(ValidRaces, 'FormIDs');
-            for j := 0 to ElementCount(raceList)-1 do begin
-                race := LinksTo(ElementByIndex(raceList, j));
-                raceID := RaceIndex(race);
-                if raceID >= 0 then begin
-                    Log(6, Format('Furry hair %s race %s == vanilla %s', [
-                        EditorID(hair), EditorID(race), vanillaHairRecords[i]
-                    ]));
-                    furryHair[i, raceID] := hair;
+    // If this is a lion mane, there's no vanilla hair, but save it for later.
+    if EditorID(hair) = 'FFO_HairMaleMane' then
+        lionMane := hair
+    else begin
+        // Find and stash the associated vanilla hair, if any.
+        for i := 0 to vanillaHairRecords.Count-1 do begin
+            if ContainsStr(EditorID(hair), vanillaHairRecords[i]) then begin
+                validRaces := LinksTo(ElementByPath(hair, 'RNAM'));
+                raceList := ElementByPath(ValidRaces, 'FormIDs');
+                for j := 0 to ElementCount(raceList)-1 do begin
+                    race := LinksTo(ElementByIndex(raceList, j));
+                    raceID := RaceIndex(race);
+                    if raceID >= 0 then begin
+                        Log(6, Format('Furry hair %s race %s == vanilla %s', [
+                            EditorID(hair), EditorID(race), vanillaHairRecords[i]
+                        ]));
+                        furryHair[i, raceID] := hair;
+                    end;
                 end;
             end;
         end;
@@ -1013,7 +1031,7 @@ begin
     else if SameText(npcEditorID, 'Natalie') then Result := CLASS_PIPER
     else if SameText(npcEditorID, 'CompanionX6-88') then Result := CLASS_X688
     else if SameText(npcEditorID, 'DLC04Gage') then Result := CLASS_GAGE
-    else if SameText(npcEditorID, 'PrestonGarvey') then Result := CLASS_GARVEY
+    else if ContainsText(npcEditorID, 'PrestonGarvey') then Result := CLASS_GARVEY
     else if SameText(npcEditorID, 'DLC03_CompanionOldLongfellow') then Result := CLASS_LONGFELLOW
 
     // Specific NPCs and NPC families where we want them all to have the same race.
