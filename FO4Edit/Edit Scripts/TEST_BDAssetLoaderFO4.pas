@@ -180,10 +180,9 @@ begin
                 for k := 0 to tintlayerName.Count-1 do
                     for m := 0 to raceInfo[i, j].tintCount[k]-1 do
                         if length(raceInfo[i, j].tints[k, m].name) > 0 then // Assigned(raceInfo[i, j].tints[k, m].element) then
-                            AddMessage(Format('%s %s%s "%s" [%d/%d] "%s" [%s]', [
+                            AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s]', [
                                 masterRaceList[i],
-                                IfThen((j and 1) == 0, 'M', 'F'),
-                                IfThen((j and 2) == 0, ' ', 'C'),
+                                SexToStr(j),
                                 tintlayerName[k],
                                 integer(k),
                                 integer(m),

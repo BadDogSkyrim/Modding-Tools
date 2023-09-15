@@ -291,17 +291,17 @@ end;
 Procedure SetRaceDefaults;
     var el, r: integer;
 begin
-    Log(10, '<SetRaceDefaults');
+    // Log(10, '<SetRaceDefaults');
     for r := 0 to masterRaceList.Count-1 do begin
         for el := 0 to tintlayerName.Count-1 do begin
-            Log(10, Format('Setting race default for %s %s', [masterRaceList[r], tintlayerName[el]]));
+            // Log(10, Format('Setting race default for %s %s', [masterRaceList[r], tintlayerName[el]]));
             raceInfo[r, MALE].tintProbability[el] := 100;
             raceInfo[r, FEMALE].tintProbability[el] := 100;
             raceInfo[r, MALECHILD].tintProbability[el] := 100;
             raceInfo[r, FEMALECHILD].tintProbability[el] := 100;
         end;
     end;
-    Log(10, '>SetRaceDefaults');
+    // Log(10, '>SetRaceDefaults');
 end;
 
 //======================================================
@@ -318,7 +318,7 @@ var
     racename: string;
     theRace: IwbMainElement;
 begin
-    Log(5, '<ChooseNPCRace on ' + EditorID(npc));
+    // Log(5, '<ChooseNPCRace on ' + EditorID(npc));
 
     Result := -1;
 
@@ -326,7 +326,7 @@ begin
     assignIndex := npcRaceAssignments.IndexOf(EditorID(npc));
     if assignIndex >= 0 then begin
         theRace := ObjectToElement(npcRaceAssignments.Objects[assignIndex]);
-        Log(5, EditorID(npc) + ' assigned to race ' + EditorID(theRace));
+        // Log(5, EditorID(npc) + ' assigned to race ' + EditorID(theRace));
         Result := RaceIndex(theRace);
     end
     else begin
@@ -339,7 +339,7 @@ begin
 
             pointTotal := classProbs[charClass, masterRaceList.Count];
             h := Hash(EditorID(npc), 6795, pointTotal);
-            Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
+            // Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
             for r := 0 to masterRaceList.Count do begin
                 if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
                     Result := r;
@@ -349,8 +349,7 @@ begin
         end;
     end;
 
-    Log(5, Format('>ChooseNPCRace on %s <- %s',  [EditorID(npc), 
-        IfThen(Result >= 0, masterRaceList[Result], 'NO RACE')]));
+    // Log(5, Format('>ChooseNPCRace on %s <- %s',  [EditorID(npc), IfThen(Result >= 0, masterRaceList[Result], 'NO RACE')]));
 end;
 
 
@@ -407,28 +406,24 @@ var
     sex: integer;
     targFile: IwbFile;
 begin
-    Log(5, '<SetNPCRace: ' + EditorID(npc));
+    // Log(5, '<SetNPCRace: ' + EditorID(npc));
     sex := GetNPCSex(npc);
     race := raceInfo[raceIndex, sex].mainRecord;
     if Assigned(race) then begin
         raceID := GetLoadOrderFormID(race);
         
         targFile := GetFile(npc);
-        Log(5, Format('Target race is %s %s / %.8x in file %s', 
-            [EditorID(race), SexToStr(sex), raceID, GetFileName(GetFile(race))]));
+        // Log(5, Format('Target race is %s %s / %.8x in file %s', [EditorID(race), SexToStr(sex), raceID, GetFileName(GetFile(race))]));
 
         SetNativeValue(ElementByPath(npc, 'RNAM'), LoadOrderFormIDtoFileFormID(targFile, raceID));
 
         skin := LinksTo(ElementByPath(race, 'WNAM'));
-        Log(5, Format('Setting skin to %.8x/%.8x', [
-            integer(GetLoadOrderFormID(skin)), 
-            integer(LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(skin)))
-            ]));
+        // Log(5, Format('Setting skin to %.8x/%.8x', [integer(GetLoadOrderFormID(skin)), integer(LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(skin)))]));
         Add(npc, 'WNAM', true);
         SetNativeValue(ElementByPath(npc, 'WNAM'),
             LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(skin)));
 
-        Log(5, Format('Set race to %s', [GetElementEditValues(npc, 'RNAM')]));
+        // Log(5, Format('Set race to %s', [GetElementEditValues(npc, 'RNAM')]));
         result := true;
     end
     else begin
@@ -436,7 +431,7 @@ begin
         result := false;
     end;
 
-    Log(5, '>SetNPCRace ->' + EditorID(npc));
+    // Log(5, '>SetNPCRace ->' + EditorID(npc));
 end;
 
 
@@ -450,7 +445,7 @@ var
     headparts: IwbContainer;
     slot: IwbElement;
 begin
-    Log(4, Format('<ChooseHeadpart: %s - [%d] %s', [EditorID(npc), GetNPCRaceID(npc), EditorID(GetNPCRace(npc))]));
+    // Log(4, Format('<ChooseHeadpart: %s - [%d] %s', [EditorID(npc), GetNPCRaceID(npc), EditorID(GetNPCRace(npc))]));
     targFile := GetFile(npc);
 
     hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
@@ -460,7 +455,7 @@ begin
     SetNativeValue(slot, 
         LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
 
-    Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
+    // Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
 end;
 
 //================================================================
@@ -490,39 +485,39 @@ var
     priorOverride: IwbMainRecord;
     thisOverride: IwbMainRecord;
 begin
-    Log(5, Format('<FindPriorHair: %s in %s', [EditorID(npc), GetFileName(GetFile(npc))]));
+    // Log(5, Format('<FindPriorHair: %s in %s', [EditorID(npc), GetFileName(GetFile(npc))]));
     npcMaster := MasterOrSelf(npc);
     npcFileIndex := GetLoadOrder(GetFile(npc));
-    Log(5, 'Found master for NPC in ' + GetFileName(GetFile(npcMaster)));
+    // Log(5, 'Found master for NPC in ' + GetFileName(GetFile(npcMaster)));
 
     priorOverride := Nil;
-    Log(5, Format('Have %d overrides', [integer(OverrideCount(npcMaster))]));
+    // Log(5, Format('Have %d overrides', [integer(OverrideCount(npcMaster))]));
     for i := OverrideCount(npcMaster)-1 downto 0 do begin
         thisOverride := OverrideByIndex(npcMaster, i);
-        Log(5, 'Found override in file ' + GetFileName(GetFile(thisOverride)));
-        Log(5, Format('Checking %d < %d', [GetLoadOrder(GetFile(thisOverride)), npcFileIndex]));
+        // Log(5, 'Found override in file ' + GetFileName(GetFile(thisOverride)));
+        // Log(5, Format('Checking %d < %d', [GetLoadOrder(GetFile(thisOverride)), npcFileIndex]));
         if GetLoadOrder(GetFile(thisOverride)) < npcFileIndex then begin
-            Log(5, 'Using override in file ' + GetFileName(GetFile(thisOverride)));
+            // Log(5, 'Using override in file ' + GetFileName(GetFile(thisOverride)));
             priorOverride := thisOverride;
             break;
         end;
     end;
 
     if not Assigned(priorOverride) then priorOverride := npcMaster;
-    Log(5, Format('Checking hair in override in file %s', [GetFileName(GetFile(priorOverride))]));
+    // Log(5, Format('Checking hair in override in file %s', [GetFileName(GetFile(priorOverride))]));
 
     result := Nil;
     hplist := ElementByPath(priorOverride, 'Head Parts');
     for i := 0 to ElementCount(hplist)-1 do begin
         hp := LinksTo(ElementByIndex(hplist, i));
-        Log(5, Format('Checking for hair %s [%d] %s', [EditorID(hp), i, GetElementEditValues(hp, 'PNAM')]));
+        // Log(5, Format('Checking for hair %s [%d] %s', [EditorID(hp), i, GetElementEditValues(hp, 'PNAM')]));
         if GetElementEditValues(hp, 'PNAM') = 'Hair' then begin
             result := hp;
             break;
         end;
     end;
 
-    Log(5, '>FindPriorHair: ' + EditorID(result));
+    // Log(5, '>FindPriorHair: ' + EditorID(result));
 end;
 
 //==============================================================
@@ -531,9 +526,9 @@ Procedure ChooseHair(npc, oldHair: IwbMainRecord);
 var 
     hp: IwbMainRecord;
 begin
-    Log(5, Format('<ChooseHair: %s %s', [EditorID(npc), EditorID(oldHair)]));
+    // Log(5, Format('<ChooseHair: %s %s', [EditorID(npc), EditorID(oldHair)]));
     if (not Assigned(oldHair)) or StartsText('FFO', EditorID(oldHair)) then begin
-        Log(5, 'Current hair is furry or missing, finding prior hair');
+        // Log(5, 'Current hair is furry or missing, finding prior hair');
         oldHair := FindPriorHair(npc);
     end;
     if Assigned(oldHair) then begin
@@ -544,9 +539,10 @@ begin
 
         AssignHeadpart(npc, hp);
     end
-    else
-        Log(5, 'No old hair, leaving hair alone.');
-    Log(5, Format('>ChooseHair: %s %s', [EditorID(npc), EditorID(hp)]));
+    else begin
+        // Log(5, 'No old hair, leaving hair alone.');
+    end;
+    // Log(5, Format('>ChooseHair: %s %s', [EditorID(npc), EditorID(hp)]));
 end;
 
 //============================================================
@@ -560,11 +556,10 @@ var
     tend: IwbElement;
     teti: IwbElement;
 begin
-    Log(5, Format('<AssignTint: %s [%s] [%s]', [
-        EditorID(npc), Path(tintOption), Path(tintColor)]));
+    // Log(5, Format('<AssignTint: %s [%s] [%s]', [EditorID(npc), Path(tintOption), Path(tintColor)]));
 
     color := LinksTo(ElementByPath(tintColor, 'Color'));
-    Log(5, 'Have color ' + EditorID(color));
+    // Log(5, 'Have color ' + EditorID(color));
 
     facetintLayers := Add(npc, 'Face Tinting Layers', true); // Make sure face tinting layers exists
     layer := ElementAssign(facetintLayers, HighInteger, Nil, false);
@@ -589,7 +584,7 @@ begin
             GetElementNativeValues(tintColor, 'Alpha'));
     end;
     
-    Log(5, '>AssignTint');
+    // Log(5, '>AssignTint');
 end;
 
 //============================================================
@@ -605,7 +600,7 @@ var
     sex: integer;
     t: IwbElement;
 begin
-    Log(5, Format('<ChooseTint: %s, %s', [EditorID(npc) , tintlayerName[tintlayer]]));
+    // Log(5, Format('<ChooseTint: %s, %s', [EditorID(npc) , tintlayerName[tintlayer]]));
 
     race := GetNPCRaceID(npc);
     sex := GetNPCSex(npc);
@@ -617,14 +612,14 @@ begin
 
         t := PickRandomTintOption(EditorID(npc), seed, race, sex, tintlayer);
         p := PickRandomColorPreset(EditorID(npc), seed+7989, t, ind);
-        Log(5, 'Selected tint preset ' + Path(p));
+        // Log(5, 'Selected tint preset ' + Path(p));
         AssignTint(npc, t, p);
     end
-    else
-        Log(5, Format('Probability check failed, no assignment: %d > %d, layer count %d', 
-            [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
+    else begin
+        // Log(5, Format('Probability check failed, no assignment: %d > %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
+    end;
     
-    Log(5, '>ChooseTint');
+    // Log(5, '>ChooseTint');
 end;
 
 //=================================================================================
@@ -640,8 +635,7 @@ var
     race: integer;
     sex: integer;
 begin
-    Log(5, Format('<SetTintlayerColor: %s %s <- %s', [
-        EditorID(npc), tintlayerName[tintLayer], targetColor]));
+    // Log(5, Format('<SetTintlayerColor: %s %s <- %s', [EditorID(npc), tintlayerName[tintLayer], targetColor]));
     race := GetNPCRaceID(npc);
     sex := GetNPCSex(npc);
     layerOption := Hash(EditorID(npc), seed, raceInfo[race, sex].tintCount[tintLayer]);
@@ -657,7 +651,7 @@ begin
             break;
         end;
     end;
-    Log(5, '>SetTintlayerColor');
+    // Log(5, '>SetTintlayerColor');
 end;
 
 
@@ -688,7 +682,7 @@ Begin
     thin := GetElementNativeValues(baseNPC, 'MWGT\Thin');
     musc := GetElementNativeValues(baseNPC, 'MWGT\Muscular');
     fat := GetElementNativeValues(baseNPC, 'MWGT\Fat');
-    // Log(9, DisplayName(npc) + ' size = ' 
+    // // Log(9, DisplayName(npc) + ' size = ' 
     //     + FloatToStr(thin) + '/' + FloatToStr(musc) + '/' + FloatToStr(fat));
         
     thin := (1 - 1/thinFac) + (thin/thinFac);
@@ -749,7 +743,7 @@ end;
 // Special tailoring for lions. 50% of the males get manes.
 Procedure FurrifyLion(npc, hair: IwbMainRecord);
 begin
-    Log(4, '<FurrifyLion: ' + EditorID(npc));
+    // Log(4, '<FurrifyLion: ' + EditorID(npc));
     SetWeight(npc, 1, 2, 1);
     ChooseHeadpart(npc, HEADPART_FACE);
     ChooseHeadpart(npc, HEADPART_EYES);
@@ -758,7 +752,7 @@ begin
             ((Hash(EditorID(npc), 9203, 100) > 50) 
                 or ContainsText(EditorID(npc), 'PrestonGarvey')
             ) then begin
-        Log(4, Format('Assigning mane: "%s"', [EditorID(lionMane)]));
+        // Log(4, Format('Assigning mane: "%s"', [EditorID(lionMane)]));
         AssignHeadpart(npc, lionMane);
     end
     else
@@ -767,14 +761,14 @@ begin
     ChooseHeadpart(npc, HEADPART_EYEBROWS);
     ChooseTint(npc, TL_SKIN_TONE, 6351);
     ChooseTint(npc, TL_NOSE, 1140);
-    Log(4, '>FurrifyLion');
+    // Log(4, '>FurrifyLion');
 end;
 
 Procedure FurrifyNPC(npc, hair: IwbMainRecord);
 var
     r: integer;
 begin
-    Log(4, '<FurrifyNPC: ' + EditorID(npc));
+    // Log(4, '<FurrifyNPC: ' + EditorID(npc));
     r := ChooseNPCRace(npc);
     if SetNPCRace(npc, r) then begin
         case r of 
@@ -795,7 +789,7 @@ begin
         end;
     end;
 
-    Log(4, '>FurrifyNPC');
+    // Log(4, '>FurrifyNPC');
 end;
 
 //======================================================================
@@ -810,7 +804,7 @@ var
     furryNPC: IwbMainRecord;
     npcHair: IwbMainRecord;
 begin
-    Log(5, Format('<MakeFurryNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
+    // Log(5, Format('<MakeFurryNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := CreateNPCOverride(npc, targetFile);
@@ -822,7 +816,7 @@ begin
     else
         Result := WinningOverride(npc);
 
-    Log(5, '>MakeFurryNPC');
+    // Log(5, '>MakeFurryNPC');
 end;
 
 
@@ -834,7 +828,7 @@ var
     fn: string;
     i: integer;
 begin
-    Log(3, '<CreateOverrideMod ' + filename);
+    // Log(3, '<CreateOverrideMod ' + filename);
     f := -1;
     for i := 0 to FileCount-1 do begin
         if SameText(GetFileName(FileByIndex(i)), filename) then begin
@@ -862,7 +856,7 @@ begin
                 AddRecursiveMaster(Result, FileByIndex(i));
         end;
     end;
-    Log(3, '>CreateOverrideMod');
+    // Log(3, '>CreateOverrideMod');
 
 end;
 
@@ -879,16 +873,16 @@ Function IsValidNPC(npc: IwbMainRecord): integer;
 var
     race: IwbMainRecord;
 begin
-    Log(5, '<IsValidNPC: ' + EditorID(npc));
+    // Log(5, '<IsValidNPC: ' + EditorID(npc));
     result := 1;
     // Must be an NPC
-    Log(5, 'Signature: ' + Signature(npc));
+    // Log(5, 'Signature: ' + Signature(npc));
     if Signature(npc) <> 'NPC_' then
         result := 0;
 
     if result > 0 then begin
         // Must not be overridden--we only work with the latest version
-        Log(5, 'Overrides: ' + IntToStr(OverrideCount(npc)));
+        // Log(5, 'Overrides: ' + IntToStr(OverrideCount(npc)));
         if OverrideCount(npc) > 0 then 
             result := 0;
     end;
@@ -902,7 +896,7 @@ begin
     
     if result > 0 then begin
         // Must not be any of the player records, or Shaun--those are in the player race files
-        Log(5, 'Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
+        // Log(5, 'Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
         if playerIDs.IndexOf(EditorID(npc)) >= 0 then
             result := 0;
     end;
@@ -919,7 +913,7 @@ begin
             result := 2;
     end;
 
-    Log(5, '>IsValidNPC: ' + IntToStr(result));
+    // Log(5, '>IsValidNPC: ' + IntToStr(result));
 end;
 
 //========================================================
@@ -1028,7 +1022,7 @@ begin
     if not USE_SELECTION then exit;
     win := WinningOverride(entity);
 
-    Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
+    // Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
 
     if (furryCount mod 100) = 0 then
         AddMessage(Format('Furrifying %s: %d', [
@@ -1053,7 +1047,7 @@ begin
         for f := 0 to FileCount-1 do begin
             if (f < FileCount-1) or (not patchFileCreated) then begin
                 // Don't check the NPCs in the patch file if we created it on this run.
-                Log(2, 'File ' + GetFileName(FileByIndex(f)));
+                // Log(2, 'File ' + GetFileName(FileByIndex(f)));
                 furryCount := 0;
                 npcList := GroupBySignature(FileByIndex(f), 'NPC_');
                 for n := 0 to ElementCount(npcList)-1 do begin
