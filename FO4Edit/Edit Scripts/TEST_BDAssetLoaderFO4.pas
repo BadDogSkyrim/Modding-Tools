@@ -48,6 +48,7 @@ var
     f: IwbFile;
     fl: TStringList;
     g: IwbContainer;
+    hair: IwbMainRecord;
     headpart: IwbMainRecord;
     i: integer;
     j: integer;
@@ -56,6 +57,7 @@ var
     lykaiosRace: IwbMainRecord;
     m: integer;
     modFile: IwbFile;
+    n: integer;
     name: string;
     npc: IwbMainRecord;
     npcClass: integer;
@@ -71,7 +73,7 @@ var
     teti: string;
     tend: float;
 begin
-    LOGLEVEL := 1;
+    LOGLEVEL := 5;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
@@ -98,6 +100,7 @@ begin
     end;
 
     // ---------- NPC info
+    AddMessage('---Can find particular NPCs');
     npc := FindAsset(FileByIndex(0), 'NPC_', 'Desdemona');
     Assert(EditorID(GetNPCRace(npc)) = 'HumanRace', 
         Format('Have human race for Desdemona: "%s"', [EditorID(GetNPCRace(npc))]));
@@ -119,8 +122,20 @@ begin
 
     AddMessage('---Can iterate through the masterRaceList');
     for i := 0 to masterRaceList.Count-1 do 
-        AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
+        for j := 0 to 3 do 
+            AddMessage(Format('[%d %d %s] %s', [
+                i, j, masterRaceList[i], EditorID(raceInfo[i, j].mainRecord)]));
 
+    AddMessage('---Can iterate through childRaceList');
+    for i := 0 to masterRaceList.Count-1 do
+        AddMessage(masterRaceList[i] + ' / ' + childRaceList[i]);
+
+    // ---------- Child Races
+    AssertStr(EditorID(raceInfo[lykaiosIndex, MALECHILD].mainRecord), 'FFOLykaiosChildRace',
+        'Found child race for Lykaios');
+    Assert(childRaceList.IndexOf('FFOLykaiosChildRace') >= 0, 'Have lykaios child race');
+
+        
     // ---------- Race Assets
     for i := 0 to masterRaceList.Count-1 do 
         AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
@@ -129,8 +144,8 @@ begin
     for i := 0 to tintlayerName.Count-1 do
         AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
 
-    AddMessage('---Can iterate through tint probabilities');
     if {Showing race/tint probabilities} FALSE then begin
+        AddMessage('---Can iterate through tint probabilities');
         for i := 0 to masterRaceList.Count-1 do 
             for j := 0 to tintlayerName.Count-1 do
                 for k := MALE to FEMALE do
@@ -161,13 +176,14 @@ begin
     if {List all tint layers} FALSE then begin
         AddMessage('---Can list the tint layers for all race/sex combos');
         for i := 0 to masterRaceList.Count-1 do 
-            for j := MALE to FEMALE do
+            for j := SEX_LO to SEX_HI do
                 for k := 0 to tintlayerName.Count-1 do
                     for m := 0 to raceInfo[i, j].tintCount[k]-1 do
                         if length(raceInfo[i, j].tints[k, m].name) > 0 then // Assigned(raceInfo[i, j].tints[k, m].element) then
-                            AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s]', [
+                            AddMessage(Format('%s %s%s "%s" [%d/%d] "%s" [%s]', [
                                 masterRaceList[i],
-                                IfThen(j=MALE, 'M', 'F'),
+                                IfThen((j and 1) == 0, 'M', 'F'),
+                                IfThen((j and 2) == 0, ' ', 'C'),
                                 tintlayerName[k],
                                 integer(k),
                                 integer(m),
@@ -186,10 +202,37 @@ begin
         'Fox has ear ' + raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_EAR, 0].name);
 
     // Can find tint presets for the different races.
-    elem := PickRandomTintPreset('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_MUZZLE, 1);
-    Assert(Pathname(elem) <> '', 'Have pathname for tint preset: ' + PathName(elem));
+    elem := PickRandomTintOption('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_MUZZLE);
+    elem := PickRandomColorPreset('Desdemona', 280, elem, 1);
+    Assert(ContainsText(Path(elem), 'Template Color #'), 'Have pathname for tint preset: ' + Path(elem));
 
     // Can find headparts for the different races.
+    i := masterRaceList.IndexOf('FFOFoxRace');
+    AssertInt(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Count, 1, 'Have a head for foxes');
+    AssertStr(EditorID(ObjectToElement(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Objects[0])), 'FFOFoxFemHead', 'Have fox head');
+    Assert(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count > 10, 'Have many hair for foxes: ' + IntToStr(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count));
+
+    if {Listing all headparts} FALSE then begin
+        Log(0, '<<<All headparts');
+        for i := 0 to masterRaceList.Count-1 do begin
+            Log(0, '<' + masterRaceList[i]);
+            for j := SEX_LO to SEX_HI do begin
+                Log(0, '<' + SexToStr(j));
+                for k := 0 to headpartsList.Count-1 do begin
+                    if Assigned(raceInfo[i, j].headparts[k]) then begin
+                        Log(0, '<' + headpartsList[k]);
+                            for n := 0 to raceInfo[i, j].headparts[k].Count-1 do begin
+                                log(0, EditorID(ObjectToElement(raceInfo[i, j].headparts[k].Objects[n])));
+                            end;
+                        Log(0, '>');
+                    end;
+                end;
+                Log(0, '>');
+            end;
+            Log(0, '>');
+        end;
+        Log(0, '>>>');
+    end;
     headpart := FindAsset(Nil, 'HDPT', 'FFO_HairFemale21_Dog');
     Assert(HeadpartValidForRace(headpart, RacenameIndex('FFOLykaiosRace'), FEMALE, HEADPART_HAIR), 
         'Dog female hair works on Lykaios');
@@ -279,6 +322,7 @@ begin
 
     // -------- NPC race assignment
     // Can create overwrite records.
+    AddMessage('---Mason');
     npc := FindAsset(Nil, 'NPC_', 'DLC04Mason');
     modFile := CreateOverrideMod('TEST.esp');
     npcMason := MakeFurryNPC(npc, modFile);
@@ -291,11 +335,11 @@ begin
     Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
 
-    npc := FindAsset(Nil, 'NPC_', 'CompanionPiper');
+    AddMessage('---Cait');
+    npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
     modFile := CreateOverrideMod('TEST.esp');
     npcPiper := MakeFurryNPC(npc, modFile);
-    Assert(EditorID(LinksTo(ElementByPath(npcPiper, 'RNAM'))) = 'FFOFoxRace', 
-        'Changed Piper`s race');
+    AssertStr(EditorID(GetNPCRace(npcPiper)), 'FFOFoxRace', 'Changed Cait`s race');
     elist := ElementByPath(npcPiper, 'Head Parts');
     Assert(ElementCount(elist) >= 3, 'Have head parts');
     Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
@@ -307,19 +351,27 @@ begin
     for i := 0 to ElementCount(elist)-1 do begin
         teti := GetElementEditValues(ElementByIndex(elist, i), 'TETI\Index');
         AddMessage('Found TETI ' + teti);
-        if teti = '2699' then begin
+        if teti = '2701' then begin
             tend := GetElementNativeValues(ElementByIndex(elist, i), 'TEND\Value');
-            Assert(tend > 0.1, 'Piper face mask is visible: ' + FloatToStr(tend));
+            Assert(tend > 0.1, 'Cait`s face mask is visible: ' + FloatToStr(tend));
             break;
         end;
     end;
-    Assert(teti = '2699', 'Found a face mask for piper.');
+    Assert(teti = '2701', 'Found a face mask for Cait.');
+    hair := Nil;
     elist := ElementByPath(npcPiper, 'Head Parts');
     for i := 0 to ElementCount(elist)-1 do begin
         headpart := LinksTo(ElementByIndex(elist, i));
         if GetElementEditValues(headpart, 'PNAM') = 'Hair' then
-            AssertStr(EditorID(headpart), 'FFO_HairFemale01_CatDog', 'Have correct hair for Piper');
+            hair := headpart;
     end;
+    AssertStr(EditorID(hair), 'FFO_HairFemale23_Dog', 'Have correct hair for Cait');
+
+    AddMessage('---Nat');
+    npc := FindAsset(Nil, 'NPC_', 'Natalie');
+    modFile := CreateOverrideMod('TEST.esp');
+    npcPiper := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npcPiper)), 'FFODeerChildRace', 'Changed Natalie`s race');
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

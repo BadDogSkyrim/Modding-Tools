@@ -13,8 +13,12 @@ const
     RACES_MAX = 50; 
     TEXTURES_MAX = 5; // Maximum texture alternatives for a tint layer.
 
+    SEX_LO = 0;
     MALE = 0;
     FEMALE = 1;
+    MALECHILD = 2;
+    FEMALECHILD = 3;
+    SEX_HI = 3;
 
     // Known NPC classes
     NONE = 0;
@@ -93,10 +97,12 @@ var
     // There must not be more than RACES_MAX. Delphi won't let us make this a
     // dynamic array and won't let us use the Const in the array declaration, so
     // we're stuck with this. hp index is 1:1 with "headpartsList". 
-    raceInfo: array[0..50 {RACES_MAX}, 0..2 {sex}] of TRaceInfo;
+    raceInfo: array[0..50 {RACES_MAX}, 0..4 {sex}] of TRaceInfo;
 
     // All actor races, collected from the load order.
     masterRaceList: TStringList;
+    // Chlid races 1:1 with adult races
+    childRaceList: TStringList;
 
     // Translates from CLASS as number to name
     classNames: TStringList;
@@ -228,16 +234,54 @@ end;
 //=====================================================
 // Return the race index of the npc
 Function GetNPCRaceID(npc: IwbMainRecord): integer;
+var 
+    race: IwbMainRecord;
 begin
-    Result := masterRaceList.IndexOf(EditorID(GetNPCRace(npc)));
+    race := GetNPCRace(npc);
+    result := masterRaceList.IndexOf(EditorID(race));
+    if result < 0 then result := childRaceList.IndexOf(EditorID(race));
 end;
 
-Function GetNPCSex(npc: IwbMainRecord): integer;
+//=========================================================
+// Determine if the NPC is a child.
+Function NPCisChild(npc: IwbMainRecord): boolean;
 begin
-    if GetElementNativeValues(npc, 'ACBS\Flags\female') <> 0 then 
-        Result := FEMALE
+    result := EndsText('ChildRace', EditorID(GetNPCRace(npc)));
+end;
+
+//=========================================================
+// Determine if the NPC is female.
+Function NPCisFemale(npc: IwbMainRecord): boolean;
+begin
+    result := (GetElementNativeValues(npc, 'ACBS\Flags\female') <> 0);
+end;
+
+//============================================================
+// Get the NPC's sex (which includes child value).
+Function GetNPCSex(npc: IwbMainRecord): integer;
+var
+    fem, child: bolean;
+begin
+    fem := NPCisFemale(npc);
+    child := NPCisChild(npc);
+    if fem then 
+        if child then
+            Result := FEMALECHILD
+        else
+            Result := FEMALE
     else 
-        Result := MALE;
+        if child then
+            Result := MALECHILD
+        else
+            Result := MALE;
+end;
+
+Function SexToStr(sex: integer): string;
+begin
+    if sex = MALE then result := 'MALE'
+    else if sex = FEMALE then result := 'FEMALE'
+    else if sex = MALECHILD then result := 'MALECHILD'
+    else if sex = FEMALECHILD then result := 'FEMALECHILD'
 end;
 
 
@@ -364,7 +408,7 @@ var
     tintType: integer;
     tintOptions: IwbElement; 
 begin
-    Log(11, Format('<LoadTintLayerInfo %s %s', [EditorID(theRace), IfThen(sex=MALE, 'M', 'F')]));
+    Log(11, Format('<LoadTintLayerInfo %s %s', [EditorID(theRace), SexToStr(sex)]));
     raceID := RaceIndex(theRace);
     if sex = MALE then rootElem := 'Male Tint Layers' else rootElem := 'Female Tint Layers';
     tintGroups := ElementByPath(theRace, rootElem);
@@ -400,7 +444,7 @@ begin
                 end;
             end
             else
-                Log(2, 'WARNING: Unknown tint type: ' + tintName);
+                Log(2, Format('WARNING: Unknown tint type for %s %s: %s', [EditorID(theRace), SexToStr(sex), tintName]));
         end;
     end;
 
@@ -576,25 +620,39 @@ begin
 end;
 
 //============================================================
-// Pick a random preset from a tint layer
-// Return the template color element.
-// ind = 1 to skip the initial preset, which is often "no tint"
-Function PickRandomTintPreset(hashstr: string; seed, theRace, sex, tintLayer, ind: integer): IwbElement;
+// Pick a random tint option of the given tintLayer type for this race.
+// Return the tint option element.
+Function PickRandomTintOption(hashstr: string; seed, theRace, sex, tintLayer: integer): IwbElement;
 var
     alt: integer;
     r: integer;
     colorList: IwbContainer;
 Begin
-    Log(10, Format('<PickRandomTintPreset %s %s %d', [hashstr, tintlayerName[tintlayer], integer(ind)]));
+    Log(10, Format('<PickRandomTintOption %s %s', [hashstr, tintlayerName[tintlayer]]));
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
-    colorList := ElementByPath(raceInfo[theRace, sex].tints[tintLayer, alt].element, 'TTEC');
+    result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
+    Log(10, Format('>PickRandomTintOption -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
+end;
+
+
+//============================================================
+// Pick a random color preset from a tint option.
+// Return the template color element.
+// ind = 1 to skip the initial preset, which is often "no tint"
+Function PickRandomColorPreset(hashstr: string; seed: integer; tintOption: integer;  ind: integer): IwbElement;
+var
+    r: integer;
+    colorList: IwbContainer;
+Begin
+    Log(10, Format('<PickRandomColorPreset %s %d', [Path(tintOption), integer(ind)]));
+    colorList := ElementByPath(tintOption, 'TTEC');
     if ElementCount(colorList) = 0 then
         Result := nil
     else begin
         r := Hash(hashstr, seed, ElementCount(colorList)-ind) + ind;
         Result := ElementByIndex(colorList, r);
     end;
-    Log(10, '>PickRandomTintPreset')
+    Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
 end;
 
 
@@ -617,9 +675,9 @@ function HeadpartSexIs(hp: IwbMainRecord; sex: integer): boolean;
 begin
     // Log(5, 'HeadpartSexIs M:' + GetMRAssetStr(hp, 'DATA - Flags\Male')
     //     + 'F:' + GetMRAssetStr(hp, 'DATA - Flags\Female'));
-    Result := ((sex = MALE) and (GetElementEditValues(hp, 'DATA - Flags\Female') = '0'))
+    Result := (((sex = MALE) or (sex = MALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Female') = '0'))
         or
-        ((sex = FEMALE) and (GetElementEditValues(hp, 'DATA - Flags\Male') = '0'));
+        (((sex = FEMALE) or (sex = FEMALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Male') = '0'));
 end;
 
 //------------------------------------------------------------
@@ -706,14 +764,14 @@ var
     raceRef: IwbElement;
     validRaceList: IwbMainRecord;
 begin
-    Log(16, Format('<LoadHeadPart %s %s', [FormName(hp), GetElementEditValues(hp, 'PNAM')]));
+    Log(15, Format('<LoadHeadPart %s %s', [FormName(hp), GetElementEditValues(hp, 'PNAM')]));
 
     // if targetHeadparts.IndexOf(EditorID(hp)) >= 0 then 
     //     specialHeadparts.AddObject(EditorID(hp), hp);
 
     // Get the form list that has the races for this head part
     validRaceList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM - Valid Races')));
-    Log(16, 'Found reference to form list ' + EditorID(validRaceList));
+    Log(15, 'Found reference to form list ' + EditorID(validRaceList));
 
     facialType := HeadpartFacialType(hp);
 
@@ -735,7 +793,7 @@ begin
             Log(15, 'Found reference to race ' + FormName(raceRec));
             raceIndex := masterRaceList.IndexOf(racename);
             if raceIndex >= 0 then begin
-                for sex := MALE to FEMALE do begin
+                for sex := SEX_LO to SEX_HI do begin
                     if HeadpartSexIs(hp, sex) then 
                     begin
                         if not Assigned(raceInfo[raceIndex, sex].headparts[facialType]) then 
@@ -745,7 +803,7 @@ begin
 
                         if facialType = HEADPART_HAIR then RecordFurryHair(hp);
 
-                        Log(14, 'Race ' + racename + ' has HP ' + EditorID(hp));
+                        Log(15, 'Race ' + racename + ' has HP ' + EditorID(hp));
                     end;
                 end;
             end
@@ -754,7 +812,7 @@ begin
         end;
     end;
 
-    Log(16, '>LoadHeadPart');
+    Log(15, '>LoadHeadPart');
 end;
 
 //-----------------------------------------------------------
@@ -891,9 +949,13 @@ begin
     Log(11, '<CollectRaces');
 
     for i := 0 to masterRaceList.Count-1 do begin
-        race := ObjectToElement(masterRaceList.Objects[i]);
-        Log(11, 'Found race ' + EditorID(race));
-        CollectTintLayers(race);
+        Log(11, 'Found race ' + EditorID(raceInfo[i, MALE].mainRecord));
+        CollectTintLayers(raceInfo[i, MALE].mainRecord);
+
+        if Assigned(raceInfo[i, MALECHILD]) then begin
+            Log(11, 'Found race ' + EditorID(raceInfo[i, MALECHILD].mainRecord));
+            CollectTintLayers(raceInfo[i, MALECHILD].mainRecord);
+        end;
     end;
     
     Log(11, '>CollectRaces');
@@ -932,6 +994,7 @@ end;
 // Return count of headparts of the given type for the given race & sex.
 Function GetRaceHeadpartCount(theRace, sex, hpType: integer): integer;
 begin
+    Log(10, Format('<GetRaceHeadpartCount(%d, %d, %d)', [theRace, sex, hpType]));
     if (hpType < 0) or (hpType >= headpartsList.Count) then begin
         Err('GetRaceHeadpartCount: headpart type index too large: ' + IntToStr(hpType));
         Result := 0;
@@ -940,6 +1003,7 @@ begin
         Result := 0
     else
         Result := raceInfo[theRace, sex].headparts[hpType].Count;
+    Log(10, Format('>GetRaceHeadpartCount -> %d', [Result]));
 end;
 
 //===================================================================
@@ -1127,6 +1191,42 @@ begin
     Log(11, '>CalcClassTotals');
 end;
 
+//================================================================================
+// Record that the given child race is the child version of the given adult race.
+Procedure AddChildRace(adultRace, childRace: string);
+var
+    adultID: integer;
+    childRecord: IwbMainRecord;
+begin
+    childRecord := FindAsset(Nil, 'RACE', childRace);
+    adultID := masterRaceList.IndexOf(adultRace);
+    if adultID >= 0 then begin
+        raceInfo[adultID, MALECHILD].mainRecord := childRecord;
+        raceInfo[adultID, FEMALECHILD].mainRecord := childRecord;
+    end
+    else 
+        Err('AddChildRace could not find adult race ' + adultRace);
+end;
+
+//================================================================================
+// set up childRaceList to be 1:1 with masterRaceList
+procedure CorrelateChildren;
+var 
+    i: integer;
+begin
+    for i := 0 to masterRaceList.Count-1 do begin
+        if Assigned(raceInfo[i, MALECHILD].mainRecord) then begin
+            Log(10, Format('Adding %s of %s', [EditorID(raceInfo[i, MALECHILD].mainRecord), masterRaceList[i]]));
+            childRaceList.Add(EditorID(raceInfo[i, MALECHILD].mainRecord))
+            end
+        else begin
+            // Store a bogus value to hold the place
+            Log(10, Format('Adding %s of %s', [masterRaceList[i] + '_NOCHILD', masterRaceList[i]]));
+            childRaceList.Add(masterRaceList[i] + '_NOCHILD');
+        end;
+    end;
+end;
+
 procedure SkinLayerTranslation(name: string; tintlayer: integer);
 begin
     Log(10, Format('<SkinLayerTranslation: %s, %d', [name, integer(tintlayer)]));
@@ -1144,6 +1244,8 @@ begin
 end;
 
 procedure InitializeAssetLoader;
+var
+    i: integer;
 begin
     // gameAssetsStr := TStringList.Create;
     // gameAssetsStr.Duplicates := dupIgnore;
@@ -1179,6 +1281,10 @@ begin
     masterRaceList.Sorted := false;
     masterRaceList.Duplicates := dupIgnore;
     
+    childRaceList := TStringList.Create;
+    childRaceList.Sorted := false;
+    childRaceList.Duplicates := dupIgnore;
+    
     tintlayerName := TStringList.Create;
     tintlayerName.Duplicates := dupIgnore;
     tintlayerName.Sorted := false; // Need these in the order we add them
@@ -1208,7 +1314,7 @@ var
     i, j, k: integer;
 begin
     for i := 0 to masterRaceList.Count-1 do begin
-        for j := MALE to FEMALE do begin
+        for j := SEX_LO to SEX_HI do begin
             for k := 0 to headpartsList.count - 1 do begin
                 if Assigned(raceInfo[i, j].headParts[k]) then  
                     raceInfo[i, j].headParts[k].Free;
@@ -1224,6 +1330,8 @@ begin
     npcRaceAssignments.Free;
     knownTTGP.Free;
     vanillaHairRecords.Free;
+    masterRaceList.Free;
+    childRaceList.Free;
 end;
 
 end.
