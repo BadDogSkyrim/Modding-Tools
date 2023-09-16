@@ -38,6 +38,21 @@ begin
   
 end;
 
+Procedure AssertGoodTintLayers(npc: IwbMainRecord);
+var
+    ftl: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    tetiIndex: integer;
+begin
+    ftl := ElementByPath(npc, 'Face Tinting Layers');
+    for i := 0 to ElementCount(ftl)-1 do begin
+        ele := ElementByIndex(ftl, i);
+        tetiIndex := GetElementNativeValues(ele, 'TETI\Index');
+        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] not 0: %d', [EditorID(npc), i, tetiIndex]));
+    end;
+end;
+
 //-------------------------------------------------------------------------
 // Test the furrifier
 function Finalize: integer;
@@ -65,6 +80,7 @@ var
     npcGroup: IwbGroupRecord;
     npcMason: IwbMainRecord;
     npcPiper: IwbMainRecord;
+    npcHancock: IwbMainRecord;
     npcRace: integer;
     race: IwbMainRecord;
     raceID: Cardinal;
@@ -333,19 +349,20 @@ begin
         'Have head parts from FFO');
     Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
+    AssertGoodTintLayers(npcMason);
 
     AddMessage('---Cait');
     npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
     modFile := CreateOverrideMod('TEST.esp');
-    npcPiper := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(npcPiper)), 'FFOFoxRace', 'Changed Cait`s race');
-    elist := ElementByPath(npcPiper, 'Head Parts');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOFoxRace', 'Changed Cait`s race');
+    elist := ElementByPath(npc, 'Head Parts');
     Assert(ElementCount(elist) >= 3, 'Have head parts');
     Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
         'Have head parts from FFO');
-    Assert(GetFileName(LinksTo(ElementByPath(npcPiper, 'WNAM'))) = 'FurryFallout.esp', 
+    Assert(GetFileName(LinksTo(ElementByPath(npc, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
-    elist := ElementByPath(npcPiper, 'Face Tinting Layers');
+    elist := ElementByPath(npc, 'Face Tinting Layers');
     teti := 0;
     for i := 0 to ElementCount(elist)-1 do begin
         teti := GetElementEditValues(ElementByIndex(elist, i), 'TETI\Index');
@@ -358,19 +375,28 @@ begin
     end;
     Assert(teti = '2701', 'Found a face mask for Cait.');
     hair := Nil;
-    elist := ElementByPath(npcPiper, 'Head Parts');
+    elist := ElementByPath(npc, 'Head Parts');
     for i := 0 to ElementCount(elist)-1 do begin
         headpart := LinksTo(ElementByIndex(elist, i));
         if GetElementEditValues(headpart, 'PNAM') = 'Hair' then
             hair := headpart;
     end;
     AssertStr(EditorID(hair), 'FFO_HairFemale23_Dog', 'Have correct hair for Cait');
+    AssertGoodTintLayers(npc);
 
     AddMessage('---Nat');
     npc := FindAsset(Nil, 'NPC_', 'Natalie');
     modFile := CreateOverrideMod('TEST.esp');
-    npcPiper := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(npcPiper)), 'FFODeerChildRace', 'Changed Natalie`s race');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerChildRace', 'Changed Nat`s race');
+    AssertGoodTintLayers(npc);
+
+    AddMessage('---Hancock');
+    npc := FindAsset(Nil, 'NPC_', 'Hancock');
+    modFile := CreateOverrideMod('TEST.esp');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogRace', 'Changed Hancock`s race');
+    AssertGoodTintLayers(npc);
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

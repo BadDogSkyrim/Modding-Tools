@@ -12,7 +12,7 @@ uses FFO_Furrifier, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Win
 var 
     targetFile: IwbFile;
 
-Function GenerateRandomNPC(targetFile, npc: IwbMainRecord; targetSex: integer): IwbMainRecord;
+Function GenerateRandomNPC(targetFile: IwbFile; npc: IwbMainRecord; targetSex: integer): IwbMainRecord;
 var
     newNPC: IwbMainRecord;
     name: string;
@@ -28,7 +28,7 @@ begin
     SetEditorID(newNPC, name);
     Log(5, 'Created ' + EditorID(newNPC));
     CleanNPC(newNPC);
-    FurrifyNPC(newNPC);
+    FurrifyNPC(newNPC, targetFile);
 
     result := newNPC;
     Log(5, '>GenerateRandomNPC');
@@ -142,14 +142,8 @@ begin
   
 end;
 
-function Finalize: integer;
+Procedure GenerateFurryNPCs(patchFile: IwbFile);
 begin
-    LOGLEVEL := 0;
-    InitializeFurrifier;
-
-    LOGLEVEL := 5;
-    patchFile := CreateOverrideMod(patchfileName);
-
     GenerateNPCs(patchFile, 'EncBoSTraitsSoldierMale01', 20, -1);
     GenerateNPCs(patchFile, 'EncBoSTraitsSoldierFemale01', 20, -1);
     GenerateNPCs(patchFile, 'EncWorkshopNPCFemaleFarmer01', 20, -1);
@@ -177,5 +171,17 @@ begin
     GenerateNPCs(patchFile, 'DLC04_encGangDiscipleFaceM01', 20, -1);
     GenerateNPCs(patchFile, 'DLC04_encGangOperatorFaceF01', 20, -1);
     GenerateNPCs(patchFile, 'DLC04_encGangOperatorFaceM01', 20, -1);
+end;
+
+function Finalize: integer;
+begin
+    LOGLEVEL := 0;
+    InitializeFurrifier;
+
+    LOGLEVEL := 5;
+    patchFile := CreateOverrideMod(patchfileName);
+
+    GenerateFurryNPCs(patchFile);
+
 end;
 end.
