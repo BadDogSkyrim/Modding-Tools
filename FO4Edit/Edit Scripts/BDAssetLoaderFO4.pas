@@ -412,7 +412,10 @@ var
 begin
     Log(11, Format('<LoadTintLayerInfo %s %s', [EditorID(theRace), SexToStr(sex)]));
     raceID := RaceIndex(theRace);
-    if sex = MALE then rootElem := 'Male Tint Layers' else rootElem := 'Female Tint Layers';
+    if (sex = MALE) or (sex = MALECHILD) then 
+        rootElem := 'Male Tint Layers' 
+    else 
+        rootElem := 'Female Tint Layers';
     tintGroups := ElementByPath(theRace, rootElem);
 
     Log(11, EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
@@ -509,8 +512,9 @@ var
 begin
     Log(12, '<CollectTintLayers');
 
-    LoadTintLayerInfo(theRace, MALE);
-    LoadTintLayerInfo(theRace, FEMALE);
+    for i := SEX_LO to SEX_HI do begin
+        LoadTintLayerInfo(theRace, i);
+    end;
 
     Log(12, '>CollectTintLayers ');
 end;
@@ -629,7 +633,7 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
-    Log(10, Format('<PickRandomTintOption %s %s', [hashstr, tintlayerName[tintlayer]]));
+    Log(10, Format('<PickRandomTintOption %s %s %s', [hashstr, SexToStr(sex), tintlayerName[tintlayer]]));
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
     Log(10, Format('>PickRandomTintOption -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));

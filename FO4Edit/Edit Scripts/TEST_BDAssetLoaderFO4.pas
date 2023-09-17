@@ -38,19 +38,55 @@ begin
   
 end;
 
-Procedure AssertGoodTintLayers(npc: IwbMainRecord);
+//=======================================================================
+// Check for errors in a NPC's headparts.
+// If provided, must have a headpart of the given type and name.
+Procedure AssertGoodHeadparts(npc: IwbMainRecord; targetType: string; targetHeadpart: string);
+var
+    elist: IwbElement;
+    headpart: IwbMainRecord;
+    hp: IwbMainRecord;
+    i: integer;
+begin
+    hp := Nil;
+    elist := ElementByPath(npc, 'Head Parts');
+    for i := 0 to ElementCount(elist)-1 do begin
+        Assert(Assigned(ElementByIndex(elist, i)), Format('Headpart at [%d] assigned', [i]));
+        headpart := LinksTo(ElementByIndex(elist, i));
+        if targetType <> '' then begin
+            if GetElementEditValues(headpart, 'PNAM') = targetType then
+                hp := headpart;
+        end;
+    end;
+    Assert(Assigned(hp), Format('Assert have %s as %s', [targetHeadpart, targetType]));
+    if targetHeadpart <> '' then
+        AssertStr(EditorID(hp), targetHeadpart, 'Have correct headpart for ' + targetType);
+end;
+
+// =========================================================================
+// Check for errors in a NPC's tint layers.
+// If non-zero, targetLayerIndex must be in the list.
+Procedure AssertGoodTintLayers(npc: IwbMainRecord; targetLayerIndex: integer);
 var
     ftl: IwbElement;
     i: integer;
     ele: IwbElement;
     tetiIndex: integer;
+    tetiStr: string;
+    foundTarget: boolean;
 begin
     ftl := ElementByPath(npc, 'Face Tinting Layers');
+    foundTarget := (targetLayerIndex = 0);
+    Assert(ElementCount(ftl) > 0, 'Have tints for ' + EditorID(npc));
     for i := 0 to ElementCount(ftl)-1 do begin
         ele := ElementByIndex(ftl, i);
         tetiIndex := GetElementNativeValues(ele, 'TETI\Index');
-        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] not 0: %d', [EditorID(npc), i, tetiIndex]));
+        tetiStr := GetElementEditValues(ele, 'TETI\Index');
+        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] (%s) not 0: %d', [EditorID(npc), i, tetiStr, tetiIndex]));
+        foundTarget := foundTarget or (tetiIndex = targetLayerIndex);
     end;
+    if targetLayerIndex <> 0 then 
+        Assert(foundTarget, Format('Found target tint layer %d', [targetLayerIndex]));
 end;
 
 //-------------------------------------------------------------------------
@@ -164,7 +200,7 @@ begin
         AddMessage('---Can iterate through tint probabilities');
         for i := 0 to masterRaceList.Count-1 do 
             for j := 0 to tintlayerName.Count-1 do
-                for k := MALE to FEMALE do
+                for k := SEX_LO to SEX_HI do
                     AddMessage(Format('Probability [%d/%d] %s %s %s = %d', [
                         integer(i),
                         integer(j),
@@ -189,21 +225,23 @@ begin
     AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE, 'Have nose stripe');
 
     // Can select skin tints of the different races.
-    if {List all tint layers} FALSE then begin
+    if {List all tint layers} TRUE then begin
         AddMessage('---Can list the tint layers for all race/sex combos');
         for i := 0 to masterRaceList.Count-1 do 
             for j := SEX_LO to SEX_HI do
                 for k := 0 to tintlayerName.Count-1 do
                     for m := 0 to raceInfo[i, j].tintCount[k]-1 do
                         if length(raceInfo[i, j].tints[k, m].name) > 0 then // Assigned(raceInfo[i, j].tints[k, m].element) then
-                            AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s]', [
+                            AddMessage(Format('%s %s "%s" [%d/%d] "%s" [%s] [%s \ %s]', [
                                 masterRaceList[i],
                                 SexToStr(j),
                                 tintlayerName[k],
                                 integer(k),
                                 integer(m),
                                 raceInfo[i, j].tints[k, m].name,
-                                GetElementEditValues(ObjectToElement(raceInfo[i, j].tints[k, m].element), 'Textures\TTET')
+                                GetElementEditValues(ObjectToElement(raceInfo[i, j].tints[k, m].element), 'Textures\TTET'),
+                                EditorID(ContainingMainRecord(ObjectToElement(raceInfo[i, j].tints[k, m].element))),
+                                Path(ObjectToElement(raceInfo[i, j].tints[k, m].element))
                             ]));
     end;
     AssertInt(tintlayerName.IndexOf('Skin Tone'), TL_SKIN_TONE, 'Skin tone index correct');
@@ -349,54 +387,39 @@ begin
         'Have head parts from FFO');
     Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
         'Have skin from FFO');
-    AssertGoodTintLayers(npcMason);
+    AssertGoodTintLayers(npcMason, 1156);
 
     AddMessage('---Cait');
     npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
     modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOFoxRace', 'Changed Cait`s race');
-    elist := ElementByPath(npc, 'Head Parts');
-    Assert(ElementCount(elist) >= 3, 'Have head parts');
-    Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
-        'Have head parts from FFO');
-    Assert(GetFileName(LinksTo(ElementByPath(npc, 'WNAM'))) = 'FurryFallout.esp', 
-        'Have skin from FFO');
-    elist := ElementByPath(npc, 'Face Tinting Layers');
-    teti := 0;
-    for i := 0 to ElementCount(elist)-1 do begin
-        teti := GetElementEditValues(ElementByIndex(elist, i), 'TETI\Index');
-        AddMessage('Found TETI ' + teti);
-        if teti = '2701' then begin
-            tend := GetElementNativeValues(ElementByIndex(elist, i), 'TEND\Value');
-            Assert(tend > 0.1, 'Cait`s face mask is visible: ' + FloatToStr(tend));
-            break;
-        end;
-    end;
-    Assert(teti = '2701', 'Found a face mask for Cait.');
-    hair := Nil;
-    elist := ElementByPath(npc, 'Head Parts');
-    for i := 0 to ElementCount(elist)-1 do begin
-        headpart := LinksTo(ElementByIndex(elist, i));
-        if GetElementEditValues(headpart, 'PNAM') = 'Hair' then
-            hair := headpart;
-    end;
-    AssertStr(EditorID(hair), 'FFO_HairFemale23_Dog', 'Have correct hair for Cait');
-    AssertGoodTintLayers(npc);
+    AssertGoodHeadparts(npc, 'Face', 'FFOFoxFemHead');
+    AssertGoodHeadparts(npc, 'Hair', 'FFO_HairFemale23_Dog');
+    AssertStr(GetFileName(LinksTo(ElementByPath(npc, 'WNAM'))), 'FurryFallout.esp', 'Have skin from FFO');
+    AssertGoodTintLayers(npc, 2701);
 
     AddMessage('---Nat');
-    npc := FindAsset(Nil, 'NPC_', 'Natalie');
+    npc := WinningOverride(FindAsset(Nil, 'NPC_', 'Natalie'));
+    AssertInt(IsValidNPC(npc), 1, 'Nat is valid');
     modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerChildRace', 'Changed Nat`s race');
-    AssertGoodTintLayers(npc);
+    AssertGoodTintLayers(npc, 1168);
 
     AddMessage('---Hancock');
     npc := FindAsset(Nil, 'NPC_', 'Hancock');
     modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogRace', 'Changed Hancock`s race');
-    AssertGoodTintLayers(npc);
+    AssertGoodTintLayers(npc, 1156);
+
+    AddMessage('---Billy');
+    npc := FindAsset(Nil, 'NPC_', 'Billy');
+    modFile := CreateOverrideMod('TEST.esp');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogChildRace', 'Changed Billy`s race');
+    AssertGoodTintLayers(npc, 1156);
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

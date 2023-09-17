@@ -33,6 +33,7 @@ var
     playerIDs: TStringList;
     furrifiedNPCs: TStringList;
     furryCount: integer;
+    preFurryCount: integer;
 
 //======================================================
 // Define race probabilities for the different NPC classes,
@@ -907,7 +908,13 @@ begin
     if result > 0 then begin
         // Must be a furrifiable race
         race := GetNPCRace(npc);
-        if (masterRaceList.IndexOf(EditorID(race)) < 0) and (EditorID(race) <> 'HumanRace') then
+        if (masterRaceList.IndexOf(EditorID(race)) < 0) 
+            and (childRaceList.IndexOf(EditorID(race)) < 0)
+            and (EditorID(race) <> 'HumanRace') 
+            and (EditorID(race) <> 'HumanChildRace') 
+            and (EditorID(race) <> 'GhoulRace') 
+            and (EditorID(race) <> 'GhoulChildRace') 
+        then
             result := 0;
     end;
     
@@ -1017,6 +1024,7 @@ begin
 
     LOGLEVEL := 1;
 
+    preFurryCount := FileCount;
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
     convertingGhouls := false;
@@ -1055,26 +1063,24 @@ var
     npcList: IwbContainer;
 begin
     if not USE_SELECTION then begin
-        for f := 0 to FileCount-1 do begin
-            if (f < FileCount-1) or (not patchFileCreated) then begin
-                // Don't check the NPCs in the patch file if we created it on this run.
-                Log(2, 'File ' + GetFileName(FileByIndex(f)));
-                furryCount := 0;
-                npcList := GroupBySignature(FileByIndex(f), 'NPC_');
-                for n := 0 to ElementCount(npcList)-1 do begin
-                    if (furryCount mod 100) = 0 then
-                        AddMessage(Format('Furrifying %s: %d', 
-                            [GetFileName(FileByIndex(f)), furryCount]));
+        for f := 0 to preFurryCount-1 do begin
+            // Don't check the NPCs in the patch file if we created it on this run.
+            Log(2, 'File ' + GetFileName(FileByIndex(f)));
+            furryCount := 0;
+            npcList := GroupBySignature(FileByIndex(f), 'NPC_');
+            for n := 0 to ElementCount(npcList)-1 do begin
+                if (furryCount mod 100) = 0 then
+                    AddMessage(Format('Furrifying %s: %d', 
+                        [GetFileName(FileByIndex(f)), furryCount]));
 
-                    npc := ElementByIndex(npcList, n);
-                    Case IsValidNPC(npc) of
-                        1: MakeFurryNPC(npc, patchFile);
-                        // Creating the override will zero the morphs, which we need because human
-                        // morphs won't work on furry races. 
-                        2: OverrideAndZeroMorphs(npc, patchFile);
-                    end;
-                    furryCount := furryCount + 1;
+                npc := ElementByIndex(npcList, n);
+                Case IsValidNPC(npc) of
+                    1: MakeFurryNPC(npc, patchFile);
+                    // Creating the override will zero the morphs, which we need because human
+                    // morphs won't work on furry races. 
+                    2: OverrideAndZeroMorphs(npc, patchFile);
                 end;
+                furryCount := furryCount + 1;
             end;
         end;
     end;
