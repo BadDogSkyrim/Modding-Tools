@@ -111,6 +111,8 @@ var
     n: integer;
     name: string;
     npc: IwbMainRecord;
+    npcCathy: IwbMainRecord;
+    npcJohn: IwbMainRecord;
     npcClass: integer;
     npcDesdemona: IwbMainRecord;
     npcGroup: IwbGroupRecord;
@@ -225,7 +227,7 @@ begin
     AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE, 'Have nose stripe');
 
     // Can select skin tints of the different races.
-    if {List all tint layers} TRUE then begin
+    if {List all tint layers} FALSE then begin
         AddMessage('---Can list the tint layers for all race/sex combos');
         for i := 0 to masterRaceList.Count-1 do 
             for j := SEX_LO to SEX_HI do
@@ -409,17 +411,30 @@ begin
 
     AddMessage('---Hancock');
     npc := FindAsset(Nil, 'NPC_', 'Hancock');
-    modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogRace', 'Changed Hancock`s race');
     AssertGoodTintLayers(npc, 1156);
 
     AddMessage('---Billy');
     npc := FindAsset(Nil, 'NPC_', 'Billy');
-    modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogChildRace', 'Changed Billy`s race');
     AssertGoodTintLayers(npc, 1156);
+
+    AddMessage('---Cathy and John');
+    npc := FindAsset(Nil, 'NPC_', 'Cathy');
+    npcCathy := MakeFurryNPC(npc, modFile);
+    npc := FindAsset(Nil, 'NPC_', 'John');
+    npcJohn := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npcCathy)), EditorID(GetNPCRace(npcJohn)), 
+        'Cathy and John races match');
+
+    AddMessage('---Preston');
+    npc := FindAsset(Nil, 'NPC_', 'PrestonGarvey');
+    modFile := CreateOverrideMod('TEST.esp');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOLionRace', 'Changed Preston`s race');
+    AssertGoodHeadparts(npc, 'Hair', 'FFO_HairMaleMane');
 
     // --------- Race distribution 
     if {Testing race distribution} false then begin

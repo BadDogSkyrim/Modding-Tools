@@ -23,8 +23,8 @@ uses BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools, BDAssetLoaderFO4, xEditA
 
 const
     patchfileName = 'FFOPatch.esp'; // Set to whatever
-    USE_SELECTION = FALSE;          // FALSE or TRUE
-    TARGET_RACE = '';               // Use this race for everything
+    USE_SELECTION = FALSE;           // FALSE or TRUE
+    TARGET_RACE = '';    // Use this race for everything
 
 var
     patchFile: IwbFile;
@@ -35,11 +35,13 @@ var
     furryCount: integer;
     preFurryCount: integer;
 
+
 //======================================================
-// Define race probabilities for the different NPC classes,
-// also for some specific NPCs. Must be called early because 
-// this routine defines the furry races.
-// TARGET_RACE overrides all these.
+
+// Define race probabilities for the different NPC classes, also for some specific NPCs.
+// Must be called early because this routine defines the furry races. TARGET_RACE
+// overrides all these.
+
 Procedure SetRaceProbabilities();
 begin
     // Probabilities are relative to each other and need not add up to 100.
@@ -232,10 +234,10 @@ begin
     SkinLayerTranslation('Eyebrow Spot', TL_EYEBROW);
     SkinLayerTranslation('Eyebrow', TL_EYEBROW);
     SkinLayerTranslation('Eyeliner', TL_EYELINER);
-    SkinLayerTranslation('Face Mask 1', TL_Mask);
-    SkinLayerTranslation('Face Mask 2', TL_Mask);
-    SkinLayerTranslation('Face Mask 3', TL_Mask);
-    SkinLayerTranslation('Face Mask 4', TL_Mask);
+    SkinLayerTranslation('Face Mask 1', TL_MASK);
+    SkinLayerTranslation('Face Mask 2', TL_MASK);
+    SkinLayerTranslation('Face Mask 3', TL_MASK);
+    SkinLayerTranslation('Face Mask 4', TL_MASK);
     SkinLayerTranslation('Face Plate', TL_MASK);
     SkinLayerTranslation('Forehead', TL_FOREHEAD);
     SkinLayerTranslation('Head Scales', TL_FOREHEAD);
@@ -243,12 +245,12 @@ begin
     SkinLayerTranslation('Lower Jaw', TL_CHIN);
     SkinLayerTranslation('Mask', TL_Mask);
     SkinLayerTranslation('Mouche', TL_CHIN);
-    SkinLayerTranslation('Muzzle Stripe', TL_NOSE); // Check on deer
-    SkinLayerTranslation('Muzzle Upper', TL_NOSE); // CHeck on deer
+    SkinLayerTranslation('Muzzle Stripe', TL_MUZZLE_STRIPE); 
+    SkinLayerTranslation('Muzzle Upper', TL_MUZZLE); 
     SkinLayerTranslation('Muzzle', TL_MUZZLE);
-    SkinLayerTranslation('Nose Stripe 1', TL_MUZZLE); // Fox
-    SkinLayerTranslation('Nose Stripe 2', TL_MUZZLE); // Fox
-    SkinLayerTranslation('Nose Stripe', TL_MUZZLE); // Check on deer
+    SkinLayerTranslation('Nose Stripe 1', TL_MUZZLE_STRIPE); // Fox
+    SkinLayerTranslation('Nose Stripe 2', TL_MUZZLE_STRIPE); // Fox
+    SkinLayerTranslation('Nose Stripe', TL_MUZZLE_STRIPE); 
     SkinLayerTranslation('Nose', TL_NOSE);
     SkinLayerTranslation('Old', TL_OLD);
     SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
@@ -310,8 +312,8 @@ Function ChooseNPCRace(npc: IwbMainRecord): integer;
 var
     assignIndex: integer;
     charClass: integer;
-    charRace: string;
     h: integer;
+    mother: IwbMainRecord;
     pointTotal: integer;
     r: integer;
     racename: string;
@@ -333,17 +335,22 @@ begin
         // Use the target race, if specified.
         Result := masterRaceList.IndexOf(TARGET_RACE);
         if Result < 0 then begin
-            // Pick a random race.
-            charRace := EditorID(LinksTo(ElementByPath(npc, 'RNAM')));
-            charClass := GetNPCClass(npc);
-
-            pointTotal := classProbs[charClass, masterRaceList.Count];
-            h := Hash(EditorID(npc), 6795, pointTotal);
-            Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
-            for r := 0 to masterRaceList.Count do begin
-                if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
-                    Result := r;
-                    break;
+            // Use the mother's/parent's race if any.
+            mother := GetMother(npc);
+            if Assigned(mother) then begin
+                Result := ChooseNPCRace(mother);
+            end
+            else begin
+                // Pick a random race.
+                charClass := GetNPCClass(npc);
+                pointTotal := classProbs[charClass, masterRaceList.Count];
+                h := Hash(EditorID(npc), 6795, pointTotal);
+                Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
+                for r := 0 to masterRaceList.Count do begin
+                    if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
+                        Result := r;
+                        break;
+                    end;
                 end;
             end;
         end;
@@ -442,29 +449,6 @@ begin
 end;
 
 
-//==============================================================
-// Choose a random headpart of the given type. 
-// Hair is handled separately.
-Procedure ChooseHeadpart(npc: IwbMainRecord; hpType: integer);
-var 
-    hp: IwbMainRecord;
-    targFile: IwbFile;
-    headparts: IwbContainer;
-    slot: IwbElement;
-begin
-    Log(4, Format('<ChooseHeadpart: %s - [%d] %s', [EditorID(npc), GetNPCRaceID(npc), EditorID(GetNPCRace(npc))]));
-    targFile := GetFile(npc);
-
-    hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
-
-    headparts := ElementByPath(npc, 'Head Parts');
-    slot := ElementAssign(headparts, HighInteger, nil, false);
-    SetNativeValue(slot, 
-        LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
-
-    Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
-end;
-
 //================================================================
 // Assign the given headpart to the character
 Procedure AssignHeadpart(npc, hp: IwbMainRecord);
@@ -478,6 +462,59 @@ begin
     slot := ElementAssign(headparts, HighInteger, nil, false);
     SetNativeValue(slot, 
         LoadOrderFormIDtoFileFormID(targFile, GetLoadOrderFormID(hp)));
+end;
+
+//==============================================================
+// Choose a random headpart of the given type. 
+// Hair is handled separately.
+Procedure ChooseHeadpart(npc: IwbMainRecord; hpType: integer);
+var 
+    hp: IwbMainRecord;
+    headparts: IwbContainer;
+    slot: IwbElement;
+begin
+    Log(4, Format('<ChooseHeadpart: %s - [%d] %s', [EditorID(npc), GetNPCRaceID(npc), EditorID(GetNPCRace(npc))]));
+
+    hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
+    AssignHeadpart(npc, hp);
+
+    Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
+end;
+
+//==============================================================
+// Choose a random headpart of the given type. 
+// Hair is handled separately.
+Procedure SetHeadpart(npc: IwbMainRecord; hpType: integer; hpName: string);
+var 
+    hp: IwbMainRecord;
+    i: integer;
+    raceID: integer;
+    sex: integer;
+    thisHP: IwbMainRecord;
+begin
+    Log(5, Format('<SetHeadpart(%s, %s, "%s")', [EditorID(npc), headpartsList[hpType], hpName]));
+    raceID := GetNPCRaceID(npc);
+    sex := GetNPCSex(npc);
+    hp := Nil;
+    for i := 0 to raceInfo[raceID, sex].headparts[hpType].Count-1 do begin
+        thisHP := 
+            ObjectToElement(
+                raceInfo[GetNPCRaceID(npc), GetNPCSex(npc)]
+                    .headparts[hpType]
+                        .Objects[i]);
+        Log(5, 'Checking ' + EditorID(thisHP));
+        if EditorID(thisHP) = hpName then begin
+            hp := thisHP;
+            break;
+        end;
+    end;
+
+    if Assigned(hp) then 
+        AssignHeadpart(npc, hp)
+    else
+        Err(Format('Requested headpart %s not found for %s', [hpName, EditorID(npc)]));
+
+    Log(5, Format('>SetHeadparts -> "%s"', [EditorID(hp)]));
 end;
 
 //==============================================================
@@ -636,36 +673,121 @@ begin
     Log(5, '>ChooseTint');
 end;
 
-//=================================================================================
-// Set the tint layer to the named color.
-// If the tint layer has several options (e.g. TL_MASK), choose one at random.
-Procedure SetTintlayerColor(npc: IwbMainRecord; tintLayer: integer; targetColor: string; seed: integer);
-var
+//=============================================================================
+// Select a random color from the color options.
+// targetColor = '' if any color will do
+// targetColor = color name if one color is wanted
+// targetColor = list of color names separated by '|' if one of several colors is wanted.
+//
+// We might have the same color at different opacity levels, or multiple colors in
+// the target list. So loop through the colors skipping the matching color some
+// random number of times before selecting it.
+Procedure SelectRandomColor(npc: IwbMainRecord; seed: integer; 
+    layerOption: integer; tintLayer: integer; targetColor: string);
+var 
     color: IwbMainRecord;
     colorList: IwbElement;
     colorPreset: IwbElement;
+    i: integer;
+    race: integer;
+    sex: integer;
+    tc: string;
+    tintSkip: integer;
+begin
+    tintSkip := Hash(EditorID(npc), seed, ElementCount(colorList));
+    race := GetNPCRaceID(npc);
+    sex := GetNPCSex(npc);
+    colorList := ElementByPath(
+        raceInfo[race, sex].tints[tintLayer, layerOption].element, 'TTEC'
+    );
+    tc := '|' + targetColor + '|';
+    i := 0;
+    while true do begin
+        colorPreset := ElementByIndex(colorList, i);
+        color := LinksTo(ElementByPath(colorPreset, 'Color'));
+        if ContainsText(tc, '|' + EditorID(color) + '|') 
+                or (targetColor = '') then begin
+            if tintSkip = 0 then begin
+                AssignTint(npc, 
+                    raceInfo[race, sex].tints[tintLayer, layerOption].element, colorPreset);
+                break;
+            end;
+            tintSkip := tintSkip-1;
+        end;
+        i := i + 1;
+        if i >= ElementCount(colorList) then 
+            if tintSkip = 0 then
+                break
+            else
+                i := 0;
+    end;
+end;
+
+//=================================================================================
+// Set the tint layer to the named color.
+// If the tint layer has several options choose one at random.
+// Color may be a single color or a list of colors separated by "|". 
+Procedure SetTintlayerColor(npc: IwbMainRecord; seed: integer; 
+    tintLayer: integer; targetColor: string);
+var
     i: integer;
     layerOption: integer;
     race: integer;
     sex: integer;
 begin
     Log(5, Format('<SetTintlayerColor: %s %s <- %s', [EditorID(npc), tintlayerName[tintLayer], targetColor]));
+    
     race := GetNPCRaceID(npc);
     sex := GetNPCSex(npc);
     layerOption := Hash(EditorID(npc), seed, raceInfo[race, sex].tintCount[tintLayer]);
-    colorList := ElementByPath(
-        raceInfo[race, sex].tints[tintLayer, layerOption].element, 'TTEC'
-    );
+    SelectRandomColor(npc, seed, layerOption, tintLayer, targetColor);
 
-    for i := 0 to ElementCount(colorList) do begin
-        colorPreset := ElementByIndex(colorList, i);
-        color := LinksTo(ElementByPath(colorPreset, 'Color'));
-        if EditorID(color) = targetColor then begin
-            AssignTint(npc, raceInfo[race, sex].tints[tintLayer, layerOption].element, colorPreset);
+    Log(5, '>SetTintlayerColor');
+end;
+
+//=================================================================================
+// Set the tint layer to the named color, with a probability of prob out of 100.
+Procedure SetTintlayerColorProb(probability: integer; npc: IwbMainRecord; seed: integer; 
+    tintLayer: integer; targetColor: string);
+var
+    h: integer;
+    i: integer;
+    layerOption: integer;
+    race: integer;
+    sex: integer;
+begin
+    h := Hash(EditorID(npc), seed, 100);
+    if h < probability then SetTintLayerColor(npc, seed, tintLayer, targetColor);
+end;
+
+//==============================================================================
+// Set the tint layer to the named option.
+// tintLayer = TL_ tint layer
+// layerName = Name of the particular layer option wanted
+// targetColor = Color to pick. May be '', one, or multiple colors.
+Procedure PickTintColor(npc: IwbMainRecord; seed: integer; 
+    tintLayer: integer; layerName: string; targetColor: string);
+var
+    i: integer;
+    layerOption: integer;
+    race: integer;
+    sex: integer;
+begin
+    Log(5, Format('<PickTintColor: %s %s <- %s', [EditorID(npc), tintlayerName[tintLayer], targetColor]));
+    
+    race := GetNPCRaceID(npc);
+    sex := GetNPCSex(npc);
+    // layerOption := Hash(EditorID(npc), seed, raceInfo[race, sex].tintCount[tintLayer]);
+    for layerOption := 0 to raceInfo[race, sex].tintCount[tintLayer]-1 do begin
+        if GetElementEditValues(raceInfo[race, sex].tints[tintLayer, layerOption].element, 
+                    'TTGP')
+                = layerName then begin
+            SelectRandomColor(npc, seed, layerOption, tintLayer, targetColor);
             break;
         end;
     end;
-    Log(5, '>SetTintlayerColor');
+
+    Log(5, '>PickTintColor');
 end;
 
 
@@ -711,20 +833,111 @@ Begin
 End;
 
 //================================================================
-// Whitetail deer.
+// Set up the various types of deer.
 Procedure MakeDeerWhitetail(npc: IwbMainRecord);
 var
     h: integer;
 begin
-    h := Hash(EditorID(npc), 8484, 6);
-    case h of
-        0: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurGingerL', 2988);
-        1: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurBrown', 510);
-        2: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurTan', 7114);
-        3: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurGinger', 1874);
-        4: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurBrownL', 3223);
-        5: SetTintlayerColor(npc, TL_SKIN_TONE, 'FFOFurRusset', 5237);
+    SetWeight(npc, 2, 1, 1);
+    if GetNPCSex(npc) = MALE then SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns01');
+
+    SetTintLayerColor(npc, 7114, TL_SKIN_TONE,  
+        '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|FFOFurRusset|');
+
+    // Muzzle is white around nose
+    PickTintColor(npc, 2988, TL_MUZZLE, 'Muzzle', 'FFOFurWhite'); 
+
+    // Big or little nose stripe
+    SetTintLayerColor(npc, 510 ,TL_MUZZLE_STRIPE, 'FFOFurBlack');
+
+    // Chin and throat
+    SetTintLayerColor(npc, 1874, TL_CHIN, 'FFOFurWhite');
+
+    // Eyes
+    SetTintLayerColor(npc, 4151, TL_EYESOCKET_LOWER, 'FFOFurWhite');
+    SetTintLayerColor(npc, 7095, TL_EYEBROW, 'FFOFurWhite');
+end;
+
+Procedure MakeDeerElk(npc: IwbMainRecord);
+var
+    h: integer;
+begin
+    SetWeight(npc, 1, 2, 2);
+    if GetNPCSex(npc) = MALE then begin
+        SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns02');
     end;
+
+    SetTintLayerColor(npc, 2110, TL_SKIN_TONE,  
+        'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
+    SetTintLayerColorProb(60, npc, 5794, TL_MUZZLE, 'FFOFurBlack');
+
+    // Eyes
+    SetTintLayerColor(npc, 2666, TL_EYESOCKET_LOWER, 'FFOFurWhite');
+end;
+
+Procedure MakeDeerReindeer(npc: IwbMainRecord);
+var
+    h: integer;
+begin
+    SetWeight(npc, 1, 2, 2);
+    if GetNPCSex(npc) = MALE then begin
+        SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns05');
+        SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
+    end;
+
+    SetTintLayerColor(npc, 4480, TL_SKIN_TONE,  
+        'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
+end;
+
+Procedure MakeDeerMoose(npc: IwbMainRecord);
+var
+    h: integer;
+begin
+    SetWeight(npc, 1, 2, 2);
+    if GetNPCSex(npc) = MALE then begin
+        SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns08');
+        SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
+    end;
+
+    SetTintLayerColor(npc, 6032, TL_SKIN_TONE,  
+        'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
+end;
+
+Procedure MakeDeerAntelope(npc: IwbMainRecord);
+var
+    h: integer;
+begin
+    SetWeight(npc, 2, 2, 1);
+    h := Hash(EditorID(npc), 6728, 2);
+    case h of
+        0: SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns03'); // Gazelle
+        1: SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns10'); // PRonghorn
+    end;
+
+    SetTintLayerColor(npc, 1740, TL_SKIN_TONE,  
+        '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|FFOFurTanD|');
+    SetTintLayerColor(npc, 8514, TL_EYESOCKET_LOWER, 'FFOFurWhite');
+    SetTintLayerColor(npc, 2412, TL_EYEBROW, 'FFOFurWhite');
+    SetTintLayerColorProb(60, npc, 5794, TL_MUZZLE, '');
+    SetTintLayerColorProb(60, npc, 5273, TL_MUZZLE_STRIPE, '');
+    SetTintLayerColorProb(60, npc, 6305, TL_CHIN, '');
+    SetTintLayerColorProb(60, npc, 8560, TL_CHEEK_COLOR, '');
+    SetTintLayerColorProb(60, npc, 8631, TL_CHEEK_COLOR_LOWER, '');
+end;
+
+Procedure MakeDeerRam(npc: IwbMainRecord);
+var
+    h: integer;
+begin
+    SetWeight(npc, 1, 2, 2);
+    if GetNPCSex(npc) = MALE then begin
+        SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns07'); 
+        SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
+    end;
+
+    SetTintLayerColor(npc, 8312, TL_SKIN_TONE,  
+        '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|');
+    SetTintLayerColorProb(50, npc, 7698, TL_MUZZLE, 'FFOFurWhite');
 end;
 
 //================================================================
@@ -733,25 +946,19 @@ Procedure FurrifyDeer(npc, hair: IwbMainRecord);
 var
     deerType: integer;
 begin
-    SetWeight(npc, 2, 1, 1);
     ChooseHair(npc, hair);
     ChooseHeadpart(npc, HEADPART_EYES);
     ChooseHeadpart(npc, HEADPART_FACE);
 
-    deerType := Hash(EditorID(npc), 9477, 5);
+    deerType := Hash(EditorID(npc), 9477, 6);
     case deerType of
         0: MakeDeerWhitetail(npc);
-        1: MakeDeerWhitetail(npc);
-        2: MakeDeerWhitetail(npc);
-        3: MakeDeerWhitetail(npc);
-        4: MakeDeerWhitetail(npc);
+        1: MakeDeerElk(npc);
+        2: MakeDeerReindeer(npc);
+        3: MakeDeerMoose(npc);
+        4: MakeDeerAntelope(npc);
+        5: MakeDeerRam(npc);
     end;
-    // ChooseHeadpart(npc, HEADPART_EYEBROWS);
-    // ChooseTint(npc, TL_SKIN_TONE, 9523);
-    // ChooseTint(npc, TL_MASK, 2188);
-    // ChooseTint(npc, TL_MUZZLE, 9487);
-    // ChooseTint(npc, TL_EAR, 552);
-    // ChooseTint(npc, TL_NOSE, 6529);
 end;
 //================================================================
 // Special tailoring for lions. 50% of the males get manes.
@@ -762,12 +969,11 @@ begin
     ChooseHeadpart(npc, HEADPART_FACE);
     ChooseHeadpart(npc, HEADPART_EYES);
 
-    if Assigned(lionMane) and 
+    if GetNPCSex(npc) = MALE and 
             ((Hash(EditorID(npc), 9203, 100) > 50) 
                 or ContainsText(EditorID(npc), 'PrestonGarvey')
             ) then begin
-        Log(4, Format('Assigning mane: "%s"', [EditorID(lionMane)]));
-        AssignHeadpart(npc, lionMane);
+        SetHeadpart(npc, HEADPART_HAIR, 'FFO_HairMaleMane');
     end
     else
         ChooseHair(npc, hair);
@@ -1023,6 +1229,8 @@ begin
 	AddMessage('----------------------------------------------------------');
 
     LOGLEVEL := 1;
+    errCount := 0;
+    warnCount := 0;
 
     preFurryCount := FileCount;
     patchFile := CreateOverrideMod(patchfileName);
@@ -1096,5 +1304,15 @@ begin
     if not USE_SELECTION then GenerateFurryNPCs(patchFile);
 
     ShutdownFurrifier;
+
+	AddMessage('----------------------------------------------------------');
+    if (errCount = 0) and (warnCount = 0) then
+        AddMessage(Format('Furrification completed SUCCESSFULLY'))
+    else
+        AddMessage(Format('Furrification completed with %d ERROR%s and %d WARNING%s', [
+            errCount, IfThen(errCount = 1, '', 'S'), 
+            warnCount, IfThen(warnCount = 1, '', 'S')
+        ]));
+	AddMessage('==========================================================');
 end;
 end.

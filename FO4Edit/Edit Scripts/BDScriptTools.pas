@@ -10,6 +10,7 @@ const
 var 
     logIndent: integer;
     errCount: integer;
+    warnCount: integer;
     
 //================================================================
 // Adds "masterFile" as a master to "aeFile", if not already there.
@@ -115,6 +116,12 @@ procedure Err(txt: string);
 begin
     AddMessage('ERROR: ' + txt);
     inc(errCount);
+end;
+
+procedure Warn(txt: string);
+begin
+    AddMessage('WARNING: ' + txt);
+    inc(warnCount);
 end;
 
 procedure InitializeLogging;

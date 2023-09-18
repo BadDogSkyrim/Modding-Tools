@@ -118,6 +118,10 @@ var
     furryHair: array [0..200 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
     lionMane: IwbMainRecord;
 
+    // Indexed by child, value is parent element ID.
+    mothers: TStringList;
+    fathers: TStringList;
+
     // Add headpart names to this list and the Object will be set to the headpart
     // element for quick reference
     specialHeadparts: TStringList;
@@ -142,6 +146,8 @@ var
     HEADPART_HAIR: integer;
     HEADPART_MISC: integer;
     HEADPART_SCAR: integer;
+    HEADPART_LO: integer;
+    HEADPART_HI: integer;
 
     tintlayerName: TStringList;
 
@@ -159,6 +165,7 @@ var
     TL_MASK: integer;
     TL_MISC: integer;
     TL_MUZZLE: integer;
+    TL_MUZZLE_STRIPE: integer;
     TL_NECK: integer;
     TL_NOSE: integer;
     TL_OLD: integer;
@@ -322,24 +329,67 @@ begin
     else Result := 'Unknown Class';
 end;
 
+//================================================================
+// Load an NPC's parents.
+procedure LoadParents();
+var
+  allRlnshp: IwbGroupRecord;
+  f: IwbFile;
+  i: integer;
+  j: Integer;
+  theChild: IwbMainRecord;
+  theParent: IwbMainRecord;
+  thisRlnshp: IwbMainRecord;
+begin
+    // motherCount := 0;
+
+    for j := 0 to FileCount - 1 do begin
+        f := FileByIndex(j);
+
+        allRlnshp := GroupBySignature(f, 'RELA');
+
+        if allRlnshp <> nil then begin
+            for i := 0 to ElementCount(allRlnshp)-1 do begin
+                thisRlnshp := ElementByIndex(allRlnshp, i);
+                if SameText(GetElementEditValues(thisRlnshp, 'DATA\Association Type'), 'ParentChild [ASTP:0001996B]') then begin
+                    theParent := LinksTo(ElementByPath(thisRlnshp, 'DATA\Parent'));
+                    theChild := LinksTo(ElementByPath(thisRlnshp, 'DATA\Child'));
+                    case GetNPCSex(theParent) of 
+                        FEMALE: mothers.AddObject(EditorID(theChild), TObject(theParent));
+                        MALE: fathers.AddObject(EditorID(theChild), TObject(theParent));
+                    end;
+                    // else if 
+                    //     mothers[motherCount] := theParent; //GetLoadOrderFormID(theParent);
+                    //     children[motherCount] := LinksTo(ElementByPath(thisRlnshp, 'DATA\Child'));
+                    //     if 6 <= LOG_LEVEL then Log(6, ' . . Found mother ' + Name(mothers[motherCount]) + ', child ' + Name(children[motherCount]));
+                    //     motherCount := motherCount + 1;
+                    // end;
+                end;
+            end;
+        end;
+    end;
+end;
+
 //-----------------------------------------------
-// Get a NPC's mother, if any
-Function GetMother(theNPC: IwbMainRecord): integer;
+// Get a NPC's mother, if any. Return the father if no mother.
+Function GetMother(theNPC: IwbMainRecord): IwbMainRecord;
 var
   i: Integer;
   //loid: integer;
 begin
-    Log(3, '<GetMother checking for mother: ' + Name(theNPC));
-    result := -1;
+    Log(5, Format('<GetMother(%s)', [EditorID(theNPC)]));
+    result := Nil;
 
-    for i := 0 to motherCount-1 do begin
-        if GetLoadOrderFormID(children[i]) = GetLoadOrderFormID(theNPC) then begin
-            result := i;
-            Log(3, 'Found mother: ' + Name(mothers[i]) + ' for ' + Name(theNPC));
-            break;
-        end;
+    i := mothers.IndexOf(EditorID(theNPC));
+    if i >= 0 then 
+        result := ObjectToElement(mothers.objects[i])
+    else begin
+        i := fathers.IndexOf(EditorID(theNPC));
+        if i >= 0 then
+            result := ObjectToElement(fathers.objects[i]);
     end;
-    Log(3, '>GetMother');
+
+    Log(5, '>GetMother -> ' + EditorID(result));
 end;
 
 // <<<<<<<<<<<<<<<<<<<<< MANAGE TINT LAYERS >>>>>>>>>>>>>>>>>>>>>
@@ -448,7 +498,7 @@ begin
                 end;
             end
             else begin
-                Err(Format('WARNING: Unknown tint type for %s %s: %s', [EditorID(theRace), SexToStr(sex), tintName]));
+                Warn(Format('Unknown tint type for %s %s: %s', [EditorID(theRace), SexToStr(sex), tintName]));
             end;
         end;
     end;
@@ -718,7 +768,7 @@ begin
     Log(6, '<RecordFurryHair: ' + EditorID(hair));
     // If this is a lion mane, there's no vanilla hair, but save it for later.
     if EditorID(hair) = 'FFO_HairMaleMane' then
-        lionMane := hair
+        lionMane := hair // TODO take this out we have a new way to do it
     else begin
         // Find and stash the associated vanilla hair, if any.
         for i := 0 to vanillaHairRecords.Count-1 do begin
@@ -937,6 +987,7 @@ begin
     TL_LIP_COLOR := tintlayerName.IndexOf('Lip Color');
     TL_MASK := tintlayerName.IndexOf('Mask');
     TL_MUZZLE := tintlayerName.IndexOf('Muzzle');
+    TL_MUZZLE_STRIPE := tintlayerName.IndexOf('Muzzle');
     TL_NECK := tintlayerName.IndexOf('Neck');
     TL_NOSE := tintlayerName.IndexOf('Nose');
     TL_OLD := tintlayerName.IndexOf('Old');
@@ -1298,6 +1349,8 @@ begin
     HEADPART_HAIR := headpartsList.IndexOf('Hair');
     HEADPART_MISC := headpartsList.IndexOf('Misc');
     HEADPART_SCAR := headpartsList.IndexOf('Scar');
+    HEADPART_LO := 0;
+    HEADPART_HI := headpartsList.Count-1;
 
     specialHeadparts := TStringList.Create;
     specialHeadparts.Duplicates := dupIgnore;
@@ -1311,6 +1364,14 @@ begin
     childRaceList := TStringList.Create;
     childRaceList.Sorted := false;
     childRaceList.Duplicates := dupIgnore;
+    
+    mothers := TStringList.Create;
+    mothers.Sorted := true;
+    mothers.Duplicates := dupIgnore;
+    
+    fathers := TStringList.Create;
+    fathers.Sorted := true;
+    fathers.Duplicates := dupIgnore;
     
     tintlayerName := TStringList.Create;
     tintlayerName.Duplicates := dupIgnore;
@@ -1334,6 +1395,7 @@ procedure LoadRaceAssets;
 begin
     CollectRaceTintLayers;
     CollectRaceHeadparts;
+    LoadParents;
 end;
 
 procedure ShutdownAssetLoader;
@@ -1359,6 +1421,8 @@ begin
     vanillaHairRecords.Free;
     masterRaceList.Free;
     childRaceList.Free;
+    mothers.Free;
+    fathers.Free;
 end;
 
 end.
