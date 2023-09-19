@@ -201,11 +201,11 @@ begin
 End;
 
 //=====================================================================
-// Create a semi-random number in the given interval (min to max-1), 
+// Create a semi-random number in the given interval (min to max), 
 // based on the hash string
 Function HashVal(s: string; seed: uint64; minVal: single; maxVal: single): single;
 begin
-    result := Hash(s, seed, (maxVal-minVal)*100)/100 + minVal;
+    result := Hash(s, seed, (maxVal-minVal)*100+1)/100 + minVal;
 end;
 
 //=====================================================================

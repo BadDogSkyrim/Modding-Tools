@@ -58,6 +58,11 @@ const
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 200;
 
+    // Morphs
+    MORPHS_LO = 0;
+    M_NOSTRILS = 0;
+    MORPHS_HI = 0;
+
 type TTintPreset = record
     presetColor: IwbMainRecord;
     defaultValue: float;
@@ -80,6 +85,7 @@ type TRaceInfo = Record
     headparts: array[{headpart count} 0..10] of TStringList;
     maskCount: integer;
     muzzleCount: integer;
+    morphGroups: TStringList; 
     end;
 
 var
@@ -710,7 +716,6 @@ Begin
     Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
 end;
 
-
 // <<<<<<<<<<<<<<<<<<<<  MANAGE HEAD PARTS  >>>>>>>>>>>>>>>>>>>>
 
 function HeadpartFacialType(hp: IwbMainRecord): integer;
@@ -780,6 +785,7 @@ begin
                     raceID := RaceIndex(race);
                     if raceID >= 0 then begin
                         Log(6, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
+                        if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i));
                         furryHair[i, raceID] := hair;
                     end;
                 end;
@@ -795,11 +801,13 @@ Function GetFurryHair(raceID: integer; oldHair: string): IwbMainRecord;
 var
     n: integer;
 begin
+    result := Nil;
     n := vanillaHairRecords.IndexOf(oldHair);
-    if n < 0 then
-        result := Nil
-    else begin
-        result := furryHair[n, raceid];
+    if n > 0 then begin
+        if n < HAIR_MAX then
+            result := furryHair[n, raceid]
+        else
+            Err(Format('vanillaHairRecords index bigger than furry hair: %s >= %s', [n, HAIR_MAX]));
     end;
 end;
 
@@ -1000,9 +1008,72 @@ begin
             integer(TINTLAYERS_COUNT), integer(TINTLAYERS_MAX)]));
 end;
 
-procedure CollectRaceTintLayers;
+procedure CollectRaceMorphs;
+var 
+    groupElementName: string;
+    groupName: string;
+    i, j, k: integer;
+    morphGroup: IwbElement;
+    morphGroupList: IwbElement;
+begin
+    for i := RACE_LO to RACE_HI do begin
+        for j := SEX_LO to SEX_HI do begin
+            if Assigned(raceInfo[i, j].mainRecord) then begin
+                groupElementName := IfThen((j = FEMALE) or (j = FEMALECHILD), 
+                    'Female Morph Groups', 'Male Morph Groups');
+                morphGroupList := ElementByPath(raceInfo[i, j].mainRecord, groupElementName);
+                raceInfo[i, j].morphGroups := TStringList.Create;
+                for k := 0 to ElementCount(morphGroupList)-1 do begin
+                    morphGroup := ElementByIndex(morphGroupList, k);
+                    groupName := GetElementEditValues(morphGroup, 'MPGN');
+                    raceInfo[i, j].morphGroups.AddObject(groupName, TObject(morphGroup));
+                end;
+            end;
+        end;
+    end;
+end;
+
+//=======================================================================
+// Find and return the preset with the given name in the given group.
+Function GetMorphPreset(morphGroup: IwbElement; name: string): IwbElement;
 var
     i: integer;
+    n: string;
+    p: IwbElement;
+    presetList: IwbElement;
+begin
+    Log(5, Format('<GetMorphPreset([%s], %s)', [Path(morphGroup), name]));
+    p := Nil;
+    presetList := ElementByPath(morphGroup, 'Morph Presets');
+    Log(5, Format('Found %d presets', [integer(ElementCount(presetList))]));
+    for i := 0 to ElementCount(presetList)-1 do begin
+        p := ElementByIndex(presetList, i);
+        n := GetElementEditValues(p, 'MPPN');
+        Log(5, Format('Checking [%s] %s', [Path(p), n]));
+        if n = name then break;
+    end;
+    result := p;
+    Log(5, Format('>GetMorphPreset -> %s', [Path(result)]));
+end;
+
+//=======================================================================
+// Find and return a random preset from the given group.
+Function GetMorphRandomPreset(morphGroup: IwbElement; 
+    hashval: string; seed: integer): IwbElement;
+var
+    h: integer;
+    presetList: IwbElement;
+begin
+    Log(5, Format('<GetMorphRandomPreset(%s)', [Path(morphGroup)]));
+    presetList := ElementByPath(morphGroup, 'Morph Presets');
+    h := Hash(hashval, seed, ElementCount(presetList));
+    result := ElementByIndex(presetList, h);
+    Log(5, Format('>GetMorphRandomPreset -> %s', [Path(result)]));
+end;
+
+procedure CollectRaceTintLayers;
+var
+    i, j: integer;
     race: IwbMainRecord;
 begin
     Log(11, '<CollectRaces');
@@ -1393,6 +1464,7 @@ end;
 
 procedure LoadRaceAssets;
 begin
+    CollectRaceMorphs;
     CollectRaceTintLayers;
     CollectRaceHeadparts;
     LoadParents;
@@ -1404,6 +1476,8 @@ var
 begin
     for i := RACE_LO to RACE_HI do begin
         for j := SEX_LO to SEX_HI do begin
+            if Assigned(raceInfo[i, j].morphGroups) then
+                raceInfo[i, j].morphGroups.Free;
             for k := 0 to headpartsList.count - 1 do begin
                 if Assigned(raceInfo[i, j].headParts[k]) then  
                     raceInfo[i, j].headParts[k].Free;

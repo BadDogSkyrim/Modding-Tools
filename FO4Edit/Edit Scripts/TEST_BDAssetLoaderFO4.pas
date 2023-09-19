@@ -63,6 +63,29 @@ begin
         AssertStr(EditorID(hp), targetHeadpart, 'Have correct headpart for ' + targetType);
 end;
 
+//=======================================================================
+// Check for errors in a NPC's morphs.
+// If provided, must have a morph of the given name.
+Procedure AssertMorph(npc: IwbMainRecord; targetMorph: integer);
+var
+    elist: IwbElement;
+    val: integer;
+    found: boolean;
+    i: integer;
+begin
+    found := false;
+    elist := ElementByPath(npc, 'MSDK');
+    for i := 0 to ElementCount(elist)-1 do begin
+        Assert(Assigned(ElementByIndex(elist, i)), Format('Morph at [%d] assigned', [i]));
+        val := GetNativeValue(ElementByIndex(elist, i));
+        if val = targetMorph then found := true;
+    end;
+    Assert(found, Format('Found target value %.8x', [targetMorph]));
+    // Assert(Assigned(hp), Format('Assert have %s as %s', [targetHeadpart, targetType]));
+    // if targetHeadpart <> '' then
+    //     AssertStr(EditorID(hp), targetHeadpart, 'Have correct headpart for ' + targetType);
+end;
+
 // =========================================================================
 // Check for errors in a NPC's tint layers.
 // If non-zero, targetLayerIndex must be in the list.
@@ -95,9 +118,11 @@ function Finalize: integer;
 var
     classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
     elem: IwbElement;
+    elem2: IwbElement;
     elist: IwbContainer;
     f: IwbFile;
     fl: TStringList;
+    furryNPC: IwbMainRecord;
     g: IwbContainer;
     hair: IwbMainRecord;
     headpart: IwbMainRecord;
@@ -135,6 +160,9 @@ begin
     Log(10, 'Starting tests');
     testErrorCount := 0;
 
+    AddMessage(Format('Can format hex values: %.8x', [1023]));
+    AddMessage(Format('Can format float values: %f', [10.23]));
+
     if {Testing random numbers} FALSE then begin
         AddMessage('Same hash, different seeds');
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 4039, 100)]));
@@ -153,18 +181,12 @@ begin
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
     end;
 
-    // ---------- NPC info
-    AddMessage('---Can find particular NPCs');
-    npc := FindAsset(FileByIndex(0), 'NPC_', 'Desdemona');
-    Assert(EditorID(GetNPCRace(npc)) = 'HumanRace', 
-        Format('Have human race for Desdemona: "%s"', [EditorID(GetNPCRace(npc))]));
-    npc := FindAsset(FileByIndex(0), 'NPC_', 'RECheckpoint_LvlGunnerSniper');
-    Assert(EditorID(GetNPCRace(npc)) = 'HumanRace', 
-        Format('Have human race for gunner: "%s"', [EditorID(GetNPCRace(npc))]));
-
     InitializeFurrifier;
 
-    // ----------- masterRaceList
+    // ------------------------------------------------------------------------------
+    //
+    //      TESTING RACE INFO
+    //
     // masterRaceList has a list of all the furry races that were found.
     // A particular race can be found by name.
 
@@ -189,7 +211,6 @@ begin
         'Found child race for Lykaios');
     Assert(childRaceList.IndexOf('FFOLykaiosChildRace') >= 0, 'Have lykaios child race');
 
-        
     // ---------- Race Assets
     for i := 0 to masterRaceList.Count-1 do 
         AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
@@ -213,6 +234,38 @@ begin
                         ]));
     end;
     Assert(raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_MASK] = 100, 'Have tint probability');
+
+    If {showing all morphs} TRUE then begin
+        AddMessage('-------Morphs--------');
+        for i := RACE_LO to RACE_HI do begin
+            for j := SEX_LO to SEX_HI do begin
+                if Assigned(raceInfo[i, j].morphGroups) then begin
+                    for k := 0 to raceInfo[i, j].morphGroups.Count-1 do begin
+                        elem := ObjectToElement(raceInfo[i, j].morphGroups.objects[k]);
+                        elist := ElementByPath(elem, 'Morph Presets');
+                        for n := 0 to ElementCount(elist)-1 do begin
+                            elem2 := ElementByIndex(elist, n);
+                            AddMessage(Format('%s %s [%s] [%s - %s] ', [
+                                EditorID(raceInfo[i, MALE].mainRecord),
+                                SexToStr(j),
+                                raceInfo[i, j].morphGroups[k],
+                                GetElementEditValues(elem2, 'MPPI'), 
+                                GetElementEditValues(elem2, 'MPPN')
+                                ]));
+                        end;
+                    end;
+                end;
+            end;
+        end;
+    end;
+
+    // Can access particular morphs
+    elem := GetMorphPreset(
+        ObjectToElement(raceInfo[RACE_DEER, MALE].morphGroups.objects[
+            raceInfo[RACE_DEER, MALE].morphGroups.IndexOf('Nostrils')
+            ]), 
+        'Broad');
+    AssertStr(GetElementEditValues(elem, 'MPPN'), 'Broad', 'Can read the morph presets');
 
     AddMessage('------Tint Layers--------');
     // Have translations between layer names in the plugin and layers we understand.
@@ -261,6 +314,10 @@ begin
     elem := PickRandomColorPreset('Desdemona', 280, elem, 1);
     Assert(ContainsText(Path(elem), 'Template Color #'), 'Have pathname for tint preset: ' + Path(elem));
 
+    // -----------------------------------------------------------------------------
+    //
+    //      HEADPARTS
+    //
     // Can find headparts for the different races.
     i := masterRaceList.IndexOf('FFOFoxRace');
     AssertInt(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Count, 1, 'Have a head for foxes');
@@ -297,7 +354,6 @@ begin
     Assert(ContainsText(EditorID(headpart), 'Ungulate'), 'Found good eyes for Desdemona: ' + EditorID(headpart));
 
     // --------- Hair
-    LOGLEVEL := 14;
     AddMessage('---------Hair---------');
     Assert(vanillaHairRecords.Count > 50, 
         'Have hair records: ' + IntToStr(vanillaHairRecords.Count));
@@ -319,6 +375,10 @@ begin
     headpart := GetFurryHair(RaceIndex(race), 'HairFemale21');
     AssertStr(EditorID(headpart), 'FFO_HairFemale21_Dog', 'Found canine hair');
 
+    //-----------------------------------------------------------------------
+    //
+    //      NPCs
+    //
     // --------- Classes
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
@@ -431,13 +491,25 @@ begin
 
     AddMessage('---Preston');
     npc := FindAsset(Nil, 'NPC_', 'PrestonGarvey');
-    modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOLionRace', 'Changed Preston`s race');
     AssertGoodHeadparts(npc, 'Hair', 'FFO_HairMaleMane');
 
+    AddMessage('---BoS301BrotherHenri');
+    npc := FindAsset(Nil, 'NPC_', 'BoS301BrotherHenri');
+    furryNPC := CreateNPCOverride(npc, modFile);
+    hair := SetNPCRace(furryNPC, RACE_DEER);
+    ChooseHair(furryNPC, hair);
+    ChooseHeadpart(furryNPC, HEADPART_EYES);
+    ChooseHeadpart(furryNPC, HEADPART_FACE);
+    MakeDeerReindeer(furryNPC);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFODeerRace', 'Changed BoS301BrotherHenri`s race');
+    AssertGoodHeadparts(furryNPC, 'Eyebrows', 'FFODeerHorns05');
+    AssertMorph(furryNPC, $36EF36E0);
+    
+
     // --------- Race distribution 
-    if {Testing race distribution} false then begin
+    if {Testing race distribution} FALSE then begin
         // Walk through the NPCs and collect stats on how many of each race there are
         // to make sure the random assignment is giving a range of races.
         AddMessage('---Race Probabilities---');
@@ -455,7 +527,7 @@ begin
         end;
 
         AddMessage('Check that we have a reasonable distribution of races');
-        for i := 0 to CLASS_COUNT-1 do begin
+        for i := CLASS_LO to CLASS_HI do begin
             AddMessage('-');
             for j := 0 to masterRaceList.Count-1 do begin
                 if classCounts[i, j] > 0 then 

@@ -346,7 +346,7 @@ begin
                 pointTotal := classProbs[charClass, masterRaceList.Count];
                 h := Hash(EditorID(npc), 6795, pointTotal);
                 Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
-                for r := 0 to masterRaceList.Count do begin
+                for r := 0 to masterRaceList.Count-1 do begin
                     if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
                         Result := r;
                         break;
@@ -571,20 +571,22 @@ var
     hp: IwbMainRecord;
 begin
     Log(5, Format('<ChooseHair: %s %s', [EditorID(npc), EditorID(oldHair)]));
-    if (not Assigned(oldHair)) or StartsText('FFO', EditorID(oldHair)) then begin
-        Log(5, 'Current hair is furry or missing, finding prior hair');
-        oldHair := FindPriorHair(npc);
-    end;
-    if Assigned(oldHair) then begin
-        hp := GetFurryHair(GetNPCRaceID(npc), EditorID(oldHair));
-        if not Assigned(hp) then
-            hp := PickRandomHeadpart(EditorID(npc), 5269, 
-                GetNPCRaceID(npc), GetNPCSex(npc), HEADPART_HAIR);
-
-        AssignHeadpart(npc, hp);
+    if (not Assigned(oldHair)) then begin
+        Log(5, 'No old hair, leaving hair alone.');
+    end
+    else if StartsText('FFO', EditorID(oldHair)) then begin
+        Log(5, 'Current hair is furry, using it');
+        AssignHeadpart(npc, oldHair);
     end
     else begin
-        Log(5, 'No old hair, leaving hair alone.');
+        hp := GetFurryHair(GetNPCRaceID(npc), EditorID(oldHair));
+        // if not Assigned(hp) then
+        //     hp := PickRandomHeadpart(EditorID(npc), 5269, 
+        //         GetNPCRaceID(npc), GetNPCSex(npc), HEADPART_HAIR);
+
+        // Since most vanilla hair has been furrified, if this one hasn't then
+        // just leave it off.
+        if Assigned(hp) then  AssignHeadpart(npc, hp);
     end;
     Log(5, Format('>ChooseHair: %s %s', [EditorID(npc), EditorID(hp)]));
 end;
@@ -667,7 +669,7 @@ begin
         AssignTint(npc, t, p);
     end
     else begin
-        Log(5, Format('Probability check failed, no assignment: %d > %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
+        Log(5, Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
     end;
     
     Log(5, '>ChooseTint');
@@ -791,6 +793,80 @@ begin
 end;
 
 
+//=========================================================================
+// Set the given morph.
+Procedure SetMorph(npc: IwbMainRecord; seed: integer; 
+    morphGroup: string; presetName: string);
+var
+    r: integer;
+    s: integer;
+    preset: IwbElement;
+begin
+    Log(5, Format('<SetMorph(%s, %S)', [EditorID(npc), presetName]));
+    r := GetNPCRaceID(npc);
+    s := GetNPCSex(npc);
+    if (s = MALE) or (s = FEMALE) then begin
+        preset := GetMorphPreset(
+            ObjectToElement(raceInfo[r, s].morphGroups.objects[
+                raceInfo[r, s].morphGroups.IndexOf(morphGroup)
+                ]),
+            presetName);
+        if Assigned(preset) then begin
+            SetMorphValue(npc, 
+                GetElementNativeValues(preset, 'MPPI'),
+                HashVal(EditorID(npc), seed, 0.5, 1.0));
+        end;
+    end;
+    Log(5, '>');
+end;
+
+//=========================================================================
+// Choose a random value for the given morph.
+Procedure SetRandomMorph(npc: IwbMainRecord; morphGroup: integer; seed: integer);
+var
+    hashv: string;
+    preset: IwbElement;
+    r: integer;
+    s: integer;
+begin
+    r := GetNPCRaceID(npc);
+    s := GetNPCSex(npc);
+    if (s = MALE) or (s = FEMALE) then begin
+        preset := GetMorphRandomPreset(
+            ObjectToElement(raceInfo[r, s].morphGroups.objects[morphGroup]),
+            EditorID(npc),
+            seed);
+        if Assigned(preset) then begin
+            hashv := EditorID(npc) + raceInfo[r, s].morphGroups[morphGroup];
+            SetMorphValue(npc, 
+                GetElementNativeValues(preset, 'MPPI'),
+                HashVal(hashv, seed, 0.5, 1.0));
+        end;
+    end;
+end;
+
+//================================================================================
+// Set all availble morphs on the target NPC, randomly.
+procedure SetAllRandomMorphs(npc: IwbMainRecord);
+var
+    hashv: string;
+    i: integer;
+    r: integer;
+    s: integer;
+begin
+    r := GetNPCRaceID(npc);
+    s := GetNPCSex(npc);
+    if Assigned(raceInfo[r, s].morphGroups) then begin
+        for i := 0 to raceInfo[r, s].morphGroups.Count-1 do begin
+            hashv := EditorID(npc) + raceInfo[r, s].morphGroups[i];
+            if Hash(hashv, 6209, 100) < 60 then begin
+                SetRandomMorph(npc, i, 1781);
+            end;
+        end;
+    end;
+end;
+
+
 Function CreateNPCOverride(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
 begin
     AddRecursiveMaster(targetFile, GetFile(npc));
@@ -831,6 +907,25 @@ Begin
         SetElementNativeValues(npc, 'MWGT\Fat', fat / scaleFac); 
     end;
 End;
+
+//============================================================================
+// Give the NPC the given morph value
+Procedure SetMorphValue(npc: IwbMainRecord; key: integer; value: float);
+var
+    keyval: IwbElement;
+    morphval: IwbElement;
+    msdk: IwbElement;
+    msdv: IwbElement;
+begin
+    Log(5, Format('<SetMorphValue(%s, %s, %s) ', [EditorID(npc), IntToHex(key, 8), FloatToStr(value)]));
+    msdk := Add(npc, 'MSDK', true);
+    keyval := ElementAssign(msdk, HighInteger, nil, false);
+    SetNativeValue(keyval, key);
+    msdv := Add(npc, 'MSDV', true);
+    morphval := ElementAssign(msdv, HighInteger, nil, false);
+    SetNativeValue(morphval, value);
+    Log(5, '>');
+end;
 
 //================================================================
 // Set up the various types of deer.
@@ -880,6 +975,7 @@ var
     h: integer;
 begin
     SetWeight(npc, 1, 2, 2);
+
     if GetNPCSex(npc) = MALE then begin
         SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns05');
         SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
@@ -887,6 +983,8 @@ begin
 
     SetTintLayerColor(npc, 4480, TL_SKIN_TONE,  
         'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
+
+    SetMorph(npc, 4726, 'Nostrils', 'Broad');
 end;
 
 Procedure MakeDeerMoose(npc: IwbMainRecord);
@@ -1013,6 +1111,7 @@ begin
             ChooseTint(furryNPC, TL_MUZZLE, 9487);
             ChooseTint(furryNPC, TL_EAR, 552);
             ChooseTint(furryNPC, TL_NOSE, 6529);
+            SetAllRandomMorphs(furryNPC);
             end;
         end;
         result := furryNPC;
