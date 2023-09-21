@@ -28,6 +28,12 @@ begin
         [integer(actual), integer(expected)]));
 end;
 
+procedure AssertFloat(actual, expected: float; msg: string);
+begin
+    Assert(actual = expected, Format(msg + ': %f = %f', 
+        [actual, expected]));
+end;
+
 procedure AssertStr(actual, expected: string; msg: string);
 begin
     Assert(actual = expected, Format(msg + ': "%s" = "%s"', [actual, expected]));
@@ -149,10 +155,14 @@ var
     raceID: Cardinal;
     racename: string;
     racepnam: float;
+    sl1, slsub, sl2: TStringList;
+    a: string;
+    b: string;
     teti: string;
     tend: float;
+    sk: TSkinTintLayer;
 begin
-    LOGLEVEL := 5;
+    LOGLEVEL := 1;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
@@ -162,6 +172,59 @@ begin
 
     AddMessage(Format('Can format hex values: %.8x', [1023]));
     AddMessage(Format('Can format float values: %f', [10.23]));
+
+    if {excercising TStringList functionality} FALSE then begin
+        // Can use StringLists of StringLists.
+        AddMessage('Demo of stringlists');
+        sl1 := TStringList.Create;
+
+        slsub := TStringList.Create;
+        slsub.Add('One');
+        slsub.Add('Two');
+        sl1.AddObject('Alpha', slsub);
+        sl1.objects[0].Add('Three');
+        slsub := TStringList.Create;
+
+        slsub.Add('A');
+        slsub.Add('B');
+        sl1.AddObject('Beta', slsub);
+        AddMessage(Format('Get SL strings: %s', [sl1.commatext]));
+        AddMessage(Format('Index SL by text (Alpha): %d', [integer(sl1.values['Alpha'])])); // This does NOT work
+        AddMessage(Format('Index SL by text (Beta): %d', [integer(sl1.values['Beta'])])); // This does NOT work
+
+        sl2 := sl1.objects[0];
+        AddMessage(Format('First list has sublist: %s', [sl2.commatext])); // This works
+        AddMessage(Format('First subentry is %s', [sl2[0]]));
+        AddMessage(Format('First entry in sl1: %s, size %d', [sl1[0], sl1.objects[0].count]));
+        AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).commatext])); // This works
+        AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).strings[0]])); // This works
+        AddMessage(Format('First subentry in sl1[1]: %s, "%s"', [sl1[1], TList(sl1.objects[1]).strings[0]])); // This works
+
+        // No way I can find to put records in a TStringList
+        // sl1 := TStringList.Create;
+        // sk.name := 'TEST';
+        // sl1.AddObject('test', sk);
+        // sk.name := 'FOO';
+        // AddMessage(sk.name);
+        // AddMessage(sl1[0]);
+        // AddMessage(sl1.objects[0].name);
+
+        // AddPair is not implemented.
+        // sl1 := TStringList.Create;
+        // sl1.AddPair('foo', 1);
+        // sl1.AddPair('bar', 2);
+        // AddMessage(Format('First pair: %s / %s', [sl1[0], sl1.values[0]]));
+        // AddMessage(Format('Second pair: %s / %s', [sl1[1], sl1.values[1]]));
+
+        // Can associate strings with values.
+        sl1 := TStringList.Create;
+        sl1.AddObject('foo', 1);
+        sl1.AddObject('bar', 2);
+        for i := 0 to sl1.Count-1 do
+            AddMessage(Format('Integer value [%d]: %s / %s', [
+                i, sl1[i], IntToStr(sl1.objects[i])]));
+        exit;
+        end;
 
     if {Testing random numbers} FALSE then begin
         AddMessage('Same hash, different seeds');
@@ -179,8 +242,8 @@ begin
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate04', 8707, 100)]));
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate05', 8707, 100)]));
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
-    end;
-
+        end;
+    
     InitializeFurrifier;
 
     // ------------------------------------------------------------------------------
@@ -196,15 +259,17 @@ begin
     lykaiosRace := ObjectToElement(masterRaceList.Objects[lykaiosIndex]);
     Assert(SameText(EditorID(lykaiosRace), 'FFOLykaiosRace'), 'Recovered the Lykaios race record');
 
-    AddMessage('---Can iterate through the masterRaceList');
-    for i := 0 to masterRaceList.Count-1 do 
-        for j := 0 to 3 do 
-            AddMessage(Format('[%d %d %s] %s', [
-                i, j, masterRaceList[i], EditorID(raceInfo[i, j].mainRecord)]));
+    if {listing races} FALSE then begin
+        AddMessage('---Can iterate through the masterRaceList');
+        for i := 0 to masterRaceList.Count-1 do 
+            for j := 0 to 3 do 
+                AddMessage(Format('[%d %d %s] %s', [
+                    i, j, masterRaceList[i], EditorID(raceInfo[i, j].mainRecord)]));
 
-    AddMessage('---Can iterate through childRaceList');
-    for i := 0 to masterRaceList.Count-1 do
-        AddMessage(masterRaceList[i] + ' / ' + childRaceList[i]);
+        AddMessage('---Can iterate through childRaceList');
+        for i := 0 to masterRaceList.Count-1 do
+            AddMessage(masterRaceList[i] + ' / ' + childRaceList[i]);
+        end;
 
     // ---------- Child Races
     AssertStr(EditorID(raceInfo[lykaiosIndex, MALECHILD].mainRecord), 'FFOLykaiosChildRace',
@@ -212,12 +277,14 @@ begin
     Assert(childRaceList.IndexOf('FFOLykaiosChildRace') >= 0, 'Have lykaios child race');
 
     // ---------- Race Assets
-    for i := 0 to masterRaceList.Count-1 do 
-        AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
+    if {listing race assets} FALSE then begin
+        for i := 0 to masterRaceList.Count-1 do 
+            AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
 
-    AddMessage('---Can iterate through the tint list');
-    for i := 0 to tintlayerName.Count-1 do
-        AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
+        AddMessage('---Can iterate through the tint list');
+        for i := 0 to tintlayerName.Count-1 do
+            AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
+        end;
 
     if {Showing race/tint probabilities} FALSE then begin
         AddMessage('---Can iterate through tint probabilities');
@@ -232,10 +299,39 @@ begin
                         IfThen(k=MALE, 'M', 'F'), 
                         integer(raceInfo[i, k].tintProbability[j])
                         ]));
-    end;
+        end;
     Assert(raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_MASK] = 100, 'Have tint probability');
 
-    If {showing all morphs} TRUE then begin
+    // Can access particular morphs
+    elem := GetMorphPreset(
+        ObjectToElement(raceInfo[RACE_DEER, MALE].morphGroups.objects[
+            raceInfo[RACE_DEER, MALE].morphGroups.IndexOf('Nostrils')
+            ]), 
+        'Broad');
+    AssertStr(GetElementEditValues(elem, 'MPPN'), 'Broad', 'Can read the morph presets');
+
+    Assert(raceInfo[RACE_HORSE, MALE].morphExcludes.Count > 0, 
+        Format('Have morph exclusions for horse: %s', 
+            [raceInfo[RACE_HORSE, MALE].morphExcludes.commatext]));
+
+    Assert(raceInfo[RACE_HORSE, FEMALE].morphSkew.Count > 0, 
+        Format('Have morph skews for horse: %d: %s', [
+                raceInfo[RACE_HORSE, FEMALE].morphSkew.Count,
+                raceInfo[RACE_HORSE, FEMALE].morphSkew.commatext
+        ])
+    );
+    Assert(raceInfo[RACE_HORSE, FEMALE].morphSkew.objects[0] = SKEW0, 
+        Format('Have morph skew value for horse "%s" = %d', [
+                raceInfo[RACE_HORSE, FEMALE].morphSkew[0],
+                integer(raceInfo[RACE_HORSE, FEMALE].morphSkew.objects[0])
+        ])
+    );
+
+    n := raceInfo[RACE_HORSE, FEMALE].morphProbability.IndexOf('Horse - Ears');
+    Assert(n >= 0, 'Have morph setting for "Horse - Ears"');
+    AssertInt(raceInfo[RACE_HORSE, FEMALE].morphProbability.objects[n], 80, 'Have correct probability for "Horse - Ears"');
+
+    If {showing all morphs} FALSE then begin
         AddMessage('-------Morphs--------');
         for i := RACE_LO to RACE_HI do begin
             for j := SEX_LO to SEX_HI do begin
@@ -257,15 +353,37 @@ begin
                 end;
             end;
         end;
-    end;
+        end;
 
-    // Can access particular morphs
-    elem := GetMorphPreset(
-        ObjectToElement(raceInfo[RACE_DEER, MALE].morphGroups.objects[
-            raceInfo[RACE_DEER, MALE].morphGroups.IndexOf('Nostrils')
-            ]), 
-        'Broad');
-    AssertStr(GetElementEditValues(elem, 'MPPN'), 'Broad', 'Can read the morph presets');
+    // We don't get the face morphs from the race record--we have to 
+    // be told about them.
+    Assert(raceInfo[RACE_HORSE, MALE].faceBoneList.Count > 0, Format(
+        'Have facebones for horse: %s',
+        [raceInfo[RACE_HORSE, MALE].faceBoneList.commatext]
+    ));
+    AssertInt(raceInfo[RACE_HORSE, MALE].faceBones[0].FMRI, 09, 
+        'Horse "Nose - Full" FMRI value correct');
+    AssertFloat(raceInfo[RACE_HORSE, MALE].faceBones[0].min.scale, -0.4, 
+        'Horse "Nose - Full" min scale value correct');
+    if {showing face morphs} TRUE then begin
+        AddMessage('-------Face Morphs-----');
+        for i := RACE_LO to RACE_HI do begin
+            Log(0, '<' + masterRaceList[i]);
+            for j := MALE to FEMALE do begin
+                Log(0, '<' + SexToStr(j));
+                for k := 0 to raceInfo[i,j].faceBoneList.Count-1 do begin
+                    Log(0, Format('%s FMRI=%d, scale=[%f, %f]', [
+                        raceInfo[i,j].faceBoneList.strings[k],
+                        integer(raceInfo[i,j].faceBones[k].FMRI),
+                        1.0*raceInfo[i,j].faceBones[k].min.scale,
+                        1.0*raceInfo[i,j].faceBones[k].max.scale // Coerce to float
+                    ]));
+                end;
+                Log(0, '>');
+            end;
+            Log(0, '>');
+        end;
+    end;
 
     AddMessage('------Tint Layers--------');
     // Have translations between layer names in the plugin and layers we understand.
@@ -389,7 +507,7 @@ begin
     for i := 0 to fl.Count-1 do
         AddMessage('Has faction ' + fl[i]);
     fl.Free;
-    
+        
     // -------- NPC classes and races
     // NPCs are given classes to help with furrification.
     npc := FindAsset(f, 'NPC_', 'BlakeAbernathy');
@@ -536,8 +654,8 @@ begin
         end;
     end;
 
-    AddMessage(Format('Tests completed with %d errors', [testErrorCount]));
-    AddMessage(IfThen(testErrorCount = 0, 
+    AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
+    AddMessage(IfThen(errCount = 0, 
         '++++++++++++SUCCESS++++++++++',
         '-------------FAIL----------'));
     ShutdownAssetLoader;

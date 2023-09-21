@@ -59,9 +59,9 @@ const
     HAIR_MAX = 200;
 
     // Morphs
-    MORPHS_LO = 0;
-    M_NOSTRILS = 0;
-    MORPHS_HI = 0;
+    EVEN = 0;
+    SKEW0 = 1;
+    SKEW1 = 2;
 
 type TTintPreset = record
     presetColor: IwbMainRecord;
@@ -71,11 +71,22 @@ type TTintPreset = record
 
 //type TIntPresetArray = array of TTintPreset;
 
+type TTransform = Record
+    x, y, z: float;
+    xRot, yRot, zRot: float;
+    scale: float;
+end;
+
 type TSkinTintLayer = Record
     name: string;
     maskType: string;
     element: IwbELement;
-    end;
+end;
+
+type TFaceBone = Record
+    FMRI: integer;
+    min, max: TTransform;
+end;
 
 type TRaceInfo = Record
     mainRecord: IwbMainRecord;
@@ -86,6 +97,13 @@ type TRaceInfo = Record
     maskCount: integer;
     muzzleCount: integer;
     morphGroups: TStringList; 
+    morphProbability: TStringList;
+    morphLo: TStringList;
+    morphHi: TStringList;
+    morphSkew: TStringList;
+    morphExcludes: TStringList;
+    faceBones: array[0..10] of TFaceBone;
+    faceBoneList: TStringList;
     end;
 
 var
@@ -509,53 +527,8 @@ begin
         end;
     end;
 
-    Log(11, '>LoadTintLayerInfo');
+    Log(11, '>');
 end;
-
-// //==================================================================
-// // Find and load info about all skin tints for the given race & sex.
-// // SKYRIM VERSION 
-// procedure LoadTintsForSex(theRace: IwbMainRecord; sex: integer; tintlayers: IwbElement);
-// var
-//     i, r, tli: integer;
-//     thisLayer: IwbElement;
-//     mt: string;
-//     fn: string;
-// begin
-//     Log(15, '<LoadTintsForSex ' + Name(theRace) + ' ' + IfThen(sex=MALE, 'M', 'F'));
-//     r := masterRaceList.IndexOf(EditorID(theRace));
-//     raceInfo[r, sex].mainRecord := theRace;
-//     raceInfo[r, sex].muzzleCount := 0;
-//     raceInfo[r, sex].maskCount := 0;
-
-//     for i := 0 to ElementCount(tintlayers)-1 do begin
-//         thisLayer := ElementByIndex(tintlayers, i);
-//         mt := GetElementEditValues(thisLayer, 'Tint Layer\Texture\TINP');
-//         Log(15, 'Found tint layer ' + mt);
-
-//         tli := tintlayerName.IndexOf(mt);
-//         if tli >= 0 then LoadTintLayer(r, sex, tli, mt, thisLayer);
-
-//         fn := GetElementEditValues(thisLayer, 'Tint Layer\Texture\TINT');
-//         // Log(15, 'Found ' + fn + ': ' 
-//         //     + IfThen(EndsText('mask.dds', fn), 'MASK', ' ')
-//         //     + IfThen(EndsText('muzzle.dds', fn), 'MUZZLE', ''));
-
-//         if EndsText('old.dds', fn) then LoadTintLayer(r, sex, TL_OLD, 'Old', thisLayer);
-//         if EndsText('ear.dds', fn) or EndsText('ears.dds', fn) then
-//             LoadTintLayer(r, sex, TL_EAR, 'Ear', thisLayer);
-//         if EndsText('mask.dds', fn) then begin
-//             LoadTintLayer(r, sex, TL_MASK + raceInfo[r, sex].maskCount, 'Mask', thisLayer);
-//             raceInfo[r, sex].maskCount := raceInfo[r, sex].maskCount + 1;
-//         end;
-//         if EndsText('muzzle.dds', fn) then begin
-//             LoadTintLayer(r, sex, TL_MUZZLE + raceInfo[r, sex].muzzleCount, 'Muzzle', thisLayer);
-//             raceInfo[r, sex].muzzleCount := raceInfo[r, sex].muzzleCount + 1;
-//         end;
-
-//     end;
-//     Log(15, '>LoadTintsForSex');
-// end;
 
 //===============================================================
 // Collect tint layer information.
@@ -572,7 +545,7 @@ begin
         LoadTintLayerInfo(theRace, i);
     end;
 
-    Log(12, '>CollectTintLayers ');
+    Log(12, '> ');
 end;
 
 //=========================================================================
@@ -757,7 +730,7 @@ begin
             // add furry hair to it.
             vanillaHairRecords.Add(EditorID(hair));
     end;
-    Log(10, '>RecordVanillaHair');
+    Log(10, '>');
 end;
 
 //------------------------------------------------------------
@@ -792,7 +765,7 @@ begin
             end;
         end;
     end;
-    Log(6, '>RecordFurryHair');
+    Log(6, '>');
 end;
 
 //===================================================================
@@ -871,7 +844,7 @@ begin
         end;
     end;
 
-    Log(15, '>LoadHeadPart');
+    Log(15, '>');
 end;
 
 //-----------------------------------------------------------
@@ -909,7 +882,7 @@ begin
     end;
 
     hpDone.Free;
-    Log(2, '>CollectRaceHeadparts');
+    Log(2, '>');
 end;
 
 // <<<<<<<<<<<<<<<<<<<<<< MANAGE RACES >>>>>>>>>>>>>>>>>>>>>>
@@ -953,6 +926,20 @@ begin
                 masterRaceList.AddObject(racename, TObject(r));
                 raceInfo[Result, MALE].mainRecord := r;
                 raceInfo[Result, FEMALE].mainRecord := r;
+                raceInfo[Result, MALE].morphGroups := TStringList.Create;
+                raceInfo[Result, FEMALE].morphGroups := TStringList.Create;
+                raceInfo[Result, MALE].morphProbability := TStringList.Create;
+                raceInfo[Result, FEMALE].morphProbability := TStringList.Create;
+                raceInfo[Result, MALE].morphLo := TStringList.Create;
+                raceInfo[Result, FEMALE].morphLo := TStringList.Create;
+                raceInfo[Result, MALE].morphHi := TStringList.Create;
+                raceInfo[Result, FEMALE].morphHi := TStringList.Create;
+                raceInfo[Result, MALE].morphSkew := TStringList.Create;
+                raceInfo[Result, FEMALE].morphSkew := TStringList.Create;
+                raceInfo[Result, MALE].morphExcludes := TStringList.Create;
+                raceInfo[Result, FEMALE].morphExcludes := TStringList.Create;
+                raceInfo[Result, MALE].faceBoneList := TStringList.Create;
+                raceInfo[Result, FEMALE].faceBoneList := TStringList.Create;
             end;
         end;
     end;
@@ -1008,6 +995,9 @@ begin
             integer(TINTLAYERS_COUNT), integer(TINTLAYERS_MAX)]));
 end;
 
+//=============================================================================
+// Collect all morph groups from all races.
+// Do not collect morphs for children.
 procedure CollectRaceMorphs;
 var 
     groupElementName: string;
@@ -1017,11 +1007,12 @@ var
     morphGroupList: IwbElement;
 begin
     for i := RACE_LO to RACE_HI do begin
-        for j := SEX_LO to SEX_HI do begin
+        for j := MALE to FEMALE do begin
             if Assigned(raceInfo[i, j].mainRecord) then begin
                 groupElementName := IfThen((j = FEMALE) or (j = FEMALECHILD), 
                     'Female Morph Groups', 'Male Morph Groups');
                 morphGroupList := ElementByPath(raceInfo[i, j].mainRecord, groupElementName);
+                // Create StringList to hold all morph groups.
                 raceInfo[i, j].morphGroups := TStringList.Create;
                 for k := 0 to ElementCount(morphGroupList)-1 do begin
                     morphGroup := ElementByIndex(morphGroupList, k);
@@ -1031,6 +1022,29 @@ begin
             end;
         end;
     end;
+end;
+
+//=============================================================================
+// Exclude a morph group from furrfication.
+procedure ExcludeMorph(racename: string; sex: integer; morphGroup: string);
+begin
+    raceInfo[RacenameIndex(racename), sex].morphExcludes.Add(morphGroup);
+end;
+
+//=============================================================================
+// Define the probability at which one of a morph group will be selected.
+procedure SetMorphProbability(racename: string; sex: integer; 
+    morphGroup: string; probability, loMorph, hiMorph, skew: integer); 
+var
+    r: integer;
+begin
+    Log(10, Format('<SetMorphProbability(%s, %s, "%s")', [racename, SexToStr(sex), morphGroup]));
+    r := RacenameIndex(racename);
+    raceInfo[r, sex].morphProbability.AddObject(morphGroup, probability);
+    raceInfo[r, sex].morphLo.AddObject(morphGroup, loMorph);
+    raceInfo[r, sex].morphHi.AddObject(morphGroup, hiMorph);
+    raceInfo[r, sex].morphSkew.AddObject(morphGroup, skew);
+    Log(10, '>');
 end;
 
 //=======================================================================
@@ -1058,19 +1072,111 @@ end;
 
 //=======================================================================
 // Find and return a random preset from the given group.
+// Do not choose a preset with a name containing 'Default'.
 Function GetMorphRandomPreset(morphGroup: IwbElement; 
     hashval: string; seed: integer): IwbElement;
 var
-    h: integer;
+    foundAny: boolean;
+    i: integer;
+    p: IwbElement;
+    pname: string;
     presetList: IwbElement;
+    skipCount: integer;
 begin
     Log(5, Format('<GetMorphRandomPreset(%s)', [Path(morphGroup)]));
+    result := NIl;
     presetList := ElementByPath(morphGroup, 'Morph Presets');
-    h := Hash(hashval, seed, ElementCount(presetList));
-    result := ElementByIndex(presetList, h);
+
+    // Run through the list skipping a random number of good matches.
+    skipCount := Hash(hashval, seed, ElementCount(presetList));
+    foundAny := false;
+    i := 0;
+
+    repeat
+        p := ElementByIndex(presetList, i);
+        pname := GetElementEditValues(p, 'MPPN');
+        if not ContainsText(pname, 'Default') then begin
+            foundAny := true;
+            Dec(skipCount);
+            if skipCount <= 0 then begin
+                result := p;
+                break;
+            end;
+        end;
+        Inc(i);
+        if i >= ElementCount(presetList) then begin
+            if not foundAny then 
+                // Got through the whole list and nothing matched. Fail.
+                break;
+            i := 0;
+        end;
+    until false;
+
     Log(5, Format('>GetMorphRandomPreset -> %s', [Path(result)]));
 end;
 
+//===============================================================================
+// Define a morph bone we may use
+procedure SetFaceMorph(racename: string; sex: integer; morph: string;
+    xMin, yMin, zMin,  xRotMin, yRotMin, zRotMin,  scaleMin: float;
+    xMax, yMax, zMax,  xRotMax, yRotMax, zRotMax,  scaleMax: float);
+var
+    found: boolean;
+    i: integer;
+    idx: integer;
+    m: IwbElement;
+    morphList: IwbElement;
+    n: string;
+    r: integer;
+begin
+    Log(10, Format('<SetFaceMorph(%s, %s, "%s")', [racename, SexToStr(sex), morph]));
+    found := false;
+    r := RacenameIndex(racename);
+    if raceInfo[r, sex].faceBoneList.Count >= length(raceInfo[r, sex].faceBones) then
+        Err(Format('Too many facebones for race %s: %d', [
+            masterRaceList[r], raceInfo[r, sex].faceBoneList.Count]))
+    else begin
+        // Find the morph record
+        morphList := ElementByPath(raceInfo[r, sex].mainRecord, 
+            IfThen(sex = MALE, 'Male Face Morphs', 'Female Face Morphs'));
+        for i := 0 to ElementCount(morphList)-1 do begin
+            m := ElementByIndex(morphList, i);
+            n := GetElementEditValues(m, 'FMRN');
+            Log(10, Format('Checking %s = %s', [n, morph]));
+            if n = morph then begin
+                idx := GetElementNativeValues(m, 'FMRI');
+                raceInfo[r, sex].faceBoneList.Add(morph);
+                i := raceInfo[r, sex].faceBoneList.IndexOf(morph);
+                raceInfo[r, sex].faceBones[i].FMRI := idx;
+                raceInfo[r, sex].faceBones[i].min.x := xMin;
+                raceInfo[r, sex].faceBones[i].min.y := yMin;
+                raceInfo[r, sex].faceBones[i].min.z := zMin;
+                raceInfo[r, sex].faceBones[i].min.scale := scaleMin;
+                raceInfo[r, sex].faceBones[i].max.x := xMax;
+                raceInfo[r, sex].faceBones[i].max.y := yMax;
+                raceInfo[r, sex].faceBones[i].max.z := zMax;
+                raceInfo[r, sex].faceBones[i].max.scale := scaleMax;
+                found := True;
+                break;
+            end;
+        end;
+    end;
+    if not found then Err(Format('Could not find face morph %s on race %s %s', 
+        [morph, racename, SexToStr(sex)]));
+    Log(10, '>');
+end;
+
+//===================================================================
+// Set a dummy face morph so that it can be set explicitly.
+Procedure AddMorphBone(racename: string; sex: integer; morph: string); 
+begin
+    SetFaceMorph(racename, sex, morph, 
+        0, 0, 0,  0, 0, 0, 0,
+        0, 0, 0,  0, 0, 0, 0);
+end;
+
+//===================================================================
+// Collect all race tint layers for all races.
 procedure CollectRaceTintLayers;
 var
     i, j: integer;
@@ -1088,7 +1194,7 @@ begin
         end;
     end;
     
-    Log(11, '>CollectRaces');
+    Log(11, '>');
 end;
 
 
@@ -1150,7 +1256,7 @@ begin
     // Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
     Result := ObjectToElement(
         raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
-    Log(10, '>GetRaceHeadpart')
+    Log(10, '>')
 end;
 
 //============================================================
@@ -1277,7 +1383,7 @@ begin
     Log(11, 'Assigning ' + EditorID(npc) + ' race ' + EditorID(race));
     Log(11, 'Race is in file ' + GetFileName(GetFile(race)));
     npcRaceAssignments.AddObject(npcEditorID, TObject(race));
-    Log(11, '>AssignNPCRace');
+    Log(11, '>');
 end;
 
 //-------------------------------------------------------
@@ -1290,7 +1396,7 @@ begin
     Log(16, '<SetClassProb');
     r := AddRace(race);
     if r >= 0 then classProbs[npcclass, r] := points;
-    Log(16, '>SetClassProb');
+    Log(16, '>');
 end;
 
 
@@ -1321,7 +1427,7 @@ begin
             end;
         end;
     end;
-    Log(11, '>CalcClassTotals');
+    Log(11, '>');
 end;
 
 //===============================================================================
@@ -1375,6 +1481,9 @@ begin
     end;
 end;
 
+//======================================================================
+// Define translations between skin layer names in the race record and tint layers that
+// the furrifier understands.
 procedure SkinLayerTranslation(name: string; tintlayer: integer);
 begin
     Log(10, Format('<SkinLayerTranslation: %s, %d', [name, integer(tintlayer)]));
@@ -1388,8 +1497,19 @@ begin
             Err(Format('Too many tint layers. Found %d, max is %d', 
                 [knownTTGP.Count, length(translateTTGP)]));
     end;
-    Log(10, '>SkinLayerTranslation');
+    Log(10, '>');
 end;
+
+//=============================================================================
+// Define the probability at which a tint layer will be selected.
+procedure SetTintProbability(racename: string; sex: integer; 
+    tintLayer: integer; probability: integer); 
+begin
+    raceInfo[RacenameIndex(racename), sex].tintProbability[tintLayer] 
+        := probability;
+end;
+
+//======================================================================
 
 procedure InitializeAssetLoader;
 var
@@ -1476,8 +1596,21 @@ var
 begin
     for i := RACE_LO to RACE_HI do begin
         for j := SEX_LO to SEX_HI do begin
-            if Assigned(raceInfo[i, j].morphGroups) then
+            if Assigned(raceInfo[i, j].morphGroups) then 
                 raceInfo[i, j].morphGroups.Free;
+            if Assigned(raceInfo[i, j].morphProbability) then 
+                raceInfo[i, j].morphProbability.Free;
+            if Assigned(raceInfo[i, j].morphLo) then 
+                raceInfo[i, j].morphLo.Free;
+            if Assigned(raceInfo[i, j].morphHi) then 
+                raceInfo[i, j].morphHi.Free;
+            if Assigned(raceInfo[i, j].morphSkew) then 
+                raceInfo[i, j].morphSkew.Free;
+            if Assigned(raceInfo[i, j].morphExcludes) then 
+                raceInfo[i, j].morphExcludes.Free;
+            if Assigned(raceInfo[i, j].faceBoneList) then 
+                raceInfo[i, j].faceBoneList.Free;
+
             for k := 0 to headpartsList.count - 1 do begin
                 if Assigned(raceInfo[i, j].headParts[k]) then  
                     raceInfo[i, j].headParts[k].Free;

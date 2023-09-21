@@ -262,15 +262,6 @@ end;
 // Do any special tailoring for specific races.
 Procedure TailorRaces(); 
 begin
-    // Probability of using different tints
-    raceInfo[RacenameIndex('FFODeerRace'), MALE].tintProbability[TL_MASK] := 70;
-    raceInfo[RacenameIndex('FFODeerRace'), FEMALE].tintProbability[TL_MASK] := 70;
-
-    raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_MUZZLE] := 60;
-    raceInfo[RacenameIndex('FFOHorseRace'), FEMALE].tintProbability[TL_MUZZLE] := 60;
-    raceInfo[RacenameIndex('FFOHorseRace'), MALE].tintProbability[TL_NOSE] := 50;
-    raceInfo[RacenameIndex('FFOHorseRace'), FEMALE].tintProbability[TL_NOSE] := 50;
-  
     AddChildRace('FFOCheetahRace', 'FFOCheetahChildRace');
     AddChildRace('FFODeerRace', 'FFODeerChildRace');
     AddChildRace('FFOFoxRace', 'FFOFoxChildRace');
@@ -281,6 +272,148 @@ begin
     AddChildRace('FFOOtterRace', 'FFOOtterChildRace');
     AddChildRace('FFOSnekdogRace', 'FFOSnekdogChildRace');
     AddChildRace('FFOTigerRace', 'FFOTigerChildRace');
+
+    // Probability of using different tints
+    SetTintProbability('FFOHorseRace', MALE, TL_MUZZLE, 60);
+    SetTintProbability('FFOHorseRace', FEMALE, TL_MUZZLE, 60);
+    SetTintProbability('FFOHorseRace', MALE, TL_NOSE, 50);
+    SetTintProbability('FFOHorseRace', FEMALE, TL_NOSE, 50);
+
+    // SetMorphProbability provides a probability of using different morphs.If no
+    // probabilty is set for a morph group, it will be applied at 100% probability.
+    // Parameters are:
+    //  Race name
+    //  Sex (MALE/FEMALE)
+    //  Name of the morph group in the race record
+    //  Probability at which a morph from this group should be applied to a NPC
+    //  Min morph value when this morph is applied (0-100)
+    //  Max morph value when this morph is applied (0-100)
+    //  Morph distribution (EVEN, SKEW0,  SKEW1)
+    //
+    // ExcludeMorph tells the furrifier not to apply a particular morph ever.
+    ExcludeMorph('FFOCheetahRace', MALE, 'Child');
+
+    ExcludeMorph('FFOFoxRace', FEMALE, 'Child');
+    ExcludeMorph('FFOFoxRace', FEMALE, 'Neck');
+    ExcludeMorph('FFOFoxRace', MALE, 'Child');
+    ExcludeMorph('FFOFoxRace', MALE, 'Neck');
+
+    ExcludeMorph('FFOHorseRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOHorseRace', FEMALE, 'Horse - Neck');
+    SetMorphProbability('FFOHorseRace', FEMALE, 'Horse - Ears', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Size', 80, 0, 100, SKEW0);
+    ExcludeMorph('FFOHorseRace', MALE, 'Horse - Neck');
+    ExcludeMorph('FFOHorseRace', MALE, 'Jaws');
+    ExcludeMorph('FFOHorseRace', MALE, 'Mouth');
+    ExcludeMorph('FFOHorseRace', MALE, 'Neck');
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Ears', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Size', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Shape', 80, 0, 100, EVEN);
+
+    ExcludeMorph('FFOHyenaRace', FEMALE, 'Face');
+    ExcludeMorph('FFOHyenaRace', MALE, 'Face');
+
+    ExcludeMorph('FFOLionRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOLionRace', MALE, 'Child Neck');
+    SetMorphProbability('FFOLionRace', FEMALE, 'Mouth', 30, 50, 100, SKEW1); // Sabretooth
+    SetMorphProbability('FFOLionRace', MALE, 'Mouth', 30, 50, 100, SKEW1); // Sabretooth
+
+    ExcludeMorph('FFOLykaiosRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOLykaiosRace', FEMALE, 'Neck');
+    SetMorphProbability('FFOLykaiosRace', FEMALE, 'Nose', 80, 0, 75, SKEW0);
+    ExcludeMorph('FFOLykaiosRace', MALE, 'Child Neck');
+    SetMorphProbability('FFOLykaiosRace', MALE, 'Nose', 80, 0, 75, SKEW0);
+
+    ExcludeMorph('FFOSnekdogRace', MALE, 'Neck');
+  
+    ExcludeMorph('FFOTigerRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOTigerRace', MALE, 'Child Neck');
+
+    // Face morphs, using faceBones, are ignored unless provided in this list.
+    SetFaceMorph('FFOFoxRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOFoxRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+
+    SetFaceMorph('FFOFoxRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOFoxRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale min} -0);
+
+    SetFaceMorph('FFOLykaiosRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOLykaiosRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+
+    SetFaceMorph('FFOLykaiosRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOLykaiosRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale min} -0);
+
+    SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+    SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Bridge', 
+        {loc min} 0, -0.3, 0,  {rot min} 0, 0, 0, {scale min} -0,
+        {loc max} 0, 0.4, 0,  {rot max} 0, 0, 0, {scale min} -0);
+    SetFaceMorph('FFOHorseRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Brows', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Cheeks Front', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -1.0,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1.0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Muzzle - Full', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} -0.5,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0.5);
+
+    SetFaceMorph('FFOHyenaRace', MALE, 'Brows', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Cheeks Front', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.8,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1.0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Muzzle - Full', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} -0.5,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0.5);
+
+    SetFaceMorph('FFOLionRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.4,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale min} 0);
+    SetFaceMorph('FFOLionRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0.7,  {rot max} 0, 0, 0, {scale min} 0.5);
+
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale min} 0);
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale min} 0);
+
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale min} 0);
+    SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale min} 0);
 
     CorrelateChildren;
 end;
@@ -570,7 +703,7 @@ Procedure ChooseHair(npc, oldHair: IwbMainRecord);
 var 
     hp: IwbMainRecord;
 begin
-    Log(5, Format('<ChooseHair: %s %s', [EditorID(npc), EditorID(oldHair)]));
+    Log(5, Format('<ChooseHair(%s, %s)', [EditorID(npc), EditorID(oldHair)]));
     if (not Assigned(oldHair)) then begin
         Log(5, 'No old hair, leaving hair alone.');
     end
@@ -588,7 +721,7 @@ begin
         // just leave it off.
         if Assigned(hp) then  AssignHeadpart(npc, hp);
     end;
-    Log(5, Format('>ChooseHair: %s %s', [EditorID(npc), EditorID(hp)]));
+    Log(5, Format('>ChooseHair -> %s, %s', [EditorID(npc), EditorID(hp)]));
 end;
 
 //============================================================
@@ -822,35 +955,139 @@ end;
 
 //=========================================================================
 // Choose a random value for the given morph.
-Procedure SetRandomMorph(npc: IwbMainRecord; morphGroup: integer; seed: integer);
+Procedure SetRandomMorph(npc: IwbMainRecord; morphGroup: string; seed: integer);
 var
-    hashv: string;
+    h: integer;
+    hashstr: string;
+    mg: integer;
+    mhi: integer;
+    mhiIndex: integer;
+    mlo: integer;
+    mloIndex: integer;
+    mp: integer;
+    mskewIndex: integer;
+    mval: float;
+    p: integer;
     preset: IwbElement;
     r: integer;
     s: integer;
 begin
+    Log(5, Format('<SetRandomMorph(%s, %s)', [EditorID(npc), morphGroup]));
+
     r := GetNPCRaceID(npc);
     s := GetNPCSex(npc);
-    if (s = MALE) or (s = FEMALE) then begin
+
+    // Decide whether to apply a morph from this group.
+    hashstr := EditorID(npc) + morphGroup;
+    h := Hash(hashstr, seed, 100);
+    p := 100;
+    mp := raceInfo[r, s].morphProbability.IndexOf(morphGroup);
+    if mp >= 0 then
+        p := raceInfo[r, s].morphProbability.objects[mp];
+
+    // If it's not a child and we passed the probability test then do it.
+    if (h <= p) and ((s = MALE) or (s = FEMALE)) then begin
+        mg := raceInfo[r, s].morphGroups.IndexOf(morphGroup);
         preset := GetMorphRandomPreset(
-            ObjectToElement(raceInfo[r, s].morphGroups.objects[morphGroup]),
-            EditorID(npc),
-            seed);
+            ObjectToElement(raceInfo[r, s].morphGroups.objects[mg]),
+            hashstr,
+            seed+31);
         if Assigned(preset) then begin
-            hashv := EditorID(npc) + raceInfo[r, s].morphGroups[morphGroup];
-            SetMorphValue(npc, 
-                GetElementNativeValues(preset, 'MPPI'),
-                HashVal(hashv, seed, 0.5, 1.0));
+            mlo := 0;
+            mhi := 100;
+            mloIndex := raceInfo[r, s].morphLo.IndexOf(morphGroup);
+            mhiIndex := raceInfo[r, s].morphHi.IndexOf(morphGroup);
+            if (mloIndex >= 0) and (mhiIndex >= 0) then begin
+                mlo := raceInfo[r, s].morphLo.objects[mloIndex];
+                mhi := raceInfo[r, s].morphHi.objects[mhiIndex];
+            end;
+            mval := HashVal(hashstr, seed + 29, mlo/100, mhi/100);
+
+            mskewIndex := raceInfo[r, s].morphSkew.IndexOf(morphGroup);
+            if mskewIndex >= 0 then 
+                case integer(raceInfo[r, s].morphSkew.objects[mskewIndex]) of
+                    SKEW0: mval := mval * mval;
+                    SKEW1: mval := 1 - (1-mval) * (1-mval);
+                end;
+            
+            SetMorphValue(npc, GetElementNativeValues(preset, 'MPPI'), mval);
         end;
     end;
+    Log(5, '>');
+end;
+
+//=========================================================
+// Set a morph bone given by FMRI to the given values.
+Procedure SetMorphBone(npc: IwbMainRecord; morphBoneIndex: integer;
+    x, y, z: float;
+    pitch, roll, yaw: float;
+    sc: float);
+var
+    fm, thisMorph, vals: IwbElement;
+begin
+    Log(5, Format('<SetMorphBone(%s, %d)', [EditorID(npc), morphBoneIndex]));
+    fm := Add(npc, 'Face Morphs', true);
+    thisMorph := nil;
+    if (ElementCount(fm) > 0)
+        and (GetElementNativeValues(ElementByIndex(fm, 0), 'FMRI') = 0) then
+            thisMorph := ElementByIndex(fm, 0)
+    else
+        thisMorph := ElementAssign(fm, HighInteger, nil, false);
+
+    SetElementNativeValues(thisMorph, 'FMRI', morphBoneIndex);
+    vals := Add(thisMorph, 'FMRS', true);
+    SetElementNativeValues(vals, 'Position - X', x);
+    SetElementNativeValues(vals, 'Position - Y', y);
+    SetElementNativeValues(vals, 'Position - Z', z);
+    SetElementNativeValues(vals, 'Rotation - X', pitch);
+    SetElementNativeValues(vals, 'Rotation - Y', roll);
+    SetElementNativeValues(vals, 'Rotation - Z', yaw);
+    SetElementNativeValues(vals, 'Scale', sc);
+    Log(5, '>');
+end;
+
+//=========================================================
+// Set a morph bone given by name to the given values.
+Procedure SetMorphBoneName(npc: IwbMainRecord; morphBone: string;
+    x, y, z: float;
+    pitch, roll, yaw: float;
+    sc: float);
+var
+    i: integer;
+    r: integer;
+    s: integer;
+begin
+    Log(5, Format('<SetMorphBoneName(%s, %s)', [
+        EditorID(npc), morphBone
+    ]));
+    s := GetNPCSex(npc);
+    if ((s = MALE) or (s = FEMALE)) and Assigned(raceInfo[r, s].faceBoneList) then begin
+        r := GetNPCRaceID(npc);
+        Log(5, Format('%s %s', [masterRaceList[r], sextostr(s)]));
+        Log(5, Format('Have %d faceBones', [raceInfo[r, s].faceBoneList.Count]));
+        i := raceInfo[r, s].faceBoneList.IndexOf(morphBone);
+        if i < 0 then 
+            Err(Format('Requested face morph not found for race %s/%s: %s', [
+                masterRaceList[r], SexToStr(s), morphBone]))
+        else begin
+            Log(5, Format(' Calling SetMorphBone(%s, %s, [f, f, f], [f, f, f], f)', [
+                EditorID(npc), IntToStr(raceInfo[r, s].faceBones[i].FMRI){, x, y, z, pitch, roll, yaw, sc}
+            ]));
+            SetMorphBone(npc, raceInfo[r, s].faceBones[i].FMRI, 
+                x, y, z, pitch, roll, yaw, sc);
+        end;
+    end;
+    Log(5, '>');
 end;
 
 //================================================================================
 // Set all availble morphs on the target NPC, randomly.
 procedure SetAllRandomMorphs(npc: IwbMainRecord);
 var
-    hashv: string;
+    fm: TTransform;
+    hstr: string;
     i: integer;
+    mname: string;
     r: integer;
     s: integer;
 begin
@@ -858,15 +1095,33 @@ begin
     s := GetNPCSex(npc);
     if Assigned(raceInfo[r, s].morphGroups) then begin
         for i := 0 to raceInfo[r, s].morphGroups.Count-1 do begin
-            hashv := EditorID(npc) + raceInfo[r, s].morphGroups[i];
-            if Hash(hashv, 6209, 100) < 60 then begin
-                SetRandomMorph(npc, i, 1781);
-            end;
+            mname := raceInfo[r, s].morphGroups[i];
+            if raceInfo[r, s].morphExcludes.IndexOf(mname) < 0 then
+                SetRandomMorph(npc, mname, 1781 + i*47);
+        end;
+    end;
+
+    // Do the facebone morphs
+    if Assigned(raceInfo[r, s].faceBoneList) then begin
+        for i := 0 to raceInfo[r, s].faceBoneList.Count-1 do begin
+            hstr := EditorID(npc) + raceInfo[r, s].faceBoneList[i];
+            fm.x := HashVal(hstr, 9377, raceInfo[r, s].faceBones[i].min.x, raceInfo[r, s].faceBones[i].max.x);
+            fm.y := HashVal(hstr, 9432, raceInfo[r, s].faceBones[i].min.y, raceInfo[r, s].faceBones[i].max.y);
+            fm.z := HashVal(hstr, 2529, raceInfo[r, s].faceBones[i].min.z, raceInfo[r, s].faceBones[i].max.z);
+            fm.xRot := HashVal(hstr, 9377, raceInfo[r, s].faceBones[i].min.xRot, raceInfo[r, s].faceBones[i].max.xRot);
+            fm.yRot := HashVal(hstr, 9432, raceInfo[r, s].faceBones[i].min.yRot, raceInfo[r, s].faceBones[i].max.yRot);
+            fm.zRot := HashVal(hstr, 2529, raceInfo[r, s].faceBones[i].min.zRot, raceInfo[r, s].faceBones[i].max.zRot);
+            fm.scale := HashVal(hstr, 2529, raceInfo[r, s].faceBones[i].min.scale, raceInfo[r, s].faceBones[i].max.scale);
+            SetMorphBone(npc, raceInfo[r, s].faceBones[i].FMRI,
+                fm.x, fm.y, fm.z,
+                fm.xRot, fm.yRot, fm.zRot,
+                fm.scale);
         end;
     end;
 end;
 
-
+//============================================================================
+// Create an override record for the NPC.
 Function CreateNPCOverride(npc: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
 begin
     AddRecursiveMaster(targetFile, GetFile(npc));
@@ -951,6 +1206,8 @@ begin
     // Eyes
     SetTintLayerColor(npc, 4151, TL_EYESOCKET_LOWER, 'FFOFurWhite');
     SetTintLayerColor(npc, 7095, TL_EYEBROW, 'FFOFurWhite');
+
+    SetMorph(npc, 8578, 'Nose Shape', 'Dish Face');
 end;
 
 Procedure MakeDeerElk(npc: IwbMainRecord);
@@ -968,6 +1225,18 @@ begin
 
     // Eyes
     SetTintLayerColor(npc, 2666, TL_EYESOCKET_LOWER, 'FFOFurWhite');
+    SetMorphBoneName(npc, 'Jaw', 
+        0, 0, 0.75,
+        0, 0, 0,
+        0);
+    SetMorphBoneName(npc, 'Nose - Full', 
+        0, 0.25, -0.5, 
+        0, 0, 0,
+        0.8);
+    SetMorphBoneName(npc, 'Cheekbones', 
+        1.0, 0, 0,
+        0, 0, 0,
+        0);
 end;
 
 Procedure MakeDeerReindeer(npc: IwbMainRecord);
@@ -985,6 +1254,14 @@ begin
         'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
 
     SetMorph(npc, 4726, 'Nostrils', 'Broad');
+    SetMorphBoneName(npc, 'Ears',
+        0,    0,    0, 
+        0,    0,    0,
+        -0.2);
+    SetMorphBoneName(npc, 'Nose - Full',
+        0,  1.0, -1.0, 
+        0,    0,    0,
+        0.5);
 end;
 
 Procedure MakeDeerMoose(npc: IwbMainRecord);
@@ -999,6 +1276,20 @@ begin
 
     SetTintLayerColor(npc, 6032, TL_SKIN_TONE,  
         'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
+    
+    SetMorph(npc, 4726, 'Nostrils', 'Broad');
+    SetMorphBoneName(npc, 'Jaw', 
+        0, 0, 0.75, 
+        0, 0, 0, 
+        0);
+    SetMorphBoneName(npc, 'Nose - Full',
+        0, -0.4, 0.24, 
+        0, 0, 0, 
+        0.8);
+    SetMorphBoneName(npc, 'Cheekbones', 
+        1, 0, 0,
+        0, 0, 0,
+        0);
 end;
 
 Procedure MakeDeerAntelope(npc: IwbMainRecord);
@@ -1021,6 +1312,24 @@ begin
     SetTintLayerColorProb(60, npc, 6305, TL_CHIN, '');
     SetTintLayerColorProb(60, npc, 8560, TL_CHEEK_COLOR, '');
     SetTintLayerColorProb(60, npc, 8631, TL_CHEEK_COLOR_LOWER, '');
+
+    SetMorph(npc, 4726, 'Nostrils', 'Broad');
+    SetMorphBoneName(npc, 'Ears', 
+        0, 0, 0,
+        0, 0, 0,
+        0.86);
+    SetMorphBoneName(npc, 'Nose - Full', 
+        0, -0.24, -0.54,
+        -0.27, 0, 0,
+        0.51);
+    SetMorphBoneName(npc, 'Eyes', 
+        -0.45, -0.56, 0,
+        0, 0, 0,
+        0.55);
+    SetMorphBoneName(npc, 'Nose - Bridge',
+        0, 0.6, 0.6, 
+        0, 0, 0,
+        0);
 end;
 
 Procedure MakeDeerRam(npc: IwbMainRecord);
@@ -1036,6 +1345,19 @@ begin
     SetTintLayerColor(npc, 8312, TL_SKIN_TONE,  
         '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|');
     SetTintLayerColorProb(50, npc, 7698, TL_MUZZLE, 'FFOFurWhite');
+
+    SetMorphBoneName(npc, 'Jaw', 
+        0, 0, 0.6,
+        0, 0, 0,
+        0);
+    SetMorphBoneName(npc, 'Nose - Full',
+        0, 0, -0.6, 
+        0, 0, 0,
+        0.6);
+    SetMorphBoneName(npc, 'Cheekbones', 
+        1, 0, 0,
+        0, 0, 0,
+        0);
 end;
 
 //================================================================
@@ -1048,7 +1370,11 @@ begin
     ChooseHeadpart(npc, HEADPART_EYES);
     ChooseHeadpart(npc, HEADPART_FACE);
 
-    deerType := Hash(EditorID(npc), 9477, 6);
+    if GetNPCClass(npc) = CLASS_BOBROV then 
+        deerType := 4
+    else
+        deerType := Hash(EditorID(npc), 9477, 6);
+    
     case deerType of
         0: MakeDeerWhitetail(npc);
         1: MakeDeerElk(npc);
@@ -1283,6 +1609,18 @@ begin
     RACE_OTTER := masterRaceList.IndexOf('FFOOtterRace');
     RACE_SNEKDOG := masterRaceList.IndexOf('FFOSnekdogRace');
     RACE_TIGER := masterRaceList.IndexOf('FFOTigerRace');
+
+    AddMorphBone('FFODeerRace', MALE, 'Cheekbones');
+    AddMorphBone('FFODeerRace', MALE, 'Ears');
+    AddMorphBone('FFODeerRace', MALE, 'Eyes');
+    AddMorphBone('FFODeerRace', MALE, 'Jaw');
+    AddMorphBone('FFODeerRace', MALE, 'Nose - Bridge');
+    AddMorphBone('FFODeerRace', MALE, 'Nose - Full');
+    AddMorphBone('FFODeerRace', FEMALE, 'Cheekbones');
+    AddMorphBone('FFODeerRace', FEMALE, 'Ears - Full');
+    AddMorphBone('FFODeerRace', FEMALE, 'Eyes');
+    AddMorphBone('FFODeerRace', FEMALE, 'Nose - Bridge');
+    AddMorphBone('FFODeerRace', FEMALE, 'Nose - Full');
 
     patchFileCreated := false;
 end;

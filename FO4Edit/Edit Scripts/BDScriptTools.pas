@@ -107,7 +107,14 @@ begin
 	if importance <= LOGLEVEL then begin
         if LeftStr(txt, 1) = '>' then dec(logIndent);
         for i := 1 to logIndent do s := s + '|   ';
-        AddMessage(s + txt);
+        if LeftStr(txt, 1) = '>' then
+            s := s + '\' + RightStr(txt, length(txt)-1)
+        else if LeftStr(txt, 1) = '<' then
+            s := s + '/' + RightStr(txt, length(txt)-1)
+        else 
+            s := s + txt;
+
+        AddMessage(s);
         if LeftStr(txt, 1) = '<' then inc(logIndent);
     end;
 end;
