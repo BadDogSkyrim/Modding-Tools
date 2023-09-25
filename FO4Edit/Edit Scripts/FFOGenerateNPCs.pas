@@ -127,7 +127,7 @@ begin
             newNPC := GenerateRandomNPC(targetFile, tpl, targetSex);
             AddNPCtoLists(newNPC, tpl);
         end
-        else
+        else if not StartsText('DLC', templateNPCname) then
             AddMessage('ERROR: Could not find NPC ' + templateNPCname);
     end;
 end;

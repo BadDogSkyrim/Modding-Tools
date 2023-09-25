@@ -147,6 +147,8 @@ var
     npcClass: integer;
     npcDesdemona: IwbMainRecord;
     npcGroup: IwbGroupRecord;
+    npcList: array [1..10] of IwbMainRecord;
+    npcRaceList: array [1..10] of integer;
     npcMason: IwbMainRecord;
     npcPiper: IwbMainRecord;
     npcHancock: IwbMainRecord;
@@ -259,7 +261,7 @@ begin
     lykaiosRace := ObjectToElement(masterRaceList.Objects[lykaiosIndex]);
     Assert(SameText(EditorID(lykaiosRace), 'FFOLykaiosRace'), 'Recovered the Lykaios race record');
 
-    if {listing races} FALSE then begin
+    if {listing races} TRUE then begin
         AddMessage('---Can iterate through the masterRaceList');
         for i := 0 to masterRaceList.Count-1 do 
             for j := 0 to 3 do 
@@ -365,7 +367,7 @@ begin
         'Horse "Nose - Full" FMRI value correct');
     AssertFloat(raceInfo[RACE_HORSE, MALE].faceBones[0].min.scale, -0.4, 
         'Horse "Nose - Full" min scale value correct');
-    if {showing face morphs} TRUE then begin
+    if {showing face morphs} FALSE then begin
         AddMessage('-------Face Morphs-----');
         for i := RACE_LO to RACE_HI do begin
             Log(0, '<' + masterRaceList[i]);
@@ -502,6 +504,10 @@ begin
     // --------- Classes
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
+    Assert(classProbs[CLASS_MINUTEMEN, RacenameIndex('FFOLionRace')] > 10, 'Lion can be minutemen');
+    n := 0;
+    for i := RACE_LO to RACE_HI do n := n + classProbs[CLASS_MINUTEMEN, i];
+    AssertInt(classProbs[CLASS_MINUTEMEN, masterRaceList.Count], n, 'classProbs has pre-summed value');
 
     // Classes can be derived from factions, so it's easy to read those.
     fl := TStringList.Create;
@@ -514,7 +520,7 @@ begin
     // NPCs are given classes to help with furrification.
     npc := FindAsset(f, 'NPC_', 'BlakeAbernathy');
     npcClass := GetNPCClass(npc);
-    Assert(npcClass = NONE, 'Expected no specific class for BlakeAbernathy');
+    Assert(npcClass = CLASS_NONE, 'Expected no specific class for BlakeAbernathy');
     npcRace := ChooseNPCRace(npc);
     Assert(npcRace >= 0, 'Expected to choose a race');
     AddMessage('Race is ' + masterRaceList[npcRace]);
@@ -634,7 +640,47 @@ begin
     AssertGoodTintLayers(npc, 2718); // Old
     
 
-    // --------- Race distribution 
+    // --------- Race distribution (with humans)
+    Assert(classProbs[CLASS_RAIDER, masterRaceList.Count] > 0, 
+        Format('classProbs has pre-summed value: %d', [classProbs[CLASS_RAIDER, masterRaceList.Count]]));
+    
+    Log(0, '<Race distribution for raiders is reasonable');
+    SetClassProb(CLASS_RAIDER, 'HumanRace', 300);
+    CalcClassTotals();
+    sl1 := TStringList.create;
+    sl1.Duplicates := false;
+    sl1.Sorted := true;
+    for i := 1 to 9 do begin
+        npc := FindAsset(f, 'NPC_', 'EncRaiderFaceM0' + IntToStr(i));
+        Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
+        if not Assigned(npc) then break;
+        npcRaceList[i] := ChooseNPCRace(npc);
+        sl1.Add(masterRaceList[npcRaceList[i]]);
+        Log(0, Format('Race for %s (%s) is %s', [
+            EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
+    end;
+    Log(0, '>');
+    Assert(ContainsText(sl1.CommaText, 'Human'), 
+        'Humans assigned as raiders: ' + sl1.CommaText);
+    sl1.Free;
+
+    Log(0, '<Race distribution for settlers is reasonable');
+    sl1 := TStringList.create;
+    sl1.Duplicates := false;
+    sl1.Sorted := true;
+    for i := 1 to 6 do begin
+        npc := FindAsset(f, 'NPC_', 'EncMinutemenFaceM0' + IntToStr(i));
+        Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
+        if not Assigned(npc) then break;
+        npcRaceList[i] := ChooseNPCRace(npc);
+        sl1.Add(masterRaceList[npcRaceList[i]]);
+        Log(0, Format('Race for %s (%s) is %s', [
+            EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
+    end;
+    Log(0, '>');
+    Assert(sl1.count > 2, Format('Have range of races for settlers: %s', [sl1.CommaText]));
+    sl1.free;
+
     if {Testing race distribution} FALSE then begin
         // Walk through the NPCs and collect stats on how many of each race there are
         // to make sure the random assignment is giving a range of races.
@@ -657,7 +703,7 @@ begin
             AddMessage('-');
             for j := 0 to masterRaceList.Count-1 do begin
                 if classCounts[i, j] > 0 then 
-                    AddMessage(GetClassName(i) + ' ' + masterRaceList[j] + ' = ' + IntToStr(classCounts[i, j]));
+                    AddMessage(GetNPCClassName(i) + ' ' + masterRaceList[j] + ' = ' + IntToStr(classCounts[i, j]));
             end;
         end;
     end;

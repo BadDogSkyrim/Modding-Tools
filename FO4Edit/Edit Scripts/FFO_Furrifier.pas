@@ -57,7 +57,6 @@ begin
     SetClassProb(CLASS_MINUTEMEN, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_MINUTEMEN, 'FFOHorseRace', 40);
     SetClassProb(CLASS_MINUTEMEN, 'FFODeerRace', 20);
-    // SetClassProb(CLASS_BOS, 'FFOHumanRace', 10);
 
     SetClassProb(CLASS_BOS, 'FFOLykaiosRace', 40);
     SetClassProb(CLASS_BOS, 'FFOFoxRace', 20);
@@ -165,15 +164,15 @@ begin
     SetClassProb(CLASS_ATOM, 'FFODeerRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOSnekdogRace', 40);
 
-    SetClassProb(NONE, 'FFOLykaiosRace', 10);
-    SetClassProb(NONE, 'FFOFoxRace', 10);
-    SetClassProb(NONE, 'FFOHyenaRace', 10);
-    SetClassProb(NONE, 'FFOLionRace', 10);
-    SetClassProb(NONE, 'FFOTigerRace', 10);
-    SetClassProb(NONE, 'FFOCheetahRace', 10);
-    SetClassProb(NONE, 'FFOHorseRace', 15);
-    SetClassProb(NONE, 'FFODeerRace', 15);
-    SetClassProb(NONE, 'FFOOtterRace', 3);
+    SetClassProb(CLASS_NONE, 'FFOLykaiosRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOFoxRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOHyenaRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOLionRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOTigerRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOCheetahRace', 10);
+    SetClassProb(CLASS_NONE, 'FFOHorseRace', 15);
+    SetClassProb(CLASS_NONE, 'FFODeerRace', 15);
+    SetClassProb(CLASS_NONE, 'FFOOtterRace', 3);
 
     // Followers. There's at least one follower of each race.
     SetClassProb(CLASS_GARVEY, 'FFOLionRace', 100);
@@ -492,8 +491,10 @@ begin
                 // Pick a random race.
                 charClass := GetNPCClass(npc);
                 pointTotal := classProbs[charClass, masterRaceList.Count];
+                Log(6, Format('classProbs has pre-summed value: %d', [classProbs[CLASS_RAIDER, masterRaceList.Count]]));
+                Log(6, Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
                 h := Hash(EditorID(npc), 6795, pointTotal);
-                Log(6, 'Range = ' + IntToStr(pointTotal) + ', hash = ' + IntToStr(h));
+                Log(6, Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(charClass), pointTotal, h]));
                 for r := 0 to masterRaceList.Count-1 do begin
                     if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
                         Result := r;
@@ -1471,7 +1472,7 @@ begin
     Log(4, '<FurrifyNPC: ' + EditorID(npc));
     result := npc;
     r := ChooseNPCRace(npc);
-    if r >= 0 then begin
+    if r >= 0 and r <> RACE_HUMAN then begin
         furryNPC := CreateNPCOverride(npc, targetFile);
         hair := SetNPCRace(furryNPC, r);
         case r of 
@@ -1493,7 +1494,10 @@ begin
             end;
         end;
         result := furryNPC;
-    end;
+    end
+    else
+        result := npc;
+
     Log(4, '>FurrifyNPC');
 end;
 
@@ -1661,6 +1665,7 @@ begin
     RACE_OTTER := masterRaceList.IndexOf('FFOOtterRace');
     RACE_SNEKDOG := masterRaceList.IndexOf('FFOSnekdogRace');
     RACE_TIGER := masterRaceList.IndexOf('FFOTigerRace');
+    RACE_HUMAN := masterRaceList.IndexOf('HumanRace');
 
     AddMorphBone('FFODeerRace', MALE, 'Cheekbones');
     AddMorphBone('FFODeerRace', MALE, 'Ears');
@@ -1796,7 +1801,7 @@ begin
 
 	AddMessage('----------------------------------------------------------');
     if (errCount = 0) and (warnCount = 0) then
-        AddMessage(Format('Furrification completed SUCCESSFULLY'))
+        AddMessage('Furrification completed SUCCESSFULLY')
     else
         AddMessage(Format('Furrification completed with %d ERROR%s and %d WARNING%s', [
             errCount, IfThen(errCount = 1, '', 'S'), 

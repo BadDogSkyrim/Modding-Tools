@@ -22,7 +22,7 @@ const
 
     // Known NPC classes
     CLASS_LO = 0;
-    NONE = 0;
+    CLASS_NONE = 0;
     CLASS_RAIDER = 1;
     CLASS_BOS = 2;
     CLASS_RR = 3;
@@ -162,6 +162,7 @@ var
     RACE_OTTER: integer;
     RACE_SNEKDOG: integer;
     RACE_TIGER: integer;
+    RACE_HUMAN: integer;
 
     // Initialized to be indices into headpartsList for text-to-index translations
     HEADPART_EYEBROWS: integer;
@@ -332,37 +333,39 @@ end;
 
 
 //-----------------------------------------------
-Function GetClassName(classID: integer): string;
+Function GetNPCClassName(classID: integer): string;
 begin
-    if classID = NONE then Result := 'NONE'
-    else if classID = CLASS_RAIDER then Result := 'CLASS_RAIDER'
-    else if classID = CLASS_BOS then Result := 'CLASS_BOS'
-    else if classID = CLASS_RR then Result := 'CLASS_RR'
-    else if classID = CLASS_MINUTEMEN then Result := 'CLASS_MINUTEMEN'
-    else if classID = CLASS_INSTITUTE then Result := 'CLASS_INSTITUTE'
-    else if classID = CLASS_FARHARBOR then Result := 'CLASS_FARHARBOR'
-    else if classID = CLASS_CABOT then Result := 'CLASS_CABOT'
-    else if classID = CLASS_OPERATOR then Result := 'CLASS_OPERATOR'
-    else if classID = CLASS_PACK then Result := 'CLASS_PACK'
-    else if classID = CLASS_DISCIPLES then Result := 'CLASS_DISCIPLES'
-    else if classID = CLASS_TRAPPER then Result := 'CLASS_TRAPPER'
+    if classID = CLASS_NONE then Result := 'NONE'
     else if classID = CLASS_ATOM then Result := 'CLASS_ATOM'
-    else if classID = CLASS_GUNNER then Result := 'CLASS_GUNNER'
-    else if classID = CLASS_KELLOGG then Result := 'CLASS_KELLOGG'
-    else if classID = CLASS_KYLE then Result := 'CLASS_KYLE'
-    else if classID = CLASS_DELUCA then Result := 'CLASS_DELUCA'
     else if classID = CLASS_BOBROV then Result := 'CLASS_BOBROV'
-    else if classID = CLASS_PEMBROKE then Result := 'CLASS_PEMBROKE'
+    else if classID = CLASS_BOS then Result := 'CLASS_BOS'
+    else if classID = CLASS_CABOT then Result := 'CLASS_CABOT'
     else if classID = CLASS_CAIT then Result := 'CLASS_CAIT'
     else if classID = CLASS_DANSE then Result := 'CLASS_DANSE'
     else if classID = CLASS_DEACON then Result := 'CLASS_DEACON'
-    else if classID = CLASS_MACCREADY then Result := 'CLASS_MACCREADY'
-    else if classID = CLASS_PIPER then Result := 'CLASS_PIPER'
-    else if classID = CLASS_X688 then Result := 'CLASS_X688'
+    else if classID = CLASS_DELUCA then Result := 'CLASS_DELUCA'
+    else if classID = CLASS_DISCIPLES then Result := 'CLASS_DISCIPLES'
+    else if classID = CLASS_FARHARBOR then Result := 'CLASS_FARHARBOR'
     else if classID = CLASS_GAGE then Result := 'CLASS_GAGE'
-    else if classID = CLASS_LONGFELLOW then Result := 'CLASS_LONGFELLOW'
     else if classID = CLASS_GARVEY then Result := 'CLASS_GARVEY'
     else if classID = CLASS_GHOUL then Result := 'CLASS_GHOUL'
+    else if classID = CLASS_GUNNER then Result := 'CLASS_GUNNER'
+    else if classID = CLASS_INSTITUTE then Result := 'CLASS_INSTITUTE'
+    else if classID = CLASS_KELLOGG then Result := 'CLASS_KELLOGG'
+    else if classID = CLASS_KYLE then Result := 'CLASS_KYLE'
+    else if classID = CLASS_LEE then Result := 'CLASS_LEE'
+    else if classID = CLASS_LONGFELLOW then Result := 'CLASS_LONGFELLOW'
+    else if classID = CLASS_MACCREADY then Result := 'CLASS_MACCREADY'
+    else if classID = CLASS_MATHIS then Result := 'CLASS_MATHIS'
+    else if classID = CLASS_MINUTEMEN then Result := 'CLASS_MINUTEMEN'
+    else if classID = CLASS_OPERATOR then Result := 'CLASS_OPERATOR'
+    else if classID = CLASS_PACK then Result := 'CLASS_PACK'
+    else if classID = CLASS_PEMBROKE then Result := 'CLASS_PEMBROKE'
+    else if classID = CLASS_PIPER then Result := 'CLASS_PIPER'
+    else if classID = CLASS_RAIDER then Result := 'CLASS_RAIDER'
+    else if classID = CLASS_RR then Result := 'CLASS_RR'
+    else if classID = CLASS_TRAPPER then Result := 'CLASS_TRAPPER'
+    else if classID = CLASS_X688 then Result := 'CLASS_X688'
     else Result := 'Unknown Class';
 end;
 
@@ -933,10 +936,7 @@ begin
     Log(16, '<AddRace: ' + racename);
 
     n := masterRaceList.IndexOf(racename);
-    if (racename = 'HumanRace') or (racename = 'HumanChildRace') then begin
-        // Just ignore the humans and they'll stay human
-    end
-    else if n >= 0 then begin
+    if n >= 0 then begin
         Result := n
     end
     else begin
@@ -946,7 +946,7 @@ begin
             if id <> 0 then break;
         end;
         if id = 0 then begin
-            Err('Could not find race ' + racename);
+            Log(0, 'Race not loaded: ' + racename);
             Result := -1;
         end
         else begin
@@ -1343,12 +1343,13 @@ var
     npcName: string;
     factionList: TStringList;
 begin
+    Log(10, Format('<GetNPCClass(%s)', [EditorID(theNPC)]));
     npcEditorID := EditorID(theNPC);
     npcName := GetElementEditValues(theNPC, 'FULL');
     factionList := TStringList.Create;
     GetNPCFactions(theNPC, factionList);
 
-    Result := NONE;
+    Result := CLASS_NONE;
 
     // Ghouls
     if (EditorID(GetNPCRace(theNPC)) = 'GhoulRace') or 
@@ -1356,7 +1357,7 @@ begin
         Result := CLASS_GHOUL
 
     // Some settlers use Minutemen/Raider faces, so check them first
-    else if npcName = 'Settler' then Result := NONE
+    else if npcName = 'Settler' then Result := CLASS_NONE
         
     // Followers
     else if SameText(npcEditorID, 'CompanionCait') then Result := CLASS_CAIT
@@ -1397,11 +1398,16 @@ begin
     else if factionList.IndexOf('TheForgedFaction') >= 0 then Result := CLASS_RAIDER
     else if factionList.IndexOf('ChildrenOfAtomFaction') >= 0 then Result := CLASS_ATOM
     else if ContainsText(npcEditorID, 'Minutemen') then Result := CLASS_MINUTEMEN
+    else if ContainsText(npcEditorID, 'Minuteman') then Result := CLASS_MINUTEMEN
     else if ContainsText(npcEditorID, 'Institute') then Result := CLASS_INSTITUTE
     else if ContainsText(npcEditorID, 'FarHarbor') then Result := CLASS_FARHARBOR
     ;
 
+    Log(10, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
+    Log(10, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
+
     factionList.Free;
+    Log(10, Format('>GetNPCClass -> [%d] %s', [result, GetNPCClassName(result)]));
 end;
 
 
@@ -1447,18 +1453,18 @@ begin
     Log(11, '<CalcClassTotals');
     for c := CLASS_LO to CLASS_HI do begin
         n := 0;
-        for r := 0 to masterRaceList.Count-1 do begin
+        for r := RACE_LO to RACE_HI do begin
             classProbsMin[c, r] := n;
             n := n + classProbs[c, r];
             classProbsMax[c, r] := n-1;
         end;
         classProbs[c, masterRaceList.Count] := n;
     end;
-    if LOGLEVEL >= 20 then begin
+    if LOGLEVEL >= 15 then begin
         for c := CLASS_LO to CLASS_HI do begin
-            Log(11, GetClassName(c) + ' totals: ' + IntToStr(classProbs[c, masterRaceList.Count]));
+            Log(11, GetNPCClassName(c) + ' totals: ' + IntToStr(classProbs[c, masterRaceList.Count]));
             for r := 0 to masterRaceList.Count-1 do begin
-                Log(11, GetClassName(c) + ' ' + masterRaceList[r] + ' [' + IntToStr(classProbsMin[c, r]) + ', ' + IntToStr(classProbsMax[c, r]) + ']');
+                Log(11, GetNPCClassName(c) + ' ' + masterRaceList[r] + ' [' + IntToStr(classProbsMin[c, r]) + ', ' + IntToStr(classProbsMax[c, r]) + ']');
             end;
         end;
     end;
