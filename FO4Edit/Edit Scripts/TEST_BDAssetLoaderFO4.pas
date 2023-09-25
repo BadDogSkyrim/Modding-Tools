@@ -372,7 +372,7 @@ begin
             for j := MALE to FEMALE do begin
                 Log(0, '<' + SexToStr(j));
                 for k := 0 to raceInfo[i,j].faceBoneList.Count-1 do begin
-                    Log(0, Format('%s FMRI=%d, scale=[%f, %f]', [
+                    Log(0, Format('%s FMRI=%.8x, scale=[%f, %f]', [
                         raceInfo[i,j].faceBoneList.strings[k],
                         integer(raceInfo[i,j].faceBones[k].FMRI),
                         1.0*raceInfo[i,j].faceBones[k].min.scale,
@@ -429,8 +429,10 @@ begin
 
     // Can find tint presets for the different races.
     elem := PickRandomTintOption('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_MUZZLE);
-    elem := PickRandomColorPreset('Desdemona', 280, elem, 1);
+    elem := PickRandomColorPreset('Desdemona', 280, elem, 1, '|FFOFurWhite|');
     Assert(ContainsText(Path(elem), 'Template Color #'), 'Have pathname for tint preset: ' + Path(elem));
+    elem := PickRandomColorPreset('Desdemona', 280, elem, 1, '|FFOFurBlack|');
+    Assert(not Assigned(elem), 'Have no white tint preset');
 
     // -----------------------------------------------------------------------------
     //
@@ -624,6 +626,12 @@ begin
     AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFODeerRace', 'Changed BoS301BrotherHenri`s race');
     AssertGoodHeadparts(furryNPC, 'Eyebrows', 'FFODeerHorns05');
     AssertMorph(furryNPC, $36EF36E0);
+    
+    AddMessage('---OldManStockton');
+    npc := FindAsset(Nil, 'NPC_', 'OldManStockton');
+    furryNPC := CreateNPCOverride(npc, modFile);
+    npc := MakeFurryNPC(furryNPC, modFile);
+    AssertGoodTintLayers(npc, 2718); // Old
     
 
     // --------- Race distribution 

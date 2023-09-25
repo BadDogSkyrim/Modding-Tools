@@ -92,6 +92,7 @@ type TRaceInfo = Record
     mainRecord: IwbMainRecord;
     tintCount: array [0..20 {TINTLAYERS_MAX}] of integer;
     tintProbability: array [0..20 {TINTLAYERS_MAX}] of integer;
+    tintColors: array [0..20 {TINTLAYERS_MAX}] of string;
     tints: array [0..20 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     maskCount: integer;
@@ -197,7 +198,7 @@ var
     TL_SKIN_TONE: integer;
 
     knownTTGP: TStringList;
-    translateTTGP: array[0..40] of integer;
+    translateTTGP: array[0..50] of integer;
 
     // If any errors occurred during run.
     errCount: integer;
@@ -287,6 +288,18 @@ end;
 Function NPCisFemale(npc: IwbMainRecord): boolean;
 begin
     result := (GetElementNativeValues(npc, 'ACBS\Flags\female') <> 0);
+end;
+
+//===========================================================
+// Determine if an NPC should be consdiered old. Only looks at hair color.
+Function NPCisOld(npc: IwbMainRecord): Boolean;
+var
+    cform: IwbMainRecord;
+begin
+    cform := LinksTo(ElementByPath(npc, 'HCLF'));
+    result := ContainsText(
+        'HairColor04Silver|HairColor05Graying|HairColor07White|HairColor09Gray|HairColor10SteelGray',
+        EditorID(cform));
 end;
 
 //============================================================
@@ -672,20 +685,41 @@ end;
 //============================================================
 // Pick a random color preset from a tint option.
 // Return the template color element.
-// ind = 1 to skip the initial preset, which is often "no tint"
-Function PickRandomColorPreset(hashstr: string; seed: integer; tintOption: integer;  ind: integer): IwbElement;
+// If ind=1, skips any colors with an alpha of 0. 
+// Chooses from the acceptable colors for this layer.
+Function PickRandomColorPreset(hashstr: string; seed: integer; tintOption: IwbElement;  
+    ind: integer; colors: string): IwbElement;
 var
-    r: integer;
+    alpha: float;
+    cform: IwbMainRecord;
     colorList: IwbContainer;
+    goodPresetCount: integer;
+    goodPresets: array [0..20] of IwbElement;
+    i: integer;
+    thisPreset: IwbElement;
 Begin
-    Log(10, Format('<PickRandomColorPreset %s %d', [Path(tintOption), integer(ind)]));
+    Log(10, Format('<PickRandomColorPreset [%s] %d "%s"', [Path(tintOption), integer(ind), colors]));
+    Result := nil;
     colorList := ElementByPath(tintOption, 'TTEC');
-    if ElementCount(colorList) = 0 then
-        Result := nil
-    else begin
-        r := Hash(hashstr, seed, ElementCount(colorList)-ind) + ind;
-        Result := ElementByIndex(colorList, r);
+    goodPresetCount := 0;
+    for i := 0 to ElementCount(colorList)-1 do begin
+        thisPreset := ElementByIndex(colorList, i);
+        alpha := GetElementNativeValues(thisPreset, 'Alpha');
+        cform := LinksTo(ElementByPath(thisPreset, 'Color'));
+        Log(10, Format('Checking preset with color: %s -> %s', [Path(thisPreset), EditorID(cform)]));
+        if ((alpha > 0.0001) or (ind = 0)) and 
+            ((colors = '') or ContainsText(colors, '|' + EditorID(cform) + '|')) 
+        then begin
+            Log(10, Format('Found good preset with color: %s', [EditorID(cform)]));
+            goodPresets[goodPresetCount] := thisPreset;
+            inc(goodPresetCount);
+            if goodPresetCount >= length(goodPresets) then break;
+        end;
     end;
+
+    if goodPresetCount > 0 then 
+        result := goodPresets[Hash(hashstr+colors, seed, goodPresetCount)];
+
     Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
 end;
 
@@ -1340,6 +1374,7 @@ begin
     else if ContainsText(npcEditorID, 'Kellogg') then Result := CLASS_KELLOGG
     else if SameText(npcEditorID, 'MQ203MemoryA_Mom') then Result := CLASS_KELLOGG
     else if SameText(npcEditorID, 'FFDiamondCity12Kyle') then Result := CLASS_KYLE
+    else if SameText(npcEditorID, 'FFDiamondCity12Riley') then Result := CLASS_KYLE
     else if ContainsText(npcEditorID, 'DeLuca') then Result := CLASS_DELUCA
     else if ContainsText(npcEditorID, 'Bobrov') then Result := CLASS_BOBROV
     else if ContainsText(npcEditorID, 'Pembroke') then Result := CLASS_PEMBROKE
@@ -1494,8 +1529,8 @@ begin
         end
         else
             // Should never happen
-            Err(Format('Too many tint layers. Found %d, max is %d', 
-                [knownTTGP.Count, length(translateTTGP)]));
+            Err(Format('Too many tint layers on %s, layer %d. Found %d, max is %d', 
+                [name, tintLayer, knownTTGP.Count, length(translateTTGP)]));
     end;
     Log(10, '>');
 end;
@@ -1507,6 +1542,14 @@ procedure SetTintProbability(racename: string; sex: integer;
 begin
     raceInfo[RacenameIndex(racename), sex].tintProbability[tintLayer] 
         := probability;
+end;
+
+//=============================================================================
+// Define the colors that a tint layer may have.
+procedure SetTintColors(racename: string; sex: integer; 
+    tintLayer: integer; colors: string); 
+begin
+    raceInfo[RacenameIndex(racename), sex].tintColors[tintLayer] := colors;
 end;
 
 //======================================================================

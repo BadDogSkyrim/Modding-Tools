@@ -113,7 +113,7 @@ begin
     SetClassProb(CLASS_PACK, 'FFOTigerRace', 20);
     SetClassProb(CLASS_PACK, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_PACK, 'FFOHorseRace', 5);
-    SetClassProb(CLASS_PACK, 'FFODeerRace', 5);
+    SetClassProb(CLASS_PACK, 'FFODeerRace', 0);
 
     SetClassProb(CLASS_RAIDER, 'FFOLykaiosRace', 30);
     SetClassProb(CLASS_RAIDER, 'FFOFoxRace', 30);
@@ -256,6 +256,9 @@ begin
     SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
     SkinLayerTranslation('Star', TL_FOREHEAD);
     SkinLayerTranslation('Upper Head', TL_FOREHEAD);
+    SkinLayerTranslation('Scar - Left Long', TL_PAINT);
+    SkinLayerTranslation('Fishbones', TL_PAINT);
+    SkinLayerTranslation('Skull', TL_PAINT);
 end;
 
 //==================================================================================
@@ -278,17 +281,28 @@ begin
     SetTintProbability('FFOHorseRace', FEMALE, TL_MUZZLE, 60);
     SetTintProbability('FFOHorseRace', MALE, TL_NOSE, 50);
     SetTintProbability('FFOHorseRace', FEMALE, TL_NOSE, 50);
+    
+    // Raccoon-style eye mask. Don't hand it out automatically.
+    SetTintProbability('FFOLykaiosRace', FEMALE, TL_MASK, 0);
+    SetTintProbability('FFOLykaiosRace', MALE, TL_MASK, 0);
+
+    // Acceptable colors for tint layers. This is so specialty colors can 
+    // be provided without being picked up by the furrifier. 
+    SetTintColors('FFOHyenaRace', FEMALE, TL_EAR, '|FFOFurBlack|FFOFurBlueBlack|');
+    SetTintColors('FFOHyenaRace', MALE, TL_EAR, '|FFOFurBlack|FFOFurBlueBlack|');
+    SetTintColors('FFOLykaiosRace', FEMALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
+    SetTintColors('FFOLykaiosRace', MALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
 
     // SetMorphProbability provides a probability of using different morphs.If no
     // probabilty is set for a morph group, it will be applied at 100% probability.
     // Parameters are:
-    //  Race name
-    //  Sex (MALE/FEMALE)
-    //  Name of the morph group in the race record
-    //  Probability at which a morph from this group should be applied to a NPC
-    //  Min morph value when this morph is applied (0-100)
-    //  Max morph value when this morph is applied (0-100)
-    //  Morph distribution (EVEN, SKEW0,  SKEW1)
+    //      Race name
+    //      Sex (MALE/FEMALE)
+    //      Name of the morph group in the race record
+    //      Probability at which a morph from this group should be applied to a NPC
+    //      Min morph value when this morph is applied (0-100)
+    //      Max morph value when this morph is applied (0-100)
+    //      Morph distribution (EVEN, SKEW0,  SKEW1)
     //
     // ExcludeMorph tells the furrifier not to apply a particular morph ever.
     ExcludeMorph('FFOCheetahRace', MALE, 'Child');
@@ -330,6 +344,7 @@ begin
     ExcludeMorph('FFOTigerRace', MALE, 'Child Neck');
 
     // Face morphs, using faceBones, are ignored unless provided in this list.
+    // If provided, a random value between the min and max will be chosen.
     SetFaceMorph('FFOFoxRace', FEMALE, 'Ears - Full', 
         {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
         {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
@@ -797,7 +812,8 @@ begin
     if (probCheck <= prob) and (raceInfo[race, sex].tintCount[tintlayer] > 0) then begin
 
         t := PickRandomTintOption(EditorID(npc), seed, race, sex, tintlayer);
-        p := PickRandomColorPreset(EditorID(npc), seed+7989, t, ind);
+        p := PickRandomColorPreset(EditorID(npc), seed+7989, t, ind,
+            raceInfo[race, sex].tintColors[tintLayer]);
         Log(5, 'Selected tint preset ' + Path(p));
         AssignTint(npc, t, p);
     end
@@ -806,6 +822,13 @@ begin
     end;
     
     Log(5, '>ChooseTint');
+end;
+
+//============================================================
+// If the NPC is old, give them the 'old' face tint layer.
+Procedure ChooseOldTint(npc: IwbMainRecord; seed: integer);
+begin
+    if NPCisOld(npc) then ChooseTint(npc, TL_OLD, seed);
 end;
 
 //=============================================================================
@@ -1025,7 +1048,7 @@ Procedure SetMorphBone(npc: IwbMainRecord; morphBoneIndex: integer;
 var
     fm, thisMorph, vals: IwbElement;
 begin
-    Log(5, Format('<SetMorphBone(%s, %d)', [EditorID(npc), morphBoneIndex]));
+    Log(5, Format('<SetMorphBone(%s, %d)', [EditorID(npc), integer(morphBoneIndex)]));
     fm := Add(npc, 'Face Morphs', true);
     thisMorph := nil;
     if (ElementCount(fm) > 0)
@@ -1213,9 +1236,11 @@ end;
 Procedure MakeDeerElk(npc: IwbMainRecord);
 var
     h: integer;
+    s: integer;
 begin
+    s := GetNPCSex(npc);
     SetWeight(npc, 1, 2, 2);
-    if GetNPCSex(npc) = MALE then begin
+    if s = MALE then begin
         SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns02');
     end;
 
@@ -1225,27 +1250,33 @@ begin
 
     // Eyes
     SetTintLayerColor(npc, 2666, TL_EYESOCKET_LOWER, 'FFOFurWhite');
-    SetMorphBoneName(npc, 'Jaw', 
-        0, 0, 0.75,
-        0, 0, 0,
-        0);
-    SetMorphBoneName(npc, 'Nose - Full', 
-        0, 0.25, -0.5, 
-        0, 0, 0,
-        0.8);
-    SetMorphBoneName(npc, 'Cheekbones', 
-        1.0, 0, 0,
-        0, 0, 0,
-        0);
+
+    if (s = MALE or s = FEMALE) then begin
+        if s = MALE then
+            SetMorphBoneName(npc, 'Jaw', 
+                0, 0, 0.75,
+                0, 0, 0,
+                0);
+        SetMorphBoneName(npc, 'Nose - Full', 
+            0, 0.25, -0.5, 
+            0, 0, 0,
+            0.8);
+        SetMorphBoneName(npc, 'Cheekbones', 
+            1.0, 0, 0,
+            0, 0, 0,
+            0);
+        end;
 end;
 
 Procedure MakeDeerReindeer(npc: IwbMainRecord);
 var
     h: integer;
+    s: integer;
 begin
+    s := GetNPCSex(npc);
     SetWeight(npc, 1, 2, 2);
 
-    if GetNPCSex(npc) = MALE then begin
+    if s = MALE then begin
         SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns05');
         SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
     end;
@@ -1253,23 +1284,27 @@ begin
     SetTintLayerColor(npc, 4480, TL_SKIN_TONE,  
         'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
 
-    SetMorph(npc, 4726, 'Nostrils', 'Broad');
-    SetMorphBoneName(npc, 'Ears',
-        0,    0,    0, 
-        0,    0,    0,
-        -0.2);
-    SetMorphBoneName(npc, 'Nose - Full',
-        0,  1.0, -1.0, 
-        0,    0,    0,
-        0.5);
+    if (s = MALE) or (s = FEMALE) then begin
+        SetMorph(npc, 4726, 'Nostrils', 'Broad');
+        SetMorphBoneName(npc, IfThen(s=MALE, 'Ears', 'Ears - Full'),
+            0,    0,    0, 
+            0,    0,    0,
+            -0.2);
+        SetMorphBoneName(npc, 'Nose - Full',
+            0,  1.0, -1.0, 
+            0,    0,    0,
+            0.5);
+    end;
 end;
 
 Procedure MakeDeerMoose(npc: IwbMainRecord);
 var
     h: integer;
+    s: integer;
 begin
+    s := GetNPCSex(npc);
     SetWeight(npc, 1, 2, 2);
-    if GetNPCSex(npc) = MALE then begin
+    if s = MALE then begin
         SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns08');
         SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
     end;
@@ -1277,25 +1312,30 @@ begin
     SetTintLayerColor(npc, 6032, TL_SKIN_TONE,  
         'FFOFurBrown|FFOFurBrownD|FFOFurRussetD|FFOFurGingerD|FFOFurRedBrown');
     
-    SetMorph(npc, 4726, 'Nostrils', 'Broad');
-    SetMorphBoneName(npc, 'Jaw', 
-        0, 0, 0.75, 
-        0, 0, 0, 
-        0);
-    SetMorphBoneName(npc, 'Nose - Full',
-        0, -0.4, 0.24, 
-        0, 0, 0, 
-        0.8);
-    SetMorphBoneName(npc, 'Cheekbones', 
-        1, 0, 0,
-        0, 0, 0,
-        0);
+    if (s = MALE) or (s = FEMALE) then begin
+        SetMorph(npc, 4726, 'Nostrils', 'Broad');
+        if s = MALE then
+            SetMorphBoneName(npc, 'Jaw', 
+                0, 0, 0.75, 
+                0, 0, 0, 
+                0);
+        SetMorphBoneName(npc, 'Nose - Full',
+            0, -0.4, 0.24, 
+            0, 0, 0, 
+            0.8);
+        SetMorphBoneName(npc, 'Cheekbones', 
+            1, 0, 0,
+            0, 0, 0,
+            0);
+    end;
 end;
 
 Procedure MakeDeerAntelope(npc: IwbMainRecord);
 var
     h: integer;
+    s: integer;
 begin
+    s := GetNPCSex(npc);
     SetWeight(npc, 2, 2, 1);
     h := Hash(EditorID(npc), 6728, 2);
     case h of
@@ -1313,31 +1353,35 @@ begin
     SetTintLayerColorProb(60, npc, 8560, TL_CHEEK_COLOR, '');
     SetTintLayerColorProb(60, npc, 8631, TL_CHEEK_COLOR_LOWER, '');
 
-    SetMorph(npc, 4726, 'Nostrils', 'Broad');
-    SetMorphBoneName(npc, 'Ears', 
-        0, 0, 0,
-        0, 0, 0,
-        0.86);
-    SetMorphBoneName(npc, 'Nose - Full', 
-        0, -0.24, -0.54,
-        -0.27, 0, 0,
-        0.51);
-    SetMorphBoneName(npc, 'Eyes', 
-        -0.45, -0.56, 0,
-        0, 0, 0,
-        0.55);
-    SetMorphBoneName(npc, 'Nose - Bridge',
-        0, 0.6, 0.6, 
-        0, 0, 0,
-        0);
+    if (s = MALE) or (s = FEMALE) then begin
+        SetMorph(npc, 4726, 'Nostrils', 'Broad');
+        SetMorphBoneName(npc, IfThen(s=MALE, 'Ears', 'Ears - Full'), 
+            0, 0, 0,
+            0, 0, 0,
+            0.86);
+        SetMorphBoneName(npc, 'Nose - Full', 
+            0, -0.24, -0.54,
+            -0.27, 0, 0,
+            0.51);
+        SetMorphBoneName(npc, 'Eyes', 
+            -0.45, -0.56, 0,
+            0, 0, 0,
+            0.55);
+        SetMorphBoneName(npc, 'Nose - Bridge',
+            0, 0.6, 0.6, 
+            0, 0, 0,
+            0);
+    end;
 end;
 
 Procedure MakeDeerRam(npc: IwbMainRecord);
 var
     h: integer;
+    s: integer;
 begin
+    s := GetNPCSex(npc);
     SetWeight(npc, 1, 2, 2);
-    if GetNPCSex(npc) = MALE then begin
+    if s = MALE then begin
         SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns07'); 
         SetHeadpart(npc, HEADPART_FACIAL_HAIR, 'FFOBeard01');
     end;
@@ -1346,18 +1390,21 @@ begin
         '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|');
     SetTintLayerColorProb(50, npc, 7698, TL_MUZZLE, 'FFOFurWhite');
 
-    SetMorphBoneName(npc, 'Jaw', 
-        0, 0, 0.6,
-        0, 0, 0,
-        0);
-    SetMorphBoneName(npc, 'Nose - Full',
-        0, 0, -0.6, 
-        0, 0, 0,
-        0.6);
-    SetMorphBoneName(npc, 'Cheekbones', 
-        1, 0, 0,
-        0, 0, 0,
-        0);
+    if (s = MALE) or (s = FEMALE) then begin
+        if s = MALE then
+            SetMorphBoneName(npc, 'Jaw', 
+                0, 0, 0.6,
+                0, 0, 0,
+                0);
+        SetMorphBoneName(npc, 'Nose - Full',
+            0, 0, -0.6, 
+            0, 0, 0,
+            0.6);
+        SetMorphBoneName(npc, 'Cheekbones', 
+            1, 0, 0,
+            0, 0, 0,
+            0);
+    end;
 end;
 
 //================================================================
@@ -1383,6 +1430,8 @@ begin
         4: MakeDeerAntelope(npc);
         5: MakeDeerRam(npc);
     end;
+
+    ChooseOldTint(npc, 3041+deerType*13);
 end;
 //================================================================
 // Special tailoring for lions. 50% of the males get manes.
@@ -1405,7 +1454,9 @@ begin
     ChooseHeadpart(npc, HEADPART_EYEBROWS);
     ChooseTint(npc, TL_SKIN_TONE, 6351);
     ChooseTint(npc, TL_NOSE, 1140);
-    Log(4, '>FurrifyLion');
+    ChooseOldTint(npc, 4850);
+
+    Log(4, '>');
 end;
 
 //==========================================================
@@ -1437,6 +1488,7 @@ begin
             ChooseTint(furryNPC, TL_MUZZLE, 9487);
             ChooseTint(furryNPC, TL_EAR, 552);
             ChooseTint(furryNPC, TL_NOSE, 6529);
+            ChooseOldTint(furryNPC, 2351);
             SetAllRandomMorphs(furryNPC);
             end;
         end;
