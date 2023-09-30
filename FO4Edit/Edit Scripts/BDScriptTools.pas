@@ -157,6 +157,11 @@ begin
     LogEntry1(importance, routineName, d1 + ', ' + d2 + ', ' + d3);
 end;
 
+Procedure LogEntry4(importance: integer; routineName: string; d1, d2, d3, d4: string);
+begin
+    LogEntry1(importance, routineName, d1 + ', ' + d2 + ', ' + d3 + ', ' + d4);
+end;
+
 Procedure LogExit(importance: integer; routineName: string);
 var
     i: integer;

@@ -23,8 +23,8 @@ uses BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools, BDAssetLoaderFO4, xEditA
 
 const
     patchfileName = 'FFOPatch.esp'; // Set to whatever
-    USE_SELECTION = FALSE;           // FALSE or TRUE
-    TARGET_RACE = '';    // Use this race for everything
+    USE_SELECTION = TRUE;           // FALSE or TRUE
+    TARGET_RACE = 'SynthGen1Race';    // Use this race for everything
 
     // Ghouls. All ghouls have to be the same race (because they're one separate race in
     // vanilla, also headgear has to be altered to fit them).
@@ -488,11 +488,12 @@ begin
     if result < 0 then begin
         // Use the target race, if specified.
         Result := masterRaceList.IndexOf(TARGET_RACE);
-        if Result < 0 then begin
-            // Use the mother's/parent's race if any.
-            mother := GetMother(npc);
-            if Assigned(mother) then Result := ChooseNPCRace(mother);
-        end;
+    end;
+
+    if Result < 0 then begin
+        // Use the mother's/parent's race if any.
+        mother := GetMother(npc);
+        if Assigned(mother) then Result := ChooseNPCRace(mother);
     end;
 
     if result < 0 then begin
@@ -647,7 +648,8 @@ begin
     LogEntry2(4, 'ChooseHeadpart', Name(npc), IntToStr(hpType));
 
     hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCEffectiveRaceID(npc), GetNPCSex(npc), hpType);
-    AssignHeadpart(npc, hp);
+    if Assigned(hp) then
+        AssignHeadpart(npc, hp);
 
     LogExit1(4, 'ChooseHeadpart', EditorID(npc));
 end;
@@ -1491,7 +1493,7 @@ begin
     result := npc;
     r := ChooseNPCRace(npc);
 
-    if r >= 0 and r <> RACE_HUMAN then begin
+    if (r >= 0) and (r <> RACE_HUMAN) then begin
         furryNPC := CreateNPCOverride(npc, targetFile);
         hair := SetNPCRace(furryNPC, r);
         case r of 
@@ -1685,11 +1687,11 @@ begin
 
     InitializeAssetLoader;
     SetTintLayerTranslations;
+    if TARGET_RACE <> '' then AddRace(TARGET_RACE);
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
 
-    LOGLEVEL := 10;
     if convertingGhouls then begin 
         FurrifyGhoulRace(targetFile);
         // Any headgear added by FFO that supports Snekdogs (or whatever race we are
@@ -1698,7 +1700,6 @@ begin
             FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
             raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
     end;
-    LOGLEVEL := 1;
 
     CorrelateChildren;
 
@@ -1795,7 +1796,6 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;
 
@@ -1813,6 +1813,7 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
+    LOGLEVEL := 10;
     if not USE_SELECTION then exit;
     win := WinningOverride(entity);
 

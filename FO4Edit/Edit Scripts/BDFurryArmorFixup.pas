@@ -103,8 +103,6 @@ var
     ghoulRace: IwbMainRecord;
     snekRace: IwbMainRecord;
 begin
-    LOGLEVEL := 10;
-
     for i := 0 to FileCount-1 do
         if GetFileName(FileByIndex(i)) = TEST_FILE_NAME then
             testFile := FileByIndex(i);

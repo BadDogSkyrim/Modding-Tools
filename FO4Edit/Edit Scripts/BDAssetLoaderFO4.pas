@@ -1363,15 +1363,17 @@ function GetRaceHeadpart(theRace, sex, hpType, hpIndex: integer): IwbMainRecord;
 var 
     i: integer;
 begin
-    Log(10, Format('<GetRaceHeadpart: %s, %d, %d, %d', [masterRaceList[theRace], sex, hpType, hpIndex]));
+    LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), IntToStr(hpType), IntToStr(hpIndex));
     // Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
     // for i := 0 to headpartsList.Count-1 do
     //     Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
     // Log(10, 'Headpart type initialized: ' + BoolToStr(Assigned(raceInfo[theRace, sex].headparts[hpType])));
     // Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
-    Result := ObjectToElement(
-        raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
-    Log(10, '>')
+    Result := nil;
+    if Assigned(raceInfo[theRace, sex].headparts[hpType]) then
+        Result := ObjectToElement(
+            raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
+    LogExit(10, 'GetRaceHeadpart')
 end;
 
 //============================================================
