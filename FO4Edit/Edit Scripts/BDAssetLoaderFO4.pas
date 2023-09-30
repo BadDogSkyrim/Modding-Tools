@@ -22,7 +22,7 @@ const
 
     // Known NPC classes
     CLASS_LO = 0;
-    CLASS_NONE = 0;
+    CLASS_SETTLER = 0;
     CLASS_RAIDER = 1;
     CLASS_BOS = 2;
     CLASS_RR = 3;
@@ -62,6 +62,8 @@ const
     EVEN = 0;
     SKEW0 = 1;
     SKEW1 = 2;
+
+    HEADPART_NOTFOUND = -1;
 
 type TTintPreset = record
     presetColor: IwbMainRecord;
@@ -151,7 +153,10 @@ var
     // element for quick reference
     specialHeadparts: TStringList;
 
-    // Known furry races
+    // Names used by generic NPCs
+    genericNames: TStringList;
+
+    // Known races of interest
     RACE_CHEETAH: integer;
     RACE_DEER: integer;
     RACE_FOX: integer;
@@ -163,6 +168,7 @@ var
     RACE_SNEKDOG: integer;
     RACE_TIGER: integer;
     RACE_HUMAN: integer;
+    RACE_GHOUL: integer;
 
     // Initialized to be indices into headpartsList for text-to-index translations
     HEADPART_EYEBROWS: integer;
@@ -172,6 +178,7 @@ var
     HEADPART_HAIR: integer;
     HEADPART_MISC: integer;
     HEADPART_SCAR: integer;
+    HEADPART_MEATCAP: integer;
     HEADPART_LO: integer;
     HEADPART_HI: integer;
 
@@ -232,14 +239,29 @@ begin
     Result := EditorID(e) + ' [ ' + IntToHex(FormID(e),8) + ' ]';
 end;
 
+//=======================================================
+// Return the race index for the given race record.
 Function RaceIndex(theRace: IwbMainRecord): integer;
 begin
     Result := masterRaceList.IndexOf(EditorID(theRace));
+    if Result < 0 then 
+        Result := childRaceList.IndexOf(EditorID(theRace));
 end;
 
 Function RacenameIndex(racename: string): integer;
 begin
     Result := masterRaceList.IndexOf(racename);
+end;
+
+Function RaceIDtoStr(id: integer): string;
+begin
+    result := '[' + IntToStr(id) + '] ';
+    if id = RACE_GHOUL then 
+        result := result + 'GhoulRace'
+    else if (id >= 0) and (id < masterRaceList.Count) then 
+        result := result + masterRaceList[id]
+    else 
+        result := result + 'NO RACE';
 end;
 
 //=======================================================
@@ -252,8 +274,8 @@ var
     tpl, entry: IwbMainRecord;
     lle: IwbElement;
 begin
-    if (GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1') then begin
-        tpl := LinksTo(ElementByPath(npc, 'TPLT'));
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then begin
         if Signature(tpl) = 'LVLN' then begin
             lle := ElementByPath(tpl, 'Leveled List Entries');
             entry := LinksTo(ElementByPath(ElementByIndex(lle, 0), 'LVLO\Reference'));
@@ -289,6 +311,57 @@ end;
 Function NPCisFemale(npc: IwbMainRecord): boolean;
 begin
     result := (GetElementNativeValues(npc, 'ACBS\Flags\female') <> 0);
+end;
+
+//===============================================================================
+// Determine whether this is a generic NPC.
+Function NPCisGeneric(npc: IwbMainRecord): boolean;
+begin
+    if ContainsText(EditorID(npc), 'Deacon') then result := false
+    else if ContainsText(EditorID(npc), 'Kellogg') then result := false
+    else if genericNames.IndexOf(GetElementEditValues(npc, 'FULL')) >= 0 then result := true
+    ;
+end;
+
+//===========================================================
+// Return the form an NPC inherits its traits from.
+Function NPCTraitsTemplate(npc: IwbMainRecord): IwbMainRecord;
+begin
+    result := nil;
+    if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' then begin
+        result := LinksTo(ElementByPath(npc, 'TPTA\Traits'));
+        if not Assigned(result) then
+            result := LinksTo(ElementByPath(npc, 'TPLT'));
+    end;
+end;
+
+//=========================================================================
+// Determine whether the NPC gets traits from a template that is based
+// on a leveled list.
+Function BasedOnLeveledList(npc: IwbMainRecord): boolean;
+var
+    tpl: IwbMainRecord;
+begin
+    Log(5, Format('<BasedOnLeveledList(%s)', [Name(npc)]));
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then begin
+        if signature(tpl) = 'LVLN' then
+            result := true
+        else
+            result := BasedOnLeveledList(tpl);
+    end
+    else
+        result := false;
+    Log(5, '>BasedOnLeveledList -> ' + IfThen(result, 'T', 'F'));
+end;
+
+//===========================================================
+// Determine whether the NPC inherits traits.
+Function NPCInheritsTraits(npc: IwbMainRecord): boolean;
+begin
+    result := (
+        Assigned(NPCTraitsTemplate(npc))
+    );
 end;
 
 //===========================================================
@@ -335,7 +408,7 @@ end;
 //-----------------------------------------------
 Function GetNPCClassName(classID: integer): string;
 begin
-    if classID = CLASS_NONE then Result := 'NONE'
+    if classID = CLASS_SETTLER then Result := 'CLASS_SETTLER'
     else if classID = CLASS_ATOM then Result := 'CLASS_ATOM'
     else if classID = CLASS_BOBROV then Result := 'CLASS_BOBROV'
     else if classID = CLASS_BOS then Result := 'CLASS_BOS'
@@ -411,13 +484,14 @@ begin
 end;
 
 //-----------------------------------------------
-// Get a NPC's mother, if any. Return the father if no mother.
+// Get a NPC's mother, if any. Return the father if no mother. Return Nil if no parent.
+// If the parent is a ghoul act like there's no parent.
 Function GetMother(theNPC: IwbMainRecord): IwbMainRecord;
 var
   i: Integer;
   //loid: integer;
 begin
-    Log(5, Format('<GetMother(%s)', [EditorID(theNPC)]));
+    LogEntry1(5, 'GetMother', Name(theNPC));
     result := Nil;
 
     i := mothers.IndexOf(EditorID(theNPC));
@@ -429,7 +503,9 @@ begin
             result := ObjectToElement(fathers.objects[i]);
     end;
 
-    Log(5, '>GetMother -> ' + EditorID(result));
+    if EditorID(GetNPCRace(result)) = 'GhoulRace' then result := nil;
+
+    LogExit1(5, 'GetMother', Name(result));
 end;
 
 // <<<<<<<<<<<<<<<<<<<<< MANAGE TINT LAYERS >>>>>>>>>>>>>>>>>>>>>
@@ -500,7 +576,7 @@ var
     tintType: integer;
     tintOptions: IwbElement; 
 begin
-    Log(11, Format('<LoadTintLayerInfo %s %s', [EditorID(theRace), SexToStr(sex)]));
+    LogEntry2(11, 'LoadTintLayerInfo', EditorID(theRace), SexToStr(sex));
     raceID := RaceIndex(theRace);
     if (sex = MALE) or (sex = MALECHILD) then 
         rootElem := 'Male Tint Layers' 
@@ -522,6 +598,9 @@ begin
             tintType := DetermineTintType(tintName);
 
             if tintType >= 0 then begin
+                Log(11, Format('Finding tint count for [%d, %s], tintType %d', [
+                    raceID, SexToStr(sex), tintType
+                ]));
                 n := raceInfo[raceID, sex].tintCount[tintType];
 
                 // Log(6, Format('[%d] Found tint option "%s" -> %d', 
@@ -538,12 +617,13 @@ begin
                 end;
             end
             else begin
-                Warn(Format('Unknown tint type for %s %s: %s', [EditorID(theRace), SexToStr(sex), tintName]));
+                Warn(Format('Unknown tint type for %s %s: %s', [
+                    Name(theRace), SexToStr(sex), tintName]));
             end;
         end;
     end;
 
-    Log(11, '>');
+    LogExit(11, 'LoadTintLayerInfo');
 end;
 
 //===============================================================
@@ -847,7 +927,7 @@ begin
     facialType := HeadpartFacialType(hp);
 
     if facialType < 0 then 
-        Log(15, 'Unknown facial type: ' + GetElementEditValues(hp, 'PNAM'))
+        begin Log(15, 'Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
     else begin
         Log(15, 'Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
         
@@ -933,7 +1013,7 @@ var
     id: Cardinal;
     r: IwbMainRecord;
 begin
-    Log(16, '<AddRace: ' + racename);
+    LogEntry1(16, 'AddRace', racename);
 
     n := masterRaceList.IndexOf(racename);
     if n >= 0 then begin
@@ -979,7 +1059,7 @@ begin
     end;
     RACE_HI := masterRaceList.Count-1;
 
-    Log(16, '>AddRace: ' + racename);
+    LogExit1(16, 'AddRace', racename);
 end;
 
 
@@ -1216,19 +1296,20 @@ var
     i, j: integer;
     race: IwbMainRecord;
 begin
-    Log(11, '<CollectRaces');
+    LogEntry(11, 'CollectRaceTintLayers');
 
     for i := RACE_LO to RACE_HI do begin
         Log(11, 'Found race ' + EditorID(raceInfo[i, MALE].mainRecord));
         CollectTintLayers(raceInfo[i, MALE].mainRecord);
 
-        if Assigned(raceInfo[i, MALECHILD]) then begin
-            Log(11, 'Found race ' + EditorID(raceInfo[i, MALECHILD].mainRecord));
-            CollectTintLayers(raceInfo[i, MALECHILD].mainRecord);
-        end;
+        // CollectTIntLayers loads child races too
+        // if Assigned(raceInfo[i, MALECHILD]) then begin
+        //     Log(11, 'Found child race ' + Name(raceInfo[i, MALECHILD].mainRecord));
+        //     CollectTintLayers(raceInfo[i, MALECHILD].mainRecord);
+        // end;
     end;
     
-    Log(11, '>');
+    LogExit(11, 'CollectRaceTintLayers');
 end;
 
 
@@ -1264,7 +1345,7 @@ end;
 // Return count of headparts of the given type for the given race & sex.
 Function GetRaceHeadpartCount(theRace, sex, hpType: integer): integer;
 begin
-    Log(10, Format('<GetRaceHeadpartCount(%d, %d, %d)', [theRace, sex, hpType]));
+    LogEntry3(10, 'GetRaceHeadpartCount', RaceIDtoStr(theRace), SexToStr(sex), IntToStr(hpType));
     if (hpType < 0) or (hpType >= headpartsList.Count) then begin
         Err('GetRaceHeadpartCount: headpart type index too large: ' + IntToStr(hpType));
         Result := 0;
@@ -1273,7 +1354,7 @@ begin
         Result := 0
     else
         Result := raceInfo[theRace, sex].headparts[hpType].Count;
-    Log(10, Format('>GetRaceHeadpartCount -> %d', [Result]));
+    LogExit1(10, 'GetRaceHeadpartCount', IntTostr(Result));
 end;
 
 //===================================================================
@@ -1307,9 +1388,11 @@ var
     n: integer;
     h: integer;
 Begin
+    LogEntry3(7, 'PickRandomHeadpart', RaceIDToStr(race), SexToStr(sex), IntToStr(hpType));
     n := GetRaceHeadpartCount(race, sex, hpType);
     h := Hash(hashstr, seed, n);
     Result := GetRaceHeadpart(race, sex, hpType, h);
+    LogExit(7, 'PickRandomHeadpart');
 end;
 
 
@@ -1349,7 +1432,7 @@ begin
     factionList := TStringList.Create;
     GetNPCFactions(theNPC, factionList);
 
-    Result := CLASS_NONE;
+    Result := CLASS_SETTLER;
 
     // Ghouls
     if (EditorID(GetNPCRace(theNPC)) = 'GhoulRace') or 
@@ -1357,7 +1440,7 @@ begin
         Result := CLASS_GHOUL
 
     // Some settlers use Minutemen/Raider faces, so check them first
-    else if npcName = 'Settler' then Result := CLASS_NONE
+    else if npcName = 'Settler' then Result := CLASS_SETTLER
         
     // Followers
     else if SameText(npcEditorID, 'CompanionCait') then Result := CLASS_CAIT
@@ -1401,10 +1484,11 @@ begin
     else if ContainsText(npcEditorID, 'Minuteman') then Result := CLASS_MINUTEMEN
     else if ContainsText(npcEditorID, 'Institute') then Result := CLASS_INSTITUTE
     else if ContainsText(npcEditorID, 'FarHarbor') then Result := CLASS_FARHARBOR
+    else if ContainsText(npcEditorID, 'raider') then Result := CLASS_RAIDER
     ;
 
-    Log(10, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
-    Log(10, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
+    Log(15, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
+    Log(15, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
 
     factionList.Free;
     Log(10, Format('>GetNPCClass -> [%d] %s', [result, GetNPCClassName(result)]));
@@ -1434,10 +1518,10 @@ Procedure SetClassProb(npcclass: integer; race: string; points: integer);
 var 
     r: integer;
 begin
-    Log(16, '<SetClassProb');
+    LogEntry1(16, 'SetClassProb', race);
     r := AddRace(race);
     if r >= 0 then classProbs[npcclass, r] := points;
-    Log(16, '>');
+    LogExit(16, 'SetClassProb');
 end;
 
 
@@ -1493,6 +1577,7 @@ var
     adultID: integer;
     childRecord: IwbMainRecord;
 begin
+    LogEntry2(5, 'AddChildRace', adultRace, childRace);
     childRecord := FindAsset(Nil, 'RACE', childRace);
     adultID := masterRaceList.IndexOf(adultRace);
     if adultID >= 0 then begin
@@ -1501,6 +1586,7 @@ begin
     end
     else 
         Err('AddChildRace could not find adult race ' + adultRace);
+    LogExit(5, 'AddChildRace');
 end;
 
 //================================================================================
@@ -1558,7 +1644,110 @@ begin
     raceInfo[RacenameIndex(racename), sex].tintColors[tintLayer] := colors;
 end;
 
+//===================================================================
+// Create the override mod
+Function CreateOverrideMod(filename: string): IwbFile;
+var
+    f: integer;
+    fn: string;
+    i: integer;
+begin
+    LogEntry1(3, 'CreateOverrideMod', filename);
+    f := -1;
+    for i := 0 to FileCount-1 do begin
+        if SameText(GetFileName(FileByIndex(i)), filename) then begin
+            f := i;
+            break;
+        end;
+    end;
+    if f >= 0 then
+        Result := FileByIndex(f)
+    else 
+        Result := AddNewFileName(filename);
+
+    AddRecursiveMaster(Result, FileByIndex(0));
+
+    for i := 0 to FileCount-1 do begin
+        fn := GetFileName(FileByIndex(i));
+        if StartsText('DLC', fn) then 
+            AddRecursiveMaster(Result, FileByIndex(i))
+        else if SameTExt(fn, 'FurryFallout.esp') then 
+            AddRecursiveMaster(Result, FileByIndex(i))
+        else if SameText(fn, 'FurryFalloutDLC.esp') then
+            AddRecursiveMaster(Result, FileByIndex(i));
+    end;
+    LogExit(3, 'CreateOverrideMod');
+
+end;
+
 //======================================================================
+
+procedure InitializeGenericNames;
+begin
+    genericNames := TStringList.Create;
+	genericNames.Add('');
+	genericNames.Add('Berserk Raider');
+	genericNames.Add('Caravan Guard');
+	genericNames.Add('Caravan Worker');
+	genericNames.Add('Corpse');
+	genericNames.Add('Disciple Butcher');
+	genericNames.Add('Disciple Pillager');
+	genericNames.Add('Disciple Scavver');
+	genericNames.Add('Disciple Survivalist');
+	genericNames.Add('Disciple Tormentor');
+	genericNames.Add('Disciple Veteran');
+	genericNames.Add('Disciple Waster');
+	genericNames.Add('Disciple');
+	genericNames.Add('Gunner Brigadier');
+	genericNames.Add('Gunner Captain');
+	genericNames.Add('Gunner Colonel');
+	genericNames.Add('Gunner Commander');
+	genericNames.Add('Gunner Conscript');
+	genericNames.Add('Gunner Corporal');
+	genericNames.Add('Gunner Lieutenant');
+	genericNames.Add('Gunner Major');
+	genericNames.Add('Gunner Mercenary');
+	genericNames.Add('Gunner Private');
+	genericNames.Add('Gunner Sergeant');
+	genericNames.Add('Gunner');
+	genericNames.Add('Legendary Disciple');
+	genericNames.Add('Legendary Gunner');
+	genericNames.Add('Legendary Operator');
+	genericNames.Add('Legendary Pack');
+	genericNames.Add('Legendary Raider');
+	genericNames.Add('Operator Butcher');
+	genericNames.Add('Operator Pillager');
+	genericNames.Add('Operator Scavver');
+	genericNames.Add('Operator Survivalist');
+	genericNames.Add('Operator Tormentor');
+	genericNames.Add('Operator Veteran');
+	genericNames.Add('Operator Waster');
+	genericNames.Add('Operator');
+	genericNames.Add('Pack Butcher');
+	genericNames.Add('Pack Member');
+	genericNames.Add('Pack Pillager');
+	genericNames.Add('Pack Scavver');
+	genericNames.Add('Pack Survivalist');
+	genericNames.Add('Pack Tormentor');
+	genericNames.Add('Pack Veteran');
+	genericNames.Add('Pack Waster');
+	genericNames.Add('Raider Man');
+	genericNames.Add('Raider Psycho');
+	genericNames.Add('Raider Scavver');
+	genericNames.Add('Raider Scum');
+	genericNames.Add('Raider Survivalist');
+	genericNames.Add('Raider Veteran');
+	genericNames.Add('Raider Waster');
+	genericNames.Add('Raider Woman');
+	genericNames.Add('Raider');
+	genericNames.Add('Settler');
+	genericNames.Add('Sinners Raider');
+end;
+
+Procedure FreeGenericNames;
+begin
+    genericNames.Free;
+end;
 
 procedure InitializeAssetLoader;
 var
@@ -1580,6 +1769,7 @@ begin
     headpartsList.Add('Face');
     headpartsList.Add('Facial Hair');
     headpartsList.Add('Hair');
+    headpartsList.Add('Meatcaps');
     headpartsList.Add('Misc');
     headpartsList.Add('Scar');
     HEADPART_EYEBROWS := headpartsList.IndexOf('Eyebrows');
@@ -1587,6 +1777,7 @@ begin
     HEADPART_FACE := headpartsList.IndexOf('Face');
     HEADPART_FACIAL_HAIR := headpartsList.IndexOf('Facial Hair');
     HEADPART_HAIR := headpartsList.IndexOf('Hair');
+    HEADPART_MEATCAP := headpartsList.IndexOf('Meatcaps');
     HEADPART_MISC := headpartsList.IndexOf('Misc');
     HEADPART_SCAR := headpartsList.IndexOf('Scar');
     HEADPART_LO := 0;
@@ -1628,6 +1819,8 @@ begin
     vanillaHairRecords := TStringList.Create;
     vanillaHairRecords.Duplicates := dupIgnore;
     vanillaHairRecords.Sorted := false;
+
+    InitializeGenericNames;
 
 end;
 
@@ -1679,6 +1872,7 @@ begin
     childRaceList.Free;
     mothers.Free;
     fathers.Free;
+    FreeGenericNames;
 end;
 
 end.

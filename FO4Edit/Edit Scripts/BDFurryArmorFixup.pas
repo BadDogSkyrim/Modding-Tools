@@ -49,8 +49,7 @@ var
     extras: IwbContainer;
     entry: IwbElement;
 begin
-    Log(5, Format('<AddRaceToARMA: %s, %s in %s, %s', 
-        [GetFileName(targetFile), EditorID(arma), GetFileName(GetFile(arma)), EditorID(race)]) );
+    LogEntry3(5, 'AddRaceToARMA', GetFileName(targetFile), Name(arma), Name(race));
 
     if ARMAHasRace(arma, race) then 
         result := arma
@@ -65,7 +64,7 @@ begin
         SetNativeValue(entry,
             LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(race)));
     end;
-    Log(5, '>AddRaceToArma');
+    LogExit(5, 'AddRaceToArma');
 end;
 
 //================================================================
@@ -78,15 +77,18 @@ var
     f: integer;
     i: integer;
 begin
+    LogEntry3(5, 'AddRaceToAllArmor', GetFileName(targetFile), Name(newRace), Name(existingRace));
     // Walk the file list backwards so we hit winning overrides first.
     for f := FileCount-1 downto 0 do begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
         for i := 0 to ElementCount(armaList)-1 do begin
             aa := ElementByIndex(armaList, i);
-            if ARMAHasRace(aa, existingRace) then 
-                AddRaceToARMA(targetFile, aa, newRace);
+            if IsWinningOverride(aa) then 
+                if ARMAHasRace(aa, existingRace) then 
+                    AddRaceToARMA(targetFile, aa, newRace);
         end;
     end;
+    LogExit(3, 'AddRaceToAllArmor');
 end;
 
 //===========================================================

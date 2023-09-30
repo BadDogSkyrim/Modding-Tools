@@ -26,14 +26,21 @@ const
     USE_SELECTION = FALSE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
+    // Ghouls. All ghouls have to be the same race (because they're one separate race in
+    // vanilla, also headgear has to be altered to fit them).
+    GHOUL_RACE = 'FFOSnekdogRace';
+    GHOUL_CHILD_RACE = 'FFOSnekdogChildRace';
+
 var
     patchFile: IwbFile;
-    patchFileCreated: boolean;
+
+    ffoFile: IwbFile;
 
     playerIDs: TStringList;
     furrifiedNPCs: TStringList;
     furryCount: integer;
     preFurryCount: integer;
+    startTime: TDateTime;
 
 
 //======================================================
@@ -164,15 +171,15 @@ begin
     SetClassProb(CLASS_ATOM, 'FFODeerRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOSnekdogRace', 40);
 
-    SetClassProb(CLASS_NONE, 'FFOLykaiosRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOFoxRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOHyenaRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOLionRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOTigerRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOCheetahRace', 10);
-    SetClassProb(CLASS_NONE, 'FFOHorseRace', 15);
-    SetClassProb(CLASS_NONE, 'FFODeerRace', 15);
-    SetClassProb(CLASS_NONE, 'FFOOtterRace', 3);
+    SetClassProb(CLASS_SETTLER, 'FFOLykaiosRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOFoxRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOHyenaRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOLionRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOTigerRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOCheetahRace', 10);
+    SetClassProb(CLASS_SETTLER, 'FFOHorseRace', 15);
+    SetClassProb(CLASS_SETTLER, 'FFODeerRace', 15);
+    SetClassProb(CLASS_SETTLER, 'FFOOtterRace', 3);
 
     // Followers. There's at least one follower of each race.
     SetClassProb(CLASS_GARVEY, 'FFOLionRace', 100);
@@ -196,16 +203,10 @@ begin
     SetClassProb(CLASS_LEE, 'FFOHyenaRace', 100);
     SetClassProb(CLASS_MATHIS, 'FFOFoxRace', 100);
 
-    // Ghouls. All ghouls have to be the same race (because headgear has to be altered to
-    // fit them).
-    SetClassProb(CLASS_GHOUL, 'FFOSnekdogRace', 100);
-
     // Specific NPCs
     // These override TARGET_RACE.
     AssignNPCRace('MamaMurphy', 'FFOLionRace'); // Her hat is tailored to the lioness head
     AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
-
-    CalcClassTotals();
 end;
 
 //==================================================================================
@@ -349,38 +350,38 @@ begin
         {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
     SetFaceMorph('FFOFoxRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
-        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
 
     SetFaceMorph('FFOFoxRace', MALE, 'Ears - Full', 
         {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
         {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
     SetFaceMorph('FFOFoxRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
-        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale max} -0);
 
     SetFaceMorph('FFOLykaiosRace', FEMALE, 'Ears - Full', 
         {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
         {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
     SetFaceMorph('FFOLykaiosRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
-        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
 
     SetFaceMorph('FFOLykaiosRace', MALE, 'Ears - Full', 
         {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
         {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
     SetFaceMorph('FFOLykaiosRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
-        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale max} -0);
 
     SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Full', 
-        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
-        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
     SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Bridge', 
         {loc min} 0, -0.3, 0,  {rot min} 0, 0, 0, {scale min} -0,
-        {loc max} 0, 0.4, 0,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0.4, 0,  {rot max} 0, 0, 0, {scale max} -0);
     SetFaceMorph('FFOHorseRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
-        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale min} -0);
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
 
     SetFaceMorph('FFOHyenaRace', FEMALE, 'Brows', 
         {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
@@ -410,26 +411,25 @@ begin
 
     SetFaceMorph('FFOLionRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.4,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale min} 0);
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
     SetFaceMorph('FFOLionRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} -0.4,
-        {loc max} 0, 0, 0.7,  {rot max} 0, 0, 0, {scale min} 0.5);
+        {loc max} 0, 0, 0.7,  {rot max} 0, 0, 0, {scale max} 0.5);
 
     SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
         {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale min} 0);
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
     SetFaceMorph('FFOSnekdogRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale min} 0);
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
     SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
         {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale min} 0);
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
     SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale min} 0);
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
-    CorrelateChildren;
 end;
 
 //=========================================================================
@@ -438,7 +438,7 @@ end;
 Procedure SetRaceDefaults;
     var el, r: integer;
 begin
-    Log(10, '<SetRaceDefaults');
+    LogEntry(10, 'SetRaceDefaults');
     for r := RACE_LO to RACE_HI do begin
         for el := 0 to tintlayerName.Count-1 do begin
             Log(10, Format('Setting race default for %s %s', [masterRaceList[r], tintlayerName[el]]));
@@ -448,7 +448,7 @@ begin
             raceInfo[r, FEMALECHILD].tintProbability[el] := 100;
         end;
     end;
-    Log(10, '>SetRaceDefaults');
+    LogExit(10, 'SetRaceDefaults');
 end;
 
 //======================================================
@@ -467,53 +467,59 @@ var
     sex: integer;
     theRace: IwbMainElement;
 begin
-    Log(5, '<ChooseNPCRace on ' + EditorID(npc));
+    LogEntry1(5, 'ChooseNPCRace', EditorID(npc));
 
     Result := -1;
+    
+    // Ghouls stay ghouls
+    if (EditorID(GetNPCRace(npc)) = 'GhoulRace') or (EditorID(GetNPCRace(npc)) = 'GhoulChildRace') then 
+        result := RACE_GHOUL;
 
-    // Use the assigned race if any.
-    assignIndex := npcRaceAssignments.IndexOf(EditorID(npc));
-    if assignIndex >= 0 then begin
-        theRace := ObjectToElement(npcRaceAssignments.Objects[assignIndex]);
-        Log(5, EditorID(npc) + ' assigned to race ' + EditorID(theRace));
-        Result := RaceIndex(theRace);
-    end
-    else begin
+    if result < 0 then begin
+        // Use the assigned race if any.
+        assignIndex := npcRaceAssignments.IndexOf(EditorID(npc));
+        if assignIndex >= 0 then begin
+            theRace := ObjectToElement(npcRaceAssignments.Objects[assignIndex]);
+            Log(5, EditorID(npc) + ' assigned to race ' + EditorID(theRace));
+            Result := RaceIndex(theRace);
+        end
+    end;
+
+    if result < 0 then begin
         // Use the target race, if specified.
         Result := masterRaceList.IndexOf(TARGET_RACE);
         if Result < 0 then begin
             // Use the mother's/parent's race if any.
             mother := GetMother(npc);
-            if Assigned(mother) then begin
-                Result := ChooseNPCRace(mother);
-            end
-            else begin
-                // Pick a random race.
-                charClass := GetNPCClass(npc);
-                pointTotal := classProbs[charClass, masterRaceList.Count];
-                Log(6, Format('classProbs has pre-summed value: %d', [classProbs[CLASS_RAIDER, masterRaceList.Count]]));
-                Log(6, Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
-                h := Hash(EditorID(npc), 6795, pointTotal);
-                Log(6, Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(charClass), pointTotal, h]));
-                for r := 0 to masterRaceList.Count-1 do begin
-                    if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
-                        Result := r;
-                        break;
-                    end;
-                end;
+            if Assigned(mother) then Result := ChooseNPCRace(mother);
+        end;
+    end;
+
+    if result < 0 then begin
+        // Pick a random race.
+        charClass := GetNPCClass(npc);
+        pointTotal := classProbs[charClass, masterRaceList.Count];
+        Log(6, Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
+        h := Hash(EditorID(npc), 6795, pointTotal);
+        Log(6, Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(charClass), pointTotal, h]));
+        for r := RACE_LO to RACE_HI do begin
+            Log(6, Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[charClass, r], classProbsMax[charClass, r]]));
+            if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
+                Result := r;
+                break;
             end;
         end;
     end;
 
     // If we have a child, make sure there's a child race.
-    if result >= 0 then begin
+    if (result >= 0) and (result <> RACE_GHOUL) then begin
         sex := GetNPCSex(npc);
         if not Assigned(raceInfo[result, sex].mainRecord) then begin
             result := -1;
         end;
     end;
 
-    Log(5, Format('>ChooseNPCRace on %s <- %s',  [EditorID(npc), IfThen(Result >= 0, masterRaceList[Result], 'NO RACE')]));
+    LogExit1(5, 'ChooseNPCRace', RaceIDtoStr(Result));
 end;
 
 
@@ -572,19 +578,21 @@ var
     skin: IwbMainRecord;
     targetFile: IwbFile;
 begin
-    Log(5, '<SetNPCRace: ' + EditorID(furryNPC));
-
-    result := Nil;
-    sex := GetNPCSex(furryNPC);
-    race := raceInfo[raceIndex, sex].mainRecord;
-    raceFormID := GetLoadOrderFormID(race);
-    targetFile := GetFile(furryNPC);
+    LogEntry2(5, 'SetNPCRace', Name(furryNPC), IntToStr(raceIndex));
 
     result := CleanNPC(furryNPC);
-    
-    Log(5, Format('Target race is %s %s / %.8x in file %s', [EditorID(race), SexToStr(sex), raceFormID, GetFileName(GetFile(race))]));
+    targetFile := GetFile(furryNPC);
 
-    SetNativeValue(ElementByPath(furryNPC, 'RNAM'), LoadOrderFormIDtoFileFormID(targetFile, raceFormID));
+    sex := GetNPCSex(furryNPC);
+    if raceIndex = RACE_GHOUL then begin
+        race := raceInfo[RacenameIndex(GHOUL_RACE), sex].mainRecord
+    end
+    else begin
+        race := raceInfo[raceIndex, sex].mainRecord;
+        raceFormID := GetLoadOrderFormID(race);
+        Log(7, 'Setting race to ' + Name(race));
+        SetNativeValue(ElementByPath(furryNPC, 'RNAM'), LoadOrderFormIDtoFileFormID(targetFile, raceFormID));
+    end;
 
     skin := LinksTo(ElementByPath(race, 'WNAM'));
     Log(5, Format('Setting skin to %.8x/%.8x', [integer(GetLoadOrderFormID(skin)), integer(LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(skin)))]));
@@ -594,9 +602,23 @@ begin
 
     Log(5, Format('Set race to %s', [GetElementEditValues(furryNPC, 'RNAM')]));
 
-    Log(5, '>SetNPCRace ->' + EditorID(furryNPC));
+    LogExit1(5, 'SetNPCRace', Name(race));
 end;
 
+//================================================================
+// Get the effective race ID of the NPC. This is the same as the race ID except for
+// ghouls--for them, it's the race they're being furrified to.
+Function GetNPCEffectiveRaceID(npc: IwbMainRecord): integer;
+var
+    rn: string;
+begin
+    result := GetNPCRaceID(npc);
+    if result < 0 then begin
+        rn := EditorID(GetNPCRace(npc));
+        if (rn = 'GhoulRace') or (rn = 'GhoulChildRace') then
+            result := masterRaceList.IndexOf(GHOUL_RACE);
+    end;
+end;
 
 //================================================================
 // Assign the given headpart to the character
@@ -622,17 +644,16 @@ var
     headparts: IwbContainer;
     slot: IwbElement;
 begin
-    Log(4, Format('<ChooseHeadpart: %s - [%d] %s', [EditorID(npc), GetNPCRaceID(npc), EditorID(GetNPCRace(npc))]));
+    LogEntry2(4, 'ChooseHeadpart', Name(npc), IntToStr(hpType));
 
-    hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCRaceID(npc), GetNPCSex(npc), hpType);
+    hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCEffectiveRaceID(npc), GetNPCSex(npc), hpType);
     AssignHeadpart(npc, hp);
 
-    Log(4, Format('>ChooseHeadpart: %s <- %s', [EditorID(npc), EditorID(hp)]));
+    LogExit1(4, 'ChooseHeadpart', EditorID(npc));
 end;
 
 //==============================================================
-// Choose a random headpart of the given type. 
-// Hair is handled separately.
+// Assign the named headpart to the NPC.
 Procedure SetHeadpart(npc: IwbMainRecord; hpType: integer; hpName: string);
 var 
     hp: IwbMainRecord;
@@ -641,7 +662,7 @@ var
     sex: integer;
     thisHP: IwbMainRecord;
 begin
-    Log(5, Format('<SetHeadpart(%s, %s, "%s")', [EditorID(npc), headpartsList[hpType], hpName]));
+    LogEntry3(5, 'SetHeadpart', EditorID(npc), IntToStr(hpType), hpName);
     raceID := GetNPCRaceID(npc);
     sex := GetNPCSex(npc);
     hp := Nil;
@@ -663,7 +684,7 @@ begin
     else
         Err(Format('Requested headpart %s not found for %s', [hpName, EditorID(npc)]));
 
-    Log(5, Format('>SetHeadparts -> "%s"', [EditorID(hp)]));
+    LogExit1(5, 'SetHeadpart', Name(hp));
 end;
 
 //==============================================================
@@ -719,7 +740,7 @@ Procedure ChooseHair(npc, oldHair: IwbMainRecord);
 var 
     hp: IwbMainRecord;
 begin
-    Log(5, Format('<ChooseHair(%s, %s)', [EditorID(npc), EditorID(oldHair)]));
+    LogEntry2(5, 'ChooseHair', Name(npc), Name(oldHair));
     if (not Assigned(oldHair)) then begin
         Log(5, 'No old hair, leaving hair alone.');
     end
@@ -728,16 +749,13 @@ begin
         AssignHeadpart(npc, oldHair);
     end
     else begin
-        hp := GetFurryHair(GetNPCRaceID(npc), EditorID(oldHair));
-        // if not Assigned(hp) then
-        //     hp := PickRandomHeadpart(EditorID(npc), 5269, 
-        //         GetNPCRaceID(npc), GetNPCSex(npc), HEADPART_HAIR);
+        hp := GetFurryHair(GetNPCEffectiveRaceID(npc), EditorID(oldHair));
 
         // Since most vanilla hair has been furrified, if this one hasn't then
-        // just leave it off.
+        // just leave it off. They're mostly variations of shaved heads anyway.
         if Assigned(hp) then  AssignHeadpart(npc, hp);
     end;
-    Log(5, Format('>ChooseHair -> %s, %s', [EditorID(npc), EditorID(hp)]));
+    LogExit1(5, 'ChooseHair', Name(hp));
 end;
 
 //============================================================
@@ -802,14 +820,15 @@ var
     sex: integer;
     t: IwbElement;
 begin
-    Log(5, Format('<ChooseTint: %s, %s', [EditorID(npc) , tintlayerName[tintlayer]]));
+    LogEntry2(5, 'ChooseTint', Name(npc) , tintlayerName[tintlayer]);
 
-    race := GetNPCRaceID(npc);
+    race := GetNPCEffectiveRaceID(npc);
     sex := GetNPCSex(npc);
     prob := raceInfo[race, sex].tintProbability[tintlayer];
     probCheck := Hash(EditorID(npc), seed, 101);
     ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
 
+    Log(5, Format('Probability check: hash=%d, prob=%d, layer count=%d', [probCheck, prob, integer(raceInfo[race, sex].tintCount[tintlayer])]));
     if (probCheck <= prob) and (raceInfo[race, sex].tintCount[tintlayer] > 0) then begin
 
         t := PickRandomTintOption(EditorID(npc), seed, race, sex, tintlayer);
@@ -822,7 +841,7 @@ begin
         Log(5, Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[race, sex].tintCount[tintlayer])]));
     end;
     
-    Log(5, '>ChooseTint');
+    LogExit(5, 'ChooseTint');
 end;
 
 //============================================================
@@ -854,7 +873,7 @@ var
     tintSkip: integer;
 begin
     tintSkip := Hash(EditorID(npc), seed, ElementCount(colorList));
-    race := GetNPCRaceID(npc);
+    race := GetNPCEffectiveRaceID(npc);
     sex := GetNPCSex(npc);
     colorList := ElementByPath(
         raceInfo[race, sex].tints[tintLayer, layerOption].element, 'TTEC'
@@ -932,9 +951,9 @@ var
     race: integer;
     sex: integer;
 begin
-    Log(5, Format('<PickTintColor: %s %s <- %s', [EditorID(npc), tintlayerName[tintLayer], targetColor]));
+    LogEntry3(5, 'PickTintColor', Name(npc), tintlayerName[tintLayer], targetColor);
     
-    race := GetNPCRaceID(npc);
+    race := GetNPCEffectiveRaceID(npc);
     sex := GetNPCSex(npc);
     // layerOption := Hash(EditorID(npc), seed, raceInfo[race, sex].tintCount[tintLayer]);
     for layerOption := 0 to raceInfo[race, sex].tintCount[tintLayer]-1 do begin
@@ -946,7 +965,7 @@ begin
         end;
     end;
 
-    Log(5, '>PickTintColor');
+    LogExit(5, 'PickTintColor');
 end;
 
 
@@ -959,8 +978,8 @@ var
     s: integer;
     preset: IwbElement;
 begin
-    Log(5, Format('<SetMorph(%s, %S)', [EditorID(npc), presetName]));
-    r := GetNPCRaceID(npc);
+    LogEntry2(5, 'SetMorph', Name(npc), presetName);
+    r := GetNPCEffectiveRaceID(npc);
     s := GetNPCSex(npc);
     if (s = MALE) or (s = FEMALE) then begin
         preset := GetMorphPreset(
@@ -974,7 +993,7 @@ begin
                 HashVal(EditorID(npc), seed, 0.5, 1.0));
         end;
     end;
-    Log(5, '>');
+    LogExit(5, 'SetMorph');
 end;
 
 //=========================================================================
@@ -996,9 +1015,9 @@ var
     r: integer;
     s: integer;
 begin
-    Log(5, Format('<SetRandomMorph(%s, %s)', [EditorID(npc), morphGroup]));
+    LogEntry2(5, 'SetRandomMorph', Name(npc), morphGroup);
 
-    r := GetNPCRaceID(npc);
+    r := GetNPCEffectiveRaceID(npc);
     s := GetNPCSex(npc);
 
     // Decide whether to apply a morph from this group.
@@ -1037,7 +1056,7 @@ begin
             SetMorphValue(npc, GetElementNativeValues(preset, 'MPPI'), mval);
         end;
     end;
-    Log(5, '>');
+    LogExit(5, 'SetRandomMorph');
 end;
 
 //=========================================================
@@ -1081,12 +1100,10 @@ var
     r: integer;
     s: integer;
 begin
-    Log(5, Format('<SetMorphBoneName(%s, %s)', [
-        EditorID(npc), morphBone
-    ]));
+    LogEntry2(5, 'SetMorphBoneName', Name(npc), morphBone);
     s := GetNPCSex(npc);
     if ((s = MALE) or (s = FEMALE)) and Assigned(raceInfo[r, s].faceBoneList) then begin
-        r := GetNPCRaceID(npc);
+        r := GetNPCEffectiveRaceID(npc);
         Log(5, Format('%s %s', [masterRaceList[r], sextostr(s)]));
         Log(5, Format('Have %d faceBones', [raceInfo[r, s].faceBoneList.Count]));
         i := raceInfo[r, s].faceBoneList.IndexOf(morphBone);
@@ -1101,7 +1118,7 @@ begin
                 x, y, z, pitch, roll, yaw, sc);
         end;
     end;
-    Log(5, '>');
+    LogExit(5, 'SetMorphBoneName');
 end;
 
 //================================================================================
@@ -1115,7 +1132,7 @@ var
     r: integer;
     s: integer;
 begin
-    r := GetNPCRaceID(npc);
+    r := GetNPCEffectiveRaceID(npc);
     s := GetNPCSex(npc);
     if Assigned(raceInfo[r, s].morphGroups) then begin
         for i := 0 to raceInfo[r, s].morphGroups.Count-1 do begin
@@ -1438,8 +1455,9 @@ end;
 // Special tailoring for lions. 50% of the males get manes.
 Procedure FurrifyLion(npc, hair: IwbMainRecord);
 begin
-    Log(4, '<FurrifyLion: ' + EditorID(npc));
+    Log(4, Format('<FurrifyLion(%s, %s)', [Name(npc), GetElementEditValues(npc, 'RNAM')]));
     SetWeight(npc, 1, 2, 1);
+    Log(5, Format('Calling ChooseHeadpart with %s\%s (%s)', [GetFileName(GetFile(npc)), Name(npc), EditorID(GetNPCRace(npc))]));
     ChooseHeadpart(npc, HEADPART_FACE);
     ChooseHeadpart(npc, HEADPART_EYES);
 
@@ -1469,9 +1487,10 @@ var
     furryNPC: IwbMainRecord;
     hair: IwbMainRecord;
 begin
-    Log(4, '<FurrifyNPC: ' + EditorID(npc));
+    LogEntry1(4, 'FurrifyNPC', Name(npc));
     result := npc;
     r := ChooseNPCRace(npc);
+
     if r >= 0 and r <> RACE_HUMAN then begin
         furryNPC := CreateNPCOverride(npc, targetFile);
         hair := SetNPCRace(furryNPC, r);
@@ -1498,7 +1517,7 @@ begin
     else
         result := npc;
 
-    Log(4, '>FurrifyNPC');
+    LogExit(4, 'FurrifyNPC');
 end;
 
 //======================================================================
@@ -1511,7 +1530,7 @@ var
     furryNPC: IwbMainRecord;
     npcHair: IwbMainRecord;
 begin
-    Log(5, Format('<MakeFurryNPC %s -> %s', [EditorID(npc), GetFileName(targetFile)]));
+    LogEntry2(5, 'MakeFurryNPC', EditorID(npc), GetFileName(targetFile));
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := FurrifyNPC(npc, targetFile);
@@ -1521,50 +1540,12 @@ begin
     else
         Result := WinningOverride(npc);
 
-    Log(5, '>MakeFurryNPC');
+    LogExit(5, 'MakeFurryNPC');
 end;
 
 
 //=========================================================================
 // Create the new patch mod if it doesn't exist alerady.
-Function CreateOverrideMod(filename: string): IwbFile;
-var
-    f: integer;
-    fn: string;
-    i: integer;
-begin
-    Log(3, '<CreateOverrideMod ' + filename);
-    f := -1;
-    for i := 0 to FileCount-1 do begin
-        if SameText(GetFileName(FileByIndex(i)), filename) then begin
-            f := i;
-            break;
-        end;
-    end;
-    if f >= 0 then
-        Result := FileByIndex(f)
-    else begin
-        Result := AddNewFileName(filename);
-        patchFileCreated := true;
-    end;
-
-    if patchFileCreated then begin
-        AddRecursiveMaster(Result, FileByIndex(0));
-
-        for i := 0 to FileCount-1 do begin
-            fn := GetFileName(FileByIndex(i));
-            if StartsText('DLC', fn) then 
-                AddRecursiveMaster(Result, FileByIndex(i))
-            else if SameTExt(fn, 'FurryFallout.esp') then 
-                AddRecursiveMaster(Result, FileByIndex(i))
-            else if SameText(fn, 'FurryFalloutDLC.esp') then
-                AddRecursiveMaster(Result, FileByIndex(i));
-        end;
-    end;
-    Log(3, '>CreateOverrideMod');
-
-end;
-
 //=====================================================
 // Determine if the NPC needs to be furrified.
 // - Must be HumanRace or furry race (we redo any furry NPCs)
@@ -1578,36 +1559,49 @@ Function IsValidNPC(npc: IwbMainRecord): integer;
 var
     race: IwbMainRecord;
 begin
-    Log(5, '<IsValidNPC: ' + EditorID(npc));
+    LogEntry1(5, 'IsValidNPC', EditorID(npc));
     result := 1;
     // Must be an NPC
-    Log(5, 'Signature: ' + Signature(npc));
+    Log(10, 'Signature: ' + Signature(npc));
     if Signature(npc) <> 'NPC_' then
         result := 0;
 
     if result > 0 then begin
         // Must not be overridden--we only work with the latest version
-        Log(5, 'Overrides: ' + IntToStr(OverrideCount(npc)));
+        Log(10, 'Overrides: ' + IntToStr(OverrideCount(npc)));
         if OverrideCount(npc) > 0 then 
             result := 0;
     end;
 
+    race := GetNPCRace(npc);
     if result > 0 then begin
-        // Must be a furrifiable race
-        race := GetNPCRace(npc);
-        if (masterRaceList.IndexOf(EditorID(race)) < 0) 
-            and (childRaceList.IndexOf(EditorID(race)) < 0)
-            and (EditorID(race) <> 'HumanRace') 
-            and (EditorID(race) <> 'HumanChildRace') 
-            and (EditorID(race) <> 'GhoulRace') 
-            and (EditorID(race) <> 'GhoulChildRace') 
+        // If already furry, do nothing
+        if (masterRaceList.IndexOf(EditorID(race)) >= 0) 
+            or (childRaceList.IndexOf(EditorID(race)) >= 0)
         then
             result := 0;
+    end;
+
+    // We only know how to furrify humans (and ghouls when asked)
+    if result > 0 then begin
+        if (EditorID(race) <> 'HumanRace') 
+            and (EditorID(race) <> 'HumanChildRace') 
+        then
+            if convertingGhouls then begin
+                if (EditorID(race) <> 'GhoulRace') 
+                    and (EditorID(race) <> 'GhoulChildRace') 
+                then
+                    // Not ghoul -- do nothing
+                    result := 0;
+            end
+            else
+                // Not human, not converting ghouls -- do nothing
+                result := 0;
     end;
     
     if result > 0 then begin
         // Must not be any of the player records, or Shaun--those are in the player race files
-        Log(5, 'Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
+        Log(10, 'Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
         if playerIDs.IndexOf(EditorID(npc)) >= 0 then
             result := 0;
     end;
@@ -1620,25 +1614,97 @@ begin
     
     if result > 0 then begin
         // If it gets traits from a template, just zero out the morphs.
-        if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' then
+        if NPCInheritsTraits(npc) then
             result := 2;
     end;
 
-    Log(5, '>IsValidNPC: ' + IntToStr(result));
+    LogExit1(5, 'IsValidNPC', IntToStr(result));
+end;
+
+//========================================================
+// Furrify the given race from the template race
+Procedure FurrifyRace(targetFile: IwbFile; targetRace, templateRace: IwbMainRecord);
+var 
+    newRace: IwbMainRecord;
+begin
+    LogEntry3(5, 'FurrifyRace', GetFileName(targetFile), EditorID(targetRace), EditorID(templateRace));
+
+    AddRecursiveMaster(targetFile, GetFile(targetRace));
+    newRace := wbCopyElementToFile(targetRace, targetFile, false, true);
+    
+    wbCopyElementToRecord(ElementByPath(templateRace, 'WNAM'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Head Parts'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Head Parts'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'HCLF'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Hair Colors'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Hair Colors'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Face Details'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Face Details'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'DFTM'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'DFTF'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Tint Layers'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Tint Layers'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Morph Groups'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Morph Groups'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Face Morphs'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Morph Values'), newRace, false, true);
+
+    LogExit(5, 'FurrifyRace');
+end;
+
+//========================================================
+// Furrify whatever race the user has chosen for ghouls.
+Procedure FurrifyGhoulRace(targetFile: IwbFile);
+begin
+    LogEntry1(1, 'FurrifyGhoulRace', GetFileName(targetFile));
+    Log(0, 'Furrifying the ghoul race...');
+
+    FurrifyRace(targetFile, 
+        FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
+        FindAsset(nil, 'RACE', GHOUL_RACE));
+
+    // AddRace('GhoulRace');
+
+    FurrifyRace(targetFile, 
+        FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
+        FindAsset(nil, 'RACE', GHOUL_CHILD_RACE));
+
+    // AddChildRace('GhoulRace', 'GhoulChildRace');
+
+    LogExit(1, 'FurrifyGhoulRace');
 end;
 
 //========================================================
 // Set everything up.
-Procedure InitializeFurrifier;
+Procedure InitializeFurrifier(targetFile: IwbFile);
+var i: integer;
 begin
+    for i := 0 to FileCount-1 do
+        if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then
+            ffoFile := FileByIndex(i);
+
     InitializeAssetLoader;
     SetTintLayerTranslations;
     SetRaceProbabilities;
-
-    LoadRaceAssets;
     SetRaceDefaults;
     TailorRaces;
 
+    LOGLEVEL := 10;
+    if convertingGhouls then begin 
+        FurrifyGhoulRace(targetFile);
+        // Any headgear added by FFO that supports Snekdogs (or whatever race we are
+        // turning ghouls into) needs to be modified to add the ghoul race.
+        AddRaceToAllArmor(targetFile, 
+            FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
+            raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
+    end;
+    LOGLEVEL := 1;
+
+    CorrelateChildren;
+
+    Log(0, 'Loading race info...');
+    LoadRaceAssets;
+    
     furrifiedNPCs := TStringList.Create();
     furrifiedNPCs.Duplicates := dupIgnore;
     furrifiedNPCs.Sorted := true;
@@ -1667,6 +1733,10 @@ begin
     RACE_TIGER := masterRaceList.IndexOf('FFOTigerRace');
     RACE_HUMAN := masterRaceList.IndexOf('HumanRace');
 
+    // Ghouls aren't in the masterRaceList. Use an ID that will be obviously broken if we
+    // try to use it that way.
+    RACE_GHOUL := 100;
+
     AddMorphBone('FFODeerRace', MALE, 'Cheekbones');
     AddMorphBone('FFODeerRace', MALE, 'Ears');
     AddMorphBone('FFODeerRace', MALE, 'Eyes');
@@ -1679,7 +1749,8 @@ begin
     AddMorphBone('FFODeerRace', FEMALE, 'Nose - Bridge');
     AddMorphBone('FFODeerRace', FEMALE, 'Nose - Full');
 
-    patchFileCreated := false;
+    CalcClassTotals();
+
 end;
 
 //=========================================================
@@ -1706,7 +1777,7 @@ begin
 	AddMessage('==========================================================');
 	AddMessage('Furry Fallout Furrifier');
     AddMessage('');
-    AddMessage('Running on ' + wbAppName);
+    AddMessage('Creating patch for ' + wbAppName);
 	AddMessage('----------------------------------------------------------');
 	AddMessage('');
 
@@ -1714,24 +1785,26 @@ begin
     if USE_SELECTION then 
         AddMessage('Furrifying selected NPCs only')
     else 
-        AddMessage('Furrifying selected NPCs only');
+        AddMessage('Furrifying all NPCs');
     
     if length(TARGET_RACE) > 0 then
         AddMessage('All affected NPCs will be changed to ' + TARGET_RACE);
 
     AddMessage('Patch file is ' + patchfileName);
+    startTime := Time;
+    // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 1;
+    LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;
 
     preFurryCount := FileCount;
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
-    convertingGhouls := false;
+    convertingGhouls := (not USE_SELECTION);
 
-    InitializeFurrifier;
+    InitializeFurrifier(patchFile);
 end;
 
 // Process selected NPCs.
@@ -1761,44 +1834,41 @@ end;
 function Finalize: integer;
 var
     f, n: integer;
+    fn: string;
     npc: IwbMainRecord;
     npcList: IwbContainer;
 begin
     if not USE_SELECTION then begin
         for f := 0 to preFurryCount-1 do begin
             // Don't check the NPCs in the patch file if we created it on this run.
-            Log(2, 'File ' + GetFileName(FileByIndex(f)));
-            furryCount := 0;
-            npcList := GroupBySignature(FileByIndex(f), 'NPC_');
-            for n := 0 to ElementCount(npcList)-1 do begin
-                if (furryCount mod 100) = 0 then
-                    AddMessage(Format('Furrifying %s: %d', 
-                        [GetFileName(FileByIndex(f)), furryCount]));
+            fn := GetFileName(FileByIndex(f));
+            if (fn <> patchFileName) and (fn <> 'FurryFallout.esp') then begin
+                Log(2, 'File ' + GetFileName(FileByIndex(f)));
+                furryCount := 0;
+                npcList := GroupBySignature(FileByIndex(f), 'NPC_');
+                for n := 0 to ElementCount(npcList)-1 do begin
+                    if (furryCount mod 100) = 0 then
+                        AddMessage(Format('Furrifying %s: %d', 
+                            [GetFileName(FileByIndex(f)), furryCount]));
 
-                npc := ElementByIndex(npcList, n);
-                Case IsValidNPC(npc) of
-                    1: MakeFurryNPC(npc, patchFile);
-                    // Creating the override will zero the morphs, which we need because human
-                    // morphs won't work on furry races. 
-                    2: OverrideAndZeroMorphs(npc, patchFile);
+                    npc := ElementByIndex(npcList, n);
+                    Case IsValidNPC(npc) of
+                        1: MakeFurryNPC(npc, patchFile);
+                        // Creating the override will zero the morphs, which we need because human
+                        // morphs won't work on furry races. 
+                        2: OverrideAndZeroMorphs(npc, patchFile);
+                    end;
+                    furryCount := furryCount + 1;
                 end;
-                furryCount := furryCount + 1;
             end;
         end;
-    end;
-
-    // If we furrified the ghouls, then any headgear added by FFO that supports Snekdogs (or
-    // whatever race we are turning ghouls into) needs to be modified to add the ghoul race.
-    if convertingGhouls then begin
-        AddRaceToAllArmor(patchFile, 
-            FindAsset(Nil, 'RACE', 'GhoulRace'), // this race must be added to
-            ghoulRace); // ARMA records that allow this race
     end;
 
     if not USE_SELECTION then GenerateFurryNPCs(patchFile);
 
     ShutdownFurrifier;
 
+    // AddMessage(Format('End time %s, duration %s', [TimeToStr(Time), TimeToStr(Time-startTime)]));
 	AddMessage('----------------------------------------------------------');
     if (errCount = 0) and (warnCount = 0) then
         AddMessage('Furrification completed SUCCESSFULLY')

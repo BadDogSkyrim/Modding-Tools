@@ -119,6 +119,72 @@ begin
     end;
 end;
 
+Procedure LogEntry(importance: integer; routineName: string);
+var
+    i: integer;
+    s: string;
+begin
+    s := '';
+	if importance <= LOGLEVEL then begin
+        for i := 1 to logIndent do s := s + '|   ';
+        s := s + '/' + routineName;
+        AddMessage(s);
+        inc(logIndent);
+    end;
+end;
+
+Procedure LogEntry1(importance: integer; routineName: string; details: string);
+var
+    i: integer;
+    s: string;
+begin
+    s := '';
+	if importance <= LOGLEVEL then begin
+        for i := 1 to logIndent do s := s + '|   ';
+        s := s + '/' + routineName + '(' + details + ')';
+        AddMessage(s);
+        inc(logIndent);
+    end;
+end;
+
+Procedure LogEntry2(importance: integer; routineName: string; d1, d2: string);
+begin
+    LogEntry1(importance, routineName, d1 + ', ' + d2);
+end;
+
+Procedure LogEntry3(importance: integer; routineName: string; d1, d2, d3: string);
+begin
+    LogEntry1(importance, routineName, d1 + ', ' + d2 + ', ' + d3);
+end;
+
+Procedure LogExit(importance: integer; routineName: string);
+var
+    i: integer;
+    s: string;
+begin
+    s := '';
+	if importance <= LOGLEVEL then begin
+        dec(logIndent);
+        for i := 1 to logIndent do s := s + '|   ';
+        s := s + '\' + routineName;
+        AddMessage(s);
+    end;
+end;
+
+Procedure LogExit1(importance: integer; routineName: string; details: string);
+var
+    i: integer;
+    s: string;
+begin
+    s := '';
+	if importance <= LOGLEVEL then begin
+        dec(logIndent);
+        for i := 1 to logIndent do s := s + '|   ';
+        s := s + '\' + routineName + ' -> ' + details;
+        AddMessage(s);
+    end;
+end;
+
 procedure Err(txt: string);
 begin
     AddMessage('ERROR: ' + txt);
@@ -146,7 +212,7 @@ var
     i: integer;
     r: IwbMainRecord;
 begin
-    Log(21, '<FindAsset: ' + GetFileName(f) + ', ' + recordType + ', ' + name);
+    LogEntry3(21, 'FindAsset', GetFileName(f), recordType, name);
     Result := Nil;
 
     if not Assigned(f) then begin
@@ -161,7 +227,7 @@ begin
     end
     else
         Result := MainRecordByEditorID(GroupBySignature(f, recordType), name);
-    Log(21, '>FindAsset');
+    LogExit1(21, 'FindAsset', EditorID(result));
 end;
 
 //=======================================================================

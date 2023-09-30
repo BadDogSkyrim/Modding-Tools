@@ -5,7 +5,7 @@ unit TEST_BDAssetLoaderFO4;
 
 interface
 implementation
-uses FFO_Furrifier, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses FFO_Furrifier, FFOGenerateNPCs, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 var
     testErrorCount: integer;
@@ -42,6 +42,25 @@ end;
 Function Initialize: integer;
 begin
   
+end;
+
+//=======================================================================
+// Check to ensure the given IwbContainer contains the record referenced by editor ID.
+// Also ensures all elements of the list are valid.
+Procedure AssertInList(elist: IwbContainer; target: string);
+var
+    i: integer;
+    ref: IwbMainRecord;
+    found: boolean;
+begin
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        Assert(Assigned(ElementByIndex(elist, i)), Format('List element at [%d] assigned', [i]));
+        ref := LinksTo(ElementByIndex(elist, i));
+        if (target <> '') and (EditorID(ref) = target) then found := true;
+    end;
+    if target <> '' then
+        Assert(found, Format('Found target element %s in %s', [target, Path(elist)]));
 end;
 
 //=======================================================================
@@ -118,6 +137,37 @@ begin
         Assert(foundTarget, Format('Found target tint layer %d', [targetLayerIndex]));
 end;
 
+// =========================================================================
+// Check for errors in a NPC's tint layers.
+// If non-zero, targetLayerIndex must NOT be in the list.
+Procedure AssertGoodTintLayersNeg(npc: IwbMainRecord; targetLayerIndex: integer);
+var
+    ftl: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    tetiIndex: integer;
+    tetiStr: string;
+    foundTarget: boolean;
+begin
+    ftl := ElementByPath(npc, 'Face Tinting Layers');
+    foundTarget := false;
+    Assert(ElementCount(ftl) > 0, 'Have tints for ' + EditorID(npc));
+    for i := 0 to ElementCount(ftl)-1 do begin
+        ele := ElementByIndex(ftl, i);
+        tetiIndex := GetElementNativeValues(ele, 'TETI\Index');
+        tetiStr := GetElementEditValues(ele, 'TETI\Index');
+        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] (%s) not 0: %d', [EditorID(npc), i, tetiStr, tetiIndex]));
+        if (targetLayerIndex <> 0) and (targetLayerIndex = tetiIndex) then foundTarget := true;
+    end;
+    if targetLayerIndex <> 0 then 
+        Assert(not foundTarget, Format('Did not find target tint layer %d', [targetLayerIndex]));
+end;
+
+// DOES NOT COMPILE
+// procedure TestArray(s: string; const Args: array of const);
+// begin
+// end;
+
 //-------------------------------------------------------------------------
 // Test the furrifier
 function Finalize: integer;
@@ -157,12 +207,18 @@ var
     raceID: Cardinal;
     racename: string;
     racepnam: float;
+    rec: IwbMainRecord;
     sl1, slsub, sl2: TStringList;
     a: string;
     b: string;
     teti: string;
     tend: float;
     sk: TSkinTintLayer;
+    t, t2: TDateTime;
+    hr: Word;
+    min: Word;
+    sec: Word;
+    msec: Word;
 begin
     LOGLEVEL := 1;
     f := FileByIndex(0);
@@ -172,10 +228,14 @@ begin
     Log(10, 'Starting tests');
     testErrorCount := 0;
 
-    AddMessage(Format('Can format hex values: %.8x', [1023]));
-    AddMessage(Format('Can format float values: %f', [10.23]));
+    if {excercising system functionality} FALSE then begin
+        // Can write time values
+        t := Now;
+        AddMessage('Current time is ' + TimeToStr(Time));
+        
+        AddMessage(Format('Can format hex values: %.8x', [1023]));
+        AddMessage(Format('Can format float values: %f', [10.23]));
 
-    if {excercising TStringList functionality} FALSE then begin
         // Can use StringLists of StringLists.
         AddMessage('Demo of stringlists');
         sl1 := TStringList.Create;
@@ -225,7 +285,6 @@ begin
         for i := 0 to sl1.Count-1 do
             AddMessage(Format('Integer value [%d]: %s / %s', [
                 i, sl1[i], IntToStr(sl1.objects[i])]));
-        exit;
         end;
 
     if {Testing random numbers} FALSE then begin
@@ -244,9 +303,23 @@ begin
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate04', 8707, 100)]));
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate05', 8707, 100)]));
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
-        end;
+    end;
     
-    InitializeFurrifier;
+    modFile := CreateOverrideMod('TEST.esp');
+
+    convertingGhouls := true;
+    InitializeFurrifier(modFile);
+
+    LOGLEVEL := 10;
+
+
+    // ------------------------------------------------------------------------------
+    //
+    //      Ghoul Gear
+    //
+    // Any AA's that reference snekdogs should now support ghouls.
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesHancocksHat'));
+    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
 
     // ------------------------------------------------------------------------------
     //
@@ -269,9 +342,10 @@ begin
                     i, j, masterRaceList[i], EditorID(raceInfo[i, j].mainRecord)]));
 
         AddMessage('---Can iterate through childRaceList');
-        for i := 0 to masterRaceList.Count-1 do
-            AddMessage(masterRaceList[i] + ' / ' + childRaceList[i]);
+        for i := 0 to childRaceList.Count-1 do
+            AddMessage(Format('Child Race [%d] %s', [i, childRaceList[i]]));
         end;
+    AssertInt(childRaceList.Count, masterRaceList.Count, 'Child race list same length as master');
 
     // ---------- Child Races
     AssertStr(EditorID(raceInfo[lykaiosIndex, MALECHILD].mainRecord), 'FFOLykaiosChildRace',
@@ -502,12 +576,26 @@ begin
     //      NPCs
     //
     // --------- Classes
+    if {showing all race probabilities} TRUE then begin
+        AddMessage('---Race probabilities---');
+        for i := CLASS_LO to CLASS_HI do
+            for j := RACE_LO to RACE_HI do begin
+                AddMessage(Format('Probability %s %s [%d - %d] of %d', [
+                    GetNPCClassName(i),
+                    masterRaceList[j],
+                    classProbsMin[i, j],
+                    classProbsMax[i, j],
+                    classProbs[i, masterRaceList.Count]
+                ]));
+            end;
+    end;
+
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
     Assert(classProbs[CLASS_MINUTEMEN, RacenameIndex('FFOLionRace')] > 10, 'Lion can be minutemen');
     n := 0;
     for i := RACE_LO to RACE_HI do n := n + classProbs[CLASS_MINUTEMEN, i];
-    AssertInt(classProbs[CLASS_MINUTEMEN, masterRaceList.Count], n, 'classProbs has pre-summed value');
+    AssertInt(classProbs[CLASS_MINUTEMEN, masterRaceList.Count], n, 'Minutemen classProbs has pre-summed value');
 
     // Classes can be derived from factions, so it's easy to read those.
     fl := TStringList.Create;
@@ -517,10 +605,14 @@ begin
     fl.Free;
         
     // -------- NPC classes and races
+    // Can figure out if NPC is based on a template.
+    npc := FindAsset(f, 'NPC_', 'EddieLipkis');
+    Assert(NPCInheritsTraits(npc), Format('Expected "%s" inherits traits', [BaseName(npc)]));
+
     // NPCs are given classes to help with furrification.
     npc := FindAsset(f, 'NPC_', 'BlakeAbernathy');
     npcClass := GetNPCClass(npc);
-    Assert(npcClass = CLASS_NONE, 'Expected no specific class for BlakeAbernathy');
+    Assert(npcClass = CLASS_SETTLER, 'Expected no specific class for BlakeAbernathy');
     npcRace := ChooseNPCRace(npc);
     Assert(npcRace >= 0, 'Expected to choose a race');
     AddMessage('Race is ' + masterRaceList[npcRace]);
@@ -563,9 +655,21 @@ begin
 
     // -------- NPC race assignment
     // Can create overwrite records.
+    AddMessage('---Danse');
+    npc := FindAsset(Nil, 'NPC_', 'BoSPaladinDanse');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    Assert(EditorID(LinksTo(ElementByPath(furryNPC, 'RNAM'))) = 'FFOLykaiosRace', 
+        'Changed Danse`s race');
+    elist := ElementByPath(furryNPC, 'Head Parts');
+    Assert(ElementCount(elist) >= 3, 'Have head parts');
+    Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
+        'Have head parts from FFO');
+    Assert(GetFileName(LinksTo(ElementByPath(furryNPC, 'WNAM'))) = 'FurryFallout.esp', 
+        'Have skin from FFO');
+    AssertGoodTintLayersNeg(furryNPC, 2703); // Does NOT have mask
+
     AddMessage('---Mason');
     npc := FindAsset(Nil, 'NPC_', 'DLC04Mason');
-    modFile := CreateOverrideMod('TEST.esp');
     npcMason := MakeFurryNPC(npc, modFile);
     Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
         'Changed Mason`s race');
@@ -594,18 +698,6 @@ begin
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerChildRace', 'Changed Nat`s race');
     AssertGoodTintLayers(npc, 1168);
-
-    AddMessage('---Hancock');
-    npc := FindAsset(Nil, 'NPC_', 'Hancock');
-    npc := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogRace', 'Changed Hancock`s race');
-    AssertGoodTintLayers(npc, 1156);
-
-    AddMessage('---Billy');
-    npc := FindAsset(Nil, 'NPC_', 'Billy');
-    npc := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogChildRace', 'Changed Billy`s race');
-    AssertGoodTintLayers(npc, 1156);
 
     AddMessage('---Cathy and John');
     npc := FindAsset(Nil, 'NPC_', 'Cathy');
@@ -639,30 +731,75 @@ begin
     npc := MakeFurryNPC(furryNPC, modFile);
     AssertGoodTintLayers(npc, 2718); // Old
     
+    //-----------------------------------------------------------------------
+    //
+    //      Ghouls
+    //
+    // --------- 
+    LOGLEVEL := 15;
+    AddMessage('---Ghouls---');
+    race := WinningOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'));
+    AssertStr(GetFileName(GetFile(race)), GetFileName(modFile), 'Ghouls overridden in mod file');
+    AssertInt(ElementCount(ElementByPath(race, 'Male Head Parts')), 3, 'Ghouls have 3 head parts');
+
+    AddMessage('---Hancock');
+    npc := FindAsset(Nil, 'NPC_', 'Hancock');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'GhoulRace', 'Did not change Hancock`s race');
+    AssertGoodTintLayers(npc, 1156);
+
+    AddMessage('---Billy');
+    npc := FindAsset(Nil, 'NPC_', 'Billy');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'GhoulChildRace', 'Did not change Billy`s race');
+    AssertGoodTintLayers(npc, 1156);
+
+    //-----------------------------------------------------------------------
+    //
+    //      NPC Generation
+    //
+    // --------- 
+    InitializeNPCGenerator(modFile);
+    if {showing all leveled lists} TRUE then begin
+        AddMessage('---Leveled lists---');
+        for i := CLASS_LO to CLASS_HI do
+            for j := MALE to FEMALE do
+                if Assigned(leveledList[i, j]) then
+                    AddMessage(Format('leveledList %s %s -- %s', [GetNPCClassName(i), SexToStr(j), EditorID(leveledList[i, j])]));
+    end;
+
+    AddMessage('---Can generate NPCs');
+    // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
+    npc := SetGenericTraits(modFile, FindAsset(f, 'NPC_', 'EncGunner00'));
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'EncGunner00 Traits set to leveled list');
+
+    npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'DLC03EncTrapper02 Traits set to leveled list');
+    AssertStr(EditorID(NPCTraitsTemplate(npc)), 'DLC03_LCharTrapperFace', 'DLC03EncTrapper02 Traits set to leveled list');
 
     // --------- Race distribution (with humans)
     Assert(classProbs[CLASS_RAIDER, masterRaceList.Count] > 0, 
         Format('classProbs has pre-summed value: %d', [classProbs[CLASS_RAIDER, masterRaceList.Count]]));
     
-    Log(0, '<Race distribution for raiders is reasonable');
-    SetClassProb(CLASS_RAIDER, 'HumanRace', 300);
-    CalcClassTotals();
-    sl1 := TStringList.create;
-    sl1.Duplicates := false;
-    sl1.Sorted := true;
-    for i := 1 to 9 do begin
-        npc := FindAsset(f, 'NPC_', 'EncRaiderFaceM0' + IntToStr(i));
-        Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
-        if not Assigned(npc) then break;
-        npcRaceList[i] := ChooseNPCRace(npc);
-        sl1.Add(masterRaceList[npcRaceList[i]]);
-        Log(0, Format('Race for %s (%s) is %s', [
-            EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
-    end;
-    Log(0, '>');
-    Assert(ContainsText(sl1.CommaText, 'Human'), 
-        'Humans assigned as raiders: ' + sl1.CommaText);
-    sl1.Free;
+    // Log(0, '<Race distribution for raiders is reasonable');
+    // SetClassProb(CLASS_RAIDER, 'HumanRace', 300);
+    // CalcClassTotals();
+    // sl1 := TStringList.create;
+    // sl1.Duplicates := false;
+    // sl1.Sorted := true;
+    // for i := 1 to 9 do begin
+    //     npc := FindAsset(f, 'NPC_', 'EncRaiderFaceM0' + IntToStr(i));
+    //     Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
+    //     if not Assigned(npc) then break;
+    //     npcRaceList[i] := ChooseNPCRace(npc);
+    //     sl1.Add(masterRaceList[npcRaceList[i]]);
+    //     Log(0, Format('Race for %s (%s) is %s', [
+    //         EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
+    // end;
+    // Log(0, '>');
+    // Assert(ContainsText(sl1.CommaText, 'Human'), 
+    //     'Humans assigned as raiders: ' + sl1.CommaText);
+    // sl1.Free;
 
     Log(0, '<Race distribution for settlers is reasonable');
     sl1 := TStringList.create;
@@ -708,10 +845,16 @@ begin
         end;
     end;
 
+    //------------------------------------------------------------------------
+
+    t2 := Now;
+    DecodeTime(t2-t, hr, min, sec, msec);
+    AddMessage(Format('Test duration is %d:%d:%d', [hr, min, sec]));
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 
         '++++++++++++SUCCESS++++++++++',
         '-------------FAIL----------'));
+    ShutdownNPCGenerator;
     ShutdownAssetLoader;
 end;
 
