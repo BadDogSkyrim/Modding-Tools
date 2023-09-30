@@ -1796,6 +1796,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
+    LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;
 
@@ -1805,6 +1806,11 @@ begin
     convertingGhouls := (not USE_SELECTION);
 
     InitializeFurrifier(patchFile);
+
+    for i := RACE_LO to RACE_HI do begin
+        AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALE].mainRecord));
+        AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALECHILD].mainRecord));
+    end;
 end;
 
 // Process selected NPCs.
