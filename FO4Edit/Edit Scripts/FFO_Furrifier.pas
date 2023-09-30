@@ -23,8 +23,8 @@ uses BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools, BDAssetLoaderFO4, xEditA
 
 const
     patchfileName = 'FFOPatch.esp'; // Set to whatever
-    USE_SELECTION = TRUE;           // FALSE or TRUE
-    TARGET_RACE = 'SynthGen1Race';    // Use this race for everything
+    USE_SELECTION = FALSE;           // FALSE or TRUE
+    TARGET_RACE = '';    // Use this race for everything
 
     // Ghouls. All ghouls have to be the same race (because they're one separate race in
     // vanilla, also headgear has to be altered to fit them).
