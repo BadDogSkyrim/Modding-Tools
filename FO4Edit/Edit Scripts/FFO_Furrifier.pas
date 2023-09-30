@@ -1813,7 +1813,6 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    LOGLEVEL := 10;
     if not USE_SELECTION then exit;
     win := WinningOverride(entity);
 
