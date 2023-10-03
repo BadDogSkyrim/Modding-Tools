@@ -11,6 +11,12 @@ var
     logIndent: integer;
     errCount: integer;
     warnCount: integer;
+
+
+Function BoolToStr(b: boolean): string;
+begin
+    if b then result := 'T' else result := 'F';
+end;
     
 //================================================================
 // Adds "masterFile" as a master to "aeFile", if not already there.
