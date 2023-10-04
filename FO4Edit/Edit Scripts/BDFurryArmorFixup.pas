@@ -22,7 +22,7 @@ var
     i: integer;
     racename: string;
 begin
-    Log(5, Format('<ARMAHasRace: %s, %s', [EditorID(arma), EditorID(targetRace)]));
+    Log(11, Format('<ARMAHasRace: %s, %s', [EditorID(arma), EditorID(targetRace)]));
     result := false;
     racename := EditorID(targetRace);
     if EditorID(LinksTo(ElementByPath(arma, 'RNAM'))) = racename then
@@ -30,14 +30,14 @@ begin
     else begin
         extraList := ElementByPath(arma, 'Additional Races');
         for i := 0 to ElementCount(extraList)-1 do begin
-            Log(6, 'Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
+            Log(11, 'Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
             if EditorID(LinksTo(ElementByIndex(extraList, i))) = racename then begin
                 result := true;
                 break;
             end;
         end;
     end;
-    Log(5, '>ARMAHasRace: ' + IfThen(result, 'T', 'F'));
+    Log(11, '>ARMAHasRace: ' + IfThen(result, 'T', 'F'));
 end;
 
 //================================================================
@@ -49,7 +49,7 @@ var
     extras: IwbContainer;
     entry: IwbElement;
 begin
-    LogEntry3(5, 'AddRaceToARMA', GetFileName(targetFile), Name(arma), Name(race));
+    LogEntry3(11, 'AddRaceToARMA', GetFileName(targetFile), Name(arma), Name(race));
 
     if ARMAHasRace(arma, race) then 
         result := arma
@@ -60,11 +60,11 @@ begin
         result := wbCopyElementToFile(arma, targetFile, False, True);
         extras := Add(result, 'Additional Races', true); 
         entry := ElementAssign(extras, HighInteger, Nil, false);
-        Log(5, 'Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
+        Log(11, 'Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
         SetNativeValue(entry,
             LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(race)));
     end;
-    LogExit(5, 'AddRaceToArma');
+    LogExit(11, 'AddRaceToArma');
 end;
 
 //================================================================
@@ -77,7 +77,7 @@ var
     f: integer;
     i: integer;
 begin
-    LogEntry3(5, 'AddRaceToAllArmor', GetFileName(targetFile), Name(newRace), Name(existingRace));
+    LogEntry3(11, 'AddRaceToAllArmor', GetFileName(targetFile), Name(newRace), Name(existingRace));
     // Walk the file list backwards so we hit winning overrides first.
     for f := FileCount-1 downto 0 do begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
@@ -88,7 +88,7 @@ begin
                     AddRaceToARMA(targetFile, aa, newRace);
         end;
     end;
-    LogExit(3, 'AddRaceToAllArmor');
+    LogExit(11, 'AddRaceToAllArmor');
 end;
 
 //===========================================================

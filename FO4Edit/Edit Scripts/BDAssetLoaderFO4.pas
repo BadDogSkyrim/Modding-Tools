@@ -534,7 +534,7 @@ Function DetermineTintType(name: string): integer;
 var
     n: integer;
 begin
-    Log(10, '<DetermineTintType: ' + name);
+    Log(11, '<DetermineTintType: ' + name);
     n := knownTTGP.IndexOf(name);
     if n < 0 then
         result := -1
@@ -557,7 +557,7 @@ begin
     // else 
     //     Result := TL_PAINT
     // ;
-    Log(10, '>DetermineTintType -> ' + IntToStr(result));
+    Log(11, '>DetermineTintType -> ' + IntToStr(result));
 end;
 
 //==================================================================
@@ -584,28 +584,28 @@ begin
         rootElem := 'Female Tint Layers';
     tintGroups := ElementByPath(theRace, rootElem);
 
-    Log(11, EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
+    LogT(EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
     
     for i := 0 to ElementCount(tintGroups)-1 do begin
         thisGroup := ElementByIndex(tintGroups, i);
         Log(11, 'Found tint group ' + GetElementEditValues(thisGroup, 'TTGP'));
 
         tintOptions := ElementByPath(thisGroup, 'Options');
-        Log(6, Format('Group has %d options', [integer(ElementCount(tintOptions))]));
+        LogT(Format('Group has %d options', [integer(ElementCount(tintOptions))]));
         for j := 0 to ElementCount(tintOptions)-1 do begin
             tintLayer := ElementByIndex(tintOptions, j);
             tintName := GetElementEditValues(tintLayer, 'TTGP');
             tintType := DetermineTintType(tintName);
 
             if tintType >= 0 then begin
-                Log(11, Format('Finding tint count for [%d, %s], tintType %d', [
+                LogT(Format('Finding tint count for [%d, %s], tintType %d', [
                     raceID, SexToStr(sex), tintType
                 ]));
                 n := raceInfo[raceID, sex].tintCount[tintType];
 
                 // Log(6, Format('[%d] Found tint option "%s" -> %d', 
                 //     [integer(j), tintname, integer(tintType)]));
-                Log(6, Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
+                LogT(Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
 
                 if tintType < TINTLAYERS_COUNT then begin
                     if n < TEXTURES_MAX then begin
@@ -623,7 +623,7 @@ begin
         end;
     end;
 
-    LogExit(11, 'LoadTintLayerInfo');
+    LogExitT('LoadTintLayerInfo');
 end;
 
 //===============================================================
@@ -840,14 +840,14 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    Log(10, '<RecordVanillaHair: ' + EditorID(hair));
+    Log(11, '<RecordVanillaHair: ' + EditorID(hair));
     if vanillaHairRecords.IndexOf(EditorID(hair)) < 0 then begin
         if not StartsText('FFO', EditorID(hair)) then 
             // This is non-furry, probably vanilla hair. Create an entry so we can 
             // add furry hair to it.
             vanillaHairRecords.Add(EditorID(hair));
     end;
-    Log(10, '>');
+    Log(11, '>');
 end;
 
 //------------------------------------------------------------
@@ -860,7 +860,7 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    Log(6, '<RecordFurryHair: ' + EditorID(hair));
+    Log(11, '<RecordFurryHair: ' + EditorID(hair));
     // If this is a lion mane, there's no vanilla hair, but save it for later.
     if EditorID(hair) = 'FFO_HairMaleMane' then
         lionMane := hair // TODO take this out we have a new way to do it
@@ -874,7 +874,7 @@ begin
                     race := LinksTo(ElementByIndex(raceList, j));
                     raceID := RaceIndex(race);
                     if raceID >= 0 then begin
-                        Log(6, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
+                        Log(11, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
                         if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i));
                         furryHair[i, raceID] := hair;
                     end;
@@ -882,7 +882,7 @@ begin
             end;
         end;
     end;
-    Log(6, '>');
+    Log(11, '>');
 end;
 
 //===================================================================

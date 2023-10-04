@@ -11,6 +11,7 @@ var
     logIndent: integer;
     errCount: integer;
     warnCount: integer;
+    curLogLevel: array [0..10] of integer;
 
 
 Function BoolToStr(b: boolean): string;
@@ -125,6 +126,11 @@ begin
     end;
 end;
 
+Procedure LogT(txt: string);
+begin
+    LogT(curLogLevel[logIndent], txt);
+end;
+
 Procedure LogEntry(importance: integer; routineName: string);
 var
     i: integer;
@@ -137,6 +143,7 @@ begin
         AddMessage(s);
         inc(logIndent);
     end;
+    if logIndent < length(curLogLevel) then curLogLevel[logIndent] := importance;
 end;
 
 Procedure LogEntry1(importance: integer; routineName: string; details: string);
@@ -151,6 +158,7 @@ begin
         AddMessage(s);
         inc(logIndent);
     end;
+    if logIndent < length(curLogLevel) then curLogLevel[logIndent] := importance;
 end;
 
 Procedure LogEntry2(importance: integer; routineName: string; d1, d2: string);
@@ -182,6 +190,11 @@ begin
     end;
 end;
 
+Procedure LogExitT(routineName: string);
+begin
+    LogExit(curLogLevel[logIndent], routineName);
+end;
+
 Procedure LogExit1(importance: integer; routineName: string; details: string);
 var
     i: integer;
@@ -195,6 +208,12 @@ begin
         AddMessage(s);
     end;
 end;
+
+Procedure LogExitT1(routineName: string; details: string);
+begin
+    LogExit1(curLogLevel[logIndent], routineName, details);
+end;
+
 
 procedure Err(txt: string);
 begin

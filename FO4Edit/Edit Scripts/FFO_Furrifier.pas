@@ -1796,7 +1796,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 0;
+    LOGLEVEL := 10;
     errCount := 0;
     warnCount := 0;
 

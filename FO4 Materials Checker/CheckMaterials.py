@@ -5,8 +5,10 @@ from pathlib import Path
 
 targetFolder = r"C:\Modding\Fallout4\mods\Furry Fallout\Materials"
 
-targetPaths = [r"C:\Modding\Fallout4\mods\Furry Fallout",
-               r"C:\Modding\Fallout4\mods\00 FO4 Assets"]
+targetPaths = [
+    r"C:\Modding\Fallout4\mods\Furry Fallout World",
+    r"C:\Modding\Fallout4\mods\Furry Fallout",
+    r"C:\Modding\Fallout4\mods\00 FO4 Assets"]
 
 class BGSMaterial:
     def __init__(self):
@@ -51,7 +53,7 @@ class BGSMaterial:
             'refraction', 'refractionFalloff', 'refractionPower',]
 
         with open(fn, 'rb') as f:
-            print(f"Reading '{fn}'")
+            # print(f"Reading '{fn}'")
             buf = f.read(headerStruct.size)
             v = headerStruct.unpack(buf)
             self.header = BGSMHeader._make(v)
