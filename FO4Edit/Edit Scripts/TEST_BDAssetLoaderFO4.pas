@@ -9,6 +9,7 @@ uses FFO_Furrifier, FFOGenerateNPCs, BDAssetLoaderFO4, xEditAPI, Classes, SysUti
 
 var
     testErrorCount: integer;
+    modFile: IwbFile;
 
 procedure Assert(v: Boolean; msg: string);
 begin
@@ -163,6 +164,54 @@ begin
         Assert(not foundTarget, Format('Did not find target tint layer %d', [targetLayerIndex]));
 end;
 
+//===========================================================
+// Test this functionality.
+// Assumes FFOTESTPre.esp, FurryFallout.esp.
+Procedure TestFurryArmorFixup;
+var
+    i: integer;
+    testFile: IwbFile;
+    arma: IwbMainRecord;
+    armawin: IwbMainRecord;
+    ghoulRace: IwbMainRecord;
+    snekRace: IwbMainRecord;
+    modelsNew: IwbElement;
+    mr, mrNew: IwbMainRecord;
+begin
+    LogEntry(0, 'TestFurryArmorFixup');
+    for i := 0 to FileCount-1 do
+        if GetFileName(FileByIndex(i)) = TEST_FILE_NAME then
+            testFile := FileByIndex(i);
+    if not Assigned(testFile) then
+        testFile := AddNewFileName(TEST_FILE_NAME);
+
+    arma := FindAsset(Nil, 'ARMA', 'FFO_AAClothesHardHat');
+    armawin := WinningOverride(arma);
+    ghoulRace := FindAsset(Nil, 'RACE', 'GhoulRace');
+    snekRace := FindAsset(Nil, 'RACE', 'FFOSnekdogRace');
+    if ARMAHasRace(armawin, snekRace) then
+        AddRaceToARMA(testFile, armawin, ghoulRace);
+
+    // Visual check: ARMA has ghoul race. If run again, still has 
+    // ghoul race only once.
+
+    // Check that armors are correctly merged.
+    mr := FindAsset(Nil, 'ARMO', 'ClothesResident7Hat');
+    mrNew := MergeOverride(modFIle, WinningOverride(mr));
+    AssertStr(GetFileName(GetFile(mrNew)), TEST_FILE_NAME, 'Created override in test file');
+    AssertStr(GetElementEditValues(mrNew, 'FULL'), 'Newsboy Cap TEST', 'Armor correctly renamed');
+    modelsNew := ElementByPath(mrNew, 'Models');
+    AssertStr(EditorID(RecordAtIndex(modelsNew, 0, 'MODL')), 'FFO_AAClothesResident7Hat',
+        'FFO addon is first');
+    AssertStr(EditorID(RecordAtIndex(modelsNew, 1, 'MODL')), 'AAClothesResident7Hat',
+        'Vanilla addon is second');
+    AssertStr(EditorID(RecordAtIndex(modelsNew, 2, 'MODL')), 'AAClothesBaseballHat',
+        'Order is preserved');
+
+    AssertInt(ElementCount(modelsNew), 3, 'Lists properly merged'); 
+    LogExitT('TestFurryArmorFixup');
+end;
+
 // DOES NOT COMPILE
 // procedure TestArray(s: string; const Args: array of const);
 // begin
@@ -170,7 +219,7 @@ end;
 
 //-------------------------------------------------------------------------
 // Test the furrifier
-function Finalize: integer;
+Procedure TestFFOFurrifier;
 var
     classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
     elem: IwbElement;
@@ -188,7 +237,6 @@ var
     lykaiosIndex: integer;
     lykaiosRace: IwbMainRecord;
     m: integer;
-    modFile: IwbFile;
     n: integer;
     name: string;
     npc: IwbMainRecord;
@@ -224,10 +272,6 @@ begin
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
-    AddMessage('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    Log(10, 'Starting tests');
-    testErrorCount := 0;
-
     if {excercising system functionality} FALSE then begin
         // Can write time values
         t := Now;
@@ -305,8 +349,6 @@ begin
         AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
     end;
     
-    modFile := CreateOverrideMod('TEST.esp');
-
     convertingGhouls := true;
     InitializeFurrifier(modFile);
 
@@ -845,17 +887,31 @@ begin
         end;
     end;
 
+    ShutdownNPCGenerator;
+    ShutdownAssetLoader;
+end;
+
+Function Finalize: integer;
+begin
+    AddMessage('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+    Log(0, 'Starting tests');
+    testErrorCount := 0;
+
+    LOGLEVEL := 15;
+    modFile := CreateOverrideMod('TEST.esp');
+
+
+    // TestFFOFurrifier;
+    TestFurryArmorFixup;
+
     //------------------------------------------------------------------------
 
-    t2 := Now;
-    DecodeTime(t2-t, hr, min, sec, msec);
+    // t2 := Now;
+    // DecodeTime(t2-t, hr, min, sec, msec);
     AddMessage(Format('Test duration is %d:%d:%d', [hr, min, sec]));
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 
         '++++++++++++SUCCESS++++++++++',
         '-------------FAIL----------'));
-    ShutdownNPCGenerator;
-    ShutdownAssetLoader;
 end;
-
 end.

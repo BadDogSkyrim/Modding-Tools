@@ -128,7 +128,7 @@ end;
 
 Procedure LogT(txt: string);
 begin
-    LogT(curLogLevel[logIndent], txt);
+    Log(curLogLevel[logIndent], txt);
 end;
 
 Procedure LogEntry(importance: integer; routineName: string);
@@ -250,14 +250,24 @@ begin
             r := MainRecordByEditorID(GroupBySignature(FileByIndex(i), recordType), name);
             if Assigned(r) then begin
                 Result := r;
-                Log(21, 'Found in file index ' + IntToStr(i));
+                LogT('Found in file index ' + IntToStr(i));
                 break;
             end;
         end
     end
     else
         Result := MainRecordByEditorID(GroupBySignature(f, recordType), name);
-    LogExit1(21, 'FindAsset', EditorID(result));
+    LogExitT1('FindAsset', EditorID(result));
+end;
+
+//=======================================================================
+// Return the record referenced by the field of the element at the given index
+Function RecordAtIndex(e: IwbElement; idx: integer; field: string): IwbElement;
+begin
+    if idx < ElementCount(e) then
+        result := LinksTo(ElementByPath(ElementByIndex(e, idx), field))
+    else
+        result := nil;
 end;
 
 //=======================================================================

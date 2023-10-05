@@ -9,6 +9,8 @@
 
   Script allows customization of race assignments and what NPCs to affect.
 
+  Documentation: https://github.com/BadDogSkyrim/Modding-Tools/wiki
+
 	Hotkey: Ctrl+Alt+D
 
 }
@@ -30,6 +32,9 @@ const
     // vanilla, also headgear has to be altered to fit them).
     GHOUL_RACE = 'FFOSnekdogRace';
     GHOUL_CHILD_RACE = 'FFOSnekdogChildRace';
+
+    SHOW_RACE_DISTRIBUTION = TRUE; // Show me what it did
+    DO_FURRIFICATION = TRUE;
 
 var
     patchFile: IwbFile;
@@ -64,7 +69,14 @@ begin
     SetClassProb(CLASS_MINUTEMEN, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_MINUTEMEN, 'FFOHorseRace', 40);
     SetClassProb(CLASS_MINUTEMEN, 'FFODeerRace', 20);
-
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurRace', 40);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurHybridRace', 20);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurTriRace', 40);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurParaRace', 10);	
+	SetClassProb(CLASS_MINUTEMEN, 'PA_ProtoArgonianRace', 30);
+	SetClassProb(CLASS_MINUTEMEN, 'aaaSharkRace', 10);	
+	SetClassProb(CLASS_MINUTEMEN, 'DCM_DeathclawMutantRace', 30);
+	
     SetClassProb(CLASS_BOS, 'FFOLykaiosRace', 40);
     SetClassProb(CLASS_BOS, 'FFOFoxRace', 20);
     SetClassProb(CLASS_BOS, 'FFOHyenaRace', 20);
@@ -73,7 +85,13 @@ begin
     SetClassProb(CLASS_BOS, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_BOS, 'FFOHorseRace', 30);
     SetClassProb(CLASS_BOS, 'FFODeerRace', 10);
-
+	SetClassProb(CLASS_BOS, 'DN_DinosaurRace', 30);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurParaRace', 10);	
+	SetClassProb(CLASS_BOS, 'PA_ProtoArgonianRace', 30);
+	SetClassProb(CLASS_BOS, 'DCM_DeathclawMutantRace', 20);
+	
     SetClassProb(CLASS_RR, 'FFOLykaiosRace', 20);
     SetClassProb(CLASS_RR, 'FFOFoxRace', 20);
     SetClassProb(CLASS_RR, 'FFOHyenaRace', 10);
@@ -82,7 +100,13 @@ begin
     SetClassProb(CLASS_RR, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_RR, 'FFOHorseRace', 60);
     SetClassProb(CLASS_RR, 'FFODeerRace', 30);
-
+	SetClassProb(CLASS_RR, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_RR, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_RR, 'DN_DinosaurTriRace', 60);
+	SetClassProb(CLASS_RR, 'DN_DinosaurParaRace', 30);	
+	SetClassProb(CLASS_RR, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_RR, 'DCM_DeathclawMutantRace', 10); 	
+	
     // Enemies
 
     SetClassProb(CLASS_GUNNER, 'FFOLykaiosRace', 20);
@@ -93,7 +117,13 @@ begin
     SetClassProb(CLASS_GUNNER, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_GUNNER, 'FFOHorseRace', 10);
     SetClassProb(CLASS_GUNNER, 'FFODeerRace', 5);
-
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurRace', 60);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurHybridRace', 40);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_GUNNER, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_GUNNER, 'DCM_DeathclawMutantRace', 20); 
+	
     SetClassProb(CLASS_DISCIPLES, 'FFOLykaiosRace', 20);
     SetClassProb(CLASS_DISCIPLES, 'FFOFoxRace', 20);
     SetClassProb(CLASS_DISCIPLES, 'FFOHyenaRace', 60);
@@ -102,7 +132,13 @@ begin
     SetClassProb(CLASS_DISCIPLES, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_DISCIPLES, 'FFOHorseRace', 8);
     SetClassProb(CLASS_DISCIPLES, 'FFODeerRace', 4);
-
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurRace', 20);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurHybridRace', 20);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurTriRace', 8);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurParaRace', 4);
+	SetClassProb(CLASS_DISCIPLES, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_DISCIPLES, 'DCM_DeathclawMutantRace', 40); 
+	
     SetClassProb(CLASS_OPERATOR, 'FFOLykaiosRace', 20);
     SetClassProb(CLASS_OPERATOR, 'FFOFoxRace', 60);
     SetClassProb(CLASS_OPERATOR, 'FFOHyenaRace', 20);
@@ -111,7 +147,13 @@ begin
     SetClassProb(CLASS_OPERATOR, 'FFOCheetahRace', 10);
     SetClassProb(CLASS_OPERATOR, 'FFOHorseRace', 5);
     SetClassProb(CLASS_OPERATOR, 'FFODeerRace', 5);
-
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurHybridRace', 20);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_OPERATOR, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_OPERATOR, 'DCM_DeathclawMutantRace', 10); 
+	
     SetClassProb(CLASS_PACK, 'FFOLykaiosRace', 20);
     SetClassProb(CLASS_PACK, 'FFOFoxRace', 20);
     SetClassProb(CLASS_PACK, 'FFOHyenaRace', 20);
@@ -120,7 +162,13 @@ begin
     SetClassProb(CLASS_PACK, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_PACK, 'FFOHorseRace', 5);
     SetClassProb(CLASS_PACK, 'FFODeerRace', 0);
-
+	SetClassProb(CLASS_PACK, 'DN_DinosaurRace', 20);
+	SetClassProb(CLASS_PACK, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_PACK, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_PACK, 'DN_DinosaurParaRace', 0);
+	SetClassProb(CLASS_PACK, 'PA_ProtoArgonianRace', 5);
+	SetClassProb(CLASS_PACK, 'DCM_DeathclawMutantRace', 20); 
+	
     SetClassProb(CLASS_RAIDER, 'FFOLykaiosRace', 30);
     SetClassProb(CLASS_RAIDER, 'FFOFoxRace', 30);
     SetClassProb(CLASS_RAIDER, 'FFOHyenaRace', 50);
@@ -129,7 +177,13 @@ begin
     SetClassProb(CLASS_RAIDER, 'FFOCheetahRace', 30);
     SetClassProb(CLASS_RAIDER, 'FFOHorseRace', 16);
     SetClassProb(CLASS_RAIDER, 'FFODeerRace', 8);
-
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurRace', 40);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurHybridRace', 30);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurTriRace', 16);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurParaRace', 8);
+	SetClassProb(CLASS_RAIDER, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_RAIDER, 'DCM_DeathclawMutantRace', 40); 
+	
     SetClassProb(CLASS_TRAPPER, 'FFOOtterRace', 100);
     SetClassProb(CLASS_TRAPPER, 'FFOLykaiosRace', 10);
     SetClassProb(CLASS_TRAPPER, 'FFOFoxRace', 10);
@@ -139,7 +193,14 @@ begin
     SetClassProb(CLASS_TRAPPER, 'FFOCheetahRace', 10);
     SetClassProb(CLASS_TRAPPER, 'FFOHorseRace', 5);
     SetClassProb(CLASS_TRAPPER, 'FFODeerRace', 5);
-
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_TRAPPER, 'PA_ProtoArgonianRace', 10);
+    SetClassProb(CLASS_TRAPPER, 'aaaSharkRace', 100);
+	SetClassProb(CLASS_TRAPPER, 'DCM_DeathclawMutantRace', 10); 
+	
     // Neutrals 
 
     SetClassProb(CLASS_INSTITUTE, 'FFOLykaiosRace', 30);
@@ -150,7 +211,13 @@ begin
     SetClassProb(CLASS_INSTITUTE, 'FFOCheetahRace', 40);
     SetClassProb(CLASS_INSTITUTE, 'FFOHorseRace', 50);
     SetClassProb(CLASS_INSTITUTE, 'FFODeerRace', 50);
-
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurRace', 20);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurHybridRace', 40);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurTriRace', 50);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurParaRace', 50);
+	SetClassProb(CLASS_INSTITUTE, 'PA_ProtoArgonianRace', 20);
+	SetClassProb(CLASS_INSTITUTE, 'DCM_DeathclawMutantRace', 30); 
+	
     SetClassProb(CLASS_FARHARBOR, 'FFOLykaiosRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOFoxRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOHyenaRace', 5);
@@ -160,7 +227,14 @@ begin
     SetClassProb(CLASS_FARHARBOR, 'FFOHorseRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFODeerRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOOtterRace', 90);
-
+	SetClassProb(CLASS_FARHARBOR, 'aaaSharkRace', 90);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurHybridRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'PA_ProtoArgonianRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'DCM_DeathclawMutantRace', 5);
+ 	
     SetClassProb(CLASS_ATOM, 'FFOLykaiosRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOFoxRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOHyenaRace', 5);
@@ -170,7 +244,13 @@ begin
     SetClassProb(CLASS_ATOM, 'FFOHorseRace', 5);
     SetClassProb(CLASS_ATOM, 'FFODeerRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOSnekdogRace', 40);
-
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurRace', 5);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurHybridRace', 5);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_ATOM, 'PA_ProtoArgonianRace', 5);
+	SetClassProb(CLASS_ATOM, 'DCM_DeathclawMutantRace', 40); 
+	
     SetClassProb(CLASS_SETTLER, 'FFOLykaiosRace', 10);
     SetClassProb(CLASS_SETTLER, 'FFOFoxRace', 10);
     SetClassProb(CLASS_SETTLER, 'FFOHyenaRace', 10);
@@ -180,7 +260,14 @@ begin
     SetClassProb(CLASS_SETTLER, 'FFOHorseRace', 15);
     SetClassProb(CLASS_SETTLER, 'FFODeerRace', 15);
     SetClassProb(CLASS_SETTLER, 'FFOOtterRace', 3);
-
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurHybridRace', 3);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurTriRace', 15);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurParaRace', 15);
+	SetClassProb(CLASS_SETTLER, 'PA_ProtoArgonianRace', 10);
+    SetClassProb(CLASS_SETTLER, 'aaaSharkRace', 3);
+	SetClassProb(CLASS_SETTLER, 'DCM_DeathclawMutantRace', 10); 
+	
     // Followers. There's at least one follower of each race.
     SetClassProb(CLASS_GARVEY, 'FFOLionRace', 100);
     SetClassProb(CLASS_CAIT, 'FFOFoxRace', 100);
@@ -480,7 +567,7 @@ begin
         assignIndex := npcRaceAssignments.IndexOf(EditorID(npc));
         if assignIndex >= 0 then begin
             theRace := ObjectToElement(npcRaceAssignments.Objects[assignIndex]);
-            Log(5, EditorID(npc) + ' assigned to race ' + EditorID(theRace));
+            LogT(EditorID(npc) + ' assigned to race ' + EditorID(theRace));
             Result := RaceIndex(theRace);
         end
     end;
@@ -500,11 +587,11 @@ begin
         // Pick a random race.
         charClass := GetNPCClass(npc);
         pointTotal := classProbs[charClass, masterRaceList.Count];
-        Log(6, Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
+        LogT(Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
         h := Hash(EditorID(npc), 6795, pointTotal);
-        Log(6, Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(charClass), pointTotal, h]));
+        LogT(Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(charClass), pointTotal, h]));
         for r := RACE_LO to RACE_HI do begin
-            Log(6, Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[charClass, r], classProbsMax[charClass, r]]));
+            LogT(Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[charClass, r], classProbsMax[charClass, r]]));
             if (h >= classProbsMin[charClass, r]) and (h <= classProbsMax[charClass, r]) then begin
                 Result := r;
                 break;
@@ -520,7 +607,7 @@ begin
         end;
     end;
 
-    LogExit1(5, 'ChooseNPCRace', RaceIDtoStr(Result));
+    LogExitT1('ChooseNPCRace', RaceIDtoStr(Result));
 end;
 
 
@@ -1796,7 +1883,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 10;
+    LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;
 
@@ -1819,7 +1906,7 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if not USE_SELECTION then exit;
+    if (not USE_SELECTION) or (not DO_FURRIFICATION) then exit;
     win := WinningOverride(entity);
 
     Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
@@ -1839,12 +1926,18 @@ end;
 // If not using the selection, furrify everything here. 
 function Finalize: integer;
 var
-    f, n: integer;
+    classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
+    f: integer;
     fn: string;
+    i, j, k: integer;
+    n: integer;
     npc: IwbMainRecord;
+    npcClass: integer;
+    npcGroup: IwbContainer;
     npcList: IwbContainer;
+    raceID: inetger;
 begin
-    if not USE_SELECTION then begin
+    if DO_FURRIFICATION and (not USE_SELECTION) then begin
         for f := 0 to preFurryCount-1 do begin
             // Don't check the NPCs in the patch file if we created it on this run.
             fn := GetFileName(FileByIndex(f));
@@ -1868,11 +1961,9 @@ begin
                 end;
             end;
         end;
+
+        GenerateFurryNPCs(patchFile);
     end;
-
-    if not USE_SELECTION then GenerateFurryNPCs(patchFile);
-
-    ShutdownFurrifier;
 
     // AddMessage(Format('End time %s, duration %s', [TimeToStr(Time), TimeToStr(Time-startTime)]));
 	AddMessage('----------------------------------------------------------');
@@ -1883,6 +1974,45 @@ begin
             errCount, IfThen(errCount = 1, '', 'S'), 
             warnCount, IfThen(warnCount = 1, '', 'S')
         ]));
+	AddMessage('----------------------------------------------------------');
+
+    if SHOW_RACE_DISTRIBUTION then begin
+        // Walk through the NPCs and collect stats on how many of each race there are
+        // to make sure the random assignment is giving a range of races.
+	    AddMessage('');
+        AddMessage('---Race Probabilities---');
+        for k := 0 to FileCount-1 do begin
+            npcGroup := GroupBySignature(FileByIndex(k), 'NPC_');
+            for i := 0 to ElementCount(npcGroup)-1 do begin
+                npc := ElementByIndex(npcGroup, i);
+                if IsWinningOverride(npc) then begin
+                    npcClass := GetNPCClass(npc);
+                    raceID := GetNPCEffectiveRaceID(npc);
+                    if (npcClass >= 0) and (raceID >= 0) then
+                        classCounts[npcClass, raceID] := classCounts[npcClass, raceID] + 1;
+                end;
+            end;
+        end;
+
+        AddMessage('Check that we have a reasonable distribution of races');
+        for i := CLASS_LO to CLASS_HI do begin
+            for j := RACE_LO to RACE_HI do begin
+                if classCounts[i, j] > 0 then begin
+                    if j = 0 then AddMessage('- ');
+                    if TRUE {not Assigned(masterRaceList[j].mainRecord)} then
+                        AddMessage(Format('%s %s = %d', [
+                            GetNPCClassName(i), masterRaceList[j], classCounts[i, j]]))
+                    else
+                        AddMessage(Format('%s %s = %d', [
+                            GetNPCClassName(i), masterRaceList[j], classCounts[i, j]]));
+                end;
+            end;
+        end;
+    end;
+
 	AddMessage('==========================================================');
+
+    ShutdownFurrifier;
+
 end;
 end.
