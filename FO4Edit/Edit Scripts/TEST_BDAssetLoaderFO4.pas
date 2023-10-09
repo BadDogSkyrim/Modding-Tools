@@ -901,7 +901,7 @@ begin
     modFile := CreateOverrideMod('TEST.esp');
 
 
-    // TestFFOFurrifier;
+    TestFFOFurrifier;
     TestFurryArmorFixup;
 
     //------------------------------------------------------------------------

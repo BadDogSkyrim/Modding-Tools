@@ -1963,6 +1963,7 @@ begin
         end;
 
         GenerateFurryNPCs(patchFile);
+        MergeFurryChanges(patchFile);
     end;
 
     // AddMessage(Format('End time %s, duration %s', [TimeToStr(Time), TimeToStr(Time-startTime)]));

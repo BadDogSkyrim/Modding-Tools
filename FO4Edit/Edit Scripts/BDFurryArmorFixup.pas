@@ -257,14 +257,14 @@ end;
 //================================================================
 // Create an armor override record that merges FFO race additions with any other changes
 // in the load order.
-Procedure MergeFurryChanges;
+Procedure MergeFurryChanges(targetFile: IwbFile);
 var
     armor: IwbElement;
     armorList: IwbContainer;
     f: integer;
     i: integer;
 begin
-    LogEntry(11, 'MergeFurryChanges');
+    LogEntry(5, 'MergeFurryChanges');
     CalcFileEntries;
 
     for f := 0 to FileCount-1 do begin
@@ -272,7 +272,7 @@ begin
         for i := 0 to ElementCount(armorList)-1 do begin
             armor := ElementByIndex(armorList, i);
             if IsWinningOverride(armor) then 
-                MergeOverride(armor);
+                MergeOverride(targetFile, armor);
         end;
     end;
     LogExitT('MergeFurryChanges');
