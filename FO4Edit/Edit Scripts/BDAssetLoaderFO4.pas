@@ -53,7 +53,8 @@ const
     CLASS_GHOUL = 28;
     CLASS_LEE = 29;
     CLASS_MATHIS = 30;
-    CLASS_HI = 30;
+    CLASS_DALTON = 31;
+    CLASS_HI = 31;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 400;
@@ -414,6 +415,7 @@ begin
     else if classID = CLASS_BOS then Result := 'CLASS_BOS'
     else if classID = CLASS_CABOT then Result := 'CLASS_CABOT'
     else if classID = CLASS_CAIT then Result := 'CLASS_CAIT'
+    else if classID = CLASS_DALTON then Result := 'CLASS_DALTON'
     else if classID = CLASS_DANSE then Result := 'CLASS_DANSE'
     else if classID = CLASS_DEACON then Result := 'CLASS_DEACON'
     else if classID = CLASS_DELUCA then Result := 'CLASS_DELUCA'
@@ -1465,6 +1467,7 @@ begin
     else if ContainsText(npcEditorID, 'Bobrov') then Result := CLASS_BOBROV
     else if ContainsText(npcEditorID, 'Pembroke') then Result := CLASS_PEMBROKE
     else if ContainsText(npcName, 'Cabot') then Result := CLASS_CABOT
+    else if ContainsText(npcEditorID, 'Dalton') then Result := CLASS_DALTON
     else if SameText(npcName, 'Sergeant Lee') then Result := CLASS_LEE
     else if SameText(npcName, 'Sully Mathis') then Result := CLASS_MATHIS
 

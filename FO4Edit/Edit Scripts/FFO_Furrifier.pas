@@ -21,7 +21,8 @@ interface
 
 implementation
 
-uses BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
+BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
     patchfileName = 'FFOPatch.esp'; // Set to whatever
@@ -1749,9 +1750,9 @@ begin
 
         AddMessage('Check that we have a reasonable distribution of races');
         for i := CLASS_LO to CLASS_HI do begin
+            AddMessage('- ');
             for j := RACE_LO to RACE_HI do begin
                 if classCounts[i, j] > 0 then begin
-                    if j = 0 then AddMessage('- ');
                     if TRUE {not Assigned(masterRaceList[j].mainRecord)} then
                         AddMessage(Format('%s %s = %d', [
                             GetNPCClassName(i), masterRaceList[j], classCounts[i, j]]))

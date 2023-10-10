@@ -156,7 +156,8 @@ begin
 	SetClassProb(CLASS_RAIDER, 'PA_ProtoArgonianRace', 20);
 	SetClassProb(CLASS_RAIDER, 'DCM_DeathclawMutantRace', 40); 
 	
-    SetClassProb(CLASS_TRAPPER, 'FFOOtterRace', 100);
+    // 10:1 otters to others as trappers
+    SetClassProb(CLASS_TRAPPER, 'FFOOtterRace', 700);
     SetClassProb(CLASS_TRAPPER, 'FFOLykaiosRace', 10);
     SetClassProb(CLASS_TRAPPER, 'FFOFoxRace', 10);
     SetClassProb(CLASS_TRAPPER, 'FFOHyenaRace', 10);
@@ -170,7 +171,7 @@ begin
 	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurTriRace', 5);
 	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurParaRace', 5);
 	SetClassProb(CLASS_TRAPPER, 'PA_ProtoArgonianRace', 10);
-    SetClassProb(CLASS_TRAPPER, 'aaaSharkRace', 100);
+    SetClassProb(CLASS_TRAPPER, 'aaaSharkRace', 700);
 	SetClassProb(CLASS_TRAPPER, 'DCM_DeathclawMutantRace', 10); 
 	
     // Neutrals 
@@ -190,6 +191,7 @@ begin
 	SetClassProb(CLASS_INSTITUTE, 'PA_ProtoArgonianRace', 20);
 	SetClassProb(CLASS_INSTITUTE, 'DCM_DeathclawMutantRace', 30); 
 	
+    // 10:1 otters to others in FH
     SetClassProb(CLASS_FARHARBOR, 'FFOLykaiosRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOFoxRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOHyenaRace', 5);
@@ -198,8 +200,8 @@ begin
     SetClassProb(CLASS_FARHARBOR, 'FFOCheetahRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOHorseRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFODeerRace', 5);
-    SetClassProb(CLASS_FARHARBOR, 'FFOOtterRace', 90);
-	SetClassProb(CLASS_FARHARBOR, 'aaaSharkRace', 90);
+    SetClassProb(CLASS_FARHARBOR, 'FFOOtterRace', 400);
+	SetClassProb(CLASS_FARHARBOR, 'aaaSharkRace', 400);
 	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurRace', 5);
 	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurHybridRace', 5);
 	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurTriRace', 5);
@@ -255,6 +257,7 @@ begin
     // versions of the same NPC have the same race.
     SetClassProb(CLASS_BOBROV, 'FFODeerRace', 100);
     SetClassProb(CLASS_CABOT, 'FFOCheetahRace', 100);
+    SetClassProb(CLASS_DALTON, 'FFOOtterRace', 100);
     SetClassProb(CLASS_DELUCA, 'FFODeerRace', 100);
     SetClassProb(CLASS_KELLOGG, 'FFOTigerRace', 100);
     SetClassProb(CLASS_KYLE, 'FFOFoxRace', 100);
@@ -268,3 +271,4 @@ begin
     AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
 end;
 
+end.
