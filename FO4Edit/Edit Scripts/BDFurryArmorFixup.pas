@@ -265,7 +265,7 @@ var
     i: integer;
 begin
     LogEntry(5, 'MergeFurryChanges');
-    CalcFileEntries;
+    // CalcFileEntries;
 
     for f := 0 to FileCount-1 do begin
         armorList := GroupBySignature(FileByIndex(f), 'ARMO');

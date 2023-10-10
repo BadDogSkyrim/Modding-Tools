@@ -56,7 +56,7 @@ const
     CLASS_HI = 30;
 
     TINTLAYERS_MAX = 20;
-    HAIR_MAX = 200;
+    HAIR_MAX = 400;
 
     // Morphs
     EVEN = 0;
@@ -142,7 +142,7 @@ var
 
     // Separate list of regular hair, with corresponding furry hair
     vanillaHairRecords: TStringList;
-    furryHair: array [0..200 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
+    furryHair: array [0..400 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
     lionMane: IwbMainRecord;
 
     // Indexed by child, value is parent element ID.
@@ -897,7 +897,7 @@ begin
         if n < HAIR_MAX then
             result := furryHair[n, raceid]
         else
-            Err(Format('vanillaHairRecords index bigger than furry hair: %s >= %s', [n, HAIR_MAX]));
+            Err(Format('To much hair to handle--vanillaHairRecords index bigger than furry hair: %d >= %d', [n, HAIR_MAX]));
     end;
 end;
 
