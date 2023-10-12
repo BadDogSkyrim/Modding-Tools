@@ -268,7 +268,7 @@ begin
     // Specific NPCs
     // These override TARGET_RACE.
     AssignNPCRace('MamaMurphy', 'FFOLionRace'); // Her hat is tailored to the lioness head
-    AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
+    AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // He has hooves.
 end;
 
 //==================================================================================
@@ -429,7 +429,7 @@ begin
     SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
         {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
-    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Nose - Full', 
+    SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
