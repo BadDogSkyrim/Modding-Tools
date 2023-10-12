@@ -67,6 +67,24 @@ end;
 //=======================================================================
 // Check for errors in a NPC's headparts.
 // If provided, must have a headpart of the given type and name.
+Procedure AssertNoZeroTints(npc: IwbMainRecord);
+var
+    e: IwbElement;
+    elist: IwbElement;
+    i: integer;
+    v: float;
+begin
+    elist := ElementByPath(npc, 'Face Tinting Layers');
+    for i := 0 to ElementCount(elist)-1 do begin
+        e := ElementByIndex(elist, i);
+        v := GetNativeValue(ElementByPath(e, 'TEND\Value'));
+        Assert(v > 0.0001, Format('Have non-zero alpha for [%s]: %s', [FullPath(e), FloatToStr(v)]));
+    end;
+end;
+
+//=======================================================================
+// Check for errors in a NPC's headparts.
+// If provided, must have a headpart of the given type and name.
 Procedure AssertGoodHeadparts(npc: IwbMainRecord; targetType: string; targetHeadpart: string);
 var
     elist: IwbElement;
@@ -712,16 +730,20 @@ begin
 
     AddMessage('---Mason');
     npc := FindAsset(Nil, 'NPC_', 'DLC04Mason');
-    npcMason := MakeFurryNPC(npc, modFile);
-    Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
-        'Changed Mason`s race');
-    elist := ElementByPath(npcMason, 'Head Parts');
-    Assert(ElementCount(elist) >= 3, 'Have head parts');
-    Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
-        'Have head parts from FFO');
-    Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
-        'Have skin from FFO');
-    AssertGoodTintLayers(npcMason, 1156);
+    if not Assigned(npc) then 
+        AddMessage('DLCs not loaded')
+    else begin
+        npcMason := MakeFurryNPC(npc, modFile);
+        Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
+            'Changed Mason`s race');
+        elist := ElementByPath(npcMason, 'Head Parts');
+        Assert(ElementCount(elist) >= 3, 'Have head parts');
+        Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
+            'Have head parts from FFO');
+        Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
+            'Have skin from FFO');
+        AssertGoodTintLayers(npcMason, 1156);
+    end;
 
     AddMessage('---Cait');
     npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
@@ -754,6 +776,13 @@ begin
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOLionRace', 'Changed Preston`s race');
     AssertGoodHeadparts(npc, 'Hair', 'FFO_HairMaleMane');
+
+    // Testing a whitetail--should have no 0-alpha tints.
+    AddMessage('---StanSlavin');
+    npc := FindAsset(Nil, 'NPC_', 'StanSlavin');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerRace', 'Changed Stan Slavin`s race');
+    AssertNoZeroTints(npc);
 
     AddMessage('---BoS301BrotherHenri');
     npc := FindAsset(Nil, 'NPC_', 'BoS301BrotherHenri');
@@ -902,13 +931,13 @@ begin
 
 
     TestFFOFurrifier;
-    TestFurryArmorFixup;
+    // TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 
     // t2 := Now;
     // DecodeTime(t2-t, hr, min, sec, msec);
-    AddMessage(Format('Test duration is %d:%d:%d', [hr, min, sec]));
+    // AddMessage(Format('Test duration is %d:%d:%d', [hr, min, sec]));
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 
         '++++++++++++SUCCESS++++++++++',

@@ -2,9 +2,9 @@
 FFO Furrifier Race Probabilities.
 Author: Bad Dog 
   
-Define race probabilities for the different NPC classes, also for some specific NPCs. Must
-be called early because this routine defines the furry races. TARGET_RACE in FFO_Furrifier
-overrides all these.
+Define races and probabilities for the different NPC classes, also for some specific NPCs.
+Must be called early because this routine defines the furry races. TARGET_RACE in
+FFO_Furrifier overrides all these.
 
 By default, all NPCs are changed to furry races, children included. Ghouls are changed to 
 Nightstalkers. 
@@ -269,6 +269,177 @@ begin
     // These override TARGET_RACE.
     AssignNPCRace('MamaMurphy', 'FFOLionRace'); // Her hat is tailored to the lioness head
     AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
+end;
+
+//==================================================================================
+// Do any special tailoring for specific races.
+Procedure TailorRaces(); 
+begin
+    AddChildRace('FFOCheetahRace', 'FFOCheetahChildRace');
+    AddChildRace('FFODeerRace', 'FFODeerChildRace');
+    AddChildRace('FFOFoxRace', 'FFOFoxChildRace');
+    AddChildRace('FFOHorseRace', 'FFOHorseChildRace');
+    AddChildRace('FFOHyenaRace', 'FFOHyenaChildRace');
+    AddChildRace('FFOLionRace', 'FFOLionChildRace');
+    AddChildRace('FFOLykaiosRace', 'FFOLykaiosChildRace');
+    AddChildRace('FFOOtterRace', 'FFOOtterChildRace');
+    AddChildRace('FFOSnekdogRace', 'FFOSnekdogChildRace');
+    AddChildRace('FFOTigerRace', 'FFOTigerChildRace');
+
+    // Probability of using different tints
+    SetTintProbability('FFOHorseRace', MALE, TL_MUZZLE, 60);
+    SetTintProbability('FFOHorseRace', FEMALE, TL_MUZZLE, 60);
+    SetTintProbability('FFOHorseRace', MALE, TL_NOSE, 50);
+    SetTintProbability('FFOHorseRace', FEMALE, TL_NOSE, 50);
+    
+    // Raccoon-style eye mask. Don't hand it out automatically.
+    SetTintProbability('FFOLykaiosRace', FEMALE, TL_MASK, 0);
+    SetTintProbability('FFOLykaiosRace', MALE, TL_MASK, 0);
+
+    // Acceptable colors for tint layers. This is so specialty colors can 
+    // be provided without being picked up by the furrifier. 
+    SetTintColors('FFOHyenaRace', FEMALE, TL_EAR, '|FFOFurBlack|FFOFurBlueBlack|');
+    SetTintColors('FFOHyenaRace', MALE, TL_EAR, '|FFOFurBlack|FFOFurBlueBlack|');
+    SetTintColors('FFOLykaiosRace', FEMALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
+    SetTintColors('FFOLykaiosRace', MALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
+
+    // SetMorphProbability provides a probability of using different morphs.If no
+    // probabilty is set for a morph group, it will be applied at 100% probability.
+    // Parameters are:
+    //      Race name
+    //      Sex (MALE/FEMALE)
+    //      Name of the morph group in the race record
+    //      Probability at which a morph from this group should be applied to a NPC
+    //      Min morph value when this morph is applied (0-100)
+    //      Max morph value when this morph is applied (0-100)
+    //      Morph distribution (EVEN, SKEW0,  SKEW1)
+    //
+    // ExcludeMorph tells the furrifier not to apply a particular morph ever.
+    ExcludeMorph('FFOCheetahRace', MALE, 'Child');
+
+    ExcludeMorph('FFOFoxRace', FEMALE, 'Child');
+    ExcludeMorph('FFOFoxRace', FEMALE, 'Neck');
+    ExcludeMorph('FFOFoxRace', MALE, 'Child');
+    ExcludeMorph('FFOFoxRace', MALE, 'Neck');
+
+    ExcludeMorph('FFOHorseRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOHorseRace', FEMALE, 'Horse - Neck');
+    SetMorphProbability('FFOHorseRace', FEMALE, 'Horse - Ears', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Size', 80, 0, 100, SKEW0);
+    ExcludeMorph('FFOHorseRace', MALE, 'Horse - Neck');
+    ExcludeMorph('FFOHorseRace', MALE, 'Jaws');
+    ExcludeMorph('FFOHorseRace', MALE, 'Mouth');
+    ExcludeMorph('FFOHorseRace', MALE, 'Neck');
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Ears', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Size', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Shape', 80, 0, 100, EVEN);
+
+    ExcludeMorph('FFOHyenaRace', FEMALE, 'Face');
+    ExcludeMorph('FFOHyenaRace', MALE, 'Face');
+
+    ExcludeMorph('FFOLionRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOLionRace', MALE, 'Child Neck');
+    SetMorphProbability('FFOLionRace', FEMALE, 'Mouth', 30, 50, 100, SKEW1); // Sabretooth
+    SetMorphProbability('FFOLionRace', MALE, 'Mouth', 30, 50, 100, SKEW1); // Sabretooth
+
+    ExcludeMorph('FFOLykaiosRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOLykaiosRace', FEMALE, 'Neck');
+    SetMorphProbability('FFOLykaiosRace', FEMALE, 'Nose', 80, 0, 75, SKEW0);
+    ExcludeMorph('FFOLykaiosRace', MALE, 'Child Neck');
+    SetMorphProbability('FFOLykaiosRace', MALE, 'Nose', 80, 0, 75, SKEW0);
+
+    ExcludeMorph('FFOSnekdogRace', MALE, 'Neck');
+  
+    ExcludeMorph('FFOTigerRace', FEMALE, 'Child Neck');
+    ExcludeMorph('FFOTigerRace', MALE, 'Child Neck');
+
+    // Face morphs, using faceBones, are ignored unless provided in this list.
+    // If provided, a random value between the min and max will be chosen.
+    SetFaceMorph('FFOFoxRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOFoxRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
+
+    SetFaceMorph('FFOFoxRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOFoxRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale max} -0);
+
+    SetFaceMorph('FFOLykaiosRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOLykaiosRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
+
+    SetFaceMorph('FFOLykaiosRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+    SetFaceMorph('FFOLykaiosRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.7,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0.2,  {rot max} 0, 0, 0, {scale max} -0);
+
+    SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.2,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
+    SetFaceMorph('FFOHorseRace', FEMALE, 'Nose - Bridge', 
+        {loc min} 0, -0.3, 0,  {rot min} 0, 0, 0, {scale min} -0,
+        {loc max} 0, 0.4, 0,  {rot max} 0, 0, 0, {scale max} -0);
+    SetFaceMorph('FFOHorseRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} -0);
+
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Brows', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Cheeks Front', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -1.0,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1.0);
+    SetFaceMorph('FFOHyenaRace', FEMALE, 'Muzzle - Full', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} -0.5,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0.5);
+
+    SetFaceMorph('FFOHyenaRace', MALE, 'Brows', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Cheeks Front', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.8,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1.0);
+    SetFaceMorph('FFOHyenaRace', MALE, 'Muzzle - Full', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} -0.5,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0.5);
+
+    SetFaceMorph('FFOLionRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.4,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOLionRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0.7,  {rot max} 0, 0, 0, {scale max} 0.5);
+
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+
 end;
 
 end.
