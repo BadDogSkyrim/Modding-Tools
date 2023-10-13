@@ -232,6 +232,8 @@ end;
 Function RacenameIndex(racename: string): integer;
 begin
     Result := masterRaceList.IndexOf(racename);
+    if Result < 0 then
+        Err(Format('Race not defined with SetClassProb: %s', [racename]));
 end;
 
 Function RaceIDtoStr(id: integer): string;
@@ -1622,14 +1624,12 @@ begin
     LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
     if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintProbability) then begin
         r := RacenameIndex(racename);
-        if r >= 0 then 
-            raceInfo[r, sex].tintProbability[tintLayer] := probability
-        else
-            Err(Format('Race not defined with SetClassProb: %s', [racename]));
+        if r < 0 then r := AddRace(racemame);
+        raceInfo[r, sex].tintProbability[tintLayer] := probability;
     end
     else
         Err(Format('Too many tint layers: have %d, max %d', 
-        [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
+            [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
     LogExitT('SetTintProbability');
 end;
 
