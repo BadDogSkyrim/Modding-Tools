@@ -99,6 +99,44 @@ begin
     SkinLayerTranslation('Scar - Left Long', TL_PAINT);
     SkinLayerTranslation('Fishbones', TL_PAINT);
     SkinLayerTranslation('Skull', TL_PAINT);
+	//SHARK
+	SkinLayerTranslation('Snout Smear', TL_PAINT);
+	SkinLayerTranslation('Eye Stripes', TL_EYELINER);
+	SkinLayerTranslation('Mouth Smear', TL_MUZZLE);
+	SkinLayerTranslation('Cheek Dots', TL_PAINT);
+	SkinLayerTranslation('Eye Brush', TL_EYELINER);
+	SkinLayerTranslation('Eye Goggles', TL_EYELINER);
+	SkinLayerTranslation('Eye Smear', TL_EYELINER);
+	SkinLayerTranslation('Face Stripe', TL_EYELINER);
+	SkinLayerTranslation('Face Top', TL_PAINT);
+	SkinLayerTranslation('Eye Socket Soft', TL_EYELINER);
+    SkinLayerTranslation('Freckles', TL_MUZZLE_STRIPE);
+	SkinLayerTranslation('Eye Bar Code', TL_EYELINER);
+	SkinLayerTranslation('Face Stripes', TL_PAINT);
+	SkinLayerTranslation('Lower Eye Dots', TL_EYELINER);
+	SkinLayerTranslation('Neck Stripes', TL_CHIN);
+	SkinLayerTranslation('Nose Tip Shade', TL_NOSE);
+	SkinLayerTranslation('Eye Drip', TL_EYELINER);
+	SkinLayerTranslation('Eyeliner (Thick)', TL_EYELINER);
+	SkinLayerTranslation('Eyeliner (Thin)', TL_EYELINER);
+	SkinLayerTranslation('Eye of Selachis', TL_EYELINER);
+	SkinLayerTranslation('Facial Freckles', TL_FOREHEAD);
+	SkinLayerTranslation('Lateral Slice', TL_PAINT);
+	SkinLayerTranslation('Mark of the Abyss', TL_PAINT);
+	SkinLayerTranslation('Raider 1 (Layer #1)', TL_MASK);
+	SkinLayerTranslation('Raider 1 (Layer #2)', TL_PAINT);
+	SkinLayerTranslation('Raider 2 (Layer #1)', TL_MASK);
+	SkinLayerTranslation('Raider 2 (Layer #2)', TL_PAINT);
+	SkinLayerTranslation('Raider 3', TL_MASK);
+	SkinLayerTranslation('Slugger', TL_PAINT);
+	SkinLayerTranslation('Stripes', TL_PAINT);
+	SkinLayerTranslation('Void Taint', TL_PAINT);
+	//K9
+	SkinLayerTranslation('Muzzle Scar', TL_PAINT);
+	SkinLayerTranslation('Muzzle Scar (Mirror)', TL_PAINT);
+	SkinLayerTranslation('Scars #1', TL_PAINT);
+	SkinLayerTranslation('Scars #2', TL_PAINT);
+	SkinLayerTranslation('Dogmeat Scar #1', TL_PAINT);
 end;
 
 //=========================================================================
@@ -1471,7 +1509,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 0;
+    LOGLEVEL := 10;
     errCount := 0;
     warnCount := 0;
 

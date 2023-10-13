@@ -1616,13 +1616,21 @@ end;
 // Define the probability at which a tint layer will be selected.
 procedure SetTintProbability(racename: string; sex: integer; 
     tintLayer: integer; probability: integer); 
+var 
+    r: integer;
 begin
-    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintProbability) then
-        raceInfo[RacenameIndex(racename), sex].tintProbability[tintLayer] 
-            := probability
+    LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
+    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintProbability) then begin
+        r := RacenameIndex(racename);
+        if r >= 0 then 
+            raceInfo[r, sex].tintProbability[tintLayer] := probability
+        else
+            Err(Format('Race not defined with SetClassProb: %s', [racename]));
+    end
     else
         Err(Format('Too many tint layers: have %d, max %d', 
         [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
+    LogExitT('SetTintProbability');
 end;
 
 //=============================================================================

@@ -268,7 +268,7 @@ begin
     // Specific NPCs
     // These override TARGET_RACE.
     AssignNPCRace('MamaMurphy', 'FFOLionRace'); // Her hat is tailored to the lioness head
-    AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // He has hooves.
+    AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
 end;
 
 //==================================================================================
@@ -302,6 +302,41 @@ begin
     SetTintColors('FFOHyenaRace', MALE, TL_EAR, '|FFOFurBlack|FFOFurBlueBlack|');
     SetTintColors('FFOLykaiosRace', FEMALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
     SetTintColors('FFOLykaiosRace', MALE, TL_MUZZLE, '|FFOFurBlack|FFOFurBrownD|');
+	
+	//Selachii/Shark Race Tints
+    SetTintProbability('aaaSharkRace', MALE, TL_EYELINER, 10);
+    SetTintProbability('aaaSharkRace', MALE, TL_PAINT, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MASK, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_NOSE, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_CHIN, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_FOREHEAD, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE_STRIPE, 30);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_EYELINER, 10);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_PAINT, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MASK, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_NOSE, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_CHIN, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_FOREHEAD, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, 30);
+	
+	SetTintColors('aaaSharkRace', FEMALE, TL_EYELINER, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_PAINT, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MASK, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_NOSE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_CHIN, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_FOREHEAD, '|black|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, '|black|');
+	
+	//K9
+	SetTintProbability('K9_GShepRace', MALE, TL_PAINT, 10);
+	SetTintProbability('K9_GShepRace', FEMALE, TL_PAINT, 10);
+	SetTintProbability('K9_WolfRace', MALE, TL_PAINT, 10);
+	SetTintProbability('K9_WolfRace', FEMALE, TL_PAINT, 10);
+	SetTintProbability('K9_RaiderDogRace', MALE, TL_PAINT, 20);
+	SetTintProbability('K9_RaiderDogRace', FEMALE, TL_PAINT, 20);
 
     // SetMorphProbability provides a probability of using different morphs.If no
     // probabilty is set for a morph group, it will be applied at 100% probability.
@@ -352,6 +387,32 @@ begin
   
     ExcludeMorph('FFOTigerRace', FEMALE, 'Child Neck');
     ExcludeMorph('FFOTigerRace', MALE, 'Child Neck');
+	
+	//Selachii/Shark Race Morphs
+    SetMorphProbability('aaaSharkRace', FEMALE, 'Eyes', 70, 0, 80, SKEW1);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'Nose', 100, 0, 100, SKEW1);
+    ExcludeMorph('aaaSharkRace', FEMALE, 'Mouth');
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Back/Forward', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Thin/Wide', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Back/Forward', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Narrow/Wide', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Long/Short', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Overbite/Underbite', 75, 0, 100, EVEN);
+	
+	//K9
+	SetMorphProbability('K9_WolfRace', FEMALE, 'Head', 30, 20, 100, SKEW0);
+	SetMorphProbability('K9_WolfRace', MALE, 'Head', 30, 20, 100, SKEW0);
+	ExcludeMorph('K9_HellhoundRace', FEMALE, 'Head');
+    ExcludeMorph('K9_HellhoundRace', MALE, 'Head');
 
     // Face morphs, using faceBones, are ignored unless provided in this list.
     // If provided, a random value between the min and max will be chosen.
@@ -429,7 +490,7 @@ begin
     SetFaceMorph('FFOSnekdogRace', FEMALE, 'Ears - Full', 
         {loc min} 0, -1, 0,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 1, 0,  {rot max} 0, 0, 0, {scale max} 0);
-    SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
+    SetFaceMorph('FFOSnekdogRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
@@ -439,102 +500,92 @@ begin
     SetFaceMorph('FFOSnekdogRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
-
-//------------------ SHARK RACE ------------------------
-
-    SkinLayerTranslation('Snout Smear', TL_PAINT); // Begin Shark Tints
-    SkinLayerTranslation('Eye Stripes', TL_EYELINER);
-    SkinLayerTranslation('Mouth Smear', TL_MUZZLE);
-    SkinLayerTranslation('Cheek Dots', TL_PAINT);
-    SkinLayerTranslation('Eye Brush', TL_EYELINER);
-    SkinLayerTranslation('Eye Goggles', TL_EYELINER);
-    SkinLayerTranslation('Eye Smear', TL_EYELINER);
-    SkinLayerTranslation('Face Stripe', TL_EYELINER);
-    SkinLayerTranslation('Face Top', TL_PAINT);
-    SkinLayerTranslation('Eye Socket Soft', TL_EYELINER);
-    // SkinLayerTranslation('Mirror's Edge', TL_EYELINER);
-    // SkinLayerTranslation('Mirror's Edge (Alt)', TL_EYELINER);
-    SkinLayerTranslation('Freckles', TL_MUZZLE_STRIPE);
-    SkinLayerTranslation('Eye Bar Code', TL_EYELINER);
-    SkinLayerTranslation('Face Stripes', TL_PAINT);
-    SkinLayerTranslation('Lower Eye Dots', TL_EYELINER);
-    SkinLayerTranslation('Neck Stripes', TL_CHIN);
-    SkinLayerTranslation('Nose Tip Shade', TL_NOSE);
-    SkinLayerTranslation('Eye Drip', TL_EYELINER);
-    SkinLayerTranslation('Eyeliner (Thick)', TL_EYELINER);
-    SkinLayerTranslation('Eyeliner (Thin)', TL_EYELINER);
-    SkinLayerTranslation('Eye of Selachis', TL_EYELINER);
-    SkinLayerTranslation('Facial Freckles', TL_FOREHEAD);
-    SkinLayerTranslation('Lateral Slice', TL_PAINT);
-    SkinLayerTranslation('Mark of the Abyss', TL_PAINT);
-    SkinLayerTranslation('Raider 1 (Layer #1)', TL_MASK);
-    SkinLayerTranslation('Raider 1 (Layer #2)', TL_PAINT);
-    SkinLayerTranslation('Raider 2 (Layer #1)', TL_MASK);
-    SkinLayerTranslation('Raider 2 (Layer #2)', TL_PAINT);
-    SkinLayerTranslation('Raider 3', TL_MASK);
-    SkinLayerTranslation('Slugger', TL_PAINT);
-    SkinLayerTranslation('Stripes', TL_PAINT);
-    SkinLayerTranslation('Void Taint', TL_PAINT);
-
-//--- FFO_RaceProbabilities.pas ----------------
-
-    AddChildRace('aaaSharkRace', 'FFOOtterChildRace'); // Selachii are most common in Far Harbor, similar to Otters
-
-    //Selachii/Shark Race tints
-    SetTintProbability('aaaSharkRace', MALE, TL_EYELINER, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_PAINT, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_MASK, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_NOSE, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_CHIN, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_FOREHEAD, 0);
-    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE_STRIPE, 40);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_EYELINER, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_PAINT, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_MASK, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_NOSE, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_CHIN, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_FOREHEAD, 0);
-    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, 40);
-
-    SetTintColors('aaaSharkRace', FEMALE, TL_EYELINER, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_PAINT, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_MASK, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_NOSE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_CHIN, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_FOREHEAD, '|black|');
-    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, '|black|');
-
-    // Selachii / Shark Race morphs
-    SetMorphProbability('aaaSharkRace', FEMALE, 'Eyes', 70, 0, 80, SKEW1);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'Nose', 100, 0, 100, SKEW1);
-    ExcludeMorph('aaaSharkRace', FEMALE, 'Mouth');
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Back/Forward', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows In/Out', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks In/Out', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Thin/Wide', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Back/Forward', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Narrow/Wide', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips Up/Down', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips In/Out', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Long/Short', 75, 0, 100, EVEN);
-    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Overbite/Underbite', 75, 0, 100, EVEN);
-
-    // Selachii / Shark Race Sculpt Morphs
-
+	
+	//Selachii/Shark Race Sculpt Morphs
     SetFaceMorph('aaaSharkRace', MALE, 'Nose - Full', 
         {loc min} 0, 0, -0.6,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
     SetFaceMorph('aaaSharkRace', FEMALE, 'Nose - Full', 
         {loc min} 0, 0, -0.6,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+	
+	//K9
+	SetFaceMorph('K9_GShepRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_GShepRace', FEMALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_GShepRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_GShepRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_GShepRace', MALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_GShepRace', MALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	
+	SetFaceMorph('K9_HellhoundRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_HellhoundRace', FEMALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_HellhoundRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_HellhoundRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_HellhoundRace', MALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_HellhoundRace', MALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+		
+	SetFaceMorph('K9_RaiderDogRace', FEMALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_RaiderDogRace', FEMALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_RaiderDogRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_RaiderDogRace', MALE, 'Ears - Full', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_RaiderDogRace', MALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_RaiderDogRace', MALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+		
+	SetFaceMorph('K9_WolfRace', FEMALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_WolfRace', FEMALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_WolfRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_WolfRace', MALE, 'Ears - Full', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	SetFaceMorph('K9_WolfRace', MALE, 'Cheeks', 
+        {loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+        {loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	SetFaceMorph('K9_WolfRace', MALE, 'Nose - Full', 
+        {loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+        {loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+
 end;
 
 end.
