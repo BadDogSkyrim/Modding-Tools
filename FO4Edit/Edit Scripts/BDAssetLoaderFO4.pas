@@ -207,7 +207,7 @@ var
     TL_SKIN_TONE: integer;
 
     knownTTGP: TStringList;
-    translateTTGP: array[0..50] of integer;
+    translateTTGP: array[0..100] of integer;
 
     // If any errors occurred during run.
     errCount: integer;
