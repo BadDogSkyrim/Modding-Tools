@@ -440,6 +440,101 @@ begin
         {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
         {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
+//------------------ SHARK RACE ------------------------
+
+    SkinLayerTranslation('Snout Smear', TL_PAINT); // Begin Shark Tints
+    SkinLayerTranslation('Eye Stripes', TL_EYELINER);
+    SkinLayerTranslation('Mouth Smear', TL_MUZZLE);
+    SkinLayerTranslation('Cheek Dots', TL_PAINT);
+    SkinLayerTranslation('Eye Brush', TL_EYELINER);
+    SkinLayerTranslation('Eye Goggles', TL_EYELINER);
+    SkinLayerTranslation('Eye Smear', TL_EYELINER);
+    SkinLayerTranslation('Face Stripe', TL_EYELINER);
+    SkinLayerTranslation('Face Top', TL_PAINT);
+    SkinLayerTranslation('Eye Socket Soft', TL_EYELINER);
+    // SkinLayerTranslation('Mirror's Edge', TL_EYELINER);
+    // SkinLayerTranslation('Mirror's Edge (Alt)', TL_EYELINER);
+    SkinLayerTranslation('Freckles', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Eye Bar Code', TL_EYELINER);
+    SkinLayerTranslation('Face Stripes', TL_PAINT);
+    SkinLayerTranslation('Lower Eye Dots', TL_EYELINER);
+    SkinLayerTranslation('Neck Stripes', TL_CHIN);
+    SkinLayerTranslation('Nose Tip Shade', TL_NOSE);
+    SkinLayerTranslation('Eye Drip', TL_EYELINER);
+    SkinLayerTranslation('Eyeliner (Thick)', TL_EYELINER);
+    SkinLayerTranslation('Eyeliner (Thin)', TL_EYELINER);
+    SkinLayerTranslation('Eye of Selachis', TL_EYELINER);
+    SkinLayerTranslation('Facial Freckles', TL_FOREHEAD);
+    SkinLayerTranslation('Lateral Slice', TL_PAINT);
+    SkinLayerTranslation('Mark of the Abyss', TL_PAINT);
+    SkinLayerTranslation('Raider 1 (Layer #1)', TL_MASK);
+    SkinLayerTranslation('Raider 1 (Layer #2)', TL_PAINT);
+    SkinLayerTranslation('Raider 2 (Layer #1)', TL_MASK);
+    SkinLayerTranslation('Raider 2 (Layer #2)', TL_PAINT);
+    SkinLayerTranslation('Raider 3', TL_MASK);
+    SkinLayerTranslation('Slugger', TL_PAINT);
+    SkinLayerTranslation('Stripes', TL_PAINT);
+    SkinLayerTranslation('Void Taint', TL_PAINT);
+
+//--- FFO_RaceProbabilities.pas ----------------
+
+    AddChildRace('aaaSharkRace', 'FFOOtterChildRace'); // Selachii are most common in Far Harbor, similar to Otters
+
+    //Selachii/Shark Race tints
+    SetTintProbability('aaaSharkRace', MALE, TL_EYELINER, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_PAINT, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MASK, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_NOSE, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_CHIN, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_FOREHEAD, 0);
+    SetTintProbability('aaaSharkRace', MALE, TL_MUZZLE_STRIPE, 40);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_EYELINER, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_PAINT, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MASK, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_NOSE, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_CHIN, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_FOREHEAD, 0);
+    SetTintProbability('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, 40);
+
+    SetTintColors('aaaSharkRace', FEMALE, TL_EYELINER, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_PAINT, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MASK, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_NOSE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_CHIN, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE, '|black|WarpaintRed01|WarpaintRed02|WarpaintRed03|WarpaintBlue03|WarpaintBlue04|WarpaintGreen01|WarpaintGreen02|WarpaintGreen03|WarpaintOrange01|WarpaintOrange02|WarpaintYellow01|WarpaintYellow02|WarpaintYellow03|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_FOREHEAD, '|black|');
+    SetTintColors('aaaSharkRace', FEMALE, TL_MUZZLE_STRIPE, '|black|');
+
+    // Selachii / Shark Race morphs
+    SetMorphProbability('aaaSharkRace', FEMALE, 'Eyes', 70, 0, 80, SKEW1);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'Nose', 100, 0, 100, SKEW1);
+    ExcludeMorph('aaaSharkRace', FEMALE, 'Mouth');
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Back/Forward', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Brows Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Cheeks In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Chin Thin/Wide', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Back/Forward', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Jaw Narrow/Wide', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips Up/Down', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Lips In/Out', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Nose Long/Short', 75, 0, 100, EVEN);
+    SetMorphProbability('aaaSharkRace', FEMALE, 'SLIDER - Overbite/Underbite', 75, 0, 100, EVEN);
+
+    // Selachii / Shark Race Sculpt Morphs
+
+    SetFaceMorph('aaaSharkRace', MALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.6,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('aaaSharkRace', FEMALE, 'Nose - Full', 
+        {loc min} 0, 0, -0.6,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 end;
 
 end.

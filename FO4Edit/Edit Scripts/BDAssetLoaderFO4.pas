@@ -56,7 +56,7 @@ const
     CLASS_DALTON = 31;
     CLASS_HI = 31;
 
-    TINTLAYERS_MAX = 100;
+    TINTLAYERS_MAX = 30;
     HAIR_MAX = 400;
 
     // Morphs
@@ -1617,8 +1617,12 @@ end;
 procedure SetTintProbability(racename: string; sex: integer; 
     tintLayer: integer; probability: integer); 
 begin
-    raceInfo[RacenameIndex(racename), sex].tintProbability[tintLayer] 
-        := probability;
+    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintProbability) then
+        raceInfo[RacenameIndex(racename), sex].tintProbability[tintLayer] 
+            := probability
+    else
+        Err(Format('Too many tint layers: have %d, max %d', 
+        [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
 end;
 
 //=============================================================================
@@ -1626,7 +1630,11 @@ end;
 procedure SetTintColors(racename: string; sex: integer; 
     tintLayer: integer; colors: string); 
 begin
-    raceInfo[RacenameIndex(racename), sex].tintColors[tintLayer] := colors;
+    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintColors) then
+        raceInfo[RacenameIndex(racename), sex].tintColors[tintLayer] := colors
+    else
+        Err(Format('Too many tint layers, have %d, max %d', 
+            [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintColors)]));
 end;
 
 //===================================================================
