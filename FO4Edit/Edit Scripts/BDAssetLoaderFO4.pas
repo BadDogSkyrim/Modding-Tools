@@ -56,7 +56,7 @@ const
     CLASS_DALTON = 31;
     CLASS_HI = 31;
 
-    TINTLAYERS_MAX = 20;
+    TINTLAYERS_MAX = 100;
     HAIR_MAX = 400;
 
     // Morphs
@@ -93,10 +93,10 @@ end;
 
 type TRaceInfo = Record
     mainRecord: IwbMainRecord;
-    tintCount: array [0..20 {TINTLAYERS_MAX}] of integer;
-    tintProbability: array [0..20 {TINTLAYERS_MAX}] of integer;
-    tintColors: array [0..20 {TINTLAYERS_MAX}] of string;
-    tints: array [0..20 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
+    tintCount: array [0..100 {TINTLAYERS_MAX}] of integer;
+    tintProbability: array [0..100 {TINTLAYERS_MAX}] of integer;
+    tintColors: array [0..100 {TINTLAYERS_MAX}] of string;
+    tints: array [0..100 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     maskCount: integer;
     muzzleCount: integer;
@@ -207,33 +207,13 @@ var
     TL_SKIN_TONE: integer;
 
     knownTTGP: TStringList;
-    translateTTGP: array[0..100] of integer;
+    translateTTGP: array[0..200] of integer;
 
     // If any errors occurred during run.
     errCount: integer;
     logIndent: integer;
 
 // =============================================================================
-
-// Procedure Log(importance: integer; txt: string);
-// var
-//     i: integer;
-//     s: string;
-// begin
-//     s := '';
-// 	if importance <= LOGLEVEL then begin
-//         if LeftStr(txt, 1) = '>' then dec(logIndent);
-//         for i := 1 to logIndent do s := s + '|   ';
-//         AddMessage(s + txt);
-//         if LeftStr(txt, 1) = '<' then inc(logIndent);
-//     end;
-// end;
-
-// procedure Err(txt: string);
-// begin
-//     AddMessage('ERROR: ' + txt);
-//     inc(errCount);
-// end;
 
 function FormName(e: IwbMainRecord): string;
 begin
