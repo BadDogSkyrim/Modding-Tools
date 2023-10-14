@@ -48,6 +48,7 @@ var
     preFurryCount: integer;
     startTime: TDateTime;
 
+    classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
 
 //==================================================================================
 // Do any special tailoring for specific races.
@@ -182,6 +183,8 @@ begin
     if (EditorID(GetNPCRace(npc)) = 'GhoulRace') or (EditorID(GetNPCRace(npc)) = 'GhoulChildRace') then 
         result := RACE_GHOUL;
 
+    charClass := GetNPCClass(npc);
+
     if result < 0 then begin
         // Use the assigned race if any.
         assignIndex := npcRaceAssignments.IndexOf(EditorID(npc));
@@ -205,7 +208,6 @@ begin
 
     if result < 0 then begin
         // Pick a random race.
-        charClass := GetNPCClass(npc);
         pointTotal := classProbs[charClass, masterRaceList.Count];
         LogT(Format('classProbs has pre-summed value: %d', [classProbs[charClass, masterRaceList.Count]]));
         h := Hash(EditorID(npc), 6795, pointTotal);
@@ -226,6 +228,10 @@ begin
             result := -1;
         end;
     end;
+
+    LogT(Format('Logging character: %d, %d', [charClass, result]));
+    if (charClass >= 0) and (result >= 0) and (result <> RACE_GHOUL) then
+        classCounts[charClass, result] := classCounts[charClass, result] + 1;
 
     LogExitT1('ChooseNPCRace', RaceIDtoStr(Result));
 end;
@@ -1392,7 +1398,7 @@ end;
 //========================================================
 // Set everything up.
 Procedure InitializeFurrifier(targetFile: IwbFile);
-var i: integer;
+var i, j: integer;
 begin
     for i := 0 to FileCount-1 do
         if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then
@@ -1404,6 +1410,12 @@ begin
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
+
+    if racesNotFound.Count > 0 then begin
+        AddMessage('These races were not found in the load order and will not be assigned:');
+        for i := 0 to racesNotFound.Count-1 do
+            AddMessage('   ' + racesNotFound[i]);
+    end;
 
     if convertingGhouls then begin 
         FurrifyGhoulRace(targetFile);
@@ -1465,6 +1477,10 @@ begin
 
     CalcClassTotals();
 
+    for i := CLASS_LO to CLASS_HI do
+        for j := RACE_LO to RACE_HI do
+            classCounts[i, j] := 0;
+
 end;
 
 //=========================================================
@@ -1509,7 +1525,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
-    LOGLEVEL := 10;
+    LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;
 
@@ -1552,7 +1568,6 @@ end;
 // If not using the selection, furrify everything here. 
 function Finalize: integer;
 var
-    classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
     f: integer;
     fn: string;
     i, j, k: integer;
@@ -1590,7 +1605,9 @@ begin
                 [GetFileName(FileByIndex(f)), furryCount]));
         end;
 
+        AddMessage('Generating additional furry NPCs...');
         GenerateFurryNPCs(patchFile);
+        AddMessage('Merging armor record changes...');
         MergeFurryChanges(patchFile);
     end;
 
@@ -1609,19 +1626,19 @@ begin
         // Walk through the NPCs and collect stats on how many of each race there are
         // to make sure the random assignment is giving a range of races.
 	    AddMessage('');
-        AddMessage('---Race Probabilities---');
-        for k := 0 to FileCount-1 do begin
-            npcGroup := GroupBySignature(FileByIndex(k), 'NPC_');
-            for i := 0 to ElementCount(npcGroup)-1 do begin
-                npc := ElementByIndex(npcGroup, i);
-                if IsWinningOverride(npc) then begin
-                    npcClass := GetNPCClass(npc);
-                    raceID := GetNPCEffectiveRaceID(npc);
-                    if (npcClass >= 0) and (raceID >= 0) then
-                        classCounts[npcClass, raceID] := classCounts[npcClass, raceID] + 1;
-                end;
-            end;
-        end;
+        // AddMessage('---Race Probabilities---');
+        // for k := 0 to FileCount-1 do begin
+        //     npcGroup := GroupBySignature(FileByIndex(k), 'NPC_');
+        //     for i := 0 to ElementCount(npcGroup)-1 do begin
+        //         npc := ElementByIndex(npcGroup, i);
+        //         if IsWinningOverride(npc) then begin
+        //             npcClass := GetNPCClass(npc);
+        //             raceID := GetNPCEffectiveRaceID(npc);
+        //             if (npcClass >= 0) and (raceID >= 0) then
+        //                 classCounts[npcClass, raceID] := classCounts[npcClass, raceID] + 1;
+        //         end;
+        //     end;
+        // end;
 
         AddMessage('Check that we have a reasonable distribution of races');
         for i := CLASS_LO to CLASS_HI do begin

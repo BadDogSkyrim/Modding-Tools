@@ -132,6 +132,9 @@ var
     masterRaceList: TStringList;
     // Chlid races 1:1 with adult races
     childRaceList: TStringList;
+    // Races referenced but not in load order
+    racesNotFound: TStringList;
+
     RACE_LO, RACE_HI: integer;
 
     // Translates from CLASS as number to name
@@ -232,7 +235,7 @@ end;
 Function RacenameIndex(racename: string): integer;
 begin
     Result := masterRaceList.IndexOf(racename);
-    if Result < 0 then
+    if (Result < 0) and (racesNotFound.IndexOf(racename) < 0) then
         Err(Format('Race not defined with SetClassProb: %s', [racename]));
 end;
 
@@ -994,32 +997,33 @@ function AddRace(racename: string): integer;
 var
     n: integer;
     i: integer;
-    id: Cardinal;
     r: IwbMainRecord;
 begin
     LogEntry1(16, 'AddRace', racename);
 
     n := masterRaceList.IndexOf(racename);
     if n >= 0 then begin
+        LogT('Race defined already');
         Result := n
     end
     else begin
-        for i := 0 to FileCount-1 do begin
-            r := FindAsset(FileByIndex(i), 'RACE', racename);
-            id := RealFormID(r);
-            if id <> 0 then break;
-        end;
-        if id = 0 then begin
-            Log(0, 'Race not loaded: ' + racename);
+        // addmessage(Format('looking for race: %s', [LogToStr]));
+        r := FindAsset(Nil, 'RACE', racename);
+        // addmessage(Format('done looking: %s', [LogToStr]));
+        if not Assigned(r) then begin
+            LogT('Race not in load order');
+            racesNotFound.Add(racename);
             Result := -1;
         end
         else begin
-            Log(16, EditorID(r) + ' has formID ' + IntToHex(id, 8) + ' in ' + GetFileName(FileByIndex(i)));
+            LogT('Found race');
             if masterRaceList.Count >= RACES_MAX then begin
                 Err('Too many races, stopped at ' + racename);
                 Result := -1;
             end
             else begin
+                // addmessage('adding race');
+                LogT('Adding race ' + racename);
                 Result := masterRaceList.Count;
                 masterRaceList.AddObject(racename, TObject(r));
                 raceInfo[Result, MALE].mainRecord := r;
@@ -1043,7 +1047,8 @@ begin
     end;
     RACE_HI := masterRaceList.Count-1;
 
-    LogExit1(16, 'AddRace', racename);
+    // addmessage(Format('exiting addrace, cur log level is %d', [curLogLevel[logIndent]]));
+    LogExitT1('AddRace', IntToStr(result));
 end;
 
 
@@ -1125,8 +1130,12 @@ end;
 //=============================================================================
 // Exclude a morph group from furrfication.
 procedure ExcludeMorph(racename: string; sex: integer; morphGroup: string);
+var
+    r: integer;
 begin
-    raceInfo[RacenameIndex(racename), sex].morphExcludes.Add(morphGroup);
+    r := RacenameIndex(racename);
+    if r >= 0 then 
+        raceInfo[r, sex].morphExcludes.Add(morphGroup);
 end;
 
 //=============================================================================
@@ -1136,13 +1145,15 @@ procedure SetMorphProbability(racename: string; sex: integer;
 var
     r: integer;
 begin
-    Log(10, Format('<SetMorphProbability(%s, %s, "%s")', [racename, SexToStr(sex), morphGroup]));
+    LogEntry3(10, 'SetMorphProbability', racename, SexToStr(sex), morphGroup);
     r := RacenameIndex(racename);
-    raceInfo[r, sex].morphProbability.AddObject(morphGroup, probability);
-    raceInfo[r, sex].morphLo.AddObject(morphGroup, loMorph);
-    raceInfo[r, sex].morphHi.AddObject(morphGroup, hiMorph);
-    raceInfo[r, sex].morphSkew.AddObject(morphGroup, skew);
-    Log(10, '>');
+    if r >= 0 then begin
+        raceInfo[r, sex].morphProbability.AddObject(morphGroup, probability);
+        raceInfo[r, sex].morphLo.AddObject(morphGroup, loMorph);
+        raceInfo[r, sex].morphHi.AddObject(morphGroup, hiMorph);
+        raceInfo[r, sex].morphSkew.AddObject(morphGroup, skew);
+    end;
+    LogExitT('SetMorphProbability');
 end;
 
 //=======================================================================
@@ -1227,41 +1238,44 @@ var
     n: string;
     r: integer;
 begin
-    Log(10, Format('<SetFaceMorph(%s, %s, "%s")', [racename, SexToStr(sex), morph]));
+    LogEntry3(10, 'SetFaceMorph', racename, SexToStr(sex), morph);
     found := false;
     r := RacenameIndex(racename);
-    if raceInfo[r, sex].faceBoneList.Count >= length(raceInfo[r, sex].faceBones) then
-        Err(Format('Too many facebones for race %s: %d', [
-            masterRaceList[r], raceInfo[r, sex].faceBoneList.Count]))
-    else begin
-        // Find the morph record
-        morphList := ElementByPath(raceInfo[r, sex].mainRecord, 
-            IfThen(sex = MALE, 'Male Face Morphs', 'Female Face Morphs'));
-        for i := 0 to ElementCount(morphList)-1 do begin
-            m := ElementByIndex(morphList, i);
-            n := GetElementEditValues(m, 'FMRN');
-            Log(10, Format('Checking %s = %s', [n, morph]));
-            if n = morph then begin
-                idx := GetElementNativeValues(m, 'FMRI');
-                raceInfo[r, sex].faceBoneList.Add(morph);
-                i := raceInfo[r, sex].faceBoneList.IndexOf(morph);
-                raceInfo[r, sex].faceBones[i].FMRI := idx;
-                raceInfo[r, sex].faceBones[i].min.x := xMin;
-                raceInfo[r, sex].faceBones[i].min.y := yMin;
-                raceInfo[r, sex].faceBones[i].min.z := zMin;
-                raceInfo[r, sex].faceBones[i].min.scale := scaleMin;
-                raceInfo[r, sex].faceBones[i].max.x := xMax;
-                raceInfo[r, sex].faceBones[i].max.y := yMax;
-                raceInfo[r, sex].faceBones[i].max.z := zMax;
-                raceInfo[r, sex].faceBones[i].max.scale := scaleMax;
-                found := True;
-                break;
+    if r >= 0 then begin
+        if raceInfo[r, sex].faceBoneList.Count >= length(raceInfo[r, sex].faceBones) then
+            Err(Format('Too many facebones for race %s: %d', [
+                masterRaceList[r], raceInfo[r, sex].faceBoneList.Count]))
+        else begin
+            // Find the morph record
+            morphList := ElementByPath(raceInfo[r, sex].mainRecord, 
+                IfThen(sex = MALE, 'Male Face Morphs', 'Female Face Morphs'));
+            for i := 0 to ElementCount(morphList)-1 do begin
+                m := ElementByIndex(morphList, i);
+                n := GetElementEditValues(m, 'FMRN');
+                LogT(Format('Checking %s = %s', [n, morph]));
+                if n = morph then begin
+                    idx := GetElementNativeValues(m, 'FMRI');
+                    raceInfo[r, sex].faceBoneList.Add(morph);
+                    i := raceInfo[r, sex].faceBoneList.IndexOf(morph);
+                    raceInfo[r, sex].faceBones[i].FMRI := idx;
+                    raceInfo[r, sex].faceBones[i].min.x := xMin;
+                    raceInfo[r, sex].faceBones[i].min.y := yMin;
+                    raceInfo[r, sex].faceBones[i].min.z := zMin;
+                    raceInfo[r, sex].faceBones[i].min.scale := scaleMin;
+                    raceInfo[r, sex].faceBones[i].max.x := xMax;
+                    raceInfo[r, sex].faceBones[i].max.y := yMax;
+                    raceInfo[r, sex].faceBones[i].max.z := zMax;
+                    raceInfo[r, sex].faceBones[i].max.scale := scaleMax;
+                    found := True;
+                    break;
+                end;
             end;
         end;
     end;
-    if not found then Err(Format('Could not find face morph %s on race %s %s', 
-        [morph, racename, SexToStr(sex)]));
-    Log(10, '>');
+    if (not found) and (racesNotFound.IndexOf(racename) < 0) then 
+        Err(Format('Could not find face morph %s on race %s %s', 
+            [morph, racename, SexToStr(sex)]));
+    LogExitT('SetFaceMorph');
 end;
 
 //===================================================================
@@ -1505,10 +1519,10 @@ Procedure SetClassProb(npcclass: integer; race: string; points: integer);
 var 
     r: integer;
 begin
-    LogEntry1(16, 'SetClassProb', race);
+    LogEntry1(15, 'SetClassProb', race);
     r := AddRace(race);
     if r >= 0 then classProbs[npcclass, r] := points;
-    LogExit(16, 'SetClassProb');
+    LogExitT('SetClassProb');
 end;
 
 
@@ -1572,7 +1586,8 @@ begin
         raceInfo[adultID, FEMALECHILD].mainRecord := childRecord;
     end
     else 
-        Err('AddChildRace could not find adult race ' + adultRace);
+        if racesNotFound.IndexOf(adultRace) < 0 then
+            Err('AddChildRace could not find adult race ' + adultRace);
     LogExit(5, 'AddChildRace');
 end;
 
@@ -1600,7 +1615,7 @@ end;
 // the furrifier understands.
 procedure SkinLayerTranslation(name: string; tintlayer: integer);
 begin
-    Log(10, Format('<SkinLayerTranslation: %s, %d', [name, integer(tintlayer)]));
+    LogEntry2(10, 'SkinLayerTranslation', name, IntToStr(tintlayer));
     if knownTTGP.IndexOf(name) < 0 then begin
         if knownTTGP.Count < length(translateTTGP) then begin
             translateTTGP[knownTTGP.Count] := tintlayer;
@@ -1611,7 +1626,7 @@ begin
             Err(Format('Too many tint layers on %s, layer %d. Found %d, max is %d', 
                 [name, tintLayer, knownTTGP.Count, length(translateTTGP)]));
     end;
-    Log(10, '>');
+    LogExitT('SkinLayerTranslation');
 end;
 
 //=============================================================================
@@ -1622,14 +1637,16 @@ var
     r: integer;
 begin
     LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
-    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintProbability) then begin
-        r := RacenameIndex(racename);
-        if r < 0 then r := AddRace(racemame);
-        raceInfo[r, sex].tintProbability[tintLayer] := probability;
-    end
-    else
-        Err(Format('Too many tint layers: have %d, max %d', 
-            [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
+    r := RacenameIndex(racename);
+    if r < 0 then r := AddRace(racename);
+    if r >= 0 then begin
+        if tintLayer < length(raceInfo[r, sex].tintProbability) then begin
+            raceInfo[r, sex].tintProbability[tintLayer] := probability;
+        end
+        else
+            Err(Format('Too many tint layers: have %d, max %d', 
+                [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
+    end;
     LogExitT('SetTintProbability');
 end;
 
@@ -1637,12 +1654,17 @@ end;
 // Define the colors that a tint layer may have.
 procedure SetTintColors(racename: string; sex: integer; 
     tintLayer: integer; colors: string); 
+var 
+    r: integer;
 begin
-    if tintLayer < length(raceInfo[RacenameIndex(racename), sex].tintColors) then
-        raceInfo[RacenameIndex(racename), sex].tintColors[tintLayer] := colors
-    else
-        Err(Format('Too many tint layers, have %d, max %d', 
-            [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintColors)]));
+    r := RacenameIndex(racename);
+    if r >= 0 then begin
+        if tintLayer < length(raceInfo[r, sex].tintColors) then
+            raceInfo[r, sex].tintColors[tintLayer] := colors
+        else
+            Err(Format('Too many tint layers, have %d, max %d', 
+                [tintLayer, length(raceInfo[r, sex].tintColors)]));
+    end;
 end;
 
 //===================================================================
@@ -1796,6 +1818,10 @@ begin
     childRaceList := TStringList.Create;
     childRaceList.Sorted := false;
     childRaceList.Duplicates := dupIgnore;
+
+    racesNotFound := TStringList.Create;
+    racesNotFound.Sorted := true;
+    racesNotFound.Duplicates := dupIgnore;
     
     mothers := TStringList.Create;
     mothers.Sorted := true;
@@ -1871,6 +1897,7 @@ begin
     vanillaHairRecords.Free;
     masterRaceList.Free;
     childRaceList.Free;
+    racesNotFound.Free;
     mothers.Free;
     fathers.Free;
     FreeGenericNames;

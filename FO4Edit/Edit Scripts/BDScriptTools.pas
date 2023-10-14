@@ -9,9 +9,10 @@ const
 
 var 
     logIndent: integer;
+    callIndex: intger;
     errCount: integer;
     warnCount: integer;
-    curLogLevel: array [0..10] of integer;
+    curLogLevel: array [0..100] of integer;
 
 
 Function BoolToStr(b: boolean): string;
@@ -105,12 +106,21 @@ end;
 
 //=======================================================================
 // Logging Tools.
+
+Function LogToStr: string;
+begin
+    result := Format('callIndex=%d, logIndent=%d, curLogLevel=%d', [
+        callIndex, logIndent, curLogLevel[callIndex]]);
+end;
+
 Procedure Log(importance: integer; txt: string);
 var
     i: integer;
     s: string;
 begin
     s := '';
+    if LeftStr(txt, 1) = '>' then dec(callIndex);
+    if LeftStr(txt, 1) = '<' then inc(callIndex);
 	if importance <= LOGLEVEL then begin
         if LeftStr(txt, 1) = '>' then dec(logIndent);
         for i := 1 to logIndent do s := s + '|   ';
@@ -128,7 +138,10 @@ end;
 
 Procedure LogT(txt: string);
 begin
-    Log(curLogLevel[logIndent], txt);
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
+        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex))
+    else 
+        Log(curLogLevel[callIndex], txt);
 end;
 
 Procedure LogEntry(importance: integer; routineName: string);
@@ -136,6 +149,7 @@ var
     i: integer;
     s: string;
 begin
+    inc(callIndex);
     s := '';
 	if importance <= LOGLEVEL then begin
         for i := 1 to logIndent do s := s + '|   ';
@@ -143,7 +157,7 @@ begin
         AddMessage(s);
         inc(logIndent);
     end;
-    if logIndent < length(curLogLevel) then curLogLevel[logIndent] := importance;
+    if callIndex < length(curLogLevel) then curLogLevel[callIndex] := importance;
 end;
 
 Procedure LogEntry1(importance: integer; routineName: string; details: string);
@@ -151,6 +165,7 @@ var
     i: integer;
     s: string;
 begin
+    inc(callIndex);
     s := '';
 	if importance <= LOGLEVEL then begin
         for i := 1 to logIndent do s := s + '|   ';
@@ -158,7 +173,7 @@ begin
         AddMessage(s);
         inc(logIndent);
     end;
-    if logIndent < length(curLogLevel) then curLogLevel[logIndent] := importance;
+    if callIndex < length(curLogLevel) then curLogLevel[callIndex] := importance;
 end;
 
 Procedure LogEntry2(importance: integer; routineName: string; d1, d2: string);
@@ -188,11 +203,12 @@ begin
         s := s + '\' + routineName;
         AddMessage(s);
     end;
+    dec(callIndex);
 end;
 
 Procedure LogExitT(routineName: string);
 begin
-    LogExit(curLogLevel[logIndent], routineName);
+    LogExit(curLogLevel[callIndex], routineName);
 end;
 
 Procedure LogExit1(importance: integer; routineName: string; details: string);
@@ -207,11 +223,12 @@ begin
         s := s + '\' + routineName + ' -> ' + details;
         AddMessage(s);
     end;
+    dec(callIndex);
 end;
 
 Procedure LogExitT1(routineName: string; details: string);
 begin
-    LogExit1(curLogLevel[logIndent], routineName, details);
+    LogExit1(curLogLevel[callIndex], routineName, details);
 end;
 
 
@@ -243,6 +260,7 @@ var
     r: IwbMainRecord;
 begin
     LogEntry3(21, 'FindAsset', GetFileName(f), recordType, name);
+    // Addmessage(format('Entered FindAsset: %s', [LogToStr]));
     Result := Nil;
 
     if not Assigned(f) then begin
@@ -257,7 +275,9 @@ begin
     end
     else
         Result := MainRecordByEditorID(GroupBySignature(f, recordType), name);
+    // addmessage(Format('Leaving FindAsset: %s', [LogToStr]));
     LogExitT1('FindAsset', EditorID(result));
+    // addmessage(Format('After exiting FindAsset: %s', [LogToStr]));
 end;
 
 //=======================================================================
