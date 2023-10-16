@@ -79,19 +79,24 @@ end;
 // Add the NPC to the given leveled list.
 Procedure AddNPCtoLevelList(npc: IwbMainRecord; ll: IwbMainRecord);
 var
+    el: IwbElement;
     entry: IwbElement;
     lle: IwbContainer;
     lvlo: IwbElement;
     newLL: IwbMainRecord;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<AddNPCtoLevelList: %s to %s from file %s', [EditorID(npc), EditorID(ll), GetFileName(GetFile(ll))]));
+    LogEntry2(5, 'AddNPCtoLevelList', EditorID(npc), EditorID(ll));
     newLL := CreateOverrideInFile(ll, GetFile(npc));
     lle := ElementByPath(newll, 'Leveled List Entries');
     lvlo := ElementByIndex(lle, 0);
     entry := ElementAssign(lle, HighInteger, lvlo, false);
-        SetNativeValue(ElementByPath(entry, 'LVLO\Reference'), 
+    el := ElementByPath(entry, 'LVLO');
+    SetNativeValue(
+        ElementByPath(el, 'Reference'), 
         LoadOrderFormIDtoFileFormID(GetFile(npc), GetLoadOrderFormID(npc)));
-    if LOGLEVEL > 0 then Log(5, '>AddNPCtoLevelList in file ' + GetFileName(GetFile(newLL)));
+    SetNativeValue(ElementByPath(el, 'Level'), 1);
+    SetNativeValue(ElementByPath(el, 'Count'), 1);
+    LogExitT('AddNPCtoLevelList');
 end;
 
 //=========================================================
@@ -370,10 +375,10 @@ end;
 function Initialize: integer;
 begin
     LOGLEVEL := 0;
-    InitializeFurrifier;
-    LOGLEVEL := 5;
     newMod := CreateOverrideMod('FFOGGeneratedNPCs.esp');
-    if LOGLEVEL > 0 then Log(1, 'Created ' + GetFileName(newMod));
+    Log(0, 'Created ' + GetFileName(newMod));
+    InitializeFurrifier(newMod);
+    LOGLEVEL := 5;
     InitializeNPCGenerator(newMod);
 end;
 
