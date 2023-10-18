@@ -273,27 +273,43 @@ end;
 
 //==================================================================================
 // Do any special tailoring for specific races.
+//
+// SetHeadpartProb defines the probability of assigning a headpart for a NPC.
+//
+// SetMorphProbability provides a probability of using different morphs.If no
+// probabilty is set for a morph group, it will be applied at 100% probability.
+// Parameters are:
+//      Race name
+//      Sex (MALE/FEMALE)
+//      Name of the morph group in the race record
+//      Probability at which a morph from this group should be applied to a NPC
+//      Min morph value when this morph is applied (0-100)
+//      Max morph value when this morph is applied (0-100)
+//      Morph distribution (EVEN, SKEW0,  SKEW1)
+//
+// ExcludeMorph tells the furrifier not to apply a particular morph ever.
+//
+// SetMorphProbability sets the probability and value range for 
+// morphs (not facebones morphs).
+//
+// SetFaceMorph defines the facebones values to use.
+// 
+// AddChildRace specifies that a race is the child for another race.
+//
+// SetTintProbability sets the probability of using particular tint layer.
+//
+// SetTintColors limits the colors that can be used for a tint layer.
 Procedure TailorRaces(); 
 begin
     // ---------- Cheetahs ---------- 
     AddChildRace('FFOCheetahRace', 'FFOCheetahChildRace');
 
-    // SetMorphProbability provides a probability of using different morphs.If no
-    // probabilty is set for a morph group, it will be applied at 100% probability.
-    // Parameters are:
-    //      Race name
-    //      Sex (MALE/FEMALE)
-    //      Name of the morph group in the race record
-    //      Probability at which a morph from this group should be applied to a NPC
-    //      Min morph value when this morph is applied (0-100)
-    //      Max morph value when this morph is applied (0-100)
-    //      Morph distribution (EVEN, SKEW0,  SKEW1)
-    //
-    // ExcludeMorph tells the furrifier not to apply a particular morph ever.
     ExcludeMorph('FFOCheetahRace', MALE, 'Child');
 
     // ---------- Deer ---------- 
     AddChildRace('FFODeerRace', 'FFODeerChildRace');
+    SetHeadpartProb('FFODeerRace', MALE, HEADPART_MOUTH, 0); // Mouth in race record
+    SetHeadpartProb('FFODeerRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in race record
     
     // ---------- Foxes ---------- 
     AddChildRace('FFOFoxRace', 'FFOFoxChildRace');

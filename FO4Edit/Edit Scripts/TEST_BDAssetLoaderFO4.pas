@@ -286,7 +286,7 @@ var
     sec: Word;
     msec: Word;
 begin
-    LOGLEVEL := 1;
+    LOGLEVEL := 15;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.

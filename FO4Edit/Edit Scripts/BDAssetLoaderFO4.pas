@@ -98,6 +98,7 @@ type TRaceInfo = Record
     tintColors: array [0..100 {TINTLAYERS_MAX}] of string;
     tints: array [0..100 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
+    headpartProb: array[{headpart count} 0..10] of integer; // 0..100
     maskCount: integer;
     muzzleCount: integer;
     morphGroups: TStringList; 
@@ -184,6 +185,7 @@ var
     HEADPART_MISC: integer;
     HEADPART_SCAR: integer;
     HEADPART_MEATCAP: integer;
+    HEADPART_MOUTH: integer;
     HEADPART_LO: integer;
     HEADPART_HI: integer;
 
@@ -389,6 +391,11 @@ begin
     else if sex = FEMALE then result := 'FEMALE'
     else if sex = MALECHILD then result := 'MALECHILD'
     else if sex = FEMALECHILD then result := 'FEMALECHILD'
+end;
+
+Function HpToStr(hp: integer): string;
+begin
+    Result := headpartsList[hp];
 end;
 
 
@@ -1064,6 +1071,10 @@ begin
                 raceInfo[Result, FEMALE].morphExcludes := TStringList.Create;
                 raceInfo[Result, MALE].faceBoneList := TStringList.Create;
                 raceInfo[Result, FEMALE].faceBoneList := TStringList.Create;
+                for i := HEADPART_LO to HEADPART_HI do begin
+                    raceInfo[Result, FEMALE].headpartProb[i] := 100;
+                    raceInfo[Result, MALE].headpartProb[i] := 100;
+                end;
             end;
         end;
     end;
@@ -1549,6 +1560,20 @@ end;
 
 
 //---------------------------------------------------
+// Set the probability of using a given type of headpart.
+Procedure SetHeadpartProb(race: string; sex: integer; hp: integer; prob: integer);
+var 
+    r: integer;
+begin
+    LogEntry4(15, 'SetHeadpartProb', race, SexToStr(sex), HpToStr(hp), IntToStr(prob));
+    r := masterRaceList.IndexOf(race);
+    // if r >= 0 then raceInfo[0, 0].headpartProb[0] := 10;
+    if r >= 0 then raceInfo[r, sex].headpartProb[hp] := prob;
+    LogExitT('SetHeadpartProb');
+end;
+
+
+//---------------------------------------------------
 // For efficiency, calculate the total points for a class and also
 // the breakpoints between races.
 Procedure CalcClassTotals();
@@ -1823,6 +1848,7 @@ begin
     headpartsList.Add('Meatcaps');
     headpartsList.Add('Misc');
     headpartsList.Add('Scar');
+    headpartsList.Add('Teeth');
     HEADPART_EYEBROWS := headpartsList.IndexOf('Eyebrows');
     HEADPART_EYES := headpartsList.IndexOf('Eyes');
     HEADPART_FACE := headpartsList.IndexOf('Face');
@@ -1830,6 +1856,7 @@ begin
     HEADPART_HAIR := headpartsList.IndexOf('Hair');
     HEADPART_MEATCAP := headpartsList.IndexOf('Meatcaps');
     HEADPART_MISC := headpartsList.IndexOf('Misc');
+    HEADPART_MOUTH := headpartsList.IndexOf('Teeth');
     HEADPART_SCAR := headpartsList.IndexOf('Scar');
     HEADPART_LO := 0;
     HEADPART_HI := headpartsList.Count-1;

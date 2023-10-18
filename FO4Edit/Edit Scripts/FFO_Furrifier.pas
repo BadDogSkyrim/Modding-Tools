@@ -367,15 +367,26 @@ end;
 // Hair is handled separately.
 Procedure ChooseHeadpart(npc: IwbMainRecord; hpType: integer);
 var 
-    hp: IwbMainRecord;
     headparts: IwbContainer;
+    hp: IwbMainRecord;
+    hpChance: integer;
+    r: integer;
+    s: integer;
     slot: IwbElement;
 begin
     LogEntry2(4, 'ChooseHeadpart', Name(npc), IntToStr(hpType));
 
-    hp := PickRandomHeadpart(EditorID(npc), 113, GetNPCEffectiveRaceID(npc), GetNPCSex(npc), hpType);
-    if Assigned(hp) then
-        AssignHeadpart(npc, hp);
+    r := GetNPCEffectiveRaceID(npc);
+    s := GetNPCSex(npc);
+
+    hpChance := Hash(EditorID(npc), 3632, 100);
+    if hpChance < raceInfo[r, s].headpartProb[hpType] then begin
+        hp := PickRandomHeadpart(
+            EditorID(npc), 113, 
+            r, s, hpType);
+        if Assigned(hp) then
+            AssignHeadpart(npc, hp);
+    end;
 
     LogExit1(4, 'ChooseHeadpart', EditorID(npc));
 end;
@@ -1235,8 +1246,10 @@ begin
             begin
             ChooseHeadpart(furryNPC, HEADPART_FACE);
             ChooseHeadpart(furryNPC, HEADPART_EYES);
+            ChooseHeadpart(furryNPC, HEADPART_MOUTH);
             ChooseHair(furryNPC, hair);
             ChooseHeadpart(furryNPC, HEADPART_EYEBROWS);
+            ChooseHeadpart(furryNPC, HEADPART_SCAR);
             ChooseTint(furryNPC, TL_SKIN_TONE, 9523);
             ChooseTint(furryNPC, TL_MASK, 2188);
             ChooseTint(furryNPC, TL_MUZZLE, 9487);
