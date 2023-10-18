@@ -626,10 +626,14 @@ begin
             end;
         end;
     end;
-    // Can turn vanilla hair into corresponding furry hair
+    // Can turn vanilla hair into corresponding furry hair.
     race := FindAsset(Nil, 'RACE', 'FFOLykaiosRace');
-    headpart := GetFurryHair(RaceIndex(race), 'HairFemale21');
+    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), 'HairFemale21');
     AssertStr(EditorID(headpart), 'FFO_HairFemale21_Dog', 'Found canine hair');
+
+    // Can find random hair if there's no vanilla hair.
+    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), 'NoHairHere');
+    Assert(LeftStr(EditorID(headpart), 4) = 'FFO_', 'Chose random furry hair: ' + EditorID(headpart));
 
     //-----------------------------------------------------------------------
     //
@@ -796,11 +800,12 @@ begin
     AssertGoodHeadparts(furryNPC, 'Eyebrows', 'FFODeerHorns05');
     AssertMorph(furryNPC, $36EF36E0);
     
+    // Old NPC has "old" tint layer. (Stockton should be a horse.)
     AddMessage('---OldManStockton');
     npc := FindAsset(Nil, 'NPC_', 'OldManStockton');
     furryNPC := CreateNPCOverride(npc, modFile);
     npc := MakeFurryNPC(furryNPC, modFile);
-    AssertGoodTintLayers(npc, 2718); // Old
+    AssertGoodTintLayers(npc, 2657); // Old
     
     //-----------------------------------------------------------------------
     //

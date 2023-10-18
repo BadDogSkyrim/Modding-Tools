@@ -141,6 +141,19 @@ begin
 end;
 
 //=========================================================================
+// Some hair looks terrible (intentionally) or is too extreme for regular NPCs. Make sure
+// that hair isn't assigned by default.
+Procedure HairExclusions;
+begin
+    ExcludeHair('DLC03_HairFemale36'); // Acid Rain
+    ExcludeHair('DLC03_HairFemale37'); // Beta Rays
+    ExcludeHair('DLC03_HairMale46'); // Gamma Dream
+    ExcludeHair('DLC03_HairMale47'); // Chemical Storm
+    ExcludeHair('HairMale44'); // Megaton
+    ExcludeHair('HairMale45'); // Hornet's Nest
+end;
+
+//=========================================================================
 // By default, use all layers of all races. Why is it there if not to use?
 // Except we may limit the number of layers per NPC so they don't get stupid.
 Procedure SetRaceDefaults;
@@ -464,7 +477,7 @@ begin
         AssignHeadpart(npc, oldHair);
     end
     else begin
-        hp := GetFurryHair(GetNPCEffectiveRaceID(npc), EditorID(oldHair));
+        hp := GetFurryHair(EditorID(npc), 3146, GetNPCEffectiveRaceID(npc), EditorID(oldHair));
 
         // Since most vanilla hair has been furrified, if this one hasn't then
         // just leave it off. They're mostly variations of shaved heads anyway.

@@ -148,6 +148,7 @@ var
     vanillaHairRecords: TStringList;
     furryHair: array [0..400 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
     lionMane: IwbMainRecord;
+    hairExcludeList: TStringList;
 
     // Indexed by child, value is parent element ID.
     mothers: TStringList;
@@ -873,10 +874,13 @@ begin
 end;
 
 //===================================================================
-// Given a vanilla hair record and raceID, return corresponding furry hair.
-Function GetFurryHair(raceID: integer; oldHair: string): IwbMainRecord;
+// Given a vanilla hair record and raceID, return corresponding furry hair. If there's no
+// furry hair, choose a random furry hair that is not on the exclude list.
+Function GetFurryHair(hashstr: string; seed: integer; raceID: integer; oldHair: string): IwbMainRecord;
 var
+    i: integer;
     n: integer;
+    skipCount: integer;
 begin
     result := Nil;
     n := vanillaHairRecords.IndexOf(oldHair);
@@ -885,7 +889,25 @@ begin
             result := furryHair[n, raceid]
         else
             Err(Format('To much hair to handle--vanillaHairRecords index bigger than furry hair: %d >= %d', [n, HAIR_MAX]));
-    end;
+    end
+    else begin
+        // No matching hair--chose random hair.
+        skipCount := Hash(hashstr, seed, 20);
+        i := Hash(hashstr, seed, HAIR_MAX);
+        repeat
+            if Assigned(furryHair[i, raceID]) then begin
+                if hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0 then begin
+                    if skipCount = 0 then begin
+                        result := furryHair[i, raceID];
+                        break;
+                    end;
+                    dec(skipCount);
+                end;
+            end;
+            inc(i);
+            if i >= HAIR_MAX then i := 0;
+        until False
+    end;;
 end;
 
 //------------------------------------------------------------
@@ -1611,6 +1633,12 @@ begin
 end;
 
 //======================================================================
+procedure ExcludeHair(hairName: string);
+begin
+    hairExcludeList.Add(hairName);
+end;
+
+//======================================================================
 // Define translations between skin layer names in the race record and tint layers that
 // the furrifier understands.
 procedure SkinLayerTranslation(name: string; tintlayer: integer);
@@ -1847,6 +1875,10 @@ begin
     vanillaHairRecords.Duplicates := dupIgnore;
     vanillaHairRecords.Sorted := false;
 
+    hairExcludeList := TStringList.Create;
+    hairExcludeList.Duplicates := dupIgnore;
+    hairExcludeList.Sorted := false;
+
     InitializeGenericNames;
 
 end;
@@ -1895,6 +1927,7 @@ begin
     npcRaceAssignments.Free;
     knownTTGP.Free;
     vanillaHairRecords.Free;
+    hairExcludeList.Free;
     masterRaceList.Free;
     childRaceList.Free;
     racesNotFound.Free;
