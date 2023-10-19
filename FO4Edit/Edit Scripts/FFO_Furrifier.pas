@@ -1104,7 +1104,11 @@ var
 begin
     s := GetNPCSex(npc);
     SetWeight(npc, 2, 2, 1);
-    h := Hash(EditorID(npc), 6728, 2);
+    if GetNPCClass(npc) = CLASS_BOBROV then 
+        h := 0 // Bobrovs match
+    else
+        h := Hash(EditorID(npc), 6728, 2);
+    
     case h of
         0: SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns03'); // Gazelle
         1: SetHeadpart(npc, HEADPART_EYEBROWS, 'FFODeerHorns10'); // PRonghorn
