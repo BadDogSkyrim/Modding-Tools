@@ -1,7 +1,7 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.3
+  Version: 2.4
   
   Creates a NPC furry patch for a load order.
 
@@ -150,8 +150,10 @@ begin
     ExcludeHair('DLC03_HairFemale37'); // Beta Rays
     ExcludeHair('DLC03_HairMale46'); // Gamma Dream
     ExcludeHair('DLC03_HairMale47'); // Chemical Storm
+    ExcludeHair('HairFemale33'); // Megaton
     ExcludeHair('HairMale44'); // Megaton
     ExcludeHair('HairMale45'); // Hornet's Nest
+    ExcludeHair('HairFemale34'); // Hornet's Nest
 end;
 
 //=========================================================================
