@@ -286,7 +286,7 @@ var
     sec: Word;
     msec: Word;
 begin
-    LOGLEVEL := 15;
+    LOGLEVEL := 1;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
@@ -394,7 +394,7 @@ begin
     lykaiosRace := ObjectToElement(masterRaceList.Objects[lykaiosIndex]);
     Assert(SameText(EditorID(lykaiosRace), 'FFOLykaiosRace'), 'Recovered the Lykaios race record');
 
-    if {listing races} TRUE then begin
+    if {listing races} FALSE then begin
         AddMessage('---Can iterate through the masterRaceList');
         for i := 0 to masterRaceList.Count-1 do 
             for j := 0 to 3 do 
@@ -612,8 +612,8 @@ begin
     // --------- Hair
     AddMessage('---------Hair---------');
     Assert(vanillaHairRecords.Count > 50, 
-        'Have hair records: ' + IntToStr(vanillaHairRecords.Count));
-    if {are list all hair translations} FALSE then begin
+        'Have vanilla hair records: ' + IntToStr(vanillaHairRecords.Count));
+    if {are list all hair translations} TRUE then begin
         for i := 0 to vanillaHairRecords.Count-1 do begin
             for j := 0 to masterRaceList.Count-1 do begin
                 if Assigned(furryHair[i, j]) then
@@ -628,11 +628,15 @@ begin
     end;
     // Can turn vanilla hair into corresponding furry hair.
     race := FindAsset(Nil, 'RACE', 'FFOLykaiosRace');
-    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), 'HairFemale21');
+    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), FEMALE, 'HairFemale21');
     AssertStr(EditorID(headpart), 'FFO_HairFemale21_Dog', 'Found canine hair');
 
+    race := FindAsset(Nil, 'RACE', 'FFOFoxRace');
+    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), FEMALE, 'HairFemale16');
+    AssertStr(EditorID(headpart), 'FFO_HairFemale16_FoLy', 'Found canine hair');
+
     // Can find random hair if there's no vanilla hair.
-    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), 'NoHairHere');
+    headpart := GetFurryHair('FOOBAR', 630, RaceIndex(race), MALE, 'NoHairHere');
     Assert(LeftStr(EditorID(headpart), 4) = 'FFO_', 'Chose random furry hair: ' + EditorID(headpart));
 
     //-----------------------------------------------------------------------
@@ -717,8 +721,16 @@ begin
     npcRace := ChooseNPCRace(npcMason);
     Assert(SameText(masterRaceList[npcRace], 'FFOHorseRace'), 'Mason given horse race.');
 
-    // -------- NPC race assignment
+    // -------- Specific NPC race assignment
     // Can create overwrite records.
+
+    // When Ann's hair must be converted to furry hair.
+    AddMessage('---AnnCodman');
+    npc := FindAsset(Nil, 'NPC_', 'AnnCodman');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOFoxRace', 'Have fox race');
+    AssertGoodHeadparts(furryNPC, 'Hair', 'FFO_HairFemale16_FoLy');
+
     AddMessage('---Danse');
     npc := FindAsset(Nil, 'NPC_', 'BoSPaladinDanse');
     furryNPC := MakeFurryNPC(npc, modFile);
@@ -931,7 +943,7 @@ begin
     Log(0, 'Starting tests');
     testErrorCount := 0;
 
-    LOGLEVEL := 15;
+    LOGLEVEL := 1;
     modFile := CreateOverrideMod('TEST.esp');
 
 

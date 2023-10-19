@@ -395,7 +395,10 @@ end;
 
 Function HpToStr(hp: integer): string;
 begin
-    Result := headpartsList[hp];
+    if (hp >= 0) and (hp < headpartsList.Count) then
+        Result := headpartsList[hp]
+    else 
+        Result := 'INVALID HP ' + IntToStr(hp);
 end;
 
 
@@ -835,14 +838,14 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    Log(11, '<RecordVanillaHair: ' + EditorID(hair));
+    LogEntry1(11, 'RecordVanillaHair', EditorID(hair));
     if vanillaHairRecords.IndexOf(EditorID(hair)) < 0 then begin
         if not StartsText('FFO', EditorID(hair)) then 
             // This is non-furry, probably vanilla hair. Create an entry so we can 
             // add furry hair to it.
             vanillaHairRecords.Add(EditorID(hair));
     end;
-    Log(11, '>');
+    LogExitT('RecordVanillaHair');
 end;
 
 //------------------------------------------------------------
@@ -883,27 +886,33 @@ end;
 //===================================================================
 // Given a vanilla hair record and raceID, return corresponding furry hair. If there's no
 // furry hair, choose a random furry hair that is not on the exclude list.
-Function GetFurryHair(hashstr: string; seed: integer; raceID: integer; oldHair: string): IwbMainRecord;
+Function GetFurryHair(hashstr: string; seed: integer; 
+    raceID: integer; targetSex: integer; oldHair: string): IwbMainRecord;
 var
-    i: integer;
+    i, j: integer;
     n: integer;
     skipCount: integer;
 begin
+    LogEntry3(5, 'GetFurryHair', IntToStr(raceID), SexToStr(targetSex), oldHair);
     result := Nil;
     n := vanillaHairRecords.IndexOf(oldHair);
-    if n > 0 then begin
+    if n >= 0 then begin
+        LogT('Have vanilla hair record');
         if n < HAIR_MAX then
             result := furryHair[n, raceid]
         else
             Err(Format('To much hair to handle--vanillaHairRecords index bigger than furry hair: %d >= %d', [n, HAIR_MAX]));
-    end
-    else begin
-        // No matching hair--chose random hair.
+    end;
+
+    if not Assigned(result) then begin
+        LogT('No matching hair--chose random hair');
         skipCount := Hash(hashstr, seed, 20);
         i := Hash(hashstr, seed, HAIR_MAX);
-        repeat
+        for j := 0 to 10000 do begin // no infinite loops
             if Assigned(furryHair[i, raceID]) then begin
-                if hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0 then begin
+                if (hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0)
+                    and HeadpartSexIs(furryHair[i,raceID], targetSex) 
+                then begin
                     if skipCount = 0 then begin
                         result := furryHair[i, raceID];
                         break;
@@ -913,8 +922,9 @@ begin
             end;
             inc(i);
             if i >= HAIR_MAX then i := 0;
-        until False
-    end;;
+        end;
+    end;
+    LogExitT1('GetFurryHair', EditorID(result));
 end;
 
 //------------------------------------------------------------
@@ -931,21 +941,23 @@ var
     raceRef: IwbElement;
     validRaceList: IwbMainRecord;
 begin
-    Log(15, Format('<LoadHeadPart %s %s', [FormName(hp), GetElementEditValues(hp, 'PNAM')]));
+    LogEntry1(15, 'LoadHeadPart', Name(hp));
 
     // if targetHeadparts.IndexOf(EditorID(hp)) >= 0 then 
     //     specialHeadparts.AddObject(EditorID(hp), hp);
 
     // Get the form list that has the races for this head part
     validRaceList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM - Valid Races')));
-    Log(15, 'Found reference to form list ' + EditorID(validRaceList));
+    LogT('Found reference to form list ' + EditorID(validRaceList));
 
     facialType := HeadpartFacialType(hp);
 
     if facialType < 0 then 
-        begin Log(15, 'Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
+        begin LogT('Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
     else begin
-        Log(15, 'Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
+        LogT('Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
+        
+        if facialType = HEADPART_HAIR then RecordVanillaHair(hp);
         
         formList := ElementByPath(validRaceList, 'FormIDs');
         for i := 0 to ElementCount(formList)-1 do begin
@@ -955,7 +967,7 @@ begin
 
             raceRec := LinksTo(raceRef);
             raceName := EditorID(raceRec);
-            Log(15, 'Found reference to race ' + FormName(raceRec));
+            LogT('Found reference to race ' + FormName(raceRec));
             raceIndex := masterRaceList.IndexOf(racename);
             if raceIndex >= 0 then begin
                 for sex := SEX_LO to SEX_HI do begin
@@ -968,16 +980,14 @@ begin
 
                         if facialType = HEADPART_HAIR then RecordFurryHair(hp);
 
-                        Log(15, 'Race ' + racename + ' has HP ' + EditorID(hp));
+                        LogT('Race ' + racename + ' has HP ' + EditorID(hp));
                     end;
                 end;
-            end
-            else
-                if facialType = HEADPART_HAIR then RecordVanillaHair(hp);
+            end;
         end;
     end;
 
-    Log(15, '>');
+    LogExitT('LoadHeadPart');
 end;
 
 //-----------------------------------------------------------
@@ -1219,13 +1229,13 @@ Function GetMorphRandomPreset(morphGroup: IwbElement;
     hashval: string; seed: integer): IwbElement;
 var
     foundAny: boolean;
-    i: integer;
+    i, j: integer;
     p: IwbElement;
     pname: string;
     presetList: IwbElement;
     skipCount: integer;
 begin
-    Log(5, Format('<GetMorphRandomPreset(%s)', [Path(morphGroup)]));
+    LogEntry1(5, 'GetMorphRandomPreset', Path(morphGroup));
     result := NIl;
     presetList := ElementByPath(morphGroup, 'Morph Presets');
 
@@ -1234,7 +1244,7 @@ begin
     foundAny := false;
     i := 0;
 
-    repeat
+    for j := 0 to 10000 do begin // no infinite loops
         p := ElementByIndex(presetList, i);
         pname := GetElementEditValues(p, 'MPPN');
         if not ContainsText(pname, 'Default') then begin
@@ -1252,9 +1262,9 @@ begin
                 break;
             i := 0;
         end;
-    until false;
+    end;
 
-    Log(5, Format('>GetMorphRandomPreset -> %s', [Path(result)]));
+    LogExitT1('GetMorphRandomPreset', Path(result));
 end;
 
 //===============================================================================
@@ -1394,7 +1404,7 @@ function GetRaceHeadpart(theRace, sex, hpType, hpIndex: integer): IwbMainRecord;
 var 
     i: integer;
 begin
-    LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), IntToStr(hpType), IntToStr(hpIndex));
+    LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), HpToStr(hpType), IntToStr(hpIndex));
     // Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
     // for i := 0 to headpartsList.Count-1 do
     //     Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
@@ -1421,7 +1431,7 @@ var
     n: integer;
     h: integer;
 Begin
-    LogEntry3(7, 'PickRandomHeadpart', RaceIDToStr(race), SexToStr(sex), IntToStr(hpType));
+    LogEntry3(7, 'PickRandomHeadpart', RaceIDToStr(race), SexToStr(sex), HpToStr(hpType));
     n := GetRaceHeadpartCount(race, sex, hpType);
     h := Hash(hashstr, seed, n);
     Result := GetRaceHeadpart(race, sex, hpType, h);

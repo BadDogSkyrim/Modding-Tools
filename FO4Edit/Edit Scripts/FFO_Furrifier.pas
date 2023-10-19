@@ -377,7 +377,7 @@ var
     s: integer;
     slot: IwbElement;
 begin
-    LogEntry2(4, 'ChooseHeadpart', Name(npc), IntToStr(hpType));
+    LogEntry2(4, 'ChooseHeadpart', Name(npc), HpToStr(hpType));
 
     r := GetNPCEffectiveRaceID(npc);
     s := GetNPCSex(npc);
@@ -491,7 +491,8 @@ begin
         AssignHeadpart(npc, oldHair);
     end
     else begin
-        hp := GetFurryHair(EditorID(npc), 3146, GetNPCEffectiveRaceID(npc), EditorID(oldHair));
+        hp := GetFurryHair(EditorID(npc), 3146, 
+            GetNPCEffectiveRaceID(npc), GetNPCSex(npc), EditorID(oldHair));
 
         // Since most vanilla hair has been furrified, if this one hasn't then
         // just leave it off. They're mostly variations of shaved heads anyway.
@@ -1382,22 +1383,23 @@ begin
     AddRecursiveMaster(targetFile, GetFile(targetRace));
     newRace := wbCopyElementToFile(targetRace, targetFile, false, true);
     
-    wbCopyElementToRecord(ElementByPath(templateRace, 'WNAM'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Head Parts'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Head Parts'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'HCLF'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Hair Colors'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Hair Colors'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Face Details'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Face Details'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'DFTM'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Bone Data'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'DFTF'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Tint Layers'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Tint Layers'), newRace, false, true);
-    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Morph Groups'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'DFTM'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Face Details'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Hair Colors'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Head Parts'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Female Morph Groups'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Tint Layers'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'HCLF'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Face Details'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Male Face Morphs'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Hair Colors'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Head Parts'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Morph Groups'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Male Tint Layers'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Morph Values'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'WNAM'), newRace, false, true);
 
     LogExit(5, 'FurrifyRace');
 end;
