@@ -725,6 +725,10 @@ begin
     // Can create overwrite records.
 
     // When Ann's hair must be converted to furry hair.
+    AddMessage('---EncMinutemen05');
+    npc := WinningOverride(FindAsset(Nil, 'NPC_', 'EncMinutemen05'));
+    AssertInt(IsValidNPC(npc), 2, Name(npc) + ' identified as template');
+
     AddMessage('---AnnCodman');
     npc := FindAsset(Nil, 'NPC_', 'AnnCodman');
     furryNPC := MakeFurryNPC(npc, modFile);

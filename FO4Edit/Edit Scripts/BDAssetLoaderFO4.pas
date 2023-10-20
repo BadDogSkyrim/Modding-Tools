@@ -56,7 +56,7 @@ const
     CLASS_DALTON = 31;
     CLASS_HI = 31;
 
-    TINTLAYERS_MAX = 30;
+    TINTLAYERS_MAX = 20;
     HAIR_MAX = 400;
 
     // Morphs
@@ -210,6 +210,7 @@ var
     TL_NOSE: integer;
     TL_OLD: integer;
     TL_PAINT: integer;
+    TL_SCAR: integer;
     TL_SKIN_TONE: integer;
 
     knownTTGP: TStringList;
@@ -391,6 +392,7 @@ begin
     else if sex = FEMALE then result := 'FEMALE'
     else if sex = MALECHILD then result := 'MALECHILD'
     else if sex = FEMALECHILD then result := 'FEMALECHILD'
+    else result := 'INVALID SEX [' + IntToStr(sex) + ']';
 end;
 
 Function HpToStr(hp: integer): string;
@@ -537,24 +539,6 @@ begin
     if n < 0 then
         result := -1
     else result := translateTTGP[n];
-    // if SameText('Skin tone', name) then 
-    //     Result := TL_SKIN_TONE
-    // else if SameText('Old', name) then 
-    //     Result := TL_OLD
-    // else if StartsText('Ear', name) then
-    //     Result := TL_EAR
-    // else if StartsText('Face Mask', name) then 
-    //     Result := TL_MASK
-    // else if StartsText('Nose', name) then 
-    //     Result := TL_NOSE
-    // else if StartsText('Muzzle', name) 
-    //     or StartsText('Blaze', name) then 
-    //     Result := TL_MUZZLE
-    // else if StartsText('Star', name) or StartsText('Forehead', name) then
-    //     Result := TL_FOREHEAD
-    // else 
-    //     Result := TL_PAINT
-    // ;
     Log(11, '>DetermineTintType -> ' + IntToStr(result));
 end;
 
@@ -1113,6 +1097,7 @@ begin
     tintlayerName.Add('Nose');
     tintlayerName.Add('Old');
     tintlayerName.Add('Paint');
+    tintlayerName.Add('Scar');
     tintlayerName.Add('Skin Tone');
     TINTLAYERS_COUNT := tintlayerName.Count;
 
@@ -1133,6 +1118,7 @@ begin
     TL_NOSE := tintlayerName.IndexOf('Nose');
     TL_OLD := tintlayerName.IndexOf('Old');
     TL_PAINT := tintlayerName.IndexOf('Paint');
+    TL_SCAR := tintlayerName.IndexOf('Scar');
     TL_SKIN_TONE := tintlayerName.IndexOf('Skin Tone');
 
     if TINTLAYERS_COUNT > TINTLAYERS_MAX then

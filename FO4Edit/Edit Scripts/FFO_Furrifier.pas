@@ -41,6 +41,7 @@ const
 var
     patchFile: IwbFile;
 
+    ffoIndex: integer;
     ffoFile: IwbFile;
 
     playerIDs: TStringList;
@@ -98,7 +99,7 @@ begin
     SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
     SkinLayerTranslation('Star', TL_FOREHEAD);
     SkinLayerTranslation('Upper Head', TL_FOREHEAD);
-    SkinLayerTranslation('Scar - Left Long', TL_PAINT);
+    SkinLayerTranslation('Scar - Left Long', TL_SCAR);
     SkinLayerTranslation('Fishbones', TL_PAINT);
     SkinLayerTranslation('Skull', TL_PAINT);
 	//SHARK
@@ -424,7 +425,7 @@ begin
     if Assigned(hp) then 
         AssignHeadpart(npc, hp)
     else
-        Err(Format('Requested headpart %s not found for %s', [hpName, EditorID(npc)]));
+        Err(Format('Requested headpart %s not found for %s', [hpName, Name(npc)]));
 
     LogExit1(5, 'SetHeadpart', Name(hp));
 end;
@@ -1436,8 +1437,10 @@ Procedure InitializeFurrifier(targetFile: IwbFile);
 var i, j: integer;
 begin
     for i := 0 to FileCount-1 do
-        if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then
+        if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then begin
             ffoFile := FileByIndex(i);
+            ffoIndex := i;
+        end;
 
     InitializeAssetLoader;
     SetTintLayerTranslations;
@@ -1564,7 +1567,10 @@ begin
     errCount := 0;
     warnCount := 0;
 
-    preFurryCount := FileCount;
+    for i := 0 to FileCount-1 do begin
+
+        preFurryCount := FileCount;
+    end;
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
     convertingGhouls := (not USE_SELECTION);
@@ -1614,8 +1620,8 @@ var
     raceID: inetger;
 begin
     if DO_FURRIFICATION and (not USE_SELECTION) then begin
-        for f := 0 to preFurryCount-1 do begin
-            // Don't check the NPCs in the patch file if we created it on this run.
+        // Walk all files up to and not including FFO. Nothing after FFO will be furrified.
+        for f := 0 to ffoIndex-1 do begin
             fn := GetFileName(FileByIndex(f));
             if (fn <> patchFileName) and (fn <> 'FurryFallout.esp') then begin
                 Log(2, 'File ' + GetFileName(FileByIndex(f)));
@@ -1627,11 +1633,15 @@ begin
                             [GetFileName(FileByIndex(f)), furryCount]));
 
                     npc := ElementByIndex(npcList, n);
-                    Case IsValidNPC(npc) of
-                        1: MakeFurryNPC(npc, patchFile);
-                        // Creating the override will zero the morphs, which we need because human
-                        // morphs won't work on furry races. 
-                        2: OverrideAndZeroMorphs(npc, patchFile);
+                    if IsWinningOverride(npc) then begin
+                        // Only furrify the winning override. We'll get to it unless it's in
+                        // FFO or later, in which case it doesn't need furrification.
+                        Case IsValidNPC(npc) of
+                            1: MakeFurryNPC(npc, patchFile);
+                            // Creating the override will zero the morphs, which we need because human
+                            // morphs won't work on furry races. 
+                            2: OverrideAndZeroMorphs(npc, patchFile);
+                        end;
                     end;
                     furryCount := furryCount + 1;
                 end;
