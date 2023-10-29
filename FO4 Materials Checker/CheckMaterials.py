@@ -1,6 +1,7 @@
 import os
 import struct
 import collections
+from ctypes import Structure, c_bool, c_char, c_float, c_uint8, c_uint32
 from pathlib import Path
 
 targetFolder = r"C:\Modding\Fallout4\mods\Furry Fallout\Materials"
@@ -10,7 +11,59 @@ targetPaths = [
     r"C:\Modding\Fallout4\mods\Furry Fallout",
     r"C:\Modding\Fallout4\mods\00 FO4 Assets"]
 
-class BGSMaterial:
+class BGSMaterial(ctypes.Structure):
+    _fields_ = [
+        ('signature', c_char*4), 
+        ('version', c_uint32),
+        ('tileFlags', c_uint32), 
+        ('UV_Offset_U', c_float), 
+        ('UV_Offset_V', c_float), 
+        ('UV_Scale_U', c_float), 
+        ('UV_Scale_V', c_float), 
+        ('Alpha', c_float), 
+        ('alphblend0', c_uint8), 
+        ('alphblend1', c_uint32), 
+        ('alphblend2', c_uint32), 
+        ('alphatestref', c_uint8), 
+        ('alphatest', c_bool),
+        ('zbufferwrite', c_bool), 
+        ('zbuffertest', c_bool),
+        ('screenSpaceReflections', c_bool), 
+        ('wetnessScreenSpaceReflections', c_bool),
+        ('decal', c_bool), 
+        ('twoSided', c_bool), 
+        ('decalNoFade', c_bool), 
+        ('nonOccluder', c_bool),
+        ('refraction', c_bool), 
+        ('refractionFalloff', c_bool), 
+        ('refractionPower', c_bool)
+    ]
+    _defaults_ = [
+        {'signature': '    '}, 
+        {'version': 0},
+        {'tileFlags': 0},
+        {'UV_Offset_U': 0},
+        {'UV_Offset_V': 0},
+        {'UV_Scale_U': 1.0},
+        {'UV_Scale_V': 1.0},
+        {'Alpha': 0},
+        {'alphblend0': 0},
+        {'alphblend1': 0},
+        {'alphblend2': 0},
+        {'alphatestref': 0},
+        {'alphatest': 0},
+        {'zbufferwrite': 0},
+        {'zbuffertest': 0},
+        {'screenSpaceReflections': 0},
+        {'wetnessScreenSpaceReflections': 0},
+        {'decal': 0},
+        {'twoSided': 0},
+        {'decalNoFade': 0},
+        {'nonOccluder': 0},
+        {'refraction': 0},
+        {'refractionFalloff': 0},
+        {'refractionPower': 0},
+    ]
     def __init__(self):
         self.fields1 = ""
         self.fields2 = ""
@@ -45,8 +98,8 @@ class BGSMaterial:
 
         bgsmpattern1 = "<I2f2f fBIIB? ?? ?? ???? ??f"
         self.fields1 = [
-            'tileFlags', 'uOffset', 'vOffset', 'uScale', 'vScale', 
-            'alpha', 'alphblend0', 'alphblend1', 'alphblend2', 'alphatestref', 'alphatest',
+            'tileFlags', 'UV_Offset_U', 'UV_Offset_V', 'UV_Scale_U', 'UV_Scale_V', 
+            'Alpha', 'alphblend0', 'alphblend1', 'alphblend2', 'alphatestref', 'alphatest',
             'zbufferwrite', 'zbuffertest',
             'screenSpaceReflections', 'wetnessControlScreenSpaceReflections',
             'decal', 'twoSided', 'decalNoFade', 'nonOccluder',
@@ -118,21 +171,21 @@ class BGSMaterial:
             else:
                 bgsmpattern2 += " ?ff?f"
                 self.fields2 += [
-                    "rimLighting", "rimPower", "backLightPower", "subsurfaceLighting",
-                    "subsurfaceLightingRolloff"]
+                    "rimLighting", "rimPower", "backlightPower", "subsurfaceLighting",
+                    "subsurfaceRolloff"]
                 
-            bgsmpattern2 += " ?IIIffffff"
+            bgsmpattern2 += " ?IIIf ff fff"
             self.fields2 += [
                 "specularEnabled", "specularColorR", "specularColorG", "specularColorB", "specularMult", 
                 "smoothness", "fresnelPower", 
-                "wetnessControlSpecScale", "wetnessControlSpecPowerScale", "wetnessControlSpecMinvar"]
+                "wetnessSpecScale", "wetnessSpecPower", "wetnessMinVar"]
 
             if self.header.version < 10:
                 bgsmpattern2 += " f"
-                self.fields2 += ["wetnessControlEnvMapScale", ]
+                self.fields2 += ["wetnessEnvmapScale", ]
 
             bgsmpattern2 += " ff"
-            self.fields2 += ["wetnessControlFresnelPower", "wetnessControlMetalness"]
+            self.fields2 += ["wetnessFresnelPower", "wetnessMetalness"]
 
             if self.header.version > 2:
                 bgsmpattern2 += " ?"

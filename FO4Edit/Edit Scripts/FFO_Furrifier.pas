@@ -309,7 +309,7 @@ var
     skin: IwbMainRecord;
     targetFile: IwbFile;
 begin
-    LogEntry2(5, 'SetNPCRace', Name(furryNPC), IntToStr(raceIndex));
+    LogEntry2(5, 'SetNPCRace', FullPath(furryNPC), IntToStr(raceIndex));
 
     result := CleanNPC(furryNPC);
     targetFile := GetFile(furryNPC);
@@ -378,7 +378,7 @@ var
     s: integer;
     slot: IwbElement;
 begin
-    LogEntry2(4, 'ChooseHeadpart', Name(npc), HpToStr(hpType));
+    LogEntry2(4, 'ChooseHeadpart', FullPath(npc), HpToStr(hpType));
 
     r := GetNPCEffectiveRaceID(npc);
     s := GetNPCSex(npc);
@@ -1209,7 +1209,7 @@ end;
 // Special tailoring for lions. 50% of the males get manes.
 Procedure FurrifyLion(npc, hair: IwbMainRecord);
 begin
-    Log(4, Format('<FurrifyLion(%s, %s)', [Name(npc), GetElementEditValues(npc, 'RNAM')]));
+    Log(4, Format('<FurrifyLion(%s, %s)', [FullPath(npc), GetElementEditValues(npc, 'RNAM')]));
     SetWeight(npc, 1, 2, 1);
     Log(5, Format('Calling ChooseHeadpart with %s\%s (%s)', [GetFileName(GetFile(npc)), Name(npc), EditorID(GetNPCRace(npc))]));
     ChooseHeadpart(npc, HEADPART_FACE);
@@ -1362,17 +1362,20 @@ begin
             result := 0;
     end;
 
-    if result > 0 then begin
-        // Must not be a preset--furry races have their own
-        if GetElementEditValues(npc, 'ACBS - Configuration\Flags\Is Chargen Face Preset') = '1' then
-            result := 0;
-    end;
+    ///// We now furrify presets because some mods depend on them.
+    // if result > 0 then begin
+    //     // Must not be a preset--furry races have their own
+    //     if GetElementEditValues(npc, 'ACBS - Configuration\Flags\Is Chargen Face Preset') = '1' then
+    //         result := 0;
+    // end;
     
-    if result > 0 then begin
-        // If it gets traits from a template, just zero out the morphs.
-        if NPCInheritsTraits(npc) then
-            result := 2;
-    end;
+    ///// If it's a human race (tested above) we furrify even if it gets its traits
+    ///// from a template. Seems like some dead NPCs don't follow the traits.
+    // if result > 0 then begin
+    //     // If it gets traits from a template, just zero out the morphs.
+    //     if NPCInheritsTraits(npc) then
+    //         result := 2;
+    // end;
 
     LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
@@ -1619,6 +1622,7 @@ var
     npcList: IwbContainer;
     raceID: inetger;
 begin
+    LOGLEVEL := 10;
     if DO_FURRIFICATION and (not USE_SELECTION) then begin
         // Walk all files up to and not including FFO. Nothing after FFO will be furrified.
         for f := 0 to ffoIndex-1 do begin
