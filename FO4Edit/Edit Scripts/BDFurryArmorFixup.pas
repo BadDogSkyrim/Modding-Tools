@@ -22,7 +22,7 @@ var
     i: integer;
     racename: string;
 begin
-    LogEntry1(11, 'ARMAHasRace', Format('%s, %s', [EditorID(arma), EditorID(targetRace)]));
+    if LOGGING then LogEntry1(11, 'ARMAHasRace', Format('%s, %s', [EditorID(arma), EditorID(targetRace)]));
     result := false;
     racename := EditorID(targetRace);
     if EditorID(LinksTo(ElementByPath(arma, 'RNAM'))) = racename then
@@ -30,14 +30,14 @@ begin
     else begin
         extraList := ElementByPath(arma, 'Additional Races');
         for i := 0 to ElementCount(extraList)-1 do begin
-            LogT('Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
+            if LOGGING then LogE('Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
             if EditorID(LinksTo(ElementByIndex(extraList, i))) = racename then begin
                 result := true;
                 break;
             end;
         end;
     end;
-    LogExitT1('ARMAHasRace', BoolToStr(result)); 
+    if LOGGING then LogExitT1('ARMAHasRace', BoolToStr(result)); 
 end;
 
 //================================================================
@@ -49,7 +49,7 @@ var
     extras: IwbContainer;
     entry: IwbElement;
 begin
-    LogEntry3(11, 'AddRaceToARMA', GetFileName(targetFile), Name(arma), Name(race));
+    if LOGGING then LogEntry3(11, 'AddRaceToARMA', GetFileName(targetFile), Name(arma), Name(race));
 
     if ARMAHasRace(arma, race) then 
         result := arma
@@ -60,11 +60,11 @@ begin
         result := wbCopyElementToFile(arma, targetFile, False, True);
         extras := Add(result, 'Additional Races', true); 
         entry := ElementAssign(extras, HighInteger, Nil, false);
-        LogT('Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
+        if LOGGING then LogT('Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
         SetNativeValue(entry,
             LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(race)));
     end;
-    LogExitT('AddRaceToArma');
+    if LOGGING then LogExitT('AddRaceToArma');
 end;
 
 //================================================================
@@ -77,7 +77,7 @@ var
     f: integer;
     i: integer;
 begin
-    LogEntry3(5, 'AddRaceToAllArmor', GetFileName(targetFile), Name(newRace), Name(existingRace));
+    if LOGGING then LogEntry3(5, 'AddRaceToAllArmor', GetFileName(targetFile), Name(newRace), Name(existingRace));
     // Walk the file list backwards so we hit winning overrides first.
     for f := FileCount-1 downto 0 do begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
@@ -88,7 +88,7 @@ begin
                     AddRaceToARMA(targetFile, aa, newRace);
         end;
     end;
-    LogExitT('AddRaceToAllArmor');
+    if LOGGING then LogExitT('AddRaceToAllArmor');
 end;
 
 //================================================================
@@ -97,7 +97,7 @@ Function IsFurryFile(f: IwbFile): Boolean;
 var 
     fn: string;
 begin
-    LogEntry1(11, 'IsFurryFile', GetFileName(f));
+    if LOGGING then LogEntry1(11, 'IsFurryFile', GetFileName(f));
     fn := GetFileName(f);
     result :=
         SameText(fn, 'FurryFallout.esp') 
@@ -106,7 +106,7 @@ begin
         or SameText(fn, 'FurryFalloutWorldDLC.esp') 
         or StartsText(fn, 'FFO') // Patches for other mods
         ;
-    LogExitT1('IsFurryFile', BoolToStr(result));
+    if LOGGING then LogExitT1('IsFurryFile', BoolToStr(result));
 end;
 
 //================================================================
@@ -115,7 +115,7 @@ Function IsVanillaFile(f: IwbFile): Boolean;
 var 
     fn: string;
 begin
-    LogEntry1(11, 'IsVanillaFile', GetFileName(f));
+    if LOGGING then LogEntry1(11, 'IsVanillaFile', GetFileName(f));
     fn := GetFileName(f);
     result :=
         SameText(fn, 'Fallout4.esp') 
@@ -126,7 +126,7 @@ begin
         or SameText(fn, 'DLCCoast.esp') 
         or SameText(fn, 'DLCNukaWorld.esp') 
         ;
-    LogExitT1('IsVanillaFile', BoolToStr(result));
+    if LOGGING then LogExitT1('IsVanillaFile', BoolToStr(result));
 end;
 
 //================================================================
@@ -139,7 +139,7 @@ var
     oIndex: integer;
     ovr: IwbMainRecord;
 begin
-    LogEntry1(5, 'GetPriorOverride', FullPath(mr));
+    if LOGGING then LogEntry1(5, 'GetPriorOverride', FullPath(mr));
     result := nil;
     found := False;
     mrFormID := GetLoadOrderFormID(mr);
@@ -147,7 +147,7 @@ begin
 
     for oIndex := OverrideCount(m)-1 downto 0 do begin
         ovr := OverrideByIndex(m, oIndex);
-        LogT('Checking override in file ' + GetFileName(GetFile(ovr)));
+        if LOGGING then LogT('Checking override in file ' + GetFileName(GetFile(ovr)));
         if found then begin
             if not IsFurryFile(GetFile(ovr)) then begin
                 result := ovr;
@@ -159,7 +159,7 @@ begin
         end;
     end;  
 
-    LogExitT('GetPriorOverride');
+    if LOGGING then LogExitT('GetPriorOverride');
 end;
 
 //================================================================
@@ -177,7 +177,7 @@ var
     n: integer;
     targetName: string;
 begin
-    LogEntry3(10, 'MergeArmor', GetFileName(targetFile), Name(armor1), Name(armor2));
+    if LOGGING then LogEntry3(10, 'MergeArmor', GetFileName(targetFile), Name(armor1), Name(armor2));
 
     entryList1 := TStringList.Create;
     entryList1.Sorted := False;
@@ -188,7 +188,7 @@ begin
     for i := 0 to ElementCount(models1)-1 do begin
         e := ElementByIndex(models1, i);
         targetName := EditorID(LinksTo(ElementByPath(e, 'MODL')));
-        LogT(Format('Found %s at %s', [targetName, FullPath(e)]));
+        if LOGGING then LogT(Format('Found %s at %s', [targetName, FullPath(e)]));
         entryList1.AddObject(EditorID(LinksTo(ElementByPath(e, 'MODL'))), e);
     end;
     
@@ -196,7 +196,7 @@ begin
     for i := 0 to ElementCount(models2)-1 do begin
         e := ElementByIndex(models2, i);
         targetName := EditorID(LinksTo(ElementByPath(e, 'MODL')));
-        LogT(Format('Found %s at %s', [targetName, FUllPath(e)]));
+        if LOGGING then LogT(Format('Found %s at %s', [targetName, FUllPath(e)]));
         if entryList1.IndexOf(targetName) < 0 then
             entryList2.AddObject(targetName, e);
     end;
@@ -211,20 +211,20 @@ begin
     n := 0;
     for i := 0 to entryList1.Count-1 do begin
         e := ObjectToElement(entryList1.Objects[i]);
-        LogT('Copying ' + FullPath(e));
+        if LOGGING then LogT('Copying ' + FullPath(e));
         ElementAssign(modelsNew, n, e, false);
         inc(n);
     end;
     for i := 0 to entryList2.Count-1 do begin
         e := ObjectToElement(entryList2.Objects[i]);
-        LogT('Copying ' + FullPath(e));
+        if LOGGING then LogT('Copying ' + FullPath(e));
         ElementAssign(modelsNew, n, e, false);
         inc(n);
     end;
 
     entryList1.Free;
     entryList2.Free;
-    LogExitT('MergeArmor');
+    if LOGGING then LogExitT('MergeArmor');
 end;
 
 //================================================================
@@ -237,7 +237,7 @@ var
     priorOverride: IwbMainRecord;
     priorOverrideFile: IwbFile;
 begin
-    LogEntry2(5, 'MergeOverride', GetFileName(targetFile), Name(armor));
+    if LOGGING then LogEntry2(5, 'MergeOverride', GetFileName(targetFile), Name(armor));
     result := armor;
     armorFile := GetFile(armor);
     if IsFurryFile(armorFile) then begin
@@ -245,13 +245,13 @@ begin
         if Assigned(priorOverride) then begin
             priorOverrideFile := GetFile(priorOverride);
             if not IsVanillaFile(priorOverrideFile) then begin
-                LogT(Format('Merging %s from %s and %s', [
+                if LOGGING then LogT(Format('Merging %s from %s and %s', [
                     Name(armor), GetFileName(armorFile), GetFileName(priorOverrideFile)]));
                 result := MergeArmor(targetFile, armor, priorOverride);
             end;
         end;
     end;
-    LogExitT('MergeOverride')
+    if LOGGING then LogExitT('MergeOverride')
 end;
 
 //================================================================
@@ -264,7 +264,7 @@ var
     f: integer;
     i: integer;
 begin
-    LogEntry(5, 'MergeFurryChanges');
+    if LOGGING then LogEntry(5, 'MergeFurryChanges');
     // CalcFileEntries;
 
     for f := 0 to FileCount-1 do begin
@@ -275,7 +275,7 @@ begin
                 MergeOverride(targetFile, armor);
         end;
     end;
-    LogExitT('MergeFurryChanges');
+    if LOGGING then LogExitT('MergeFurryChanges');
 end;
 
 

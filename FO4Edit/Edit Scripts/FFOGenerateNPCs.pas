@@ -22,22 +22,22 @@ var
     newNPC: IwbMainRecord;
     name: string;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<GenerateRandomNPC(%s, %s)', [GetFileName(targetFile), Name(npc)]));
+    if LOGGING then Log(5, Format('<GenerateRandomNPC(%s, %s)', [GetFileName(targetFile), Name(npc)]));
     AddRecursiveMaster(targetFile, GetFile(npc));
     newNPC := wbCopyElementToFile(npc, targetFile, True, True);
-    if LOGLEVEL > 0 then Log(5, Format('Created NPC %.8x', [integer(FormID(newNPC))]));
+    if LOGGING then Log(5, Format('Created NPC %.8x', [integer(FormID(newNPC))]));
     name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4);
     if targetSex = FEMALE then begin
         name := name + '_F';
         SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);
     end;
     SetEditorID(newNPC, name);
-    if LOGLEVEL > 0 then Log(5, 'Created ' + EditorID(newNPC));
+    if LOGGING then Log(5, 'Created ' + EditorID(newNPC));
     CleanNPC(newNPC);
     FurrifyNPC(newNPC, targetFile);
 
     result := newNPC;
-    if LOGLEVEL > 0 then Log(5, '>');
+    if LOGGING then Log(5, '>');
 end;
 
 //================================================================================
@@ -50,7 +50,7 @@ var
     ovrLoadIndex: integer;
     targetLoadIndex: integer;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<CreateOverrideInFile: %s -> %s', [EditorID(elem), GetFileName(targetFile)]));
+    if LOGGING then Log(5, Format('<CreateOverrideInFile: %s -> %s', [EditorID(elem), GetFileName(targetFile)]));
     found := false;
     ovrLoadIndex := -1;
     for i := OverrideCount(elem)-1 downto 0 do begin
@@ -72,7 +72,7 @@ begin
         AddRecursiveMaster(targetFile, GetFile(ovr));
         result := wbCopyElementToFile(ovr, targetFile, False, True);
     end;
-    if LOGLEVEL > 0 then Log(5, '>CreateOverrideInFile');
+    if LOGGING then Log(5, '>CreateOverrideInFile');
 end;
 
 //===================================================================
@@ -85,7 +85,7 @@ var
     lvlo: IwbElement;
     newLL: IwbMainRecord;
 begin
-    LogEntry2(5, 'AddNPCtoLevelList', EditorID(npc), EditorID(ll));
+    if LOGGING then LogEntry2(5, 'AddNPCtoLevelList', EditorID(npc), EditorID(ll));
     newLL := CreateOverrideInFile(ll, GetFile(npc));
     lle := ElementByPath(newll, 'Leveled List Entries');
     lvlo := ElementByIndex(lle, 0);
@@ -96,7 +96,7 @@ begin
         LoadOrderFormIDtoFileFormID(GetFile(npc), GetLoadOrderFormID(npc)));
     SetNativeValue(ElementByPath(el, 'Level'), 1);
     SetNativeValue(ElementByPath(el, 'Count'), 1);
-    LogExitT('AddNPCtoLevelList');
+    if LOGGING then LogExitT('AddNPCtoLevelList');
 end;
 
 //=========================================================
@@ -170,7 +170,7 @@ var
     newNPC: IwbMainRecord;
     traits: IwbElement;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<ForceLLTemplate(%s, %s, %s)', [GetFileName(targetFile), Name(npc), Name(tpl)]));
+    if LOGGING then Log(5, Format('<ForceLLTemplate(%s, %s, %s)', [GetFileName(targetFile), Name(npc), Name(tpl)]));
     AddRecursiveMaster(targetFile, GetFile(npc));
     newNPC := wbCopyElementToFile(npc, targetFile, False, True);
     AddRecursiveMaster(targetFile, GetFile(tpl));
@@ -179,7 +179,7 @@ begin
         LoadOrderFormIDtoFileFormID(targetFile, 
             GetLoadOrderFormID(tpl)));
     result := newNPC;
-    if LOGLEVEL > 0 then Log(5, '>ForceLLTemplate');
+    if LOGGING then Log(5, '>ForceLLTemplate');
 end;
 
 //===============================================================================
@@ -193,13 +193,13 @@ var
     newNPC: IwbMainRecord;
     noTpl: boolean;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<SetGenericTraits(%s, %s %s)', [GetFileName(targetFile), Name(npc), SexToStr(GetNPCSex(npc))]));
+    if LOGGING then Log(5, Format('<SetGenericTraits(%s, %s %s)', [GetFileName(targetFile), Name(npc), SexToStr(GetNPCSex(npc))]));
     noTpl := false;
     if NPCInheritsTraits(npc) then begin
         curTpl := NPCTraitsTemplate(npc);
         tpl := leveledList[GetNPCClass(npc), GetNPCSex(npc)];
-        Log(5, 'Have template ' + Name(tpl));
-        Log(5, Format('Replacing template %s <- %s', [Name(curTpl), Name(tpl)]));
+        if LOGGING then Log(5, 'Have template ' + Name(tpl));
+        if LOGGING then Log(5, Format('Replacing template %s <- %s', [Name(curTpl), Name(tpl)]));
         if badTemplates.IndexOf(EditorID(curTpl)) >= 0 then begin
             if Assigned(tpl) then
                 newNPC := ForceLLTemplate(targetFile, npc, tpl)
@@ -226,7 +226,7 @@ begin
             SexToStr(GetNPCSex(npc))
         ]));
     result := newNPC;
-    if LOGLEVEL > 0 then Log(5, '>SetGenericTraits');
+    if LOGGING then Log(5, '>SetGenericTraits');
 end;
 
 //============================================================================
@@ -240,7 +240,7 @@ var
     npc: IwbMainRecord;
     templateNPC: IwbMainRecord;
 begin
-    if LOGLEVEL > 0 then Log(5, Format('<CreateLL(%s, %s, %s)', [GetFileName(targetFile), name, templateNPCName]));
+    if LOGGING then Log(5, Format('<CreateLL(%s, %s, %s)', [GetFileName(targetFile), name, templateNPCName]));
     templateNPC := FindAsset(nil, 'NPC_', templateNPCName);
     if Assigned(templateNPC) then begin
         lvln := GroupBySignature(targetFile, 'LVLN');
@@ -265,7 +265,7 @@ begin
 
         result := newLL;
     end;
-    if LOGLEVEL > 0 then Log(5, '>');
+    if LOGGING then Log(5, '>');
 end;
 
 procedure InitializeNPCGenerator(targetFile: IwbFile);
@@ -376,7 +376,7 @@ function Initialize: integer;
 begin
     LOGLEVEL := 0;
     newMod := CreateOverrideMod('FFOGGeneratedNPCs.esp');
-    Log(0, 'Created ' + GetFileName(newMod));
+    AddMessage('Created ' + GetFileName(newMod));
     InitializeFurrifier(newMod);
     LOGLEVEL := 5;
     InitializeNPCGenerator(newMod);

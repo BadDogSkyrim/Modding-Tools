@@ -5,6 +5,7 @@ implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
+    LOGGING = FALSE;
     LOGLEVEL = 1;
 
 var 
@@ -91,16 +92,16 @@ var
     i: integer;
     e: IwbElement;
 begin
-    Log(11, '<ElementListContains ' + EditorID(mr) + '/' + p + '=' + v);
+    if LOGGING then LogEntry3(15, 'ElementListContains', EditorID(mr), p, v);
     Result := false;
     for i := 0 to HighInteger do begin
         e := ElementByIndex(ElementByPath(mr, p), i);
         if not Assigned(e) then break;
-        Log(11, 'Found in list: ' + EditorID(LinksTo(e)));
+        if LOGGING then LogD('Found in list: ' + EditorID(LinksTo(e)));
         Result := SameText(EditorID(LinksTo(e)), v);
         if Result then break;
     end;
-    Log(11, '>ElementListContains: ' + IfThen(Result, 'T', 'F'));
+    if LOGGING then LogExitT1('ElementListContains', BoolToStr(Result));
 end;
 
 
@@ -136,12 +137,24 @@ begin
     end;
 end;
 
+//===========================================================
+// Log a text string at the current importance level.
 Procedure LogT(txt: string);
 begin
     if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
         AddMessage('ERROR: callIndex = ' + IntToStr(callIndex))
     else 
         Log(curLogLevel[callIndex], txt);
+end;
+
+//===========================================================
+// Log details about the current function (current importance + 5).
+Procedure LogD(txt: string);
+begin
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
+        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex))
+    else 
+        Log(curLogLevel[callIndex]+5, txt);
 end;
 
 Procedure LogEntry(importance: integer; routineName: string);
@@ -208,7 +221,10 @@ end;
 
 Procedure LogExitT(routineName: string);
 begin
-    LogExit(curLogLevel[callIndex], routineName);
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then
+        AddMessage(Format('LOG ERROR: Call index %d out of range in routine %s', [callIndex, routineName]))
+    else
+        LogExit(curLogLevel[callIndex], routineName);
 end;
 
 Procedure LogExit1(importance: integer; routineName: string; details: string);
@@ -329,7 +345,7 @@ begin
 	end;
 	h := ((31 * h) + j) mod 16000; 
 	if m = 0 then r := 0 else r := h mod m; 
-	Log(20, 'Hash(' + s + ', ' + IntToStr(j) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
+	If LOGGING then Log(20, 'Hash(' + s + ', ' + IntToStr(j) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
     result := r;
 End;
 

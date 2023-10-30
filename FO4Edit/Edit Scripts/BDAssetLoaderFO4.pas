@@ -332,7 +332,7 @@ Function BasedOnLeveledList(npc: IwbMainRecord): boolean;
 var
     tpl: IwbMainRecord;
 begin
-    Log(5, Format('<BasedOnLeveledList(%s)', [Name(npc)]));
+    If LOGGING then Log(5, Format('<BasedOnLeveledList(%s)', [Name(npc)]));
     tpl := NPCTraitsTemplate(npc);
     if Assigned(tpl) then begin
         if signature(tpl) = 'LVLN' then
@@ -342,7 +342,7 @@ begin
     end
     else
         result := false;
-    Log(5, '>BasedOnLeveledList -> ' + IfThen(result, 'T', 'F'));
+    If LOGGING then Log(5, '>BasedOnLeveledList -> ' + IfThen(result, 'T', 'F'));
 end;
 
 //===========================================================
@@ -474,7 +474,7 @@ begin
                     // else if 
                     //     mothers[motherCount] := theParent; //GetLoadOrderFormID(theParent);
                     //     children[motherCount] := LinksTo(ElementByPath(thisRlnshp, 'DATA\Child'));
-                    //     if 6 <= LOG_LEVEL then Log(6, ' . . Found mother ' + Name(mothers[motherCount]) + ', child ' + Name(children[motherCount]));
+                    //     if 6 <= LOG_LEVEL then If LOGGING then Log(6, ' . . Found mother ' + Name(mothers[motherCount]) + ', child ' + Name(children[motherCount]));
                     //     motherCount := motherCount + 1;
                     // end;
                 end;
@@ -491,7 +491,7 @@ var
   i: Integer;
   //loid: integer;
 begin
-    LogEntry1(5, 'GetMother', Name(theNPC));
+    If LOGGING then LogEntry1(5, 'GetMother', Name(theNPC));
     result := Nil;
 
     i := mothers.IndexOf(EditorID(theNPC));
@@ -505,7 +505,7 @@ begin
 
     if EditorID(GetNPCRace(result)) = 'GhoulRace' then result := nil;
 
-    LogExit1(5, 'GetMother', Name(result));
+    If LOGGING then LogExit1(5, 'GetMother', Name(result));
 end;
 
 // <<<<<<<<<<<<<<<<<<<<< MANAGE TINT LAYERS >>>>>>>>>>>>>>>>>>>>>
@@ -514,16 +514,16 @@ end;
 //     mt: string; thisLayer: IwbElement);
 // begin
 //     inc(logIndent);
-//     Log(5, 'Loading tint layer ' + mt + ' race=' + IntToStr(r) +
+//     If LOGGING then Log(5, 'Loading tint layer ' + mt + ' race=' + IntToStr(r) +
 //         ' sex=' + IntToStr(sex) + ' tint=' + IntToStr(tli));
 //     raceInfo[r, sex].tints[tli].tini :=
 //         GetElementNativeValues(thisLayer, 'Tint Layer\Texture\TINI');
 //     raceInfo[r, sex].tints[tli].maskType := mt;
 //     raceInfo[r, sex].tints[tli].element := thisLayer;
-//     Log(5, 'Found tint mask ' + mt + ' TINI='
+//     If LOGGING then Log(5, 'Found tint mask ' + mt + ' TINI='
 //         + IntToStr(raceInfo[r, sex].tints[tli].tini));
         
-//     Log(5, 'Found ' + IntToStr(raceInfo[r, sex].tints[tli].presetsCount) +
+//     If LOGGING then Log(5, 'Found ' + IntToStr(raceInfo[r, sex].tints[tli].presetsCount) +
 //         ' presets starting at ' + IntToStr(raceInfo[r, sex].tints[tli].presetsStart));
 //     dec(logIndent);
 // end;
@@ -534,12 +534,20 @@ Function DetermineTintType(name: string): integer;
 var
     n: integer;
 begin
-    Log(11, '<DetermineTintType: ' + name);
+    If LOGGING then Log(11, '<DetermineTintType: ' + name);
     n := knownTTGP.IndexOf(name);
     if n < 0 then
         result := -1
     else result := translateTTGP[n];
-    Log(11, '>DetermineTintType -> ' + IntToStr(result));
+    If LOGGING then Log(11, '>DetermineTintType -> ' + IntToStr(result));
+end;
+
+Function TintLayerToStr(tintLayer: integer): string;
+begin
+    if (tintLayer >= 0) and (tintLayer < length(tintLayerName)) then
+        result := tintlayerName[tintLayer]
+    else
+        result := Format('[%d UNKNOWN TL]', [tintLayer]);
 end;
 
 //==================================================================
@@ -558,7 +566,7 @@ var
     tintType: integer;
     tintOptions: IwbElement; 
 begin
-    LogEntry2(11, 'LoadTintLayerInfo', EditorID(theRace), SexToStr(sex));
+    If LOGGING then LogEntry2(11, 'LoadTintLayerInfo', EditorID(theRace), SexToStr(sex));
     raceID := RaceIndex(theRace);
     if (sex = MALE) or (sex = MALECHILD) then 
         rootElem := 'Male Tint Layers' 
@@ -566,28 +574,28 @@ begin
         rootElem := 'Female Tint Layers';
     tintGroups := ElementByPath(theRace, rootElem);
 
-    LogT(EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
+    If LOGGING then LogT(EditorID(theRace) + ' ' + rootElem + ' tint group count ' + IntToStr(ElementCount(tintGroups)));
     
     for i := 0 to ElementCount(tintGroups)-1 do begin
         thisGroup := ElementByIndex(tintGroups, i);
-        Log(11, 'Found tint group ' + GetElementEditValues(thisGroup, 'TTGP'));
+        If LOGGING then Log(11, 'Found tint group ' + GetElementEditValues(thisGroup, 'TTGP'));
 
         tintOptions := ElementByPath(thisGroup, 'Options');
-        LogT(Format('Group has %d options', [integer(ElementCount(tintOptions))]));
+        If LOGGING then LogT(Format('Group has %d options', [integer(ElementCount(tintOptions))]));
         for j := 0 to ElementCount(tintOptions)-1 do begin
             tintLayer := ElementByIndex(tintOptions, j);
             tintName := GetElementEditValues(tintLayer, 'TTGP');
             tintType := DetermineTintType(tintName);
 
             if tintType >= 0 then begin
-                LogT(Format('Finding tint count for [%d, %s], tintType %d', [
+                If LOGGING then LogT(Format('Finding tint count for [%d, %s], tintType %d', [
                     raceID, SexToStr(sex), tintType
                 ]));
                 n := raceInfo[raceID, sex].tintCount[tintType];
 
-                // Log(6, Format('[%d] Found tint option "%s" -> %d', 
+                // If LOGGING then Log(6, Format('[%d] Found tint option "%s" -> %d', 
                 //     [integer(j), tintname, integer(tintType)]));
-                LogT(Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
+                If LOGGING then LogT(Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
 
                 if tintType < TINTLAYERS_COUNT then begin
                     if n < TEXTURES_MAX then begin
@@ -605,7 +613,7 @@ begin
         end;
     end;
 
-    LogExitT('LoadTintLayerInfo');
+    If LOGGING then LogExitT('LoadTintLayerInfo');
 end;
 
 //===============================================================
@@ -617,13 +625,13 @@ procedure CollectTintLayers(theRace: IwbMainRecord);
 var
     i: integer;
 begin
-    Log(12, '<CollectTintLayers');
+    If LOGGING then Log(12, '<CollectTintLayers');
 
     for i := SEX_LO to SEX_HI do begin
         LoadTintLayerInfo(theRace, i);
     end;
 
-    Log(12, '> ');
+    If LOGGING then Log(12, '> ');
 end;
 
 //=========================================================================
@@ -641,12 +649,12 @@ var
 	maskList, mask: IInterface;
 	found: integer;
 begin
-	Log(5, '<FindRaceTintLayerByTINI: ' + IntToStr(targetTINI) + ' in ' + EditorID(raceInfo[r, sex].mainRecord) + IntToStr(sex));
+	If LOGGING then Log(5, '<FindRaceTintLayerByTINI: ' + IntToStr(targetTINI) + ' in ' + EditorID(raceInfo[r, sex].mainRecord) + IntToStr(sex));
 
     // Walk the race's tint layers until we find the one requested
     found := -1;
     for i := 0 to TINTLAYERS_COUNT-1 do begin
-        Log(6, 'Checking tint ' + IntToStr(raceInfo[r, sex].tints[i].TINI));
+        If LOGGING then Log(6, 'Checking tint ' + IntToStr(raceInfo[r, sex].tints[i].TINI));
 
         if raceInfo[r, sex].tints[i].TINI = targetTINI then
             found := i;
@@ -655,7 +663,7 @@ begin
 
     Result := found;
 
-    Log(5, '>FindRaceTintLayerByTINI ' + IntToStr(found));
+    If LOGGING then Log(5, '>FindRaceTintLayerByTINI ' + IntToStr(found));
 end;
 
 //===================================================
@@ -669,7 +677,7 @@ var
 	color: IwbMainRecord;
 	i: integer;
 begin
-	Log(5, '<ChoosePresetByColor: ' +colorName);
+	If LOGGING then Log(5, '<ChoosePresetByColor: ' +colorName);
 
     Result := nil;
     presetlist := ElementByPath(raceInfo[raceIndex, sex].tints[tintLayer].element, 'Presets');
@@ -682,7 +690,7 @@ begin
         end;
     end;
 
-    Log(5, '>ChoosePresetByColor: ' + PathName(Result));
+    If LOGGING then Log(5, '>ChoosePresetByColor: ' + PathName(Result));
 end;
 
 //===================================================
@@ -694,7 +702,7 @@ var
 	color: IwbMainRecord;
 	i: integer;
 begin
-	Log(5, 'ChooseNamedColor:  ' +colorName);
+	If LOGGING then Log(5, 'ChooseNamedColor:  ' +colorName);
     Result := WinningOverride(LinksTo(
         ElementByPath(ChoosePresetByColor(raceIndex, sex, colorName, tintLayer),
                       'TINC')));
@@ -709,21 +717,21 @@ var
     i: integer;
     n: string;
 begin
-    Log(9, '<FindTintLayerByFilename: ' + filename);
+    If LOGGING then Log(9, '<FindTintLayerByFilename: ' + filename);
     Result := -1;
 
     for i := 0 to TINTLAYERS_COUNT-1 do begin
         if Assigned(raceInfo[raceIndex, sex].tints[i].element) then begin
             n := GetElementEditValues(raceInfo[raceIndex, sex].tints[i].element, 'Tint Layer\Texture\TINT');
-            Log(9, 'Checking ' + PathName(raceInfo[raceIndex, sex].tints[i].element));
-            Log(9, 'Checking ' + n);
+            If LOGGING then Log(9, 'Checking ' + PathName(raceInfo[raceIndex, sex].tints[i].element));
+            If LOGGING then Log(9, 'Checking ' + n);
             if ContainsText(n, filename) then begin
                 Result := i;
                 break;
             end;
         end;
     end;
-    Log(9, '>FindTintLayerByFilename: ' + IntToStr(Result));
+    If LOGGING then Log(9, '>FindTintLayerByFilename: ' + IntToStr(Result));
 end;
 
 function GetTINIByTintIndex(raceIndex, sex, theTintIndex: integer): integer;
@@ -740,10 +748,10 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
-    Log(10, Format('<PickRandomTintOption %s %s %s', [hashstr, SexToStr(sex), tintlayerName[tintlayer]]));
+    If LOGGING then Log(10, Format('<PickRandomTintOption %s %s %s', [hashstr, SexToStr(sex), tintlayerName[tintlayer]]));
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
-    Log(10, Format('>PickRandomTintOption -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
+    If LOGGING then Log(10, Format('>PickRandomTintOption -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
 end;
 
 
@@ -763,7 +771,7 @@ var
     i: integer;
     thisPreset: IwbElement;
 Begin
-    Log(10, Format('<PickRandomColorPreset [%s] %d "%s"', [Path(tintOption), integer(ind), colors]));
+    If LOGGING then Log(10, Format('<PickRandomColorPreset [%s] %d "%s"', [Path(tintOption), integer(ind), colors]));
     Result := nil;
     colorList := ElementByPath(tintOption, 'TTEC');
     goodPresetCount := 0;
@@ -771,11 +779,11 @@ Begin
         thisPreset := ElementByIndex(colorList, i);
         alpha := GetElementNativeValues(thisPreset, 'Alpha');
         cform := LinksTo(ElementByPath(thisPreset, 'Color'));
-        Log(10, Format('Checking preset with color: %s -> %s', [Path(thisPreset), EditorID(cform)]));
+        If LOGGING then Log(10, Format('Checking preset with color: %s -> %s', [Path(thisPreset), EditorID(cform)]));
         if ((alpha > 0.0001) or (ind = 0)) and 
             ((colors = '') or ContainsText(colors, '|' + EditorID(cform) + '|')) 
         then begin
-            Log(10, Format('Found good preset with color: %s', [EditorID(cform)]));
+            If LOGGING then Log(10, Format('Found good preset with color: %s', [EditorID(cform)]));
             goodPresets[goodPresetCount] := thisPreset;
             inc(goodPresetCount);
             if goodPresetCount >= length(goodPresets) then break;
@@ -785,7 +793,7 @@ Begin
     if goodPresetCount > 0 then 
         result := goodPresets[Hash(hashstr+colors, seed, goodPresetCount)];
 
-    Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
+    If LOGGING then Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
 end;
 
 // <<<<<<<<<<<<<<<<<<<<  MANAGE HEAD PARTS  >>>>>>>>>>>>>>>>>>>>
@@ -798,14 +806,14 @@ var
 begin
     s := GetElementEditValues(hp, 'PNAM');
     i := headpartsList.IndexOf(s);
-    // Log(5, 'HeadpartFacialType of ' + Name(hp) + ' = ' + IntToStr(i));
+    // If LOGGING then Log(5, 'HeadpartFacialType of ' + Name(hp) + ' = ' + IntToStr(i));
     Result := i;
 end;
 
 function HeadpartSexIs(hp: IwbMainRecord; sex: integer): boolean;
 // Determine whether the head part hp works for the given sex
 begin
-    // Log(5, 'HeadpartSexIs M:' + GetMRAssetStr(hp, 'DATA - Flags\Male')
+    // If LOGGING then Log(5, 'HeadpartSexIs M:' + GetMRAssetStr(hp, 'DATA - Flags\Male')
     //     + 'F:' + GetMRAssetStr(hp, 'DATA - Flags\Female'));
     Result := (((sex = MALE) or (sex = MALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Female') = '0'))
         or
@@ -822,14 +830,14 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    LogEntry1(11, 'RecordVanillaHair', EditorID(hair));
+    If LOGGING then LogEntry1(11, 'RecordVanillaHair', EditorID(hair));
     if vanillaHairRecords.IndexOf(EditorID(hair)) < 0 then begin
         if not StartsText('FFO', EditorID(hair)) then 
             // This is non-furry, probably vanilla hair. Create an entry so we can 
             // add furry hair to it.
             vanillaHairRecords.Add(EditorID(hair));
     end;
-    LogExitT('RecordVanillaHair');
+    If LOGGING then LogExitT('RecordVanillaHair');
 end;
 
 //------------------------------------------------------------
@@ -842,7 +850,7 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    Log(11, '<RecordFurryHair: ' + EditorID(hair));
+    If LOGGING then Log(11, '<RecordFurryHair: ' + EditorID(hair));
     // If this is a lion mane, there's no vanilla hair, but save it for later.
     if EditorID(hair) = 'FFO_HairMaleMane' then
         lionMane := hair // TODO take this out we have a new way to do it
@@ -856,7 +864,7 @@ begin
                     race := LinksTo(ElementByIndex(raceList, j));
                     raceID := RaceIndex(race);
                     if raceID >= 0 then begin
-                        Log(11, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
+                        If LOGGING then Log(11, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
                         if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i));
                         furryHair[i, raceID] := hair;
                     end;
@@ -864,7 +872,7 @@ begin
             end;
         end;
     end;
-    Log(11, '>');
+    If LOGGING then Log(11, '>');
 end;
 
 //===================================================================
@@ -877,11 +885,11 @@ var
     n: integer;
     skipCount: integer;
 begin
-    LogEntry3(5, 'GetFurryHair', IntToStr(raceID), SexToStr(targetSex), oldHair);
+    If LOGGING then LogEntry3(5, 'GetFurryHair', IntToStr(raceID), SexToStr(targetSex), oldHair);
     result := Nil;
     n := vanillaHairRecords.IndexOf(oldHair);
     if n >= 0 then begin
-        LogT('Have vanilla hair record');
+        If LOGGING then LogT('Have vanilla hair record');
         if n < HAIR_MAX then
             result := furryHair[n, raceid]
         else
@@ -889,7 +897,7 @@ begin
     end;
 
     if not Assigned(result) then begin
-        LogT('No matching hair--chose random hair');
+        If LOGGING then LogT('No matching hair--chose random hair');
         skipCount := Hash(hashstr, seed, 20);
         i := Hash(hashstr, seed, HAIR_MAX);
         for j := 0 to 10000 do begin // no infinite loops
@@ -908,7 +916,7 @@ begin
             if i >= HAIR_MAX then i := 0;
         end;
     end;
-    LogExitT1('GetFurryHair', EditorID(result));
+    If LOGGING then LogExitT1('GetFurryHair', EditorID(result));
 end;
 
 //------------------------------------------------------------
@@ -925,21 +933,21 @@ var
     raceRef: IwbElement;
     validRaceList: IwbMainRecord;
 begin
-    LogEntry1(15, 'LoadHeadPart', Name(hp));
+    If LOGGING then LogEntry1(15, 'LoadHeadPart', Name(hp));
 
     // if targetHeadparts.IndexOf(EditorID(hp)) >= 0 then 
     //     specialHeadparts.AddObject(EditorID(hp), hp);
 
     // Get the form list that has the races for this head part
     validRaceList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM - Valid Races')));
-    LogT('Found reference to form list ' + EditorID(validRaceList));
+    If LOGGING then LogT('Found reference to form list ' + EditorID(validRaceList));
 
     facialType := HeadpartFacialType(hp);
 
     if facialType < 0 then 
-        begin LogT('Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
+        begin If LOGGING then LogT('Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
     else begin
-        LogT('Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
+        If LOGGING then LogT('Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
         
         if facialType = HEADPART_HAIR then RecordVanillaHair(hp);
         
@@ -951,7 +959,7 @@ begin
 
             raceRec := LinksTo(raceRef);
             raceName := EditorID(raceRec);
-            LogT('Found reference to race ' + FormName(raceRec));
+            If LOGGING then LogT('Found reference to race ' + FormName(raceRec));
             raceIndex := masterRaceList.IndexOf(racename);
             if raceIndex >= 0 then begin
                 for sex := SEX_LO to SEX_HI do begin
@@ -964,14 +972,14 @@ begin
 
                         if facialType = HEADPART_HAIR then RecordFurryHair(hp);
 
-                        LogT('Race ' + racename + ' has HP ' + EditorID(hp));
+                        If LOGGING then LogT('Race ' + racename + ' has HP ' + EditorID(hp));
                     end;
                 end;
             end;
         end;
     end;
 
-    LogExitT('LoadHeadPart');
+    If LOGGING then LogExitT('LoadHeadPart');
 end;
 
 //-----------------------------------------------------------
@@ -985,7 +993,7 @@ var
     hp: IwbMainRecord;
     hpname: string;
 begin
-    Log(2, '<CollectRaceHeadparts');
+    If LOGGING then Log(2, '<CollectRaceHeadparts');
     
     hpDone := TStringList.Create;
     hpDone.Duplicates := dupIgnore;
@@ -1009,7 +1017,7 @@ begin
     end;
 
     hpDone.Free;
-    Log(2, '>');
+    If LOGGING then Log(2, '>');
 end;
 
 // <<<<<<<<<<<<<<<<<<<<<< MANAGE RACES >>>>>>>>>>>>>>>>>>>>>>
@@ -1022,11 +1030,11 @@ var
     i: integer;
     r: IwbMainRecord;
 begin
-    LogEntry1(16, 'AddRace', racename);
+    If LOGGING then LogEntry1(16, 'AddRace', racename);
 
     n := masterRaceList.IndexOf(racename);
     if n >= 0 then begin
-        LogT('Race defined already');
+        If LOGGING then LogT('Race defined already');
         Result := n
     end
     else begin
@@ -1034,19 +1042,19 @@ begin
         r := FindAsset(Nil, 'RACE', racename);
         // addmessage(Format('done looking: %s', [LogToStr]));
         if not Assigned(r) then begin
-            LogT('Race not in load order');
+            If LOGGING then LogT('Race not in load order');
             racesNotFound.Add(racename);
             Result := -1;
         end
         else begin
-            LogT('Found race');
+            If LOGGING then LogT('Found race');
             if masterRaceList.Count >= RACES_MAX then begin
                 Err('Too many races, stopped at ' + racename);
                 Result := -1;
             end
             else begin
                 // addmessage('adding race');
-                LogT('Adding race ' + racename);
+                If LOGGING then LogT('Adding race ' + racename);
                 Result := masterRaceList.Count;
                 masterRaceList.AddObject(racename, TObject(r));
                 raceInfo[Result, MALE].mainRecord := r;
@@ -1074,8 +1082,8 @@ begin
     end;
     RACE_HI := masterRaceList.Count-1;
 
-    // addmessage(Format('exiting addrace, cur log level is %d', [curLogLevel[logIndent]]));
-    LogExitT1('AddRace', IntToStr(result));
+    // addmessage(Format('exiting addrace, cur If LOGGING then Log level is %d', [curLogLevel[logIndent]]));
+    If LOGGING then LogExitT1('AddRace', IntToStr(result));
 end;
 
 
@@ -1174,7 +1182,7 @@ procedure SetMorphProbability(racename: string; sex: integer;
 var
     r: integer;
 begin
-    LogEntry3(10, 'SetMorphProbability', racename, SexToStr(sex), morphGroup);
+    If LOGGING then LogEntry3(10, 'SetMorphProbability', racename, SexToStr(sex), morphGroup);
     r := RacenameIndex(racename);
     if r >= 0 then begin
         raceInfo[r, sex].morphProbability.AddObject(morphGroup, probability);
@@ -1182,7 +1190,7 @@ begin
         raceInfo[r, sex].morphHi.AddObject(morphGroup, hiMorph);
         raceInfo[r, sex].morphSkew.AddObject(morphGroup, skew);
     end;
-    LogExitT('SetMorphProbability');
+    If LOGGING then LogExitT('SetMorphProbability');
 end;
 
 //=======================================================================
@@ -1194,18 +1202,18 @@ var
     p: IwbElement;
     presetList: IwbElement;
 begin
-    Log(5, Format('<GetMorphPreset([%s], %s)', [Path(morphGroup), name]));
+    If LOGGING then Log(5, Format('<GetMorphPreset([%s], %s)', [Path(morphGroup), name]));
     p := Nil;
     presetList := ElementByPath(morphGroup, 'Morph Presets');
-    Log(5, Format('Found %d presets', [integer(ElementCount(presetList))]));
+    If LOGGING then Log(5, Format('Found %d presets', [integer(ElementCount(presetList))]));
     for i := 0 to ElementCount(presetList)-1 do begin
         p := ElementByIndex(presetList, i);
         n := GetElementEditValues(p, 'MPPN');
-        Log(5, Format('Checking [%s] %s', [Path(p), n]));
+        If LOGGING then Log(5, Format('Checking [%s] %s', [Path(p), n]));
         if n = name then break;
     end;
     result := p;
-    Log(5, Format('>GetMorphPreset -> %s', [Path(result)]));
+    If LOGGING then Log(5, Format('>GetMorphPreset -> %s', [Path(result)]));
 end;
 
 //=======================================================================
@@ -1221,7 +1229,7 @@ var
     presetList: IwbElement;
     skipCount: integer;
 begin
-    LogEntry1(5, 'GetMorphRandomPreset', Path(morphGroup));
+    If LOGGING then LogEntry1(5, 'GetMorphRandomPreset', Path(morphGroup));
     result := NIl;
     presetList := ElementByPath(morphGroup, 'Morph Presets');
 
@@ -1250,7 +1258,7 @@ begin
         end;
     end;
 
-    LogExitT1('GetMorphRandomPreset', Path(result));
+    If LOGGING then LogExitT1('GetMorphRandomPreset', Path(result));
 end;
 
 //===============================================================================
@@ -1267,7 +1275,7 @@ var
     n: string;
     r: integer;
 begin
-    LogEntry3(10, 'SetFaceMorph', racename, SexToStr(sex), morph);
+    If LOGGING then LogEntry3(10, 'SetFaceMorph', racename, SexToStr(sex), morph);
     found := false;
     r := RacenameIndex(racename);
     if r >= 0 then begin
@@ -1281,7 +1289,7 @@ begin
             for i := 0 to ElementCount(morphList)-1 do begin
                 m := ElementByIndex(morphList, i);
                 n := GetElementEditValues(m, 'FMRN');
-                LogT(Format('Checking %s = %s', [n, morph]));
+                If LOGGING then LogT(Format('Checking %s = %s', [n, morph]));
                 if n = morph then begin
                     idx := GetElementNativeValues(m, 'FMRI');
                     raceInfo[r, sex].faceBoneList.Add(morph);
@@ -1304,7 +1312,7 @@ begin
     if (not found) and (racesNotFound.IndexOf(racename) < 0) then 
         Err(Format('Could not find face morph %s on race %s %s', 
             [morph, racename, SexToStr(sex)]));
-    LogExitT('SetFaceMorph');
+    If LOGGING then LogExitT('SetFaceMorph');
 end;
 
 //===================================================================
@@ -1323,20 +1331,14 @@ var
     i, j: integer;
     race: IwbMainRecord;
 begin
-    LogEntry(11, 'CollectRaceTintLayers');
+    If LOGGING then LogEntry(11, 'CollectRaceTintLayers');
 
     for i := RACE_LO to RACE_HI do begin
-        Log(11, 'Found race ' + EditorID(raceInfo[i, MALE].mainRecord));
+        If LOGGING then Log(11, 'Found race ' + EditorID(raceInfo[i, MALE].mainRecord));
         CollectTintLayers(raceInfo[i, MALE].mainRecord);
-
-        // CollectTIntLayers loads child races too
-        // if Assigned(raceInfo[i, MALECHILD]) then begin
-        //     Log(11, 'Found child race ' + Name(raceInfo[i, MALECHILD].mainRecord));
-        //     CollectTintLayers(raceInfo[i, MALECHILD].mainRecord);
-        // end;
     end;
     
-    LogExit(11, 'CollectRaceTintLayers');
+    If LOGGING then LogExit(11, 'CollectRaceTintLayers');
 end;
 
 
@@ -1349,7 +1351,7 @@ end;
 
 function GetRaceTintMaskType(theRace, sex, tintLayer: integer): string;
 begin
-    Log(6, 'GetRaceTintMaskType: tintLayer=' + IntToStr(tintLayer));
+    If LOGGING then Log(6, 'GetRaceTintMaskType: tintLayer=' + IntToStr(tintLayer));
     Result := raceInfo[theRace, sex].tints[tintLayer].maskType;
 end;
 
@@ -1372,7 +1374,7 @@ end;
 // Return count of headparts of the given type for the given race & sex.
 Function GetRaceHeadpartCount(theRace, sex, hpType: integer): integer;
 begin
-    LogEntry3(10, 'GetRaceHeadpartCount', RaceIDtoStr(theRace), SexToStr(sex), IntToStr(hpType));
+    If LOGGING then LogEntry3(10, 'GetRaceHeadpartCount', RaceIDtoStr(theRace), SexToStr(sex), IntToStr(hpType));
     if (hpType < 0) or (hpType >= headpartsList.Count) then begin
         Err('GetRaceHeadpartCount: headpart type index too large: ' + IntToStr(hpType));
         Result := 0;
@@ -1381,7 +1383,7 @@ begin
         Result := 0
     else
         Result := raceInfo[theRace, sex].headparts[hpType].Count;
-    LogExit1(10, 'GetRaceHeadpartCount', IntTostr(Result));
+    If LOGGING then LogExit1(10, 'GetRaceHeadpartCount', IntTostr(Result));
 end;
 
 //===================================================================
@@ -1390,17 +1392,17 @@ function GetRaceHeadpart(theRace, sex, hpType, hpIndex: integer): IwbMainRecord;
 var 
     i: integer;
 begin
-    LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), HpToStr(hpType), IntToStr(hpIndex));
-    // Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
+    If LOGGING then LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), HpToStr(hpType), IntToStr(hpIndex));
+    // If LOGGING then Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
     // for i := 0 to headpartsList.Count-1 do
-    //     Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
-    // Log(10, 'Headpart type initialized: ' + BoolToStr(Assigned(raceInfo[theRace, sex].headparts[hpType])));
-    // Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
+    //     If LOGGING then Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
+    // If LOGGING then Log(10, 'Headpart type initialized: ' + BoolToStr(Assigned(raceInfo[theRace, sex].headparts[hpType])));
+    // If LOGGING then Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
     Result := nil;
     if Assigned(raceInfo[theRace, sex].headparts[hpType]) then
         Result := ObjectToElement(
             raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
-    LogExit(10, 'GetRaceHeadpart')
+    If LOGGING then LogExit(10, 'GetRaceHeadpart')
 end;
 
 //============================================================
@@ -1417,11 +1419,11 @@ var
     n: integer;
     h: integer;
 Begin
-    LogEntry3(7, 'PickRandomHeadpart', RaceIDToStr(race), SexToStr(sex), HpToStr(hpType));
+    If LOGGING then LogEntry3(7, 'PickRandomHeadpart', RaceIDToStr(race), SexToStr(sex), HpToStr(hpType));
     n := GetRaceHeadpartCount(race, sex, hpType);
     h := Hash(hashstr, seed, n);
     Result := GetRaceHeadpart(race, sex, hpType, h);
-    LogExit(7, 'PickRandomHeadpart');
+    If LOGGING then LogExit(7, 'PickRandomHeadpart');
 end;
 
 
@@ -1455,7 +1457,7 @@ var
     npcName: string;
     factionList: TStringList;
 begin
-    Log(10, Format('<GetNPCClass(%s)', [EditorID(theNPC)]));
+    If LOGGING then Log(10, Format('<GetNPCClass(%s)', [EditorID(theNPC)]));
     npcEditorID := EditorID(theNPC);
     npcName := GetElementEditValues(theNPC, 'FULL');
     factionList := TStringList.Create;
@@ -1517,11 +1519,11 @@ begin
     else if ContainsText(npcEditorID, 'raider') then Result := CLASS_RAIDER
     ;
 
-    Log(15, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
-    Log(15, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
+    If LOGGING then Log(15, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
+    If LOGGING then Log(15, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
 
     factionList.Free;
-    Log(10, Format('>GetNPCClass -> [%d] %s', [result, GetNPCClassName(result)]));
+    If LOGGING then Log(10, Format('>GetNPCClass -> [%d] %s', [result, GetNPCClassName(result)]));
 end;
 
 
@@ -1532,13 +1534,13 @@ var
     npc: IwbMainRecord;
     race: IwbMainRecord;
 begin
-    Log(11, '<AssignNPCRace ' + npcEditorID + ' <- ' + racename);
+    If LOGGING then Log(11, '<AssignNPCRace ' + npcEditorID + ' <- ' + racename);
     npc := FindAsset(Nil, 'NPC_', npcEditorID);
     race := FindAsset(Nil, 'RACE', racename);
-    Log(11, 'Assigning ' + EditorID(npc) + ' race ' + EditorID(race));
-    Log(11, 'Race is in file ' + GetFileName(GetFile(race)));
+    If LOGGING then Log(11, 'Assigning ' + EditorID(npc) + ' race ' + EditorID(race));
+    If LOGGING then Log(11, 'Race is in file ' + GetFileName(GetFile(race)));
     npcRaceAssignments.AddObject(npcEditorID, TObject(race));
-    Log(11, '>');
+    If LOGGING then Log(11, '>');
 end;
 
 //-------------------------------------------------------
@@ -1548,10 +1550,10 @@ Procedure SetClassProb(npcclass: integer; race: string; points: integer);
 var 
     r: integer;
 begin
-    LogEntry1(15, 'SetClassProb', race);
+    If LOGGING then LogEntry1(15, 'SetClassProb', race);
     r := AddRace(race);
     if r >= 0 then classProbs[npcclass, r] := points;
-    LogExitT('SetClassProb');
+    If LOGGING then LogExitT('SetClassProb');
 end;
 
 
@@ -1561,11 +1563,11 @@ Procedure SetHeadpartProb(race: string; sex: integer; hp: integer; prob: integer
 var 
     r: integer;
 begin
-    LogEntry4(15, 'SetHeadpartProb', race, SexToStr(sex), HpToStr(hp), IntToStr(prob));
+    If LOGGING then LogEntry4(15, 'SetHeadpartProb', race, SexToStr(sex), HpToStr(hp), IntToStr(prob));
     r := masterRaceList.IndexOf(race);
     // if r >= 0 then raceInfo[0, 0].headpartProb[0] := 10;
     if r >= 0 then raceInfo[r, sex].headpartProb[hp] := prob;
-    LogExitT('SetHeadpartProb');
+    If LOGGING then LogExitT('SetHeadpartProb');
 end;
 
 
@@ -1578,7 +1580,7 @@ var
     n: integer;
     r: integer;
 begin
-    Log(11, '<CalcClassTotals');
+    If LOGGING then Log(11, '<CalcClassTotals');
     for c := CLASS_LO to CLASS_HI do begin
         n := 0;
         for r := RACE_LO to RACE_HI do begin
@@ -1590,13 +1592,13 @@ begin
     end;
     if LOGLEVEL >= 15 then begin
         for c := CLASS_LO to CLASS_HI do begin
-            Log(11, GetNPCClassName(c) + ' totals: ' + IntToStr(classProbs[c, masterRaceList.Count]));
+            If LOGGING then Log(11, GetNPCClassName(c) + ' totals: ' + IntToStr(classProbs[c, masterRaceList.Count]));
             for r := 0 to masterRaceList.Count-1 do begin
-                Log(11, GetNPCClassName(c) + ' ' + masterRaceList[r] + ' [' + IntToStr(classProbsMin[c, r]) + ', ' + IntToStr(classProbsMax[c, r]) + ']');
+                If LOGGING then Log(11, GetNPCClassName(c) + ' ' + masterRaceList[r] + ' [' + IntToStr(classProbsMin[c, r]) + ', ' + IntToStr(classProbsMax[c, r]) + ']');
             end;
         end;
     end;
-    Log(11, '>');
+    If LOGGING then Log(11, '>');
 end;
 
 //===============================================================================
@@ -1621,7 +1623,7 @@ var
     adultID: integer;
     childRecord: IwbMainRecord;
 begin
-    LogEntry2(5, 'AddChildRace', adultRace, childRace);
+    If LOGGING then LogEntry2(5, 'AddChildRace', adultRace, childRace);
     childRecord := FindAsset(Nil, 'RACE', childRace);
     adultID := masterRaceList.IndexOf(adultRace);
     if adultID >= 0 then begin
@@ -1631,7 +1633,7 @@ begin
     else 
         if racesNotFound.IndexOf(adultRace) < 0 then
             Err('AddChildRace could not find adult race ' + adultRace);
-    LogExit(5, 'AddChildRace');
+    If LOGGING then LogExit(5, 'AddChildRace');
 end;
 
 //================================================================================
@@ -1642,12 +1644,12 @@ var
 begin
     for i := RACE_LO to RACE_HI do begin
         if Assigned(raceInfo[i, MALECHILD].mainRecord) then begin
-            Log(10, Format('Adding %s of %s', [EditorID(raceInfo[i, MALECHILD].mainRecord), masterRaceList[i]]));
+            If LOGGING then Log(10, Format('Adding %s of %s', [EditorID(raceInfo[i, MALECHILD].mainRecord), masterRaceList[i]]));
             childRaceList.Add(EditorID(raceInfo[i, MALECHILD].mainRecord))
             end
         else begin
             // Store a bogus value to hold the place
-            Log(10, Format('Adding %s of %s', [masterRaceList[i] + '_NOCHILD', masterRaceList[i]]));
+            If LOGGING then Log(10, Format('Adding %s of %s', [masterRaceList[i] + '_NOCHILD', masterRaceList[i]]));
             childRaceList.Add(masterRaceList[i] + '_NOCHILD');
         end;
     end;
@@ -1664,7 +1666,7 @@ end;
 // the furrifier understands.
 procedure SkinLayerTranslation(name: string; tintlayer: integer);
 begin
-    LogEntry2(10, 'SkinLayerTranslation', name, IntToStr(tintlayer));
+    If LOGGING then LogEntry2(10, 'SkinLayerTranslation', name, IntToStr(tintlayer));
     if knownTTGP.IndexOf(name) < 0 then begin
         if knownTTGP.Count < length(translateTTGP) then begin
             translateTTGP[knownTTGP.Count] := tintlayer;
@@ -1675,7 +1677,7 @@ begin
             Err(Format('Too many tint layers on %s, layer %d. Found %d, max is %d', 
                 [name, tintLayer, knownTTGP.Count, length(translateTTGP)]));
     end;
-    LogExitT('SkinLayerTranslation');
+    If LOGGING then LogExitT('SkinLayerTranslation');
 end;
 
 //=============================================================================
@@ -1685,7 +1687,7 @@ procedure SetTintProbability(racename: string; sex: integer;
 var 
     r: integer;
 begin
-    LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
+    If LOGGING then LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
     r := RacenameIndex(racename);
     if r < 0 then r := AddRace(racename);
     if r >= 0 then begin
@@ -1696,7 +1698,7 @@ begin
             Err(Format('Too many tint layers: have %d, max %d', 
                 [tintLayer, length(raceInfo[RacenameIndex(racename), sex].tintProbability)]));
     end;
-    LogExitT('SetTintProbability');
+    If LOGGING then LogExitT('SetTintProbability');
 end;
 
 //=============================================================================
@@ -1724,7 +1726,7 @@ var
     fn: string;
     i: integer;
 begin
-    LogEntry1(3, 'CreateOverrideMod', filename);
+    If LOGGING then LogEntry1(3, 'CreateOverrideMod', filename);
     f := -1;
     for i := 0 to FileCount-1 do begin
         if SameText(GetFileName(FileByIndex(i)), filename) then begin
@@ -1748,7 +1750,7 @@ begin
         else if SameText(fn, 'FurryFalloutDLC.esp') then
             AddRecursiveMaster(Result, FileByIndex(i));
     end;
-    LogExit(3, 'CreateOverrideMod');
+    If LOGGING then LogExit(3, 'CreateOverrideMod');
 
 end;
 
