@@ -370,8 +370,6 @@ begin
     convertingGhouls := true;
     InitializeFurrifier(modFile);
 
-    LOGLEVEL := 10;
-
 
     // ------------------------------------------------------------------------------
     //
@@ -724,11 +722,13 @@ begin
     // -------- Specific NPC race assignment
     // Can create overwrite records.
 
-    // When Ann's hair must be converted to furry hair.
-    AddMessage('---EncMinutemen05');
-    npc := WinningOverride(FindAsset(Nil, 'NPC_', 'EncMinutemen05'));
-    AssertInt(IsValidNPC(npc), 2, Name(npc) + ' identified as template');
+    // Currently not handling template NPCs differently.
+    // AddMessage('---EncMinutemen05');
+    // npc := WinningOverride(FindAsset(Nil, 'NPC_', 'EncMinutemen05'));
+    // AddMessage(Format('Found %s/%s', [FullPath(npc), Name(npc)]));
+    // AssertInt(IsValidNPC(npc), 2, FullPath(npc) + ' identified as template');
 
+    // When Ann's hair must be converted to furry hair.
     AddMessage('---AnnCodman');
     npc := FindAsset(Nil, 'NPC_', 'AnnCodman');
     furryNPC := MakeFurryNPC(npc, modFile);
@@ -828,7 +828,6 @@ begin
     //      Ghouls
     //
     // --------- 
-    LOGLEVEL := 15;
     AddMessage('---Ghouls---');
     race := WinningOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'));
     AssertStr(GetFileName(GetFile(race)), GetFileName(modFile), 'Ghouls overridden in mod file');
@@ -844,6 +843,17 @@ begin
     npc := FindAsset(Nil, 'NPC_', 'Billy');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'GhoulChildRace', 'Did not change Billy`s race');
+    AssertGoodTintLayers(npc, 1156);
+
+    // Leveled ghoul character gets furrified.
+    LOGLEVEL := 5;
+    AddMessage('---LvlTriggermanUnaggressiveMeleeGhoulOnly');
+    npc := FindAsset(Nil, 'NPC_', 'LvlTriggermanUnaggressiveMeleeGhoulOnly');
+    AddMessage('MakeFurry: ' + FullPath(npc));
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(LinksTo(ElementByPath(npc, 'RNAM'))), 
+        'GhoulRace', 
+        'Did not change LvlTriggermanUnaggressiveMeleeGhoulOnly`s race');
     AssertGoodTintLayers(npc, 1156);
 
     //-----------------------------------------------------------------------

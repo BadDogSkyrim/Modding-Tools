@@ -305,6 +305,7 @@ Function SetNPCRace(furryNPC: IwbMainRecord; raceIndex: integer): IwbMainRecord;
 var
     race: IwbMainRecord;
     raceFormID: integer;
+    racename: string;
     sex: integer;
     skin: IwbMainRecord;
     targetFile: IwbFile;
@@ -316,13 +317,21 @@ begin
 
     sex := GetNPCSex(furryNPC);
     if raceIndex = RACE_GHOUL then begin
-        race := raceInfo[RacenameIndex(GHOUL_RACE), sex].mainRecord
+        racename := EditorID(LinksTo(ElementByPath(furryNPC, 'RNAM')));
+        if  (racename <> 'GhoulRace') and (racename <> 'GhoulChildRace') then begin
+            race := FindAsset(NIL, 'RACE', 'GhoulRace');
+            raceFormID := GetLoadOrderFormID(race);
+            SetNativeValue(ElementByPath(furryNPC, 'RNAM'), 
+                LoadOrderFormIDtoFileFormID(targetFile, raceFormID));
+        end;
+        race := raceInfo[RacenameIndex(GHOUL_RACE), sex].mainRecord;
     end
     else begin
         race := raceInfo[raceIndex, sex].mainRecord;
         raceFormID := GetLoadOrderFormID(race);
         if LOGGING then LogT('Setting race to ' + Name(race));
-        SetNativeValue(ElementByPath(furryNPC, 'RNAM'), LoadOrderFormIDtoFileFormID(targetFile, raceFormID));
+        SetNativeValue(ElementByPath(furryNPC, 'RNAM'), 
+            LoadOrderFormIDtoFileFormID(targetFile, raceFormID));
     end;
 
     skin := LinksTo(ElementByPath(race, 'WNAM'));
@@ -839,7 +848,7 @@ Procedure SetMorphBone(npc: IwbMainRecord; morphBoneIndex: integer;
 var
     fm, thisMorph, vals: IwbElement;
 begin
-    If LOGGING then LogEntry(5, 'SetMorphBone', EditorID(npc), IntToStr(morphBoneIndex));
+    If LOGGING then LogEntry2(5, 'SetMorphBone', EditorID(npc), IntToStr(morphBoneIndex));
     fm := Add(npc, 'Face Morphs', true);
     thisMorph := nil;
     if (ElementCount(fm) > 0)
@@ -1645,10 +1654,10 @@ var
 begin
     LOGLEVEL := 5;
     if DO_FURRIFICATION and (not USE_SELECTION) then begin
-        // Walk all files up to and not including FFO. Nothing after FFO will be furrified.
-        for f := 0 to ffoIndex-1 do begin
+        // Walk all files up to and including FFO. Nothing after FFO will be furrified.
+        for f := 0 to ffoIndex do begin
             fn := GetFileName(FileByIndex(f));
-            if (fn <> patchFileName) and (fn <> 'FurryFallout.esp') then begin
+            if (fn <> patchFileName) then begin
                 if LOGGING Then Log(2, 'File ' + GetFileName(FileByIndex(f)));
                 furryCount := 0;
                 npcList := GroupBySignature(FileByIndex(f), 'NPC_');

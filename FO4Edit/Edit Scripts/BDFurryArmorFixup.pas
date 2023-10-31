@@ -30,7 +30,7 @@ begin
     else begin
         extraList := ElementByPath(arma, 'Additional Races');
         for i := 0 to ElementCount(extraList)-1 do begin
-            if LOGGING then LogE('Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
+            if LOGGING then LogD('Checking additional race entry ' + EditorID(LinksTo(ElementByIndex(extraList, i))));
             if EditorID(LinksTo(ElementByIndex(extraList, i))) = racename then begin
                 result := true;
                 break;

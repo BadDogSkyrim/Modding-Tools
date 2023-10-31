@@ -5,10 +5,10 @@ implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    LOGGING = FALSE;
-    LOGLEVEL = 1;
+    LOGGING = TRUE;
 
 var 
+    LOGLEVEL: integer;
     logIndent: integer;
     callIndex: intger;
     errCount: integer;
