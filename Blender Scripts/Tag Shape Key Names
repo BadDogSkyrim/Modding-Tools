@@ -1,0 +1,9 @@
+""" 
+Rename shape keys by prepending "*"
+"""
+import bpy
+
+for sk in bpy.context.object.data.shape_keys.key_blocks[1:]:
+    if sk.name != 'Basis':
+        sk.name = '*' + sk.name
+ 

@@ -1,0 +1,6 @@
+""" Star current shape key and select the next """
+
+import bpy
+
+bpy.context.object.active_shape_key.name = "*" + bpy.context.object.active_shape_key.name
+bpy.context.object.active_shape_key_index = bpy.context.object.active_shape_key_index + 1

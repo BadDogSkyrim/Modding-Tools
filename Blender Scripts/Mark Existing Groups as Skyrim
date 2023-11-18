@@ -1,0 +1,6 @@
+import bpy
+
+v_groups = bpy.context.object.vertex_groups
+for g in v_groups:
+    g.name = '*Sky_' + g.name
+print('done')

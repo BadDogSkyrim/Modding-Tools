@@ -22,22 +22,21 @@ var
     newNPC: IwbMainRecord;
     name: string;
 begin
-    if LOGGING then Log(5, Format('<GenerateRandomNPC(%s, %s)', [GetFileName(targetFile), Name(npc)]));
+    if LOGGING then LogEntry2(5, 'GenerateRandomNPC', GetFileName(targetFile), Name(npc));
     AddRecursiveMaster(targetFile, GetFile(npc));
     newNPC := wbCopyElementToFile(npc, targetFile, True, True);
-    if LOGGING then Log(5, Format('Created NPC %.8x', [integer(FormID(newNPC))]));
+    if LOGGING then LogT(Format('Created NPC %.8x', [integer(FormID(newNPC))]));
     name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4);
     if targetSex = FEMALE then begin
         name := name + '_F';
         SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);
     end;
     SetEditorID(newNPC, name);
-    if LOGGING then Log(5, 'Created ' + EditorID(newNPC));
-    CleanNPC(newNPC);
+    if LOGGING then LogT('Created ' + EditorID(newNPC));
     FurrifyNPC(newNPC, targetFile);
 
     result := newNPC;
-    if LOGGING then Log(5, '>');
+    if LOGGING then LogExitT('GenerateRandomNPC');
 end;
 
 //================================================================================
@@ -189,17 +188,23 @@ end;
 // leveled list of the appropriate sex.
 function SetGenericTraits(targetFile: IwbFile; npc: IwbMainRecord): IwbMainRecord;
 var
+    cl: integer;
     curTpl, tpl: IwbMainRecord;
     newNPC: IwbMainRecord;
     noTpl: boolean;
+    sex: integer;
 begin
-    if LOGGING then Log(5, Format('<SetGenericTraits(%s, %s %s)', [GetFileName(targetFile), Name(npc), SexToStr(GetNPCSex(npc))]));
+    if LOGGING then LogEntry3(5, 'SetGenericTraits', GetFileName(targetFile), Name(npc), SexToStr(GetNPCSex(npc)));
+    
     noTpl := false;
+    cl := GetNPCClass(npc);
+    sex := GetNPCSex(npc);
     if NPCInheritsTraits(npc) then begin
         curTpl := NPCTraitsTemplate(npc);
-        tpl := leveledList[GetNPCClass(npc), GetNPCSex(npc)];
-        if LOGGING then Log(5, 'Have template ' + Name(tpl));
-        if LOGGING then Log(5, Format('Replacing template %s <- %s', [Name(curTpl), Name(tpl)]));
+        tpl := leveledList[cl, sex];
+        if LOGGING then LogT(Format('Have template %s for %s/%s', [
+            Name(tpl), GetNPCClassName(cl), SexToStr(sex)]));
+        if LOGGING then LogT(Format('Replacing template %s <- %s', [Name(curTpl), Name(tpl)]));
         if badTemplates.IndexOf(EditorID(curTpl)) >= 0 then begin
             if Assigned(tpl) then
                 newNPC := ForceLLTemplate(targetFile, npc, tpl)
@@ -226,7 +231,7 @@ begin
             SexToStr(GetNPCSex(npc))
         ]));
     result := newNPC;
-    if LOGGING then Log(5, '>SetGenericTraits');
+    if LOGGING then LogExitT('SetGenericTraits');
 end;
 
 //============================================================================

@@ -54,7 +54,8 @@ const
     CLASS_LEE = 29;
     CLASS_MATHIS = 30;
     CLASS_DALTON = 31;
-    CLASS_HI = 31;
+    CLASS_CABOT_EMOGENE = 32;
+    CLASS_HI = 32;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 400;
@@ -65,6 +66,20 @@ const
     SKEW1 = 2;
 
     HEADPART_NOTFOUND = -1;
+
+type TNPCData = record
+    handle: IwbMainRecord;
+    id: string;
+    sig: string;
+    name: string;
+    sex: integer;
+    race: integer;
+    furry_race: integer;
+    npcclass: integer;
+    old_hair: IwbMainRecord;
+    plugin: IwbFile;
+    is_old: Boolean;
+    end;
 
 type TTintPreset = record
     presetColor: IwbMainRecord;
@@ -220,6 +235,11 @@ var
     errCount: integer;
     logIndent: integer;
 
+    // NPC currently being furrified. Functions using this varaible start with NPC_.
+    curNPC: TNPCData;
+    savedNPC: array [0..5] of TNPCData;
+    savedNPCIndex: integer;
+
 // =============================================================================
 
 function FormName(e: IwbMainRecord): string;
@@ -354,18 +374,6 @@ begin
     );
 end;
 
-//===========================================================
-// Determine if an NPC should be consdiered old. Only looks at hair color.
-Function NPCisOld(npc: IwbMainRecord): Boolean;
-var
-    cform: IwbMainRecord;
-begin
-    cform := LinksTo(ElementByPath(npc, 'HCLF'));
-    result := ContainsText(
-        'HairColor04Silver|HairColor05Graying|HairColor07White|HairColor09Gray|HairColor10SteelGray',
-        EditorID(cform));
-end;
-
 //============================================================
 // Get the NPC's sex (which includes child value).
 Function GetNPCSex(npc: IwbMainRecord): integer;
@@ -384,6 +392,18 @@ begin
             Result := MALECHILD
         else
             Result := MALE;
+end;
+
+//============================================================
+// Get the NPC's sex (male/female).
+Function GetNPCEffectiveSex(npc: IwbMainRecord): integer;
+begin
+    case GetNPCSex(npc) of
+        MALE: result := MALE;
+        MALECHILD: result := MALE;
+        FEMALE: result := FEMALE;
+        FEMALECHILD: result := FEMALE;
+    end;
 end;
 
 Function SexToStr(sex: integer): string;
@@ -407,39 +427,42 @@ end;
 //-----------------------------------------------
 Function GetNPCClassName(classID: integer): string;
 begin
-    if classID = CLASS_SETTLER then Result := 'CLASS_SETTLER'
-    else if classID = CLASS_ATOM then Result := 'CLASS_ATOM'
-    else if classID = CLASS_BOBROV then Result := 'CLASS_BOBROV'
-    else if classID = CLASS_BOS then Result := 'CLASS_BOS'
-    else if classID = CLASS_CABOT then Result := 'CLASS_CABOT'
-    else if classID = CLASS_CAIT then Result := 'CLASS_CAIT'
-    else if classID = CLASS_DALTON then Result := 'CLASS_DALTON'
-    else if classID = CLASS_DANSE then Result := 'CLASS_DANSE'
-    else if classID = CLASS_DEACON then Result := 'CLASS_DEACON'
-    else if classID = CLASS_DELUCA then Result := 'CLASS_DELUCA'
-    else if classID = CLASS_DISCIPLES then Result := 'CLASS_DISCIPLES'
-    else if classID = CLASS_FARHARBOR then Result := 'CLASS_FARHARBOR'
-    else if classID = CLASS_GAGE then Result := 'CLASS_GAGE'
-    else if classID = CLASS_GARVEY then Result := 'CLASS_GARVEY'
-    else if classID = CLASS_GHOUL then Result := 'CLASS_GHOUL'
-    else if classID = CLASS_GUNNER then Result := 'CLASS_GUNNER'
-    else if classID = CLASS_INSTITUTE then Result := 'CLASS_INSTITUTE'
-    else if classID = CLASS_KELLOGG then Result := 'CLASS_KELLOGG'
-    else if classID = CLASS_KYLE then Result := 'CLASS_KYLE'
-    else if classID = CLASS_LEE then Result := 'CLASS_LEE'
-    else if classID = CLASS_LONGFELLOW then Result := 'CLASS_LONGFELLOW'
-    else if classID = CLASS_MACCREADY then Result := 'CLASS_MACCREADY'
-    else if classID = CLASS_MATHIS then Result := 'CLASS_MATHIS'
-    else if classID = CLASS_MINUTEMEN then Result := 'CLASS_MINUTEMEN'
-    else if classID = CLASS_OPERATOR then Result := 'CLASS_OPERATOR'
-    else if classID = CLASS_PACK then Result := 'CLASS_PACK'
-    else if classID = CLASS_PEMBROKE then Result := 'CLASS_PEMBROKE'
-    else if classID = CLASS_PIPER then Result := 'CLASS_PIPER'
-    else if classID = CLASS_RAIDER then Result := 'CLASS_RAIDER'
-    else if classID = CLASS_RR then Result := 'CLASS_RR'
-    else if classID = CLASS_TRAPPER then Result := 'CLASS_TRAPPER'
-    else if classID = CLASS_X688 then Result := 'CLASS_X688'
+    case classID of
+        CLASS_SETTLER: Result := 'CLASS_SETTLER';
+		CLASS_ATOM: Result := 'CLASS_ATOM';
+		CLASS_BOBROV: Result := 'CLASS_BOBROV';
+		CLASS_BOS: Result := 'CLASS_BOS';
+		CLASS_CABOT: Result := 'CLASS_CABOT';
+		CLASS_CABOT_EMOGENE: Result := 'CLASS_CABOT_EMOGENE';
+		CLASS_CAIT: Result := 'CLASS_CAIT';
+		CLASS_DALTON: Result := 'CLASS_DALTON';
+		CLASS_DANSE: Result := 'CLASS_DANSE';
+		CLASS_DEACON: Result := 'CLASS_DEACON';
+		CLASS_DELUCA: Result := 'CLASS_DELUCA';
+		CLASS_DISCIPLES: Result := 'CLASS_DISCIPLES';
+		CLASS_FARHARBOR: Result := 'CLASS_FARHARBOR';
+		CLASS_GAGE: Result := 'CLASS_GAGE';
+		CLASS_GARVEY: Result := 'CLASS_GARVEY';
+		CLASS_GHOUL: Result := 'CLASS_GHOUL';
+		CLASS_GUNNER: Result := 'CLASS_GUNNER';
+		CLASS_INSTITUTE: Result := 'CLASS_INSTITUTE';
+		CLASS_KELLOGG: Result := 'CLASS_KELLOGG';
+		CLASS_KYLE: Result := 'CLASS_KYLE';
+		CLASS_LEE: Result := 'CLASS_LEE';
+		CLASS_LONGFELLOW: Result := 'CLASS_LONGFELLOW';
+		CLASS_MACCREADY: Result := 'CLASS_MACCREADY';
+		CLASS_MATHIS: Result := 'CLASS_MATHIS';
+		CLASS_MINUTEMEN: Result := 'CLASS_MINUTEMEN';
+		CLASS_OPERATOR: Result := 'CLASS_OPERATOR';
+		CLASS_PACK: Result := 'CLASS_PACK';
+		CLASS_PEMBROKE: Result := 'CLASS_PEMBROKE';
+		CLASS_PIPER: Result := 'CLASS_PIPER';
+		CLASS_RAIDER: Result := 'CLASS_RAIDER';
+		CLASS_RR: Result := 'CLASS_RR';
+		CLASS_TRAPPER: Result := 'CLASS_TRAPPER';
+		CLASS_X688: Result := 'CLASS_X688';
     else Result := 'Unknown Class';
+    end;
 end;
 
 //================================================================
@@ -542,12 +565,23 @@ begin
     If LOGGING then Log(11, '>DetermineTintType -> ' + IntToStr(result));
 end;
 
+//===============================================================================
+// Return a human-readable string for a tint layer.
 Function TintLayerToStr(tintLayer: integer): string;
+var
+    i: integer;
 begin
-    if (tintLayer >= 0) and (tintLayer < length(tintLayerName)) then
+    if (tintLayer >= 0) and (tintLayer < tintLayerName.Count) then
         result := tintlayerName[tintLayer]
-    else
+    else begin
+        // Shouldn't ever happen.
+        AddMessage('ERROR: Have unknown tint layer ' + IntToStr(tintlayer));
+        AddMessage(Format('There are %d known tint layers:', [tintlayerName.Count]));
+        for i := 0 to tintlayerName.Count-1 do begin
+            AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
+        end;
         result := Format('[%d UNKNOWN TL]', [tintLayer]);
+    end;
 end;
 
 //==================================================================
@@ -717,21 +751,21 @@ var
     i: integer;
     n: string;
 begin
-    If LOGGING then Log(9, '<FindTintLayerByFilename: ' + filename);
+    If LOGGING then LogEntry1(9, 'FindTintLayerByFilename', filename);
     Result := -1;
 
     for i := 0 to TINTLAYERS_COUNT-1 do begin
         if Assigned(raceInfo[raceIndex, sex].tints[i].element) then begin
             n := GetElementEditValues(raceInfo[raceIndex, sex].tints[i].element, 'Tint Layer\Texture\TINT');
-            If LOGGING then Log(9, 'Checking ' + PathName(raceInfo[raceIndex, sex].tints[i].element));
-            If LOGGING then Log(9, 'Checking ' + n);
+            If LOGGING then LogD('Checking ' + PathName(raceInfo[raceIndex, sex].tints[i].element));
+            If LOGGING then LogD('Checking ' + n);
             if ContainsText(n, filename) then begin
                 Result := i;
                 break;
             end;
         end;
     end;
-    If LOGGING then Log(9, '>FindTintLayerByFilename: ' + IntToStr(Result));
+    If LOGGING then LogExitT1('FindTintLayerByFilename', IntToStr(Result));
 end;
 
 function GetTINIByTintIndex(raceIndex, sex, theTintIndex: integer): integer;
@@ -1446,60 +1480,148 @@ begin
     end;
 end;
 
+//===========================================================
+// Determine if an NPC should be consdiered old. Only looks at hair color.
+Function NPCisOld(npc: IwbMainRecord): Boolean;
+var
+    cform: IwbMainRecord;
+begin
+    cform := LinksTo(ElementByPath(npc, 'HCLF'));
+    result := ContainsText(
+        'HairColor04Silver|HairColor05Graying|HairColor07White|HairColor09Gray|HairColor10SteelGray',
+        EditorID(cform));
+end;
+
+Procedure NPC_Print;
+begin
+    AddMessage('NPC ' + Name(curNPC.handle));
+    AddMessage('   ' + curNPC.id);
+    AddMessage('   ' + curNPC.sig);
+    AddMessage('   ' + curNPC.name);
+end;
+
+Function NPC_ToStr: string;
+begin
+    Result := #13#10 
+        + FullPath(curNPC.handle) + #13#10
+        + '  Editor ID = '+ curNPC.id + #13#10
+        + '  Signature = ' + curNPC.sig + #13#10
+        + '  Name = ' + curNPC.name + #13#10
+        + '  Class = ' + GetNPCClassName(curNPC.npcClass) + #13#10
+        + '  Race = ' + RaceIDtoStr(curNPC.race) + #13#10
+        + '  Furry Race = ' + RaceIDtoStr(curNPC.furry_race) + #13#10
+        + '  Sex = ' + SexToStr(curNPC.sex) + #13#10
+        + '  Plugin = ' + GetFileName(curNPC.plugin);
+end;
+
+//============================================================
+// Setup the given NPC to be the current for furrification. 
+Procedure NPC_Setup(npc: IwbMainRecord);
+begin
+    if LOGGING then LogEntry1(20, 'NPC_Setup', Name(npc));
+    curNPC.handle := npc;
+    curNPC.id := EditorID(npc);
+    curNPC.sig := curNPC.id;
+    curNPC.name := GetElementEditValues(npc, 'FULL');
+    curNPC.plugin := GetFile(npc);
+    curNPC.is_old := NPCisOld(npc);
+    curNPC.sex := GetNPCSex(npc);
+    if LOGGING then LogExitT('NPC_Setup');
+end;
+
+//============================================================
+// Push the current NPC on a stack so as to work on another recursively. 
+Procedure NPC_Push;
+begin
+    // savedNPC[savedNPCIndex] := curNPC;
+    savedNPC[savedNPCIndex].handle := curNPC.handle;
+    savedNPC[savedNPCIndex].id := curNPC.id;
+    savedNPC[savedNPCIndex].sig := curNPC.sig;
+    savedNPC[savedNPCIndex].name := curNPC.name;
+    savedNPC[savedNPCIndex].sex := curNPC.sex;
+    savedNPC[savedNPCIndex].race := curNPC.race;
+    savedNPC[savedNPCIndex].furry_race := curNPC.furry_race;
+    savedNPC[savedNPCIndex].npcclass := curNPC.npcclass;
+    savedNPC[savedNPCIndex].old_hair := curNPC.old_hair;
+    savedNPC[savedNPCIndex].plugin := curNPC.plugin;
+    savedNPC[savedNPCIndex].is_old := curNPC.is_old;
+    Inc(savedNPCIndex);
+end;
+
+Procedure NPC_Pop;
+begin
+    Dec(savedNPCIndex);
+    // curNPC := savedNPC[savedNPCIndex];
+    curNPC.handle := savedNPC[savedNPCIndex].handle;
+    curNPC.id := savedNPC[savedNPCIndex].id;
+    curNPC.sig := savedNPC[savedNPCIndex].sig;
+    curNPC.name := savedNPC[savedNPCIndex].name;
+    curNPC.sex := savedNPC[savedNPCIndex].sex;
+    curNPC.race := savedNPC[savedNPCIndex].race;
+    curNPC.furry_race := savedNPC[savedNPCIndex].furry_race;
+    curNPC.npcclass := savedNPC[savedNPCIndex].npcclass;
+    curNPC.old_hair := savedNPC[savedNPCIndex].old_hair;
+    curNPC.plugin := savedNPC[savedNPCIndex].plugin;
+    curNPC.is_old := savedNPC[savedNPCIndex].is_old;
+end;
+
 //============================================================
 // Determine the class of an NPC 
 //
 // Look at various characteristics of the NPC to determine the best class. 
 // Order of the checks matters.
-Function GetNPCClass(theNPC: IwbMainRecord): integer;
+Function GetNPCClass(npc: IwbMainRecord): integer;
 var
-    npcEditorID: string;
-    npcName: string;
+    id: string;
     factionList: TStringList;
+    name: string;
+    rn: string;
 begin
-    If LOGGING then Log(10, Format('<GetNPCClass(%s)', [EditorID(theNPC)]));
-    npcEditorID := EditorID(theNPC);
-    npcName := GetElementEditValues(theNPC, 'FULL');
+    If LOGGING then LogEntry1(10, 'GetNPCClass', Name(npc));
+
     factionList := TStringList.Create;
-    GetNPCFactions(theNPC, factionList);
+    GetNPCFactions(npc, factionList);
+    name := GetElementEditValues(npc, 'FULL');
+    id := EditorID(npc);
 
     Result := CLASS_SETTLER;
 
     // Ghouls
-    if (EditorID(GetNPCRace(theNPC)) = 'GhoulRace') or 
-        (EditorID(GetNPCRace(theNPC)) = 'GhoulChildRace') then
+    rn := EditorID(GetNPCRace(npc));
+    if (rn = 'GhoulRace') or (rn = 'GhoulChildRace') then
         Result := CLASS_GHOUL
 
     // Some settlers use Minutemen/Raider faces, so check them first
-    else if npcName = 'Settler' then Result := CLASS_SETTLER
+    else if name = 'Settler' then Result := CLASS_SETTLER
         
     // Followers
-    else if SameText(npcEditorID, 'CompanionCait') then Result := CLASS_CAIT
-    else if SameText(npcEditorID, 'BoSPaladinDanse') then Result := CLASS_DANSE
-    else if ContainsText(npcEditorID, 'CompanionDeacon') then Result := CLASS_DEACON
-    else if SameText(npcEditorID, 'CompanionMacCready') then Result := CLASS_MACCREADY
-    else if SameText(npcEditorID, 'CompanionPiper') then Result := CLASS_PIPER
-    else if SameText(npcEditorID, 'Natalie') then Result := CLASS_PIPER
-    else if SameText(npcEditorID, 'CompanionX6-88') then Result := CLASS_X688
-    else if SameText(npcEditorID, 'DLC04Gage') then Result := CLASS_GAGE
-    else if ContainsText(npcEditorID, 'PrestonGarvey') then Result := CLASS_GARVEY
-    else if SameText(npcEditorID, 'DLC03_CompanionOldLongfellow') then Result := CLASS_LONGFELLOW
+    else if SameText(id, 'CompanionCait') then Result := CLASS_CAIT
+    else if SameText(id, 'BoSPaladinDanse') then Result := CLASS_DANSE
+    else if ContainsText(id, 'CompanionDeacon') then Result := CLASS_DEACON
+    else if SameText(id, 'CompanionMacCready') then Result := CLASS_MACCREADY
+    else if SameText(id, 'CompanionPiper') then Result := CLASS_PIPER
+    else if SameText(id, 'CompanionX6-88') then Result := CLASS_X688
+    else if SameText(id, 'DLC04Gage') then Result := CLASS_GAGE
+    else if ContainsText(id, 'PrestonGarvey') then Result := CLASS_GARVEY
+    else if SameText(id, 'DLC03_CompanionOldLongfellow') then Result := CLASS_LONGFELLOW
 
     // Specific NPCs and NPC families where we want them all to have the same race.
-    else if ContainsText(npcEditorID, 'Kellogg') then Result := CLASS_KELLOGG
-    else if SameText(npcEditorID, 'MQ203MemoryA_Mom') then Result := CLASS_KELLOGG
-    else if SameText(npcEditorID, 'FFDiamondCity12Kyle') then Result := CLASS_KYLE
-    else if SameText(npcEditorID, 'FFDiamondCity12Riley') then Result := CLASS_KYLE
-    else if ContainsText(npcEditorID, 'DeLuca') then Result := CLASS_DELUCA
-    else if ContainsText(npcEditorID, 'Bobrov') then Result := CLASS_BOBROV
-    else if ContainsText(npcEditorID, 'Pembroke') then Result := CLASS_PEMBROKE
-    else if ContainsText(npcName, 'Cabot') then Result := CLASS_CABOT
-    else if ContainsText(npcEditorID, 'Dalton') then Result := CLASS_DALTON
-    else if SameText(npcName, 'Sergeant Lee') then Result := CLASS_LEE
-    else if SameText(npcName, 'Sully Mathis') then Result := CLASS_MATHIS
+    else if SameText(id, 'Natalie') then Result := CLASS_PIPER
+    else if ContainsText(id, 'Kellogg') then Result := CLASS_KELLOGG
+    else if SameText(id, 'MQ203MemoryA_Mom') then Result := CLASS_KELLOGG
+    else if SameText(id, 'FFDiamondCity12Kyle') then Result := CLASS_KYLE
+    else if SameText(id, 'FFDiamondCity12Riley') then Result := CLASS_KYLE
+    else if ContainsText(id, 'DeLuca') then Result := CLASS_DELUCA
+    else if ContainsText(id, 'Bobrov') then Result := CLASS_BOBROV
+    else if ContainsText(id, 'Pembroke') then Result := CLASS_PEMBROKE
+    else if ContainsText(name, 'EmogeneCabot') then Result := CLASS_CABOT_EMOGENE
+    else if ContainsText(name, 'Cabot') then Result := CLASS_CABOT
+    else if ContainsText(id, 'Dalton') then Result := CLASS_DALTON
+    else if SameText(name, 'Sergeant Lee') then Result := CLASS_LEE
+    else if SameText(name, 'Sully Mathis') then Result := CLASS_MATHIS
 
     // Groups of NPCs that can have different probabilities
-    else if ContainsText(npcEditorID, 'Gunner') then Result := CLASS_GUNNER
+    else if ContainsText(id, 'Gunner') then Result := CLASS_GUNNER
     else if factionList.IndexOf('BrotherhoodofSteelFaction') >= 0 then Result := CLASS_BOS
     else if factionList.IndexOf('RailroadFaction') >= 0 then Result := CLASS_RR
     else if factionList.IndexOf('MinutemenFaction') >= 0 then Result := CLASS_MINUTEMEN
@@ -1512,18 +1634,25 @@ begin
     else if factionList.IndexOf('RaiderFaction') >= 0 then Result := CLASS_RAIDER
     else if factionList.IndexOf('TheForgedFaction') >= 0 then Result := CLASS_RAIDER
     else if factionList.IndexOf('ChildrenOfAtomFaction') >= 0 then Result := CLASS_ATOM
-    else if ContainsText(npcEditorID, 'Minutemen') then Result := CLASS_MINUTEMEN
-    else if ContainsText(npcEditorID, 'Minuteman') then Result := CLASS_MINUTEMEN
-    else if ContainsText(npcEditorID, 'Institute') then Result := CLASS_INSTITUTE
-    else if ContainsText(npcEditorID, 'FarHarbor') then Result := CLASS_FARHARBOR
-    else if ContainsText(npcEditorID, 'raider') then Result := CLASS_RAIDER
+    else if ContainsText(id, 'Minutemen') then Result := CLASS_MINUTEMEN
+    else if ContainsText(id, 'GangPack') then Result := CLASS_PACK
+    else if ContainsText(id, 'GangDisciple') then Result := CLASS_DISCIPLES
+    else if ContainsText(id, 'GangOperator') then Result := CLASS_OPERATOR
+    else if ContainsText(id, 'Institute') then Result := CLASS_INSTITUTE
+    else if ContainsText(id, 'FarHarbor') then Result := CLASS_FARHARBOR
+    else if ContainsText(id, 'raider') then Result := CLASS_RAIDER
     ;
 
-    If LOGGING then Log(15, Format('Is minuteman: %s', [IfThen(ContainsText(npcEditorID, 'Minutemen'), 'T', 'F')]));
-    If LOGGING then Log(15, Format('Is settler: %s', [IfThen(npcName = 'Settler', 'T', 'F')]));
+    If LOGGING then Log(15, Format('Is minuteman: %s', [IfThen(ContainsText(id, 'Minutemen'), 'T', 'F')]));
+    If LOGGING then Log(15, Format('Is settler: %s', [IfThen(name = 'Settler', 'T', 'F')]));
 
     factionList.Free;
-    If LOGGING then Log(10, Format('>GetNPCClass -> [%d] %s', [result, GetNPCClassName(result)]));
+    If LOGGING then LogExitT1('GetNPCClass', GetNPCClassName(Result));
+end;
+
+Procedure NPC_GetClass;
+begin
+    curNPC.npcclass := GetNPCClass(curNPC.handle);
 end;
 
 
@@ -1906,6 +2035,7 @@ begin
 
     InitializeGenericNames;
 
+    savedNPCIndex := 0;
 end;
 
 procedure LoadRaceAssets;

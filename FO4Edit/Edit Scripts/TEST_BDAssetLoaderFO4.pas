@@ -10,6 +10,10 @@ uses FFO_Furrifier, FFOGenerateNPCs, BDAssetLoaderFO4, xEditAPI, Classes, SysUti
 var
     testErrorCount: integer;
     modFile: IwbFile;
+    LIST_ALL_TINT_LAYERS: Boolean;
+    LIST_HAIR_TRANSLATIONS: Boolean;
+    LIST_CLASS_PROBABILITIES: Boolean;
+    LIST_RACE_DISTRIBUTION: Boolean;
 
 procedure Assert(v: Boolean; msg: string);
 begin
@@ -235,10 +239,160 @@ end;
 // begin
 // end;
 
+Function TestByVar(var j: integer): integer;
+begin
+    j := 1;
+end;
+
+// DOES NOT COMPILE
+Procedure TestRecByVar(var r: TTransform);
+begin
+    r.x := 1.0;
+    r.y := 2.0;
+    r.z := 3.0;
+end;
+
+Procedure TestSystemFunc;
+var
+    sl1, slsub, sl2: TStringList;
+    a: string;
+    b: string;
+    i: integer;
+    teti: string;
+    tend: float;
+    sk: TSkinTintLayer;
+    t, t2: TDateTime;
+    xf: TTransform;
+begin
+    // can pass by var
+    i := 0;
+    TestByVar(i);
+    AssertInt(i, 1, 'Can pass integer by reference');
+
+    // DOES NOT COMPILE
+    // TestRecByVar(xf);
+    // AssertInt(xf.z, 3.0, 'Can pass record by reference');
+
+    // Can write time values
+    t := Now;
+    AddMessage('Current time is ' + TimeToStr(Time));
+    
+    AddMessage(Format('Can format hex values: %.8x', [1023]));
+    AddMessage(Format('Can format float values: %f', [10.23]));
+
+    // Can use StringLists of StringLists.
+    AddMessage('Demo of stringlists');
+    sl1 := TStringList.Create;
+
+    slsub := TStringList.Create;
+    slsub.Add('One');
+    slsub.Add('Two');
+    sl1.AddObject('Alpha', slsub);
+    sl1.objects[0].Add('Three');
+    slsub := TStringList.Create;
+
+    slsub.Add('A');
+    slsub.Add('B');
+    sl1.AddObject('Beta', slsub);
+    AddMessage(Format('Get SL strings: %s', [sl1.commatext]));
+    AddMessage(Format('Index SL by text (Alpha): %d', [integer(sl1.values['Alpha'])])); // This does NOT work
+    AddMessage(Format('Index SL by text (Beta): %d', [integer(sl1.values['Beta'])])); // This does NOT work
+
+    sl2 := sl1.objects[0];
+    AddMessage(Format('First list has sublist: %s', [sl2.commatext])); // This works
+    AddMessage(Format('First subentry is %s', [sl2[0]]));
+    AddMessage(Format('First entry in sl1: %s, size %d', [sl1[0], sl1.objects[0].count]));
+    AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).commatext])); // This works
+    AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).strings[0]])); // This works
+    AddMessage(Format('First subentry in sl1[1]: %s, "%s"', [sl1[1], TList(sl1.objects[1]).strings[0]])); // This works
+
+    // No way I can find to put records in a TStringList
+    // sl1 := TStringList.Create;
+    // sk.name := 'TEST';
+    // sl1.AddObject('test', sk);
+    // sk.name := 'FOO';
+    // AddMessage(sk.name);
+    // AddMessage(sl1[0]);
+    // AddMessage(sl1.objects[0].name);
+
+    // AddPair is not implemented.
+    // sl1 := TStringList.Create;
+    // sl1.AddPair('foo', 1);
+    // sl1.AddPair('bar', 2);
+    // AddMessage(Format('First pair: %s / %s', [sl1[0], sl1.values[0]]));
+    // AddMessage(Format('Second pair: %s / %s', [sl1[1], sl1.values[1]]));
+
+    // Can associate strings with values.
+    sl1 := TStringList.Create;
+    sl1.AddObject('foo', 1);
+    sl1.AddObject('bar', 2);
+    for i := 0 to sl1.Count-1 do begin
+        AddMessage(Format('Integer value [%d]: %s / %s', [
+            i, sl1[i], IntToStr(sl1.objects[i])]));
+    end;
+
+end;
+
+//-------------------------------------------------------------------------
+// Test our hashing mchanism
+Procedure TestHashing;
+var
+    f: IwbFile;
+    h1: array [1..10] of integer;
+    h2: array [1..10] of integer;
+    i: integer;
+    npc1, npc2: IwbMainRecord;
+begin
+    AddMessage('Same hash, different seeds');
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 4039, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 3828, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 2493, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 5141, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 5939, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 1663, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 6337, 100)]));
+
+    AddMessage('Consecutive hash, same seed');
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 8707, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate02', 8707, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate03', 8707, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate04', 8707, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate05', 8707, 100)]));
+    AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
+
+    f := FileByIndex(0);
+
+    furrifiedNPCs := TStringList.Create;
+    AddMessage('Hashing NPCs by signature');
+    npc1 := FindAsset(f, 'NPC_', 'DiamondCityResidentTemplate00');
+    NPC_Setup(npc1);
+    RecordNPC(npc1, 'TestSig');
+    NPC_Print;
+    for i := 1 to 10 do begin
+        h1[i] := NPC_Hash(i*7, 5);
+        AddMessage(Format('NPC1: %d = %d', [i, h1[i]]));
+    end;
+    npc2 := FindAsset(f, 'NPC_', 'EncRaider01Boss');
+    NPC_Setup(npc2);
+    RecordNPC(npc2, 'TestSig');
+    NPC_Print;
+    for i := 1 to 10 do begin
+        h2[i] := NPC_Hash(i*7, 5);
+        AddMessage(Format('NPC2: %d = %d', [i, h2[i]]));
+    end;
+
+    for i := 1 to 10 do begin
+        AssertInt(h1[i], h2[i], 'Signatures cause different NPCs to get same hash value');
+    end;
+    furrifiedNPCs.Free;
+end;
+
 //-------------------------------------------------------------------------
 // Test the furrifier
 Procedure TestFFOFurrifier;
 var
+    a: string;
+    b: string;
     classCounts: array[0..40 {CLASS_COUNT}, 0..50 {MAX_RACES}] of integer;
     elem: IwbElement;
     elem2: IwbElement;
@@ -249,127 +403,47 @@ var
     g: IwbContainer;
     hair: IwbMainRecord;
     headpart: IwbMainRecord;
+    hr: Word;
     i: integer;
     j: integer;
     k: integer;
     lykaiosIndex: integer;
     lykaiosRace: IwbMainRecord;
     m: integer;
+    min: Word;
+    msec: Word;
     n: integer;
     name: string;
     npc: IwbMainRecord;
     npcCathy: IwbMainRecord;
-    npcJohn: IwbMainRecord;
     npcClass: integer;
     npcDesdemona: IwbMainRecord;
     npcGroup: IwbGroupRecord;
+    npcHancock: IwbMainRecord;
+    npcJohn: IwbMainRecord;
     npcList: array [1..10] of IwbMainRecord;
-    npcRaceList: array [1..10] of integer;
     npcMason: IwbMainRecord;
     npcPiper: IwbMainRecord;
-    npcHancock: IwbMainRecord;
     npcRace: integer;
+    npcRaceList: array [1..10] of integer;
     race: IwbMainRecord;
     raceID: Cardinal;
     racename: string;
     racepnam: float;
     rec: IwbMainRecord;
-    sl1, slsub, sl2: TStringList;
-    a: string;
-    b: string;
-    teti: string;
-    tend: float;
-    sk: TSkinTintLayer;
-    t, t2: TDateTime;
-    hr: Word;
-    min: Word;
     sec: Word;
-    msec: Word;
+    sk: TSkinTintLayer;
+    sl1, slsub, sl2: TStringList;
+    t, t2: TDateTime;
+    tend: float;
+    teti: string;
 begin
     LOGLEVEL := 1;
     f := FileByIndex(0);
 
     // Asset loader has to be iniitialized before use.
-    if {excercising system functionality} FALSE then begin
-        // Can write time values
-        t := Now;
-        AddMessage('Current time is ' + TimeToStr(Time));
-        
-        AddMessage(Format('Can format hex values: %.8x', [1023]));
-        AddMessage(Format('Can format float values: %f', [10.23]));
-
-        // Can use StringLists of StringLists.
-        AddMessage('Demo of stringlists');
-        sl1 := TStringList.Create;
-
-        slsub := TStringList.Create;
-        slsub.Add('One');
-        slsub.Add('Two');
-        sl1.AddObject('Alpha', slsub);
-        sl1.objects[0].Add('Three');
-        slsub := TStringList.Create;
-
-        slsub.Add('A');
-        slsub.Add('B');
-        sl1.AddObject('Beta', slsub);
-        AddMessage(Format('Get SL strings: %s', [sl1.commatext]));
-        AddMessage(Format('Index SL by text (Alpha): %d', [integer(sl1.values['Alpha'])])); // This does NOT work
-        AddMessage(Format('Index SL by text (Beta): %d', [integer(sl1.values['Beta'])])); // This does NOT work
-
-        sl2 := sl1.objects[0];
-        AddMessage(Format('First list has sublist: %s', [sl2.commatext])); // This works
-        AddMessage(Format('First subentry is %s', [sl2[0]]));
-        AddMessage(Format('First entry in sl1: %s, size %d', [sl1[0], sl1.objects[0].count]));
-        AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).commatext])); // This works
-        AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).strings[0]])); // This works
-        AddMessage(Format('First subentry in sl1[1]: %s, "%s"', [sl1[1], TList(sl1.objects[1]).strings[0]])); // This works
-
-        // No way I can find to put records in a TStringList
-        // sl1 := TStringList.Create;
-        // sk.name := 'TEST';
-        // sl1.AddObject('test', sk);
-        // sk.name := 'FOO';
-        // AddMessage(sk.name);
-        // AddMessage(sl1[0]);
-        // AddMessage(sl1.objects[0].name);
-
-        // AddPair is not implemented.
-        // sl1 := TStringList.Create;
-        // sl1.AddPair('foo', 1);
-        // sl1.AddPair('bar', 2);
-        // AddMessage(Format('First pair: %s / %s', [sl1[0], sl1.values[0]]));
-        // AddMessage(Format('Second pair: %s / %s', [sl1[1], sl1.values[1]]));
-
-        // Can associate strings with values.
-        sl1 := TStringList.Create;
-        sl1.AddObject('foo', 1);
-        sl1.AddObject('bar', 2);
-        for i := 0 to sl1.Count-1 do
-            AddMessage(Format('Integer value [%d]: %s / %s', [
-                i, sl1[i], IntToStr(sl1.objects[i])]));
-        end;
-
-    if {Testing random numbers} FALSE then begin
-        AddMessage('Same hash, different seeds');
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 4039, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 3828, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 2493, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 5141, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 5939, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 1663, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 6337, 100)]));
-        AddMessage('Consecutive hash, same seed');
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 8707, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate02', 8707, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate03', 8707, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate04', 8707, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate05', 8707, 100)]));
-        AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
-    end;
-    
     convertingGhouls := true;
     InitializeFurrifier(modFile);
-
 
     // ------------------------------------------------------------------------------
     //
@@ -378,6 +452,9 @@ begin
     // Any AA's that reference snekdogs should now support ghouls.
     rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesHancocksHat'));
     AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
+    
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFOSnekNakedChildHands'));
+    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulChildRace');
 
     // ------------------------------------------------------------------------------
     //
@@ -532,7 +609,7 @@ begin
     AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE, 'Have nose stripe');
 
     // Can select skin tints of the different races.
-    if {List all tint layers} FALSE then begin
+    if LIST_ALL_TINT_LAYERS then begin
         AddMessage('---Can list the tint layers for all race/sex combos');
         for i := 0 to masterRaceList.Count-1 do 
             for j := SEX_LO to SEX_HI do
@@ -611,7 +688,7 @@ begin
     AddMessage('---------Hair---------');
     Assert(vanillaHairRecords.Count > 50, 
         'Have vanilla hair records: ' + IntToStr(vanillaHairRecords.Count));
-    if {are list all hair translations} TRUE then begin
+    if LIST_HAIR_TRANSLATIONS then begin
         for i := 0 to vanillaHairRecords.Count-1 do begin
             for j := 0 to masterRaceList.Count-1 do begin
                 if Assigned(furryHair[i, j]) then
@@ -642,7 +719,7 @@ begin
     //      NPCs
     //
     // --------- Classes
-    if {showing all race probabilities} TRUE then begin
+    if LIST_CLASS_PROBABILITIES then begin
         AddMessage('---Race probabilities---');
         for i := CLASS_LO to CLASS_HI do
             for j := RACE_LO to RACE_HI do begin
@@ -677,47 +754,45 @@ begin
 
     // NPCs are given classes to help with furrification.
     npc := FindAsset(f, 'NPC_', 'BlakeAbernathy');
-    npcClass := GetNPCClass(npc);
-    Assert(npcClass = CLASS_SETTLER, 'Expected no specific class for BlakeAbernathy');
-    npcRace := ChooseNPCRace(npc);
-    Assert(npcRace >= 0, 'Expected to choose a race');
+    NPC_Setup(npc);
+    NPC_ChooseRace;
+    Assert(curNPC.npcclass = CLASS_SETTLER, 'Expected no specific class for BlakeAbernathy');
+    Assert(curNPC.race >= 0, 'Expected to choose a race');
     AddMessage('Race is ' + masterRaceList[npcRace]);
 
     AddMessage('-Desdemona-');
     npcDesdemona := FindAsset(f, 'NPC_', 'Desdemona');
     Assert(Assigned(npcDesdemona), 'Found Desdemona');
-    npcClass := GetNPCClass(npcDesdemona);
-    Assert(npcClass = CLASS_RR, 'Expected RR for Desdemona; have ' + IntToStr(npcClass));
-    npcRace := ChooseNPCRace(npcDesdemona);
-    AddMessage('Race is ' + masterRaceList[npcRace]);
+    NPC_Setup(npcDesdemona);
+    NPC_ChooseRace;
+    Assert(curNPC.npcclass = CLASS_RR, 'Expected RR for Desdemona; have ' + GetNPCClassName(curNPC.npcclass));
+    AddMessage('Race is ' + masterRaceList[curNPC.race]);
 
     AddMessage('-Cabots-');
     npc := FindAsset(f, 'NPC_', 'LorenzoCabot');
     Assert(Assigned(npc), 'Expected to find LorenzoCabot');
-    Assert(SameText(EditorID(npc), 'LorenzoCabot'), 'Expected to find LorenzoCabot');
-    name := GetElementEditValues(npc, 'FULL');
-    AddMessage('Name = ' + name);
-    npcClass := GetNPCClass(npc);
-    Assert(npcClass = CLASS_CABOT, 'Expected CLASS_CABOT for LorenzoCabot; have ' + IntToStr(npcClass));
-    npcRace := ChooseNPCRace(npc);
-    AddMessage('Race is ' + masterRaceList[npcRace]);
+    NPC_Setup(npc);
+    NPC_ChooseRace;
+    Assert(SameText(curNPC.id, 'LorenzoCabot'), 'Expected to find LorenzoCabot');
+    AddMessage('Name = ' + curNPC.name);
+    Assert(curNPC.npcclass = CLASS_CABOT, 'Expected CLASS_CABOT for LorenzoCabot; have ' + GetNPCClassName(curNPC.npcclass));
+    AddMessage('Race is ' + masterRaceList[curNPC.race]);
 
     AddMessage('-Children of Atom-');
     npc := FindAsset(f, 'NPC_', 'EncChildrenOfAtom01Template');
     Assert(npc <> Nil, 'Found EncChildrenOfAtom01Template');
-    npcClass := GetNPCClass(npc);
-    Assert(npcClass = CLASS_ATOM, 'Expected CLASS_ATOM for EncChildrenOfAtom01Template; have ' + IntToStr(npcClass));
-    npcRace := ChooseNPCRace(npc);
-    AddMessage('Race is ' + masterRaceList[npcRace]);
+    NPC_Setup(npc);
+    NPC_ChooseRace;
+    Assert(curNPC.npcclass = CLASS_ATOM, 'Expected CLASS_ATOM for EncChildrenOfAtom01Template; have ' + GetNPCClassName(curNPC.npcclass));
+    AddMessage('Race is ' + masterRaceList[curNPC.race]);
 
     AddMessage('-Pack-');
     // Mason's race is forced to Horse
-    npcMason := FindAsset(Nil, 'NPC_', 'DLC04Mason');
-    Assert(npcMason <> Nil, 'Found DLC04Mason');
-    npcClass := GetNPCClass(npcMason);
-    Assert(npcClass = CLASS_PACK, 'Expected CLASS_PACK for DLC04Mason; have ' + IntToStr(npcClass));
-    npcRace := ChooseNPCRace(npcMason);
-    Assert(SameText(masterRaceList[npcRace], 'FFOHorseRace'), 'Mason given horse race.');
+    npc := FindAsset(Nil, 'NPC_', 'DLC04_encGangPackFaceF01');
+    Assert(npc <> Nil, 'Found DLC04_encGangPackFaceF01');
+    NPC_Setup(npc);
+    NPC_ChooseRace;
+    Assert(curNPC.npcclass = CLASS_PACK, 'Expected CLASS_PACK for DLC04_encGangPackFaceF01; have ' + GetNPCClassName(curNPC.npcclass));
 
     // -------- Specific NPC race assignment
     // Can create overwrite records.
@@ -804,23 +879,27 @@ begin
     AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerRace', 'Changed Stan Slavin`s race');
     AssertNoZeroTints(npc);
 
+    // Set race and headparts by hand. 
     AddMessage('---BoS301BrotherHenri');
     npc := FindAsset(Nil, 'NPC_', 'BoS301BrotherHenri');
-    furryNPC := CreateNPCOverride(npc, modFile);
-    hair := SetNPCRace(furryNPC, RACE_DEER);
-    ChooseHair(furryNPC, hair);
-    ChooseHeadpart(furryNPC, HEADPART_EYES);
-    ChooseHeadpart(furryNPC, HEADPART_FACE);
-    MakeDeerReindeer(furryNPC);
-    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFODeerRace', 'Changed BoS301BrotherHenri`s race');
-    AssertGoodHeadparts(furryNPC, 'Eyebrows', 'FFODeerHorns05');
-    AssertMorph(furryNPC, $36EF36E0);
+    NPC_Setup(npc);
+    NPC_ChooseRace;
+    curNPC.handle := CreateNPCOverride(npc, modFile);
+    NPC_SetRace(RACE_DEER);
+    NPC_ChooseHair;
+    NPC_ChooseHeadpart(HEADPART_FACE);
+    NPC_ChooseHeadpart(HEADPART_EYES);
+    NPC_MakeDeerReindeer;
+    AssertStr(EditorID(GetNPCRace(curNPC.handle)), 'FFODeerRace', 'Changed BoS301BrotherHenri`s race');
+    AssertGoodHeadparts(curNPC.handle, 'Eyebrows', 'FFODeerHorns05');
+    AssertMorph(curNPC.handle, $36EF36E0);
     
-    // Old NPC has "old" tint layer. (Stockton should be a horse.)
+    // Old NPC has "old" tint layer. 
     AddMessage('---OldManStockton');
     npc := FindAsset(Nil, 'NPC_', 'OldManStockton');
-    furryNPC := CreateNPCOverride(npc, modFile);
-    npc := MakeFurryNPC(furryNPC, modFile);
+    npc := MakeFurryNPC(npc, modFile);
+    // Must be the right race for the tint layer check to work.
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOLionRace', 'Stockton is lion');
     AssertGoodTintLayers(npc, 2657); // Old
     
     //-----------------------------------------------------------------------
@@ -846,7 +925,6 @@ begin
     AssertGoodTintLayers(npc, 1156);
 
     // Leveled ghoul character gets furrified.
-    LOGLEVEL := 5;
     AddMessage('---LvlTriggermanUnaggressiveMeleeGhoulOnly');
     npc := FindAsset(Nil, 'NPC_', 'LvlTriggermanUnaggressiveMeleeGhoulOnly');
     AddMessage('MakeFurry: ' + FullPath(npc));
@@ -903,36 +981,39 @@ begin
     //     'Humans assigned as raiders: ' + sl1.CommaText);
     // sl1.Free;
 
-    Log(0, '<Race distribution for settlers is reasonable');
-    sl1 := TStringList.create;
-    sl1.Duplicates := false;
-    sl1.Sorted := true;
-    for i := 1 to 6 do begin
-        npc := FindAsset(f, 'NPC_', 'EncMinutemenFaceM0' + IntToStr(i));
-        Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
-        if not Assigned(npc) then break;
-        npcRaceList[i] := ChooseNPCRace(npc);
-        sl1.Add(masterRaceList[npcRaceList[i]]);
-        Log(0, Format('Race for %s (%s) is %s', [
-            EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
-    end;
-    Log(0, '>');
-    Assert(sl1.count > 2, Format('Have range of races for settlers: %s', [sl1.CommaText]));
-    sl1.free;
+    // Log(0, '<Race distribution for settlers is reasonable');
+    // sl1 := TStringList.create;
+    // sl1.Duplicates := false;
+    // sl1.Sorted := true;
+    // for i := 1 to 6 do begin
+    //     npc := FindAsset(f, 'NPC_', 'EncMinutemenFaceM0' + IntToStr(i));
+    //     Log(0, Format('Minuteman has class: %s : %s', [EditorID(npc), GetNPCClassName(GetNPCClass(npc))]));
+    //     if not Assigned(npc) then break;
+    //     npcRaceList[i] := ChooseNPCRace(npc);
+    //     sl1.Add(masterRaceList[npcRaceList[i]]);
+    //     Log(0, Format('Race for %s (%s) is %s', [
+    //         EditorID(npc), GetNPCClassName(GetNPCClass(npc)), masterRaceList[npcRaceList[i]]]));
+    // end;
+    // Log(0, '>');
+    // Assert(sl1.count > 2, Format('Have range of races for settlers: %s', [sl1.CommaText]));
+    // sl1.free;
 
-    if {Testing race distribution} FALSE then begin
+    if LIST_RACE_DISTRIBUTION then begin
         // Walk through the NPCs and collect stats on how many of each race there are
         // to make sure the random assignment is giving a range of races.
-        AddMessage('---Race Probabilities---');
+        AddMessage('---Race Distribution---');
         for k := 0 to FileCount-1 do begin
             f := FileByIndex(k);
             npcGroup := GroupBySignature(f, 'NPC_');
             for i := 0 to ElementCount(npcGroup)-1 do begin
                 npc := ElementByIndex(npcGroup, i);
                 if StartsText('HumanRace', GetElementEditValues(npc, 'RNAM')) then begin
-                    npcClass := GetNPCClass(npc);
-                    raceID := ChooseNPCRace(npc);
-                    classCounts[npcClass, raceID] := classCounts[npcClass, raceID] + 1;
+                    NPC_Setup(npc);
+                    NPC_ChooseRace;
+                    // Log(1, Format('Found %s / %s', [GetNPCClassName(curNPC.npcclass), RaceIDToStr(curNPC.race)]));
+                    if curNPC.race < 100 then
+                        classCounts[curNPC.npcclass, curNPC.race] 
+                            := classCounts[curNPC.npcclass, curNPC.race] + 1;
                 end;
             end;
         end;
@@ -940,7 +1021,7 @@ begin
         AddMessage('Check that we have a reasonable distribution of races');
         for i := CLASS_LO to CLASS_HI do begin
             AddMessage('-');
-            for j := 0 to masterRaceList.Count-1 do begin
+            for j := RACE_LO to RACE_HI do begin
                 if classCounts[i, j] > 0 then 
                     AddMessage(GetNPCClassName(i) + ' ' + masterRaceList[j] + ' = ' + IntToStr(classCounts[i, j]));
             end;
@@ -957,18 +1038,20 @@ begin
     Log(0, 'Starting tests');
     testErrorCount := 0;
 
-    LOGLEVEL := 1;
     modFile := CreateOverrideMod('TEST.esp');
 
+    LIST_ALL_TINT_LAYERS := FALSE;
+    LIST_HAIR_TRANSLATIONS := FALSE;
+    LIST_CLASS_PROBABILITIES := FALSE;
+    LIST_RACE_DISTRIBUTION := TRUE;
 
+    // TestSystemFunc;
+    // TestHashing;
     TestFFOFurrifier;
-    // TestFurryArmorFixup;
+    TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 
-    // t2 := Now;
-    // DecodeTime(t2-t, hr, min, sec, msec);
-    // AddMessage(Format('Test duration is %d:%d:%d', [hr, min, sec]));
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 
         '++++++++++++SUCCESS++++++++++',

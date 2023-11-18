@@ -1,0 +1,109 @@
+# Âûäåëÿòü íè÷åãî íå íàäî, ñêðèïò ñàì ïåðåáåðåò âñå îáüåêòû ñöåíû, ïðèâÿçàííûå ê àðìàòóðå
+
+import os
+import bpy
+
+FilePath = "Weights.txt"
+
+#==========================================================================================================
+# Ñîõðàíèì Âåðòåêñ ãðóïïû äëÿ âñåõ îáüåêñòîâ ñ òèïîì "MESH" íàõîäÿùèõñÿ â Ñöåíå
+#==========================================================================================================
+
+ObjectsInScene = bpy.context.scene.objects
+
+# Ñîçäà¸ì òåêñòîâûé ôàéë äëÿ çàïèñè äàííûõ îá Àðìàòóðå
+MyFile = open(FilePath, "w", encoding="utf8", newline="\n")
+MyFileWrite = MyFile.write
+MyFileWrite("[Begin]\n")
+Counter = 0     # Ñ÷åò÷èê êîëè÷åñòâà îáðàáîòàííûõ êîñòî÷åê (äëÿ âûâîäà â êîíñîëü)
+
+# Ñîõðàíÿåì êîëè÷åñòâî Ìåøåé â ñöåíå
+MeshCounter = 0
+# Ïåðåáèðàåì âñå îáüåêòû ñöåíû è èùåì ñðåäè íèõ ÌÅØÈ
+for Object in ObjectsInScene:
+    # Åñëè òåêóùèé Îáüåêò áóäåò ÌÅØÅÌ, òî íà÷í¸ì ïåðåáèðàòü åãî ìîäèôèêàòîðû äëÿ ïîèñêà Àðìàòóðû
+    if Object.type == 'MESH': MeshCounter += 1
+MyFileWrite("%d\n" % MeshCounter)
+
+# Ïåðåáèðàåì âñå îáüåêòû ñöåíû è èùåì ñðåäè íèõ ÌÅØÈ
+for Object in ObjectsInScene:
+    # Åñëè òåêóùèé Îáüåêò áóäåò ÌÅØÅÌ, òî íà÷í¸ì ïåðåáèðàòü åãî ìîäèôèêàòîðû äëÿ ïîèñêà Àðìàòóðû
+    if Object.type == 'MESH':
+        AnotherArmatura = False
+        # Ïåðåáèðàåì ÂÑÅ ñóùåñòâóþùèå ìîäèôèêàòîðû, íî îáðàáàòûâàåì òîëüêî ìîäèôèêàòîðû Àðìàòóðû (ðåàëüíî, ðàáîòàåì òîëüêî ñ ïåðâûì íàéäåííûì ìîäèôèêàòîðîì Àðìàòóðû)
+        for Modifier in Object.modifiers:
+            # Åñëè òåêóùèé ìîäèôèêàòîð ÿâëÿåòñÿ Àðìàòóðîé, òî íà÷èíàåì åãî ýêñïîðò
+            if Modifier.type == 'ARMATURE' and AnotherArmatura == False:
+                # Ñîõðàíÿåì Èìÿ ÌÅØÀ äëÿ êîòîðîãî ñóùåñòâóåò ïðèâÿçêà ê Àðìàòóðå â Ñöåíå
+                MyFileWrite("MESH_NAME   =[%r]\n" % Object.name)
+                print("Export vertex groups for Mesh [%r]." % Object.name)
+                Counter +=1
+                
+                # Ñîõðàíÿåì êîëè÷åñòâî Êîñòî÷åê â Àðìàòóðå
+                BoneCounter = 0
+                # Ïåðåáèðàåì âñå êîñòî÷êè íàéäåííîé Àðìàòóðû
+                for Bone in Modifier.object.data.bones:
+                    # Ôèëüòð, äëÿ óñòðàíåíèÿ íåíóæíûõ êîñòî÷åê èç îáðàáîòêè
+                    if Bone.name[0:4]  == "TGT_":           continue 
+                    if Bone.name[0:11] == "Controller_":    continue
+                    if Bone.name[0:7]  == "Driver_":        continue
+                    if Bone.name[0:10] == "Constrain_":     continue
+                    # Èùåì èíäåêñ Âåðòåêñ ãðóïïû ñâÿçàííîé ñ òåêóùåé êîñòî÷êîé (ðåçóëüòàò ïîèñêà ðàâåí ñàìîé ïîñëåäíåé íàéäåííîé Âåðòåêñ ãðóïïå (èëè "None" - åñëè òàêîâîé íåáûëî íàéäåíî)) - âîçìîæíî ñòîèò ïåðåäåëàòü êîãäà íèáóòü
+                    VertexGroupIndex_forCurrentBone = None
+                    for VertexGroup in Object.vertex_groups:
+                        if VertexGroup.name == Bone.name:
+                            VertexGroupIndex_forCurrentBone = VertexGroup.index
+                    # Ïðîâåðêà, åñòü ëè âîîáùå õîòü îäíà Âåðòåêñ ãðóïïà ó çàäàííîé êîñòî÷êè
+                    if VertexGroupIndex_forCurrentBone != None: 
+                        # Åñëè Âåðòåêñ ãðóïïà ñóùåñòâóåò, òî ñ÷èòàåì êîëè÷åñòâî âåðòåêñîâ, ïðèíàäëåæàùèõ íàéäåííîé Âåðòåêñ ãðóïïå
+                        VertexinGroupCount=0
+                        for Vertex in Object.data.vertices:
+                            for Group in Vertex.groups:
+                                if Group.group == VertexGroupIndex_forCurrentBone:
+                                    VertexinGroupCount += 1
+                        # Åñëè Âåðòåêñ ãðóïïà íå ïóñòàÿ, òî óâåëå÷èâàåì ñ÷¸ò÷èê
+                        if VertexinGroupCount > 0:  BoneCounter += 1
+                MyFileWrite("%d\n" % BoneCounter)
+                
+                # Ïåðåáèðàåì âñå êîñòî÷êè íàéäåííîé Àðìàòóðû
+                for Bone in Modifier.object.data.bones:
+                    # Ôèëüòð, äëÿ óñòðàíåíèÿ íåíóæíûõ êîñòî÷åê èç îáðàáîòêè
+                    if Bone.name[0:4]  == "TGT_":           continue 
+                    if Bone.name[0:11] == "Controller_":    continue
+                    if Bone.name[0:7]  == "Driver_":        continue
+                    if Bone.name[0:10] == "Constrain_":     continue
+                    # Èùåì èíäåêñ Âåðòåêñ ãðóïïû ñâÿçàííîé ñ òåêóùåé êîñòî÷êîé (ðåçóëüòàò ïîèñêà ðàâåí ñàìîé ïîñëåäíåé íàéäåííîé Âåðòåêñ ãðóïïå (èëè "None" - åñëè òàêîâîé íåáûëî íàéäåíî)) - âîçìîæíî ñòîèò ïåðåäåëàòü êîãäà íèáóòü
+                    VertexGroupIndex_forCurrentBone = None
+                    for VertexGroup in Object.vertex_groups:
+                        if VertexGroup.name == Bone.name:
+                            VertexGroupIndex_forCurrentBone = VertexGroup.index
+                    # Ïðîâåðêà, åñòü ëè âîîáùå õîòü îäíà âåðòåêñ ãðóïïà ó äàííîé êîñòè (ýêñïîðòèðîâàòü òî êîñòü âñ¸ ðàâíî íàäî, à áåç Âåðòåêñ ãðóïïû - Áëåíäåð âûäàñò îøèáêó)
+                    if VertexGroupIndex_forCurrentBone == None:
+                        VertexinGroupCount=0
+                        #MyFileWrite("%d\n" % VertexinGroupCount)
+                    else:
+                        # Ñ÷èòàåì êîëè÷åñòâî âåðòåêñîâ, ïðèíàäëåæàùèõ íàéäåííîé Âåðòåêñ ãðóïïå
+                        VertexinGroupCount=0
+                        for Vertex in Object.data.vertices:
+                            for Group in Vertex.groups:
+                                if Group.group == VertexGroupIndex_forCurrentBone:
+                                    VertexinGroupCount += 1
+                        # Ñîõðàíÿåì èìÿ òåêóùåé Âåðòåêñ ãðóïïû è êîë-âî ýëåìåíòîâ â íåé, åñëè â ãðóïïå åñòü õîòü îäèí Âåðòåêñ (å¸ íàçâàíèå äîëæíî ñîâïàäàòü ñ èìåíåì êîñòî÷êè Àðìàòóðû, ñ êîòîðîé îíà ñâÿçàíà)
+                        if VertexinGroupCount > 0:
+                            MyFileWrite("Bone_Name   =[%r]\n" % Bone.name)
+                            MyFileWrite("%d\n" % VertexinGroupCount)
+                            # Íàõîäèì âñå Âåðòåêñû ïðèíàäëåæàùèå íàéäåííîé Âåðòåêñ ãðóïïå (ñîõðàíÿåì èõ Èíäåêñ è Âåñ â ôàéë)
+                            for Vertex in Object.data.vertices:
+                                for Group in Vertex.groups:
+                                    if Group.group == VertexGroupIndex_forCurrentBone:
+                                        MyFileWrite("%6d "     % Vertex.index)      # ñîõðàíÿåì èíäåêñ Âåðòåêñà
+                                        MyFileWrite("%10.6f\n" % Group.weight)      # ñîõðàíÿåì âåñ Âåðòåêñà
+                    AnotherArmatura = True
+
+# Çàêðûâàåì ôàéë
+MyFileWrite("[End]\n")
+MyFile.close()
+
+print("Writing to file [%s] = done." % os.path.realpath(MyFile.name))
+print("Exported [%r] meshes.\n" % Counter)
+
