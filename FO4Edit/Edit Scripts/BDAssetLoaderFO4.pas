@@ -51,11 +51,8 @@ const
     CLASS_X688 = 26;
     CLASS_GAGE = 27;
     CLASS_GHOUL = 28;
-    CLASS_LEE = 29;
-    CLASS_MATHIS = 30;
-    CLASS_DALTON = 31;
-    CLASS_CABOT_EMOGENE = 32;
-    CLASS_HI = 32;
+    CLASS_DALTON = 29;
+    CLASS_HI = 29;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 400;
@@ -433,7 +430,6 @@ begin
 		CLASS_BOBROV: Result := 'CLASS_BOBROV';
 		CLASS_BOS: Result := 'CLASS_BOS';
 		CLASS_CABOT: Result := 'CLASS_CABOT';
-		CLASS_CABOT_EMOGENE: Result := 'CLASS_CABOT_EMOGENE';
 		CLASS_CAIT: Result := 'CLASS_CAIT';
 		CLASS_DALTON: Result := 'CLASS_DALTON';
 		CLASS_DANSE: Result := 'CLASS_DANSE';
@@ -448,10 +444,8 @@ begin
 		CLASS_INSTITUTE: Result := 'CLASS_INSTITUTE';
 		CLASS_KELLOGG: Result := 'CLASS_KELLOGG';
 		CLASS_KYLE: Result := 'CLASS_KYLE';
-		CLASS_LEE: Result := 'CLASS_LEE';
 		CLASS_LONGFELLOW: Result := 'CLASS_LONGFELLOW';
 		CLASS_MACCREADY: Result := 'CLASS_MACCREADY';
-		CLASS_MATHIS: Result := 'CLASS_MATHIS';
 		CLASS_MINUTEMEN: Result := 'CLASS_MINUTEMEN';
 		CLASS_OPERATOR: Result := 'CLASS_OPERATOR';
 		CLASS_PACK: Result := 'CLASS_PACK';
@@ -461,7 +455,7 @@ begin
 		CLASS_RR: Result := 'CLASS_RR';
 		CLASS_TRAPPER: Result := 'CLASS_TRAPPER';
 		CLASS_X688: Result := 'CLASS_X688';
-    else Result := 'Unknown Class';
+    else Result := Format('Unknown Class [%d]', [classID]);
     end;
 end;
 
@@ -1614,11 +1608,8 @@ begin
     else if ContainsText(id, 'DeLuca') then Result := CLASS_DELUCA
     else if ContainsText(id, 'Bobrov') then Result := CLASS_BOBROV
     else if ContainsText(id, 'Pembroke') then Result := CLASS_PEMBROKE
-    else if ContainsText(name, 'EmogeneCabot') then Result := CLASS_CABOT_EMOGENE
     else if ContainsText(name, 'Cabot') then Result := CLASS_CABOT
     else if ContainsText(id, 'Dalton') then Result := CLASS_DALTON
-    else if SameText(name, 'Sergeant Lee') then Result := CLASS_LEE
-    else if SameText(name, 'Sully Mathis') then Result := CLASS_MATHIS
 
     // Groups of NPCs that can have different probabilities
     else if ContainsText(id, 'Gunner') then Result := CLASS_GUNNER

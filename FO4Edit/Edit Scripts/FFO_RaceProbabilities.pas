@@ -262,8 +262,6 @@ begin
     SetClassProb(CLASS_KELLOGG, 'FFOTigerRace', 100);
     SetClassProb(CLASS_KYLE, 'FFOFoxRace', 100);
     SetClassProb(CLASS_PEMBROKE, 'FFOHorseRace', 100);
-    SetClassProb(CLASS_LEE, 'FFOHyenaRace', 100);
-    SetClassProb(CLASS_MATHIS, 'FFOFoxRace', 100);
 
     // Specific NPCs
     // These override TARGET_RACE.

@@ -191,21 +191,30 @@ end;
 // Assumes FFOTESTPre.esp, FurryFallout.esp.
 Procedure TestFurryArmorFixup;
 var
-    i: integer;
-    testFile: IwbFile;
     arma: IwbMainRecord;
     armawin: IwbMainRecord;
+    fn: string;
     ghoulRace: IwbMainRecord;
-    snekRace: IwbMainRecord;
+    haveTestESP: Boolean;
+    i: integer;
     modelsNew: IwbElement;
     mr, mrNew: IwbMainRecord;
+    snekRace: IwbMainRecord;
+    testFile: IwbFile;
 begin
     LogEntry(0, 'TestFurryArmorFixup');
-    for i := 0 to FileCount-1 do
-        if GetFileName(FileByIndex(i)) = TEST_FILE_NAME then
-            testFile := FileByIndex(i);
+    haveTestESP := False;
+    for i := 0 to FileCount-1 do begin
+        fn := GetFileName(FileByIndex(i));
+        if fn = TEST_FILE_NAME then
+            testFile := FileByIndex(i)
+        else if fn = 'FFOTESTPre.esp' then
+            haveTestESP := True;
+    end;
     if not Assigned(testFile) then
         testFile := AddNewFileName(TEST_FILE_NAME);
+
+    if not haveTestESP then exit;
 
     arma := FindAsset(Nil, 'ARMA', 'FFO_AAClothesHardHat');
     armawin := WinningOverride(arma);
@@ -896,11 +905,26 @@ begin
     
     // Old NPC has "old" tint layer. 
     AddMessage('---OldManStockton');
-    npc := FindAsset(Nil, 'NPC_', 'OldManStockton');
-    npc := MakeFurryNPC(npc, modFile);
     // Must be the right race for the tint layer check to work.
-    AssertStr(EditorID(GetNPCRace(npc)), 'FFOLionRace', 'Stockton is lion');
-    AssertGoodTintLayers(npc, 2657); // Old
+    AssignNPCRace('OldManStockton', 'FFOLionRace');
+    npc := FindAsset(Nil, 'NPC_', 'OldManStockton');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLionRace', 'Stockton is lion');
+    AssertGoodTintLayers(furryNPC, 2657); // Old
+
+    // Shaun and player spouse get furrified following the player.
+    AddMessage('---Shaun');
+    AssignNPCRace('Player', 'FFOLykaiosRace');
+    npc := FindAsset(Nil, 'NPC_', 'Player');
+    furryNPC := MakeFurryNPC(npc, modFile);
+
+    npc := FindAsset(Nil, 'NPC_', 'Shaun');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLykaiosRace', 'Shaun has correct race');
+
+    npc := FindAsset(Nil, 'NPC_', 'MQ101PlayerSpouseFemale');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLykaiosRace', 'Spouse has correct race');
     
     //-----------------------------------------------------------------------
     //

@@ -5,7 +5,7 @@ implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    LOGGING = FALSE;
+    LOGGING = TRUE;
 
 var 
     LOGLEVEL: integer;

@@ -234,7 +234,8 @@ begin
 end;
 
 //======================================================
-// Choose a race for the NPC.
+// Choose a race for the NPC. Also set up key values in curNPC. NPC_Setup must already
+// have been run.
 // NPC is not altered.
 // Guaranteed that the NPC can and should be changed to the given race.
 Procedure NPC_ChooseRace;
@@ -242,6 +243,9 @@ var
     assignIndex: integer;
     h: integer;
     mother: IwbMainRecord;
+    player: IwbMainRecord;
+    playerRace: IwbMainRecord;
+    playerRaceID: integer;
     pointTotal: integer;
     r: integer;
     racename: string;
@@ -258,13 +262,14 @@ begin
         curNPC.race := RACE_GHOUL;
 
     NPC_GetClass;
-    case curNPC.npcclass of
-        CLASS_KELLOGG: curNPC.sig := 'Kellogg';
-        CLASS_DEACON: curNPC.sig := 'CompanionDeacon';
-        CLASS_CABOT_EMOGENE: curNPC.sig := 'EmogeneCabotOld';
-        CLASS_LEE: curNPC.sig := 'MS05_SgtLee';
-        CLASS_MATHIS: curNPC.sig := 'DN138Sully';
-    end;
+
+    if ContainsText(curNPC.id, 'Kellogg') then curNPC.sig := 'Kellogg'
+    else if curNPC.npcclass = CLASS_DEACON then curNPC.sig := 'CompanionDeacon'
+    else if ContainsText(curNPC.id, 'Emogene') then curNPC.sig := 'EmogeneCabotOld'
+    else if SameText(curNPC.name, 'Sergeant Lee') then curNPC.sig := 'MS05_SgtLee'
+    else if SameText(curNPC.name, 'Sully Mathis') then curNPC.sig := 'DN138Sully'
+    else if ContainsText(curNPC.id, 'Shaun') then curNPC.sig := 'Shaun';
+    
     RecordNPC(curNPC.handle, curNPC.sig);
 
     if curNPC.race < 0 then begin
@@ -277,7 +282,16 @@ begin
         end
     end;
 
-    if curNPC.race < 0 then begin
+    if (curNPC.sig = 'Shaun') or StartsText('MQ101PlayerSpouse', curNPC.sig) then begin
+        // This is one of Shaun's variants or another NPC that should follow the race of
+        // the player.
+        player := WinningOverride(RecordByFormID(FileByIndex(0), 07, False));
+        playerRace := LinksTo(ElementByPath(player, 'RNAM'));
+        playerRaceID := masterRaceList.IndexOf(EditorID(playerRace));
+        if playerRaceID >= 0 then curNPC.race := playerRaceID;
+    end;
+
+    if (curNPC.race < 0) and (length(TARGET_RACE) > 0) then begin
         // Use the target race, if specified.
         curNPC.race := masterRaceList.IndexOf(TARGET_RACE);
     end;
