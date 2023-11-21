@@ -52,7 +52,8 @@ const
     CLASS_GAGE = 27;
     CLASS_GHOUL = 28;
     CLASS_DALTON = 29;
-    CLASS_HI = 29;
+    CLASS_PLAYER = 30;
+    CLASS_HI = 30;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 400;
@@ -453,6 +454,7 @@ begin
 		CLASS_PIPER: Result := 'CLASS_PIPER';
 		CLASS_RAIDER: Result := 'CLASS_RAIDER';
 		CLASS_RR: Result := 'CLASS_RR';
+		CLASS_PLAYER: Result := 'CLASS_PLAYER';
 		CLASS_TRAPPER: Result := 'CLASS_TRAPPER';
 		CLASS_X688: Result := 'CLASS_X688';
     else Result := Format('Unknown Class [%d]', [classID]);
@@ -1610,6 +1612,10 @@ begin
     else if ContainsText(id, 'Pembroke') then Result := CLASS_PEMBROKE
     else if ContainsText(name, 'Cabot') then Result := CLASS_CABOT
     else if ContainsText(id, 'Dalton') then Result := CLASS_DALTON
+    else if ContainsText(id, 'Shaun') then Result := CLASS_PLAYER
+    else if StartsText('MQ101PlayerSpouse', id) then Result := CLASS_PLAYER
+    else if StartsText('MQ102PlayerSpouse', id) then Result := CLASS_PLAYER
+    else if id = 'Player' then Result := CLASS_PLAYER
 
     // Groups of NPCs that can have different probabilities
     else if ContainsText(id, 'Gunner') then Result := CLASS_GUNNER

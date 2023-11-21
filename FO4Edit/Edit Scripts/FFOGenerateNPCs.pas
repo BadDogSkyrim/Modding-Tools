@@ -182,14 +182,19 @@ begin
 end;
 
 //===============================================================================
-// If an NPC gets its traits from a template AND is not a child AND the chain of
-// templates to the base contains no leveled lists, AND the NPC is not included in any
-// leveled lists, AND the name is generic, then replace the original NPC's traits with a
+// If an NPC gets its traits from a template 
+// AND is not a child 
+// AND the chain of templates to the base contains no leveled lists, 
+// AND the NPC is not included in any leveled lists, 
+// AND the name is generic
+// AND it's not one of the player spouse corpses, 
+// THEN replace the original NPC's traits with a
 // leveled list of the appropriate sex.
 function SetGenericTraits(targetFile: IwbFile; npc: IwbMainRecord): IwbMainRecord;
 var
     cl: integer;
     curTpl, tpl: IwbMainRecord;
+    name: string;
     newNPC: IwbMainRecord;
     noTpl: boolean;
     sex: integer;
@@ -199,7 +204,10 @@ begin
     noTpl := false;
     cl := GetNPCClass(npc);
     sex := GetNPCSex(npc);
-    if NPCInheritsTraits(npc) then begin
+    newNPC := npc;
+    if NPCInheritsTraits(npc) and (EditorID(npc) <> 'MQ102PlayerSpouseCorpseFemale')
+        and (EditorID(npc) <> 'MQ102PlayerSpouseCorpseMale') 
+    then begin
         curTpl := NPCTraitsTemplate(npc);
         tpl := leveledList[cl, sex];
         if LOGGING then LogT(Format('Have template %s for %s/%s', [

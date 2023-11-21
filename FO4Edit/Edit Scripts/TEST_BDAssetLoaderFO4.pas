@@ -450,10 +450,6 @@ begin
     LOGLEVEL := 1;
     f := FileByIndex(0);
 
-    // Asset loader has to be iniitialized before use.
-    convertingGhouls := true;
-    InitializeFurrifier(modFile);
-
     // ------------------------------------------------------------------------------
     //
     //      Ghoul Gear
@@ -812,8 +808,24 @@ begin
     // AddMessage(Format('Found %s/%s', [FullPath(npc), Name(npc)]));
     // AssertInt(IsValidNPC(npc), 2, FullPath(npc) + ' identified as template');
 
+    // Shaun and player spouse get furrified following the player.
+    LOGLEVEL := 10;
+    AddMessage('---Shaun');
+    AssignNPCRace('Player', 'FFOCheetahRace');
+    npc := FindAsset(Nil, 'NPC_', 'Player');
+    furryNPC := MakeFurryNPC(npc, modFile);
+
+    npc := FindAsset(Nil, 'NPC_', 'Shaun');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOCheetahRace', 'Shaun has correct race');
+
+    npc := FindAsset(Nil, 'NPC_', 'MQ101PlayerSpouseFemale');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOCheetahRace', 'Female spouse has correct race');
+    
     // When Ann's hair must be converted to furry hair.
     AddMessage('---AnnCodman');
+    AssignNPCRace('AnnCodman', 'FFOFoxRace');
     npc := FindAsset(Nil, 'NPC_', 'AnnCodman');
     furryNPC := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOFoxRace', 'Have fox race');
@@ -912,20 +924,6 @@ begin
     AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLionRace', 'Stockton is lion');
     AssertGoodTintLayers(furryNPC, 2657); // Old
 
-    // Shaun and player spouse get furrified following the player.
-    AddMessage('---Shaun');
-    AssignNPCRace('Player', 'FFOLykaiosRace');
-    npc := FindAsset(Nil, 'NPC_', 'Player');
-    furryNPC := MakeFurryNPC(npc, modFile);
-
-    npc := FindAsset(Nil, 'NPC_', 'Shaun');
-    furryNPC := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLykaiosRace', 'Shaun has correct race');
-
-    npc := FindAsset(Nil, 'NPC_', 'MQ101PlayerSpouseFemale');
-    furryNPC := MakeFurryNPC(npc, modFile);
-    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOLykaiosRace', 'Spouse has correct race');
-    
     //-----------------------------------------------------------------------
     //
     //      Ghouls
@@ -957,29 +955,6 @@ begin
         'GhoulRace', 
         'Did not change LvlTriggermanUnaggressiveMeleeGhoulOnly`s race');
     AssertGoodTintLayers(npc, 1156);
-
-    //-----------------------------------------------------------------------
-    //
-    //      NPC Generation
-    //
-    // --------- 
-    InitializeNPCGenerator(modFile);
-    if {showing all leveled lists} TRUE then begin
-        AddMessage('---Leveled lists---');
-        for i := CLASS_LO to CLASS_HI do
-            for j := MALE to FEMALE do
-                if Assigned(leveledList[i, j]) then
-                    AddMessage(Format('leveledList %s %s -- %s', [GetNPCClassName(i), SexToStr(j), EditorID(leveledList[i, j])]));
-    end;
-
-    AddMessage('---Can generate NPCs');
-    // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
-    npc := SetGenericTraits(modFile, FindAsset(f, 'NPC_', 'EncGunner00'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'EncGunner00 Traits set to leveled list');
-
-    npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'DLC03EncTrapper02 Traits set to leveled list');
-    AssertStr(EditorID(NPCTraitsTemplate(npc)), 'DLC03_LCharTrapperFace', 'DLC03EncTrapper02 Traits set to leveled list');
 
     // --------- Race distribution (with humans)
     Assert(classProbs[CLASS_RAIDER, masterRaceList.Count] > 0, 
@@ -1051,9 +1026,40 @@ begin
             end;
         end;
     end;
+end;
 
-    ShutdownNPCGenerator;
-    ShutdownAssetLoader;
+Procedure TestNPCGeneration;
+var 
+    i, j: integer;
+    npc, newNPC: IwbMainRecord;
+begin
+    //-----------------------------------------------------------------------
+    //
+    //      NPC Generation
+    //
+    // --------- 
+    InitializeNPCGenerator(modFile);
+    if {showing all leveled lists} TRUE then begin
+        AddMessage('---Leveled lists---');
+        for i := CLASS_LO to CLASS_HI do
+            for j := MALE to FEMALE do
+                if Assigned(leveledList[i, j]) then
+                    AddMessage(Format('leveledList %s %s -- %s', [GetNPCClassName(i), SexToStr(j), EditorID(leveledList[i, j])]));
+    end;
+
+    AddMessage('---Can generate NPCs');
+    // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
+    npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'EncGunner00'));
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'EncGunner00 Traits set to leveled list');
+
+    npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'DLC03EncTrapper02 Traits set to leveled list');
+    AssertStr(EditorID(NPCTraitsTemplate(npc)), 'DLC03_LCharTrapperFace', 'DLC03EncTrapper02 Traits set to leveled list');
+
+    npc := FindAsset(nil, 'NPC_', 'MQ102PlayerSpouseCorpseFemale');
+    newNPC := SetGenericTraits(modFile, npc);
+    AssertStr(EditorID(NPCTraitsTemplate(newNPC)), 'MQ101PlayerSpouseFemale', 
+        Format('%s traits come from MQ101PlayerSpouseFemale', [Name(newNPC)]));
 end;
 
 Function Finalize: integer;
@@ -1067,14 +1073,22 @@ begin
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_CLASS_PROBABILITIES := FALSE;
-    LIST_RACE_DISTRIBUTION := TRUE;
+    LIST_RACE_DISTRIBUTION := FALSE;
+
+    // Asset loader has to be iniitialized before use.
+    convertingGhouls := true;
+    InitializeFurrifier(modFile);
 
     // TestSystemFunc;
     // TestHashing;
     TestFFOFurrifier;
-    TestFurryArmorFixup;
+    TestNPCGeneration;
+    // TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
+
+    ShutdownNPCGenerator;
+    ShutdownAssetLoader;
 
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 

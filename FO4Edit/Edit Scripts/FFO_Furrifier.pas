@@ -44,7 +44,7 @@ var
     ffoIndex: integer;
     ffoFile: IwbFile;
 
-    playerIDs: TStringList;
+    // playerIDs: TStringList;
 
     // Holds furrified NPCs. Object array is the hash value of the editor ID.
     furrifiedNPCs: TStringList;
@@ -282,7 +282,7 @@ begin
         end
     end;
 
-    if (curNPC.sig = 'Shaun') or StartsText('MQ101PlayerSpouse', curNPC.sig) then begin
+    if curNPC.npcclass = CLASS_PLAYER then begin
         // This is one of Shaun's variants or another NPC that should follow the race of
         // the player.
         player := WinningOverride(RecordByFormID(FileByIndex(0), 07, False));
@@ -301,15 +301,11 @@ begin
         mother := GetMother(curNPC.handle);
         if Assigned(mother) then begin
             NPC_Push;
-            if LOGGING then LogD('Setting up mother: ' + Name(mother));
             NPC_Setup(mother);
-            if LOGGING then LogD('Was able to set up mother: ' + NPC_ToStr);
             NPC_ChooseRace;
-            if LOGGING then LogD('Found race for mother: ' + NPC_ToStr);
             r := curNPC.race;
             NPC_Pop;
             curNPC.race := r;
-            if LOGGING then LogD('Restored info for child: ' + NPC_ToStr);
         end;
     end;
 
@@ -329,9 +325,13 @@ begin
     end;
 
     // If we have a child, make sure there's a child race.
-    if (curNPC.race >= 0) and (curNPC.race <> RACE_GHOUL) then begin
+    if (curNPC.race >= 0) and (curNPC.race <> RACE_GHOUL) and (curNPC.race <> RACE_HUMAN) 
+    then begin
         if not Assigned(raceInfo[curNPC.race, curNPC.sex].mainRecord) then begin
-            curNPC.race := -1;
+            Warn(Format('Have no available race for %s, using Lykaios: %s, %s', [
+                curNPC.id, SexToStr(curNPC.sex), RaceIDToStr(curNPC.race)
+            ]));
+            curNPC.race = RACE_LYKAIOS;
         end;
     end;
 
@@ -1438,13 +1438,15 @@ begin
                 // Not human, not converting ghouls -- do nothing
                 result := 0;
     end;
-    
-    if result > 0 then begin
-        // Must not be any of the player records, or Shaun--those are in the player race files
-        if LOGGING Then LogD('Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
-        if playerIDs.IndexOf(EditorID(npc)) >= 0 then
-            result := 0;
-    end;
+
+    // ***Now furrifying player family just like anything else
+    //    
+    // if result > 0 then begin
+    //     // Must not be any of the player records, or Shaun--those are in the player race files
+    //     if LOGGING Then LogD('Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
+    //     if playerIDs.IndexOf(EditorID(npc)) >= 0 then
+    //         result := 0;
+    // end;
 
     ///// We now furrify presets because some mods depend on them.
     // if result > 0 then begin
@@ -1565,17 +1567,17 @@ begin
     furrifiedNPCs.Duplicates := dupIgnore;
     furrifiedNPCs.Sorted := true;
 
-    playerIDs := TStringList.Create();
-    playerIDs.Duplicates := dupIgnore;
-    playerIDs.Sorted := true;
-    playerIDs.Add('Player');
-    playerIDs.Add('MQ101PlayerSpouseMale');
-    playerIDs.Add('MQ101PlayerSpouseFemale');
-    playerIDs.Add('Shaun');
-    playerIDs.Add('shaun');
-    playerIDs.Add('ShaunChild');
-    playerIDs.Add('MQ203MemoryH_Shaun');
-    playerIDs.Add('ShaunChildHologram');
+    // playerIDs := TStringList.Create();
+    // playerIDs.Duplicates := dupIgnore;
+    // playerIDs.Sorted := true;
+    // playerIDs.Add('Player');
+    // playerIDs.Add('MQ101PlayerSpouseMale');
+    // playerIDs.Add('MQ101PlayerSpouseFemale');
+    // playerIDs.Add('Shaun');
+    // playerIDs.Add('shaun');
+    // playerIDs.Add('ShaunChild');
+    // playerIDs.Add('MQ203MemoryH_Shaun');
+    // playerIDs.Add('ShaunChildHologram');
 
     RACE_CHEETAH := masterRaceList.IndexOf('FFOCheetahRace');
     RACE_DEER := masterRaceList.IndexOf('FFODeerRace');
@@ -1618,7 +1620,7 @@ end;
 Procedure ShutdownFurrifier;
 begin
     furrifiedNPCs.Free;
-    playerIDs.Free;
+    // playerIDs.Free;
     ShutdownAssetLoader;
 end;
 
@@ -1711,7 +1713,6 @@ var
     npcList: IwbContainer;
     raceID: inetger;
 begin
-    LOGLEVEL := 5;
     if DO_FURRIFICATION and (not USE_SELECTION) then begin
         // Walk all files up to and including FFO. Nothing after FFO will be furrified.
         for f := 0 to ffoIndex do begin

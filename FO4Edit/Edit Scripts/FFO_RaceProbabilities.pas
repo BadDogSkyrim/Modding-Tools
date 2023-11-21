@@ -32,6 +32,9 @@ begin
     // So if all the predator races add up to 180, setting the horse race
     // to 18 means 1 NPC in 10 will be a horse.
 
+    // Player's race
+    SetClassProb(CLASS_PLAYER, 'FFOCheetahRace', 100);
+
     // Good fighters
 
     SetClassProb(CLASS_MINUTEMEN, 'FFOLykaiosRace', 30);
