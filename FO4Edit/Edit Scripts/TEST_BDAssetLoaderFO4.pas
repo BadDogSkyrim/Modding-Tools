@@ -12,7 +12,6 @@ var
     modFile: IwbFile;
     LIST_ALL_TINT_LAYERS: Boolean;
     LIST_HAIR_TRANSLATIONS: Boolean;
-    LIST_CLASS_PROBABILITIES: Boolean;
     LIST_RACE_DISTRIBUTION: Boolean;
 
 procedure Assert(v: Boolean; msg: string);
@@ -396,6 +395,42 @@ begin
     furrifiedNPCs.Free;
 end;
 
+Procedure ShowClassProbabilities;
+var
+    i, j: integer;
+    n: integer;
+    f: float;
+begin
+    AddMessage('---Class probabilities---');
+    for i := CLASS_LO to CLASS_HI do begin
+        for j := RACE_LO to RACE_HI do begin
+            n := classProbsMax[i, j] - classProbsMin[i, j] + 1;
+            n := max(n, 0);
+            // AddMessage('Adjusted num choices: ' + IntToStr(n));
+            // AddMessage(': ' + FloatToStr(f));
+            // AddMessage('Proabability: ' + FloatToStr(f));
+            // AddMessage('Percent: ' + IntToStr(int(100*f)));
+            if (n > 0) and (classProbs[i, masterRaceList.Count] > 0) then begin
+                f := n / classProbs[i, masterRaceList.Count];
+                AddMessage('Probability '
+                    + GetNPCClassName(i) + ' '
+                    + masterRaceList[j] + ': '
+                    + IntToStr(int(100 * f))
+                );
+                // // *** Show raw values
+                // AddMessage(Format('Probability %s %s [%d - %d] of %d', [
+                //     GetNPCClassName(i),
+                //     masterRaceList[j],
+                //     classProbsMin[i, j],
+                //     classProbsMax[i, j],
+                //     classProbs[i, masterRaceList.Count]
+                // ]));
+            end;
+        end;
+        AddMessage('-');
+    end;
+end;
+
 //-------------------------------------------------------------------------
 // Test the furrifier
 Procedure TestFFOFurrifier;
@@ -724,19 +759,6 @@ begin
     //      NPCs
     //
     // --------- Classes
-    if LIST_CLASS_PROBABILITIES then begin
-        AddMessage('---Race probabilities---');
-        for i := CLASS_LO to CLASS_HI do
-            for j := RACE_LO to RACE_HI do begin
-                AddMessage(Format('Probability %s %s [%d - %d] of %d', [
-                    GetNPCClassName(i),
-                    masterRaceList[j],
-                    classProbsMin[i, j],
-                    classProbsMax[i, j],
-                    classProbs[i, masterRaceList.Count]
-                ]));
-            end;
-    end;
 
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
@@ -1060,6 +1082,8 @@ begin
     newNPC := SetGenericTraits(modFile, npc);
     AssertStr(EditorID(NPCTraitsTemplate(newNPC)), 'MQ101PlayerSpouseFemale', 
         Format('%s traits come from MQ101PlayerSpouseFemale', [Name(newNPC)]));
+
+    ShutdownNPCGenerator;
 end;
 
 Function Finalize: integer;
@@ -1072,22 +1096,22 @@ begin
 
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
-    LIST_CLASS_PROBABILITIES := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
     // Asset loader has to be iniitialized before use.
     convertingGhouls := true;
     InitializeFurrifier(modFile);
 
+    ShowClassProbabilities;
+
     // TestSystemFunc;
     // TestHashing;
-    TestFFOFurrifier;
-    TestNPCGeneration;
+    // TestFFOFurrifier;
+    // TestNPCGeneration;
     // TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 
-    ShutdownNPCGenerator;
     ShutdownAssetLoader;
 
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
