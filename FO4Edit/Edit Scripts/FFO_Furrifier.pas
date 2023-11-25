@@ -1744,6 +1744,7 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
 	AddMessage('----------------------------------------------------------');
 
+    InitializeLogging;
     LOGLEVEL := 0;
     errCount := 0;
     warnCount := 0;

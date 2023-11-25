@@ -264,6 +264,7 @@ procedure InitializeLogging;
 begin
     logIndent := 0;
     errCount := 0;
+    callIndex := 0;
 end;
 
 //=====================================================================
