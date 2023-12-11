@@ -12,7 +12,7 @@
 
   Documentation: https://github.com/BadDogSkyrim/Modding-Tools/wiki
 
-	Hotkey: Ctrl+Alt+D
+  Hotkey: Ctrl+Alt+D
 
 }
 
@@ -106,130 +106,130 @@ begin
     SkinLayerTranslation('Fishbones', TL_PAINT);
     SkinLayerTranslation('Skull', TL_PAINT);
 
-	//SHARK
-	SkinLayerTranslation('QR Code', TL_MISC);
-	SkinLayerTranslation('Selachii Stripes (Neck)', TL_MISC);
-	SkinLayerTranslation('Snout Smear', TL_PAINT);
-	SkinLayerTranslation('Eye Stripes', TL_EYELINER);
-	SkinLayerTranslation('Mouth Smear', TL_MUZZLE);
-	SkinLayerTranslation('Cheek Dots', TL_PAINT);
-	SkinLayerTranslation('Eye Brush', TL_EYELINER);
-	SkinLayerTranslation('Eye Goggles', TL_EYELINER);
-	SkinLayerTranslation('Eye Smear', TL_EYELINER);
-	SkinLayerTranslation('Face Stripe', TL_EYELINER);
-	SkinLayerTranslation('Face Top', TL_PAINT);
-	SkinLayerTranslation('Eye Socket Soft', TL_EYELINER);
-	SkinLayerTranslation('Mirror''s Edge', TL_EYELINER);
-	SkinLayerTranslation('Mirror''s Edge (Alt)', TL_EYELINER);
-	SkinLayerTranslation('Freckles', TL_MUZZLE_STRIPE);
-	SkinLayerTranslation('Face Mask', TL_MASK);
-	SkinLayerTranslation('Eye Bar Code', TL_EYELINER);
-	SkinLayerTranslation('Face Stripes', TL_PAINT);
-	SkinLayerTranslation('Lower Eye Dots', TL_EYELINER);
-	SkinLayerTranslation('Neck Stripes', TL_CHIN);
-	SkinLayerTranslation('Nose Tip Shade', TL_NOSE);
-	SkinLayerTranslation('Eye Drip', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner (Thick)', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner (Thin)', TL_EYELINER);
-	SkinLayerTranslation('Eye of Selachis', TL_EYELINER);
-	SkinLayerTranslation('Facial Freckles', TL_FOREHEAD);
-	SkinLayerTranslation('Lateral Slice', TL_PAINT);
-	SkinLayerTranslation('Mark of the Abyss', TL_PAINT);
-	SkinLayerTranslation('Raider 1 (Layer #1)', TL_MASK);
-	SkinLayerTranslation('Raider 1 (Layer #2)', TL_PAINT);
-	SkinLayerTranslation('Raider 2 (Layer #1)', TL_MASK);
-	SkinLayerTranslation('Raider 2 (Layer #2)', TL_PAINT);
-	SkinLayerTranslation('Raider 3', TL_MASK);
-	SkinLayerTranslation('Slugger', TL_PAINT);
-	SkinLayerTranslation('Stripes', TL_PAINT);
-	SkinLayerTranslation('Void Taint', TL_PAINT);
-	SkinLayerTranslation('Battle Worn', TL_SCAR);
-	SkinLayerTranslation('Blade Scar #1', TL_SCAR);
-	SkinLayerTranslation('Blade Scar #2', TL_SCAR);
-	SkinLayerTranslation('Burn Left', TL_SCAR);
-	SkinLayerTranslation('Burn Right', TL_SCAR);
-	SkinLayerTranslation('Clawed', TL_SCAR);
-	SkinLayerTranslation('Dry Lips', TL_SCAR);
-	SkinLayerTranslation('Eye Scar', TL_SCAR);
-	SkinLayerTranslation('Killer Shark', TL_SCAR);
-	SkinLayerTranslation('Scratch #1', TL_SCAR);
-	SkinLayerTranslation('Scratch #2', TL_SCAR);
-	SkinLayerTranslation('Snout Scratch', TL_SCAR);
-	SkinLayerTranslation('Tribal Scar', TL_SCAR);
-	SkinLayerTranslation('X', TL_SCAR);
+  //SHARK
+  SkinLayerTranslation('QR Code', TL_MISC);
+  SkinLayerTranslation('Selachii Stripes (Neck)', TL_MISC);
+  SkinLayerTranslation('Snout Smear', TL_PAINT);
+  SkinLayerTranslation('Eye Stripes', TL_EYELINER);
+  SkinLayerTranslation('Mouth Smear', TL_MUZZLE);
+  SkinLayerTranslation('Cheek Dots', TL_PAINT);
+  SkinLayerTranslation('Eye Brush', TL_EYELINER);
+  SkinLayerTranslation('Eye Goggles', TL_EYELINER);
+  SkinLayerTranslation('Eye Smear', TL_EYELINER);
+  SkinLayerTranslation('Face Stripe', TL_EYELINER);
+  SkinLayerTranslation('Face Top', TL_PAINT);
+  SkinLayerTranslation('Eye Socket Soft', TL_EYELINER);
+  SkinLayerTranslation('Mirror''s Edge', TL_EYELINER);
+  SkinLayerTranslation('Mirror''s Edge (Alt)', TL_EYELINER);
+  SkinLayerTranslation('Freckles', TL_MUZZLE_STRIPE);
+  SkinLayerTranslation('Face Mask', TL_MASK);
+  SkinLayerTranslation('Eye Bar Code', TL_EYELINER);
+  SkinLayerTranslation('Face Stripes', TL_PAINT);
+  SkinLayerTranslation('Lower Eye Dots', TL_EYELINER);
+  SkinLayerTranslation('Neck Stripes', TL_CHIN);
+  SkinLayerTranslation('Nose Tip Shade', TL_NOSE);
+  SkinLayerTranslation('Eye Drip', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner (Thick)', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner (Thin)', TL_EYELINER);
+  SkinLayerTranslation('Eye of Selachis', TL_EYELINER);
+  SkinLayerTranslation('Facial Freckles', TL_FOREHEAD);
+  SkinLayerTranslation('Lateral Slice', TL_PAINT);
+  SkinLayerTranslation('Mark of the Abyss', TL_PAINT);
+  SkinLayerTranslation('Raider 1 (Layer #1)', TL_MASK);
+  SkinLayerTranslation('Raider 1 (Layer #2)', TL_PAINT);
+  SkinLayerTranslation('Raider 2 (Layer #1)', TL_MASK);
+  SkinLayerTranslation('Raider 2 (Layer #2)', TL_PAINT);
+  SkinLayerTranslation('Raider 3', TL_MASK);
+  SkinLayerTranslation('Slugger', TL_PAINT);
+  SkinLayerTranslation('Stripes', TL_PAINT);
+  SkinLayerTranslation('Void Taint', TL_PAINT);
+  SkinLayerTranslation('Battle Worn', TL_SCAR);
+  SkinLayerTranslation('Blade Scar #1', TL_SCAR);
+  SkinLayerTranslation('Blade Scar #2', TL_SCAR);
+  SkinLayerTranslation('Burn Left', TL_SCAR);
+  SkinLayerTranslation('Burn Right', TL_SCAR);
+  SkinLayerTranslation('Clawed', TL_SCAR);
+  SkinLayerTranslation('Dry Lips', TL_SCAR);
+  SkinLayerTranslation('Eye Scar', TL_SCAR);
+  SkinLayerTranslation('Killer Shark', TL_SCAR);
+  SkinLayerTranslation('Scratch #1', TL_SCAR);
+  SkinLayerTranslation('Scratch #2', TL_SCAR);
+  SkinLayerTranslation('Snout Scratch', TL_SCAR);
+  SkinLayerTranslation('Tribal Scar', TL_SCAR);
+  SkinLayerTranslation('X', TL_SCAR);
 
-	//K9
-	SkinLayerTranslation('Muzzle Scar', TL_SCAR);
-	SkinLayerTranslation('Muzzle Scar (Mirror)', TL_SCAR);
-	SkinLayerTranslation('Scars #1', TL_SCAR);
-	SkinLayerTranslation('Scars #2', TL_SCAR);
-	SkinLayerTranslation('Dogmeat Scar #1', TL_SCAR);
-	SkinLayerTranslation('Dogmeat Scar #2', TL_SCAR);
+  //K9
+  SkinLayerTranslation('Muzzle Scar', TL_SCAR);
+  SkinLayerTranslation('Muzzle Scar (Mirror)', TL_SCAR);
+  SkinLayerTranslation('Scars #1', TL_SCAR);
+  SkinLayerTranslation('Scars #2', TL_SCAR);
+  SkinLayerTranslation('Dogmeat Scar #1', TL_SCAR);
+  SkinLayerTranslation('Dogmeat Scar #2', TL_SCAR);
 
-	//PROTO-ARGONIAN
-	SkinLayerTranslation('Eyeliner 1', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 2', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 3', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 4', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 5', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 6', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 7', TL_EYELINER);
-	SkinLayerTranslation('Eyeliner 8', TL_EYELINER);
-	SkinLayerTranslation('Eyes', TL_EYELINER);
-	SkinLayerTranslation('Muzzle Stripes', TL_MUZZLE_STRIPE);
-	SkinLayerTranslation('Eye Smudge', TL_EYELINER);
-	SkinLayerTranslation('Cheeckbone Bars', TL_CHEEK_COLOR); // sic
-	SkinLayerTranslation('Cheekbone Bars', TL_CHEEK_COLOR);
-	SkinLayerTranslation('Spray', TL_MASK);
-	SkinLayerTranslation('Eye Strokes', TL_MASK);
-	SkinLayerTranslation('Forehead Paint', TL_FOREHEAD);
-	SkinLayerTranslation('Eye Stripe', TL_EYELINER);
-	SkinLayerTranslation('Throat Smudge', TL_NECK);
-	SkinLayerTranslation('Scale Highlights', TL_MASK);
-	SkinLayerTranslation('Head Stripes', TL_PAINT);
-	SkinLayerTranslation('Head Stripes Fuzzy', TL_PAINT);
-	SkinLayerTranslation('Eye Curve', TL_EYELINER);
-	SkinLayerTranslation('The Reaper', TL_MASK);
-	SkinLayerTranslation('Throat', TL_NECK);
-	SkinLayerTranslation('Head Paint', TL_MASK);
-	SkinLayerTranslation('Lightning', TL_MISC);
-	SkinLayerTranslation('Lightning Forhead', TL_MISC);
-	SkinLayerTranslation('Dots', TL_MISC);
-	SkinLayerTranslation('Scale Dots', TL_EYEBROW);
-	SkinLayerTranslation('Brow Dots', TL_EYEBROW);
-	SkinLayerTranslation('Inset', TL_EYELINER);
-	SkinLayerTranslation('Bold Stripe', TL_EYELINER);
-	SkinLayerTranslation('The Point', TL_MASK);
-	SkinLayerTranslation('We Know', TL_PAINT);
-	SkinLayerTranslation('Celtic', TL_PAINT);
-	SkinLayerTranslation('Scar 1', TL_SCAR);
-	SkinLayerTranslation('Scar 2', TL_SCAR);
-	SkinLayerTranslation('Scar 3', TL_SCAR);
-	SkinLayerTranslation('Scar 4', TL_SCAR);
-	SkinLayerTranslation('Scar 5', TL_SCAR);
+  //PROTO-ARGONIAN
+  SkinLayerTranslation('Eyeliner 1', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 2', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 3', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 4', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 5', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 6', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 7', TL_EYELINER);
+  SkinLayerTranslation('Eyeliner 8', TL_EYELINER);
+  SkinLayerTranslation('Eyes', TL_EYELINER);
+  SkinLayerTranslation('Muzzle Stripes', TL_MUZZLE_STRIPE);
+  SkinLayerTranslation('Eye Smudge', TL_EYELINER);
+  SkinLayerTranslation('Cheeckbone Bars', TL_CHEEK_COLOR); // sic
+  SkinLayerTranslation('Cheekbone Bars', TL_CHEEK_COLOR);
+  SkinLayerTranslation('Spray', TL_MASK);
+  SkinLayerTranslation('Eye Strokes', TL_MASK);
+  SkinLayerTranslation('Forehead Paint', TL_FOREHEAD);
+  SkinLayerTranslation('Eye Stripe', TL_EYELINER);
+  SkinLayerTranslation('Throat Smudge', TL_NECK);
+  SkinLayerTranslation('Scale Highlights', TL_MASK);
+  SkinLayerTranslation('Head Stripes', TL_PAINT);
+  SkinLayerTranslation('Head Stripes Fuzzy', TL_PAINT);
+  SkinLayerTranslation('Eye Curve', TL_EYELINER);
+  SkinLayerTranslation('The Reaper', TL_MASK);
+  SkinLayerTranslation('Throat', TL_NECK);
+  SkinLayerTranslation('Head Paint', TL_MASK);
+  SkinLayerTranslation('Lightning', TL_MISC);
+  SkinLayerTranslation('Lightning Forhead', TL_MISC);
+  SkinLayerTranslation('Dots', TL_MISC);
+  SkinLayerTranslation('Scale Dots', TL_EYEBROW);
+  SkinLayerTranslation('Brow Dots', TL_EYEBROW);
+  SkinLayerTranslation('Inset', TL_EYELINER);
+  SkinLayerTranslation('Bold Stripe', TL_EYELINER);
+  SkinLayerTranslation('The Point', TL_MASK);
+  SkinLayerTranslation('We Know', TL_PAINT);
+  SkinLayerTranslation('Celtic', TL_PAINT);
+  SkinLayerTranslation('Scar 1', TL_SCAR);
+  SkinLayerTranslation('Scar 2', TL_SCAR);
+  SkinLayerTranslation('Scar 3', TL_SCAR);
+  SkinLayerTranslation('Scar 4', TL_SCAR);
+  SkinLayerTranslation('Scar 5', TL_SCAR);
 
-	//DINOSAUR T-REX
-	SkinLayerTranslation('Snout Bar Code (Left)', TL_NOSE);
-	SkinLayerTranslation('Snout QR Code (Right)', TL_NOSE);
-	SkinLayerTranslation('Basic', TL_EYELINER);
-	SkinLayerTranslation('All Around', TL_EYELINER);
-	SkinLayerTranslation('Foxy', TL_EYELINER);
-	SkinLayerTranslation('Winged', TL_EYELINER);
-	SkinLayerTranslation('Undereye Wing', TL_EYELINER);
-	SkinLayerTranslation('Wild', TL_EYELINER);
-	//DINOSAUR TRICERATOPS
-	SkinLayerTranslation('Upper', TL_EYELINER);
-	SkinLayerTranslation('High Wing', TL_EYELINER);
-	SkinLayerTranslation('Longlash', TL_EYELINER);
-	//DINOSAUR PARASAUROLOPHUS
-	SkinLayerTranslation('Crest Mask', TL_MASK);
-	SkinLayerTranslation('Face Texture Mask', TL_MASK);
-	SkinLayerTranslation('Neck Band', TL_NECK);
-	SkinLayerTranslation('Blood Smear', TL_MUZZLE);
-	SkinLayerTranslation('Crest', TL_NOSE);
-	SkinLayerTranslation('Arabic', TL_EYELINER);
-	SkinLayerTranslation('Big Wing', TL_EYELINER);
-	SkinLayerTranslation('Gianfranco', TL_EYELINER);
+  //DINOSAUR T-REX
+  SkinLayerTranslation('Snout Bar Code (Left)', TL_NOSE);
+  SkinLayerTranslation('Snout QR Code (Right)', TL_NOSE);
+  SkinLayerTranslation('Basic', TL_EYELINER);
+  SkinLayerTranslation('All Around', TL_EYELINER);
+  SkinLayerTranslation('Foxy', TL_EYELINER);
+  SkinLayerTranslation('Winged', TL_EYELINER);
+  SkinLayerTranslation('Undereye Wing', TL_EYELINER);
+  SkinLayerTranslation('Wild', TL_EYELINER);
+  //DINOSAUR TRICERATOPS
+  SkinLayerTranslation('Upper', TL_EYELINER);
+  SkinLayerTranslation('High Wing', TL_EYELINER);
+  SkinLayerTranslation('Longlash', TL_EYELINER);
+  //DINOSAUR PARASAUROLOPHUS
+  SkinLayerTranslation('Crest Mask', TL_MASK);
+  SkinLayerTranslation('Face Texture Mask', TL_MASK);
+  SkinLayerTranslation('Neck Band', TL_NECK);
+  SkinLayerTranslation('Blood Smear', TL_MUZZLE);
+  SkinLayerTranslation('Crest', TL_NOSE);
+  SkinLayerTranslation('Arabic', TL_EYELINER);
+  SkinLayerTranslation('Big Wing', TL_EYELINER);
+  SkinLayerTranslation('Gianfranco', TL_EYELINER);
 end;
 
 //=========================================================================
@@ -1721,16 +1721,16 @@ var
   f: IwbFile;
   haveTarget: boolean;
 begin
-	// welcome messages
-	AddMessage(#13#10);
-	AddMessage('==========================================================');
-	AddMessage('Furry Fallout Furrifier');
+  // welcome messages
+  AddMessage(#13#10);
+  AddMessage('==========================================================');
+  AddMessage('Furry Fallout Furrifier');
     AddMessage('');
     AddMessage('Creating patch for ' + wbAppName);
-	AddMessage('----------------------------------------------------------');
-	AddMessage('');
+  AddMessage('----------------------------------------------------------');
+  AddMessage('');
 
-	AddMessage('----------------------------------------------------------');
+  AddMessage('----------------------------------------------------------');
     if USE_SELECTION then 
         AddMessage('Furrifying selected NPCs only')
     else 
@@ -1742,10 +1742,10 @@ begin
     AddMessage('Patch file is ' + patchfileName);
     startTime := Time;
     // AddMessage('Start time ' + TimeToStr(startTime));
-	AddMessage('----------------------------------------------------------');
+  AddMessage('----------------------------------------------------------');
 
     InitializeLogging;
-    LOGLEVEL := 0;
+    LOGLEVEL := 5;
     errCount := 0;
     warnCount := 0;
 
@@ -1839,7 +1839,7 @@ begin
     end;
 
     // AddMessage(Format('End time %s, duration %s', [TimeToStr(Time), TimeToStr(Time-startTime)]));
-	AddMessage('----------------------------------------------------------');
+  AddMessage('----------------------------------------------------------');
     if (errCount = 0) and (warnCount = 0) then
         AddMessage('Furrification completed SUCCESSFULLY')
     else
@@ -1847,12 +1847,12 @@ begin
             errCount, IfThen(errCount = 1, '', 'S'), 
             warnCount, IfThen(warnCount = 1, '', 'S')
         ]));
-	AddMessage('----------------------------------------------------------');
+  AddMessage('----------------------------------------------------------');
 
     if SHOW_RACE_DISTRIBUTION then begin
         // Walk through the NPCs and collect stats on how many of each race there are
         // to make sure the random assignment is giving a range of races.
-	    AddMessage('');
+      AddMessage('');
         // AddMessage('---Race Probabilities---');
         // for k := 0 to FileCount-1 do begin
         //     npcGroup := GroupBySignature(FileByIndex(k), 'NPC_');
@@ -1883,7 +1883,7 @@ begin
         end;
     end;
 
-	AddMessage('==========================================================');
+  AddMessage('==========================================================');
 
     ShutdownFurrifier;
 

@@ -260,6 +260,48 @@ begin
     r.z := 3.0;
 end;
 
+Procedure TestBigInts;
+var
+    f: IwbFile;
+    fm: IwbElement;
+    fmlist: IwbElement;
+    fmlistname: array [0..1] of string;
+    fmri: integer;
+    i, j, k: integer;
+    r: IwbMainRecord;
+    racelist: IwbContainer;
+    rec: TFaceBone;
+begin
+    AddMessage('Storing small int');
+    rec.FMRI := 100;
+    AddMessage('rec.FMRI: ' + IntToStr(rec.FMRI));
+    AddMessage('Storing big int');
+    rec.FMRI := 1000000;
+    AddMessage('rec.FMRI: ' + IntToStr(rec.FMRI));
+    AddMessage('rec.FMRI: ' + IntToHex(rec.FMRI, 8));
+
+    AddMessage('Reading FMRI values from DB');
+    fmlistname[0] := 'Male Face Morphs';
+    AddMessage('Set male path name');
+    fmlistname[1] := 'Female Face Morphs';
+    f := FileByIndex(0);
+    racelist := GroupBySignature(f, 'RACE');
+    AddMessage('Starting Loop');
+    for i := 0 to ElementCount(racelist)-1 do begin
+        r := ElementByIndex(racelist, i);
+        AddMessage(Format('[%d] %s', [i, Name(r)]));
+        for j := 0 to 1 do begin
+            AddMessage('    ' + fmlistname[j]);
+            fmlist := ElementByPath(r, fmlistname[j]);
+            for k := 0 to ElementCount(fmlist)-1 do begin
+                fm := ElementByIndex(fmlist, k);
+                rec.FMRI := GetElementNativeValues(fm, 'FMRI');
+                AddMessage(Format('        Found FMRI %s / %s', [IntToStr(rec.FMRI), IntToHex(rec.FMRI, 8)]));
+            end;
+        end;
+    end;
+end;
+
 Procedure TestSystemFunc;
 var
     sl1, slsub, sl2: TStringList;
@@ -482,7 +524,6 @@ var
     tend: float;
     teti: string;
 begin
-    LOGLEVEL := 1;
     f := FileByIndex(0);
 
     // ------------------------------------------------------------------------------
@@ -1092,27 +1133,30 @@ begin
     Log(0, 'Starting tests');
     testErrorCount := 0;
 
-    modFile := CreateOverrideMod('TEST.esp');
+    // modFile := CreateOverrideMod('TEST.esp');
 
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
+    LOGLEVEL := 5;
+
     // Asset loader has to be iniitialized before use.
     convertingGhouls := true;
     InitializeFurrifier(modFile);
 
-    ShowClassProbabilities;
+    // ShowClassProbabilities;
 
-    // TestSystemFunc;
-    // TestHashing;
-    // TestFFOFurrifier;
-    // TestNPCGeneration;
-    // TestFurryArmorFixup;
+    TestSystemFunc;
+    TestBigInts;
+    TestHashing;
+    TestFFOFurrifier;
+    TestNPCGeneration;
+    TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 
-    ShutdownAssetLoader;
+    // ShutdownAssetLoader;
 
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 

@@ -5,7 +5,7 @@ implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    LOGGING = FALSE;
+    LOGGING = TRUE;
 
 var 
     LOGLEVEL: integer;
@@ -186,6 +186,7 @@ begin
         AddMessage(s);
         inc(logIndent);
     end;
+    curLogLevel[callIndex] := 0;
     if callIndex < length(curLogLevel) then curLogLevel[callIndex] := importance;
 end;
 

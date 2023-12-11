@@ -1,0 +1,14 @@
+"""
+Convert the active object to mesh, preserving all shape keys.
+"""
+
+import bpy
+
+sourceobj = bpy.context.object
+try:
+    allkeys = sourceobj.data.shape_keys.key_blocks.keys()
+except:
+    allkeys = []
+
+bpy.ops.object.duplicate()
+bpy.ops.object.convert(target='MESH')

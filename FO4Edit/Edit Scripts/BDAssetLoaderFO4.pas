@@ -100,7 +100,7 @@ type TSkinTintLayer = Record
 end;
 
 type TFaceBone = Record
-    FMRI: integer;
+    FMRI: UInt64;
     min, max: TTransform;
 end;
 
@@ -120,7 +120,7 @@ type TRaceInfo = Record
     morphHi: TStringList;
     morphSkew: TStringList;
     morphExcludes: TStringList;
-    faceBones: array[0..10] of TFaceBone;
+    faceBones: array[0..20] of TFaceBone;
     faceBoneList: TStringList;
     end;
 
@@ -571,7 +571,7 @@ begin
         result := tintlayerName[tintLayer]
     else begin
         // Shouldn't ever happen.
-        AddMessage('ERROR: Have unknown tint layer ' + IntToStr(tintlayer));
+        Error('Have unknown tint layer ' + IntToStr(tintlayer));
         AddMessage(Format('There are %d known tint layers:', [tintlayerName.Count]));
         for i := 0 to tintlayerName.Count-1 do begin
             AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
@@ -1068,9 +1068,7 @@ begin
         Result := n
     end
     else begin
-        // addmessage(Format('looking for race: %s', [LogToStr]));
         r := FindAsset(Nil, 'RACE', racename);
-        // addmessage(Format('done looking: %s', [LogToStr]));
         if not Assigned(r) then begin
             If LOGGING then LogT('Race not in load order');
             racesNotFound.Add(racename);
@@ -1083,7 +1081,6 @@ begin
                 Result := -1;
             end
             else begin
-                // addmessage('adding race');
                 If LOGGING then LogT('Adding race ' + racename);
                 Result := masterRaceList.Count;
                 masterRaceList.AddObject(racename, TObject(r));
@@ -1112,7 +1109,6 @@ begin
     end;
     RACE_HI := masterRaceList.Count-1;
 
-    // addmessage(Format('exiting addrace, cur If LOGGING then Log level is %d', [curLogLevel[logIndent]]));
     If LOGGING then LogExitT1('AddRace', IntToStr(result));
 end;
 
@@ -1213,7 +1209,8 @@ var
     r: integer;
 begin
     If LOGGING then LogEntry3(10, 'SetMorphProbability', racename, SexToStr(sex), morphGroup);
-    r := RacenameIndex(racename);
+    // r := RacenameIndex(racename);
+    r := masterRaceList.IndexOf(racename);
     if r >= 0 then begin
         raceInfo[r, sex].morphProbability.AddObject(morphGroup, probability);
         raceInfo[r, sex].morphLo.AddObject(morphGroup, loMorph);
@@ -1324,6 +1321,7 @@ begin
                     idx := GetElementNativeValues(m, 'FMRI');
                     raceInfo[r, sex].faceBoneList.Add(morph);
                     i := raceInfo[r, sex].faceBoneList.IndexOf(morph);
+                    if i >= 10 then Error('Too many facebones');
                     raceInfo[r, sex].faceBones[i].FMRI := idx;
                     raceInfo[r, sex].faceBones[i].min.x := xMin;
                     raceInfo[r, sex].faceBones[i].min.y := yMin;
@@ -1814,7 +1812,8 @@ var
     r: integer;
 begin
     If LOGGING then LogEntry3(5, 'SetTintProbability', racename, SexToStr(sex), IntToStr(tintLayer));
-    r := RacenameIndex(racename);
+    // r := RacenameIndex(racename);
+    r := masterRaceList.IndexOf(racename);
     if r < 0 then r := AddRace(racename);
     if r >= 0 then begin
         if tintLayer < length(raceInfo[r, sex].tintProbability) then begin
