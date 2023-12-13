@@ -26,7 +26,13 @@ begin
     AddRecursiveMaster(targetFile, GetFile(npc));
     newNPC := wbCopyElementToFile(npc, targetFile, True, True);
     if LOGGING then LogT(Format('Created NPC %.8x', [integer(FormID(newNPC))]));
-    name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4);
+    
+    // Generate a unique, unused name.
+    repeat begin
+        name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4);
+        end;
+    until not Assigned(FindAsset(targetFile, 'NPC_', name));
+
     if targetSex = FEMALE then begin
         name := name + '_F';
         SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);

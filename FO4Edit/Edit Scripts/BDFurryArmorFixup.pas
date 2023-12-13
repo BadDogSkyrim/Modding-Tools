@@ -22,7 +22,7 @@ var
     i: integer;
     racename: string;
 begin
-    if LOGGING then LogEntry1(11, 'ARMAHasRace', Format('%s, %s', [EditorID(arma), EditorID(targetRace)]));
+    if LOGGING then LogEntry1(11, 'ARMAHasRace', Format('%s, %s', [Name(arma), Name(targetRace)]));
     result := false;
     racename := EditorID(targetRace);
     if EditorID(LinksTo(ElementByPath(arma, 'RNAM'))) = racename then
@@ -60,7 +60,7 @@ begin
         result := wbCopyElementToFile(arma, targetFile, False, True);
         extras := Add(result, 'Additional Races', true); 
         entry := ElementAssign(extras, HighInteger, Nil, false);
-        if LOGGING then LogT('Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
+        if LOGGING then LogD('Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
         SetNativeValue(entry,
             LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(race)));
     end;
@@ -83,9 +83,14 @@ begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
         for i := 0 to ElementCount(armaList)-1 do begin
             aa := ElementByIndex(armaList, i);
-            if IsWinningOverride(aa) then 
-                if ARMAHasRace(aa, existingRace) then 
+            if IsWinningOverride(aa) then begin
+                if ARMAHasRace(aa, existingRace) then begin
+                    LogD(Format('Found target race %s on %s', [Name(existingRace), Name(aa)]));
                     AddRaceToARMA(targetFile, aa, newRace);
+                end
+                else 
+                    if LOGGING then LogD(Format('Did not find target race %s on %s', [Name(existingRace), Name(aa)]));
+            end;
         end;
     end;
     if LOGGING then LogExitT('AddRaceToAllArmor');

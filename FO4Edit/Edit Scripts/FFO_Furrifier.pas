@@ -1,7 +1,7 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.6
+  Version: 2.7
   
   Creates a NPC furry patch for a load order.
 
@@ -418,7 +418,7 @@ begin
             Warn(Format('Have no available race for %s, using Lykaios: %s, %s', [
                 curNPC.id, SexToStr(curNPC.sex), RaceIDToStr(curNPC.race)
             ]));
-            curNPC.race = RACE_LYKAIOS;
+            curNPC.race := RACE_LYKAIOS;
         end;
     end;
 
@@ -562,10 +562,10 @@ var
     headparts: IwbContainer;
     slot: IwbElement;
 begin
-    if LOGGING Then LogEntry1(10, 'NPC_AssignHeadpart', Name(hp));
+    if LOGGING Then LogEntry1(10, 'NPC_AssignHeadpart', RecordName(hp));
     headparts := ElementByPath(curNPC.handle, 'Head Parts');
     if not Assigned(headparts) then begin
-        if LOGGING then LogT('No headparts on record, creating them for ' + Name(curNPC.handle));
+        if LOGGING then LogT('No headparts on record, creating them for ' + RecordName(curNPC.handle));
         headparts := Add(curNPC.handle, 'Head Parts', True);
         slot := ElementByIndex(headparts, 0);
     end
@@ -988,7 +988,7 @@ end;
 
 //=========================================================
 // Set a morph bone given by FMRI to the given values.
-Procedure NPC_SetMorphBone(morphBoneIndex: integer;
+Procedure NPC_SetMorphBone(morphBoneIndex: UInt64;
     x, y, z: float;
     pitch, roll, yaw: float;
     sc: float);
@@ -1004,6 +1004,7 @@ begin
     else
         thisMorph := ElementAssign(fm, HighInteger, nil, false);
 
+    if LOGGING then LogD('Setting FMRI := ' + IntToStr(morphBoneINdex));
     SetElementNativeValues(thisMorph, 'FMRI', morphBoneIndex);
     vals := Add(thisMorph, 'FMRS', true);
     SetElementNativeValues(vals, 'Position - X', x);
@@ -1052,6 +1053,7 @@ var
     i: integer;
     mname: string;
 begin
+    if LOGGING then LogEntry(5, 'NPC_SetAllRandomMorphs');
     if Assigned(raceInfo[curNPC.furry_race, curNPC.sex].morphGroups) then begin
         for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].morphGroups.Count-1 do begin
             mname := raceInfo[curNPC.furry_race, curNPC.sex].morphGroups[i];
@@ -1077,6 +1079,7 @@ begin
                 fm.scale);
         end;
     end;
+    if LOGGING then LogExitT('NPC_SetAllRandomMorphs');
 end;
 
 //============================================================================
@@ -1457,7 +1460,7 @@ var
     furryNPC: IwbMainRecord;
     npcHair: IwbMainRecord;
 begin
-    if LOGGING Then LogEntry2(5, 'MakeFurryNPC', EditorID(npc), GetFileName(targetFile));
+    if LOGGING Then LogEntry2(5, 'MakeFurryNPC', RecordName(npc), GetFileName(targetFile));
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := FurrifyNPC(npc, targetFile);
@@ -1486,7 +1489,7 @@ Function IsValidNPC(npc: IwbMainRecord): integer;
 var
     race: IwbMainRecord;
 begin
-    if LOGGING Then LogEntry1(5, 'IsValidNPC', EditorID(npc));
+    if LOGGING Then LogEntry1(5, 'IsValidNPC', Name(npc));
     result := 1;
     // Must be an NPC
     if LOGGING Then LogD('Signature: ' + Signature(npc));
@@ -1496,8 +1499,10 @@ begin
     if result > 0 then begin
         // Must not be overridden--we only work with the latest version
         if LOGGING Then LogD('Overrides: ' + IntToStr(OverrideCount(npc)));
-        if OverrideCount(npc) > 0 then 
+        if OverrideCount(npc) > 0 then begin
+            if LOGGING then LogD('Has overrides');
             result := 0;
+        end;
     end;
 
     race := GetNPCRace(npc);
@@ -1505,8 +1510,10 @@ begin
         // If already furry, do nothing
         if (masterRaceList.IndexOf(EditorID(race)) >= 0) 
             or (childRaceList.IndexOf(EditorID(race)) >= 0)
-        then
+        then begin
+            if LOGGING then LogD('Already furry');
             result := 0;
+        end;
     end;
 
     // We only know how to furrify humans (and ghouls when asked)
@@ -1514,16 +1521,18 @@ begin
         if (EditorID(race) <> 'HumanRace') 
             and (EditorID(race) <> 'HumanChildRace') 
         then
-            if convertingGhouls then begin
+            if not USE_SELECTION then begin
                 if (EditorID(race) <> 'GhoulRace') 
                     and (EditorID(race) <> 'GhoulChildRace') 
-                then
-                    // Not ghoul -- do nothing
+                then begin
+                    if LOGGING then LogD('Is neither human nor ghoul');
                     result := 0;
+                end;
             end
-            else
-                // Not human, not converting ghouls -- do nothing
+            else begin
+                if LOGGING then LogD('Is not human and not converting ghouls');
                 result := 0;
+        end;
     end;
 
     // ***Now furrifying player family just like anything else
@@ -1542,13 +1551,14 @@ begin
     //         result := 0;
     // end;
     
-    ///// If it's a human race (tested above) we furrify even if it gets its traits
-    ///// from a template. Seems like some dead NPCs don't follow the traits.
-    // if result > 0 then begin
-    //     // If it gets traits from a template, just zero out the morphs.
-    //     if NPCInheritsTraits(npc) then
-    //         result := 2;
-    // end;
+    /// If it's a human race (tested above) we furrify even if it gets its traits
+    /// from a template. Seems like some dead NPCs don't follow the traits.
+    /// EXCEPT maybe causing CK crashes?
+    if result > 0 then begin
+        // If it gets traits from a template, just zero out the morphs.
+        if NPCInheritsTraits(npc) then
+            result := 2;
+    end;
 
     if LOGGING Then LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
@@ -1568,6 +1578,7 @@ begin
     wbCopyElementToRecord(ElementByPath(templateRace, 'DFTF'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'DFTM'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Female Face Details'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Female Face Morphs'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Female Hair Colors'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Female Head Parts'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Female Morph Groups'), newRace, false, true);
@@ -1581,6 +1592,7 @@ begin
     wbCopyElementToRecord(ElementByPath(templateRace, 'Male Tint Layers'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'Morph Values'), newRace, false, true);
     wbCopyElementToRecord(ElementByPath(templateRace, 'WNAM'), newRace, false, true);
+    wbCopyElementToRecord(ElementByPath(templateRace, 'Bone Scale Data'), newRace, false, true);
 
     if LOGGING Then LogExit(5, 'FurrifyRace');
 end;
@@ -1608,6 +1620,22 @@ begin
 end;
 
 //========================================================
+// Add the Ghoul races to all AA's that are allowed for the race the ghouls are changed
+// into.
+Procedure GhoulArmorEnable(targetFile: IwbFile);
+begin
+    FurrifyGhoulRace(targetFile);
+    // Any headgear added by FFO that supports Snekdogs (or whatever race we are
+    // turning ghouls into) needs to be modified to add the ghoul race.
+    AddRaceToAllArmor(targetFile, 
+        FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
+        raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
+    AddRaceToAllArmor(targetFile, 
+        FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
+        raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord); 
+end;
+
+//========================================================
 // Set everything up.
 Procedure InitializeFurrifier(targetFile: IwbFile);
 var i, j: integer;
@@ -1631,18 +1659,6 @@ begin
         AddMessage('These races were not found in the load order and will not be assigned:');
         for i := 0 to racesNotFound.Count-1 do
             AddMessage('   ' + racesNotFound[i]);
-    end;
-
-    if convertingGhouls then begin 
-        FurrifyGhoulRace(targetFile);
-        // Any headgear added by FFO that supports Snekdogs (or whatever race we are
-        // turning ghouls into) needs to be modified to add the ghoul race.
-        AddRaceToAllArmor(targetFile, 
-            FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-            raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
-        AddRaceToAllArmor(targetFile, 
-            FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-            raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord); 
     end;
 
     CorrelateChildren;
@@ -1742,10 +1758,10 @@ begin
     AddMessage('Patch file is ' + patchfileName);
     startTime := Time;
     // AddMessage('Start time ' + TimeToStr(startTime));
-  AddMessage('----------------------------------------------------------');
+    AddMessage('----------------------------------------------------------');
 
     InitializeLogging;
-    LOGLEVEL := 5;
+    LOGLEVEL := 10;
     errCount := 0;
     warnCount := 0;
 
@@ -1755,13 +1771,17 @@ begin
     end;
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
-    convertingGhouls := (not USE_SELECTION);
 
     InitializeFurrifier(patchFile);
 
     for i := RACE_LO to RACE_HI do begin
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALE].mainRecord));
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALECHILD].mainRecord));
+    end;
+
+    if not USE_SELECTION then begin
+        // Only add ghouls to ARMAs if we are furrifying everything.
+        GhoulArmorEnable(patchFile);
     end;
 end;
 

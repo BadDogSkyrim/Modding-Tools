@@ -257,8 +257,10 @@ end;
 Function RacenameIndex(racename: string): integer;
 begin
     Result := masterRaceList.IndexOf(racename);
-    if (Result < 0) and (racesNotFound.IndexOf(racename) < 0) then
+    if (Result < 0) and (racesNotFound.IndexOf(racename) < 0) then begin
         Err(Format('Race not defined with SetClassProb: %s', [racename]));
+        racesNotFound.Add(racename);
+    end;
 end;
 
 Function RaceIDtoStr(id: integer): string;
@@ -778,10 +780,10 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
-    If LOGGING then Log(10, Format('<PickRandomTintOption %s %s %s', [hashstr, SexToStr(sex), tintlayerName[tintlayer]]));
+    If LOGGING then LogEntry3(10, 'PickRandomTintOption', hashstr, SexToStr(sex), tintlayerName[tintlayer]);
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
-    If LOGGING then Log(10, Format('>PickRandomTintOption -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
+    If LOGGING then LogExitT1('PickRandomTintOption', PathName(result));
 end;
 
 
@@ -801,7 +803,7 @@ var
     i: integer;
     thisPreset: IwbElement;
 Begin
-    If LOGGING then Log(10, Format('<PickRandomColorPreset [%s] %d "%s"', [Path(tintOption), integer(ind), colors]));
+    If LOGGING then LogEntry3(10, 'PickRandomColorPreset', FullPath(tintOption), IntToStr(ind), colors);
     Result := nil;
     colorList := ElementByPath(tintOption, 'TTEC');
     goodPresetCount := 0;
@@ -823,7 +825,7 @@ Begin
     if goodPresetCount > 0 then 
         result := goodPresets[Hash(hashstr+colors, seed, goodPresetCount)];
 
-    If LOGGING then Log(10, Format('>PickRandomColorPreset -> %s \ %s', [EditorID(ContainingMainRecord(result)), Path(result)]));
+    If LOGGING then LogExitT1('PickRandomColorPreset', PathName(result));
 end;
 
 // <<<<<<<<<<<<<<<<<<<<  MANAGE HEAD PARTS  >>>>>>>>>>>>>>>>>>>>
@@ -1285,7 +1287,7 @@ begin
         end;
     end;
 
-    If LOGGING then LogExitT1('GetMorphRandomPreset', Path(result));
+    If LOGGING then LogExitT1('GetMorphRandomPreset', PathName(result));
 end;
 
 //===============================================================================
@@ -1337,9 +1339,20 @@ begin
             end;
         end;
     end;
-    if (not found) and (racesNotFound.IndexOf(racename) < 0) then 
-        Err(Format('Could not find face morph %s on race %s %s', 
-            [morph, racename, SexToStr(sex)]));
+
+    if not found then begin
+        if r < 0 then begin
+            // Race wasn't found
+            if (racesNotFound.IndexOf(racename) < 0) then begin
+                racesNotFound.Add(racename);
+                Err(Format('Setting face morph %s for a race not loaded: %s', 
+                    [morph, racename, SexToStr(sex)]));
+            end
+        end
+        else 
+            Err(Format('Could not find face morph %s on race %s', 
+                [morph, racename, SexToStr(sex)]));
+    end;
     If LOGGING then LogExitT('SetFaceMorph');
 end;
 
@@ -1750,13 +1763,21 @@ begin
     If LOGGING then LogEntry2(5, 'AddChildRace', adultRace, childRace);
     childRecord := FindAsset(Nil, 'RACE', childRace);
     adultID := masterRaceList.IndexOf(adultRace);
-    if adultID >= 0 then begin
+    if (adultID >= 0) and Assigned(childRecord) then begin
         raceInfo[adultID, MALECHILD].mainRecord := childRecord;
         raceInfo[adultID, FEMALECHILD].mainRecord := childRecord;
-    end
-    else 
-        if racesNotFound.IndexOf(adultRace) < 0 then
-            Err('AddChildRace could not find adult race ' + adultRace);
+    end;
+
+    if adultID < 0 then 
+        if racesNotFound.IndexOf(adultRace) < 0 then 
+            // Add purported adult race to the "races not found" list. The error will be
+            // reported later.
+            racesNotFound.Add(adultRace);
+
+    if not Assigned(childRecord) then
+        if racesNotFound.IndexOf(childRace) < 0 then  
+            racesNotFound.Add(childRace);
+
     If LOGGING then LogExit(5, 'AddChildRace');
 end;
 

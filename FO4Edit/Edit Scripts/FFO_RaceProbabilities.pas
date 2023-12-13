@@ -21,7 +21,7 @@ interface
 
 implementation
 
-uses BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses BDAssetLoaderFO4, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 //======================================================
 
@@ -45,11 +45,11 @@ begin
     SetClassProb(CLASS_MINUTEMEN, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_MINUTEMEN, 'FFOHorseRace', 40);
     SetClassProb(CLASS_MINUTEMEN, 'FFODeerRace', 20);
-	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurRace', 20);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurRace', 10);
 	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurHybridRace', 10);
-	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurTriRace', 20);
-	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurParaRace', 5);	
-	SetClassProb(CLASS_MINUTEMEN, 'PA_ProtoArgonianRace', 15);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_MINUTEMEN, 'DN_DinosaurParaRace', 0);	
+	SetClassProb(CLASS_MINUTEMEN, 'PA_ProtoArgonianRace', 5);
 	SetClassProb(CLASS_MINUTEMEN, 'aaaSharkRace', 5);	
 	SetClassProb(CLASS_MINUTEMEN, 'DCM_DeathclawMutantRace', 15);
 	SetClassProb(CLASS_MINUTEMEN, 'K9_RaiderDogRace', 5);
@@ -65,11 +65,11 @@ begin
     SetClassProb(CLASS_BOS, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_BOS, 'FFOHorseRace', 30);
     SetClassProb(CLASS_BOS, 'FFODeerRace', 10);
-	SetClassProb(CLASS_BOS, 'DN_DinosaurRace', 15);
-	SetClassProb(CLASS_BOS, 'DN_DinosaurHybridRace', 5);
-	SetClassProb(CLASS_BOS, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_BOS, 'DN_DinosaurParaRace', 5);	
-	SetClassProb(CLASS_BOS, 'PA_ProtoArgonianRace', 15);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_BOS, 'DN_DinosaurParaRace', 0);	
+	SetClassProb(CLASS_BOS, 'PA_ProtoArgonianRace', 5);
 	SetClassProb(CLASS_BOS, 'DCM_DeathclawMutantRace', 10);
 	SetClassProb(CLASS_BOS, 'K9_RaiderDogRace', 0);
 	SetClassProb(CLASS_BOS, 'K9_GShepRace', 5);
@@ -84,10 +84,10 @@ begin
     SetClassProb(CLASS_RR, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_RR, 'FFOHorseRace', 60);
     SetClassProb(CLASS_RR, 'FFODeerRace', 30);
-	SetClassProb(CLASS_RR, 'DN_DinosaurRace', 5);
-	SetClassProb(CLASS_RR, 'DN_DinosaurHybridRace', 5);
-	SetClassProb(CLASS_RR, 'DN_DinosaurTriRace', 30);
-	SetClassProb(CLASS_RR, 'DN_DinosaurParaRace', 15);	
+	SetClassProb(CLASS_RR, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_RR, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_RR, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_RR, 'DN_DinosaurParaRace', 0);	
 	SetClassProb(CLASS_RR, 'PA_ProtoArgonianRace', 10);
 	SetClassProb(CLASS_RR, 'DCM_DeathclawMutantRace', 5); 	
 	SetClassProb(CLASS_RR, 'K9_RaiderDogRace', 0);
@@ -105,10 +105,10 @@ begin
     SetClassProb(CLASS_GUNNER, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_GUNNER, 'FFOHorseRace', 10);
     SetClassProb(CLASS_GUNNER, 'FFODeerRace', 5);
-	SetClassProb(CLASS_GUNNER, 'DN_DinosaurRace', 30);
-	SetClassProb(CLASS_GUNNER, 'DN_DinosaurHybridRace', 20);
-	SetClassProb(CLASS_GUNNER, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_GUNNER, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_GUNNER, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_GUNNER, 'PA_ProtoArgonianRace', 10);
 	SetClassProb(CLASS_GUNNER, 'DCM_DeathclawMutantRace', 10); 
 	SetClassProb(CLASS_GUNNER, 'K9_RaiderDogRace', 5);
@@ -124,10 +124,10 @@ begin
     SetClassProb(CLASS_DISCIPLES, 'FFOCheetahRace', 20);
     SetClassProb(CLASS_DISCIPLES, 'FFOHorseRace', 8);
     SetClassProb(CLASS_DISCIPLES, 'FFODeerRace', 4);
-	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurRace', 20);
-	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurHybridRace', 20);
-	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurTriRace', 8);
-	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurParaRace', 4);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_DISCIPLES, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_DISCIPLES, 'PA_ProtoArgonianRace', 20);
 	SetClassProb(CLASS_DISCIPLES, 'DCM_DeathclawMutantRace', 40); 
 	SetClassProb(CLASS_DISCIPLES, 'K9_RaiderDogRace', 10);
@@ -144,9 +144,9 @@ begin
     SetClassProb(CLASS_OPERATOR, 'FFOHorseRace', 5);
     SetClassProb(CLASS_OPERATOR, 'FFODeerRace', 5);
 	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurRace', 10);
-	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurHybridRace', 20);
-	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_OPERATOR, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_OPERATOR, 'PA_ProtoArgonianRace', 20);
 	SetClassProb(CLASS_OPERATOR, 'DCM_DeathclawMutantRace', 10); 
 	SetClassProb(CLASS_OPERATOR, 'K9_RaiderDogRace', 0);
@@ -163,8 +163,8 @@ begin
     SetClassProb(CLASS_PACK, 'FFOHorseRace', 5);
     SetClassProb(CLASS_PACK, 'FFODeerRace', 0);
 	SetClassProb(CLASS_PACK, 'DN_DinosaurRace', 10);
-	SetClassProb(CLASS_PACK, 'DN_DinosaurHybridRace', 5);
-	SetClassProb(CLASS_PACK, 'DN_DinosaurTriRace', 5);
+	SetClassProb(CLASS_PACK, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_PACK, 'DN_DinosaurTriRace', 10);
 	SetClassProb(CLASS_PACK, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_PACK, 'PA_ProtoArgonianRace', 5);
 	SetClassProb(CLASS_PACK, 'DCM_DeathclawMutantRace', 10); 
@@ -181,10 +181,10 @@ begin
     SetClassProb(CLASS_RAIDER, 'FFOCheetahRace', 30);
     SetClassProb(CLASS_RAIDER, 'FFOHorseRace', 16);
     SetClassProb(CLASS_RAIDER, 'FFODeerRace', 8);
-	SetClassProb(CLASS_RAIDER, 'DN_DinosaurRace', 40);
-	SetClassProb(CLASS_RAIDER, 'DN_DinosaurHybridRace', 30);
-	SetClassProb(CLASS_RAIDER, 'DN_DinosaurTriRace', 16);
-	SetClassProb(CLASS_RAIDER, 'DN_DinosaurParaRace', 8);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_RAIDER, 'DN_DinosaurParaRace', 50);
 	SetClassProb(CLASS_RAIDER, 'PA_ProtoArgonianRace', 20);
 	SetClassProb(CLASS_RAIDER, 'DCM_DeathclawMutantRace', 40); 
 	SetClassProb(CLASS_RAIDER, 'K9_RaiderDogRace', 25);
@@ -204,8 +204,8 @@ begin
     SetClassProb(CLASS_TRAPPER, 'FFODeerRace', 5);
 	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurRace', 10);
 	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurHybridRace', 10);
-	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_TRAPPER, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_TRAPPER, 'PA_ProtoArgonianRace', 10);
     SetClassProb(CLASS_TRAPPER, 'aaaSharkRace', 700);
 	SetClassProb(CLASS_TRAPPER, 'DCM_DeathclawMutantRace', 10); 
@@ -224,9 +224,9 @@ begin
     SetClassProb(CLASS_INSTITUTE, 'FFOHorseRace', 50);
     SetClassProb(CLASS_INSTITUTE, 'FFODeerRace', 50);
 	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurRace', 10);
-	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurHybridRace', 20);
-	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurTriRace', 25);
-	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurParaRace', 25);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_INSTITUTE, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_INSTITUTE, 'PA_ProtoArgonianRace', 10);
 	SetClassProb(CLASS_INSTITUTE, 'DCM_DeathclawMutantRace', 15); 
 	SetClassProb(CLASS_INSTITUTE, 'K9_RaiderDogRace', 0);
@@ -245,10 +245,10 @@ begin
     SetClassProb(CLASS_FARHARBOR, 'FFODeerRace', 5);
     SetClassProb(CLASS_FARHARBOR, 'FFOOtterRace', 500);
 	SetClassProb(CLASS_FARHARBOR, 'aaaSharkRace', 500);
-	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurRace', 5);
-	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurHybridRace', 5);
-	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_FARHARBOR, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_FARHARBOR, 'PA_ProtoArgonianRace', 5);
 	SetClassProb(CLASS_FARHARBOR, 'DCM_DeathclawMutantRace', 5);
 	SetClassProb(CLASS_FARHARBOR, 'K9_RaiderDogRace', 0);
@@ -265,10 +265,10 @@ begin
     SetClassProb(CLASS_ATOM, 'FFOHorseRace', 5);
     SetClassProb(CLASS_ATOM, 'FFODeerRace', 5);
     SetClassProb(CLASS_ATOM, 'FFOSnekdogRace', 40);
-	SetClassProb(CLASS_ATOM, 'DN_DinosaurRace', 5);
-	SetClassProb(CLASS_ATOM, 'DN_DinosaurHybridRace', 5);
-	SetClassProb(CLASS_ATOM, 'DN_DinosaurTriRace', 5);
-	SetClassProb(CLASS_ATOM, 'DN_DinosaurParaRace', 5);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurRace', 10);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_ATOM, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_ATOM, 'PA_ProtoArgonianRace', 5);
 	SetClassProb(CLASS_ATOM, 'DCM_DeathclawMutantRace', 40); 
 	SetClassProb(CLASS_ATOM, 'K9_RaiderDogRace', 5);
@@ -286,9 +286,9 @@ begin
     SetClassProb(CLASS_SETTLER, 'FFODeerRace', 30);
     SetClassProb(CLASS_SETTLER, 'FFOOtterRace', 6);
 	SetClassProb(CLASS_SETTLER, 'DN_DinosaurRace', 10);
-	SetClassProb(CLASS_SETTLER, 'DN_DinosaurHybridRace', 3);
-	SetClassProb(CLASS_SETTLER, 'DN_DinosaurTriRace', 15);
-	SetClassProb(CLASS_SETTLER, 'DN_DinosaurParaRace', 15);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurHybridRace', 10);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurTriRace', 10);
+	SetClassProb(CLASS_SETTLER, 'DN_DinosaurParaRace', 0);
 	SetClassProb(CLASS_SETTLER, 'PA_ProtoArgonianRace', 10);
     SetClassProb(CLASS_SETTLER, 'aaaSharkRace', 3);
 	SetClassProb(CLASS_SETTLER, 'DCM_DeathclawMutantRace', 10); 
@@ -617,7 +617,7 @@ begin
 	AddChildRace('K9_RaiderDogRace', 'K9_RaiderDogChildRace');
 	AddChildRace('K9_GShepRace', 'K9_GShepChildRace');
 	AddChildRace('K9_WolfRace', 'K9_WolfChildRace');
-	AddChildRace('K9_HellhoundRace', 'K9_WolfChildRace');
+	AddChildRace('K9_HellhoundRace', 'K9_HellhoundChildRace');
 	AddChildRace('K9_DobermannRace', 'K9_DobermannChildRace');
 	
 	SetHeadpartProb('K9_GShepRace', MALE, HEADPART_FACIAL_HAIR, 70);
@@ -989,12 +989,12 @@ begin
 
     SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_EYELINER, 0);
     SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_MASK, 0);
-    SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_MUZZLE_STRIPE, 40);
+    SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_MUZZLE_STRIPE, 0);
     SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_NOSE, 0);
     SetTintProbability('DN_DinosaurParaRace', FEMALE, TL_NECK, 0);
     SetTintProbability('DN_DinosaurParaRace', MALE, TL_EYELINER, 0);
     SetTintProbability('DN_DinosaurParaRace', MALE, TL_MASK, 0);
-    SetTintProbability('DN_DinosaurParaRace', MALE, TL_MUZZLE_STRIPE, 40);
+    SetTintProbability('DN_DinosaurParaRace', MALE, TL_MUZZLE_STRIPE, 0);
     SetTintProbability('DN_DinosaurParaRace', MALE, TL_NOSE, 0);
 
     SetTintColors('DN_DinosaurParaRace', FEMALE, TL_EYELINER, '|black|DarkBrown|MidBrown|LightBrown|MidGrey|LightGrey|DeepRed|MidRed|LightRed|Pink|LightPink|DeepBlue|MidBlue|LightBlue|Orange|yellow|DeepGreen|Green|NeonGreen|DeepTurquoise|Turquoise|DeepPurple|Purple|LightPurple|');
@@ -1009,25 +1009,25 @@ begin
     SetTintColors('DN_DinosaurParaRace', MALE, TL_MUZZLE_STRIPE, '|black||');
     SetTintColors('DN_DinosaurParaRace', MALE, TL_NOSE, '|black|');
 
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Eyes', 60, 0, 100, SKEW1);
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Nose - Full', 50, 0, 100, SKEW1);
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Crest', 100, 0, 100, SKEW0);
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Teeth', 30, 100, 100, EVEN);
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Crest Texture', 50, 20, 100, EVEN);
-    SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Face Markings', 50, 100, 100, EVEN);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Eyes', 60, 0, 100, SKEW1);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Nose - Full', 50, 0, 100, SKEW1);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Crest', 100, 0, 100, SKEW0);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Teeth', 30, 100, 100, EVEN);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Crest Texture', 50, 20, 100, EVEN);
-    SetMorphProbability('DN_DinosaurParaRace', MALE, 'Face Markings', 50, 100, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Eyes', 60, 0, 100, SKEW1);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Nose - Full', 50, 0, 100, SKEW1);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Crest', 100, 0, 100, SKEW0);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Teeth', 30, 100, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Crest Texture', 50, 20, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', FEMALE, 'Face Markings', 50, 100, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Eyes', 60, 0, 100, SKEW1);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Nose - Full', 50, 0, 100, SKEW1);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Crest', 100, 0, 100, SKEW0);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Teeth', 30, 100, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Crest Texture', 50, 20, 100, EVEN);
+    // SetMorphProbability('DN_DinosaurParaRace', MALE, 'Face Markings', 50, 100, 100, EVEN);
 
-    SetFaceMorph('DN_DinosaurParaRace', MALE, 'Nose - Full', 
-        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
-    SetFaceMorph('DN_DinosaurParaRace', FEMALE, 'Nose - Full', 
-        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
-        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    // SetFaceMorph('DN_DinosaurParaRace', MALE, 'Nose - Full', 
+    //     {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+    //     {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    // SetFaceMorph('DN_DinosaurParaRace', FEMALE, 'Nose - Full', 
+    //     {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+    //     {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
 
 	// ---------- T-Rex Gen1/Triceratops Hybrids ---------- 
     AddChildRace('DN_DinosaurHybridRace', 'FFOSnekdogChildRace'); // Reptilian

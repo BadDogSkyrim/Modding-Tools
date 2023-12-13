@@ -64,7 +64,7 @@ begin
         if (target <> '') and (EditorID(ref) = target) then found := true;
     end;
     if target <> '' then
-        Assert(found, Format('Found target element %s in %s', [target, Path(elist)]));
+        Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
 end;
 
 //=======================================================================
@@ -393,6 +393,7 @@ var
     i: integer;
     npc1, npc2: IwbMainRecord;
 begin
+    AddMessage('---Testing Hashing---');
     AddMessage('Same hash, different seeds');
     AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 4039, 100)]));
     AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate01', 3828, 100)]));
@@ -474,6 +475,62 @@ begin
 end;
 
 //-------------------------------------------------------------------------
+//      Ghoul Gear
+//
+// Any AA's that reference snekdogs should now support ghouls.
+Procedure TestGhoulArmor;
+var
+    rec: IwbMainRecord;
+    furryRace, furryChildRace: IwbMainRecord;
+    ghoulRace, ghoulChildRace: IwbMainRecord;
+begin
+    LOGLEVEL := 25;
+
+    // Ghoul child race should have a race record.
+    Assert(Assigned(raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord), 
+        'Have ghoul main record: ' + 
+        RecordName(raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord));
+    Assert(Assigned(raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord), 
+        'Have ghoul child main record' + 
+        RecordName(raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord));
+
+    AddMessage('---Ghoul Gear---');
+    ghoulRace := FindAsset(FileByIndex(0), 'RACE', 'GhoulRace');
+    ghoulChildRace := FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace');
+    furryRace := FindAsset(Nil, 'RACE', GHOUL_RACE);
+    furryChildRace := FindAsset(Nil, 'RACE', GHOUL_CHILD_RACE);
+    AddMessage(Format('Adding %s to addons with race %s', [Name(ghoulRace), Name(furryRace)]));
+
+    // Test one 
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesHancocksHat'));
+    Assert(ARMAHasRace(rec, furryRace), 'Hat has snekdog race'); 
+    AddRaceToARMA(modFile, rec, ghoulRace);
+    Assert(ARMAHasRace(WinningOverride(rec), ghoulRace), 'Hat has ghoul race'); 
+
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFOSnekNakedChildHands'));
+    Assert(ARMAHasRace(rec, furryChildRace), 'Hands have snekdog child race'); 
+    AddRaceToARMA(modFile, rec, ghoulChildRace);
+    Assert(ARMAHasRace(WinningOverride(rec), ghoulChildRace), 'Hands have ghoul child race'); 
+
+    // Test them all
+    GhoulArmorEnable(modFile);
+
+    AddMessage('---FFO_AAClothesPostmanHat');
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesPostmanHat'));
+    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
+    
+    AddMessage('---FFOSnekNakedChildTorso');
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFOSnekNakedChildTorso'));
+    Assert(ARMAHasRace(rec, furryChildRace), 'Torso has snekdog child race'); 
+    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulChildRace');
+    
+    AddMessage('---FFO_AAClothesWig_Snek');
+    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesWig_Snek'));
+    Assert(ARMAHasRace(rec, furryRace), 'Wig has snekdog race'); 
+    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
+end;
+
+//-------------------------------------------------------------------------
 // Test the furrifier
 Procedure TestFFOFurrifier;
 var
@@ -485,6 +542,9 @@ var
     elist: IwbContainer;
     f: IwbFile;
     fl: TStringList;
+    fm: IwbElement;
+    fmlist: IwbContainer;
+    fmri: UInt64;
     furryNPC: IwbMainRecord;
     g: IwbContainer;
     hair: IwbMainRecord;
@@ -525,17 +585,6 @@ var
     teti: string;
 begin
     f := FileByIndex(0);
-
-    // ------------------------------------------------------------------------------
-    //
-    //      Ghoul Gear
-    //
-    // Any AA's that reference snekdogs should now support ghouls.
-    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesHancocksHat'));
-    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
-    
-    rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFOSnekNakedChildHands'));
-    AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulChildRace');
 
     // ------------------------------------------------------------------------------
     //
@@ -926,7 +975,6 @@ begin
 
     AddMessage('---Cait');
     npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
-    modFile := CreateOverrideMod('TEST.esp');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOFoxRace', 'Changed Cait`s race');
     AssertGoodHeadparts(npc, 'Face', 'FFOFoxFemHead');
@@ -1002,8 +1050,15 @@ begin
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'GhoulRace', 'Did not change Hancock`s race');
     AssertGoodTintLayers(npc, 1156);
+         
+    // Already a ghoul--but should be re-tinted and morphed to match the furry ghoul race.
+    AddMessage('---EncWorkshopNPCFemaleFarmer09b');
+    npc := FindAsset(Nil, 'NPC_', 'EncWorkshopNPCFemaleFarmer09b');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'GhoulRace', Format('%s has ghoul race', [Name(npc)]));
+    AssertGoodTintLayers(npc, 1168);
 
-    AddMessage('---Billy');
+   AddMessage('---Billy');
     npc := FindAsset(Nil, 'NPC_', 'Billy');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'GhoulChildRace', 'Did not change Billy`s race');
@@ -1139,17 +1194,19 @@ begin
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
-    LOGLEVEL := 5;
+    LOGLEVEL := 1;
+
+    // TestSystemFunc;
+    // TestBigInts;
+    // TestHashing;
 
     // Asset loader has to be iniitialized before use.
-    convertingGhouls := true;
+    modFile := CreateOverrideMod('TEST.esp');
     InitializeFurrifier(modFile);
 
     // ShowClassProbabilities;
 
-    TestSystemFunc;
-    TestBigInts;
-    TestHashing;
+    TestGhoulArmor;
     TestFFOFurrifier;
     TestNPCGeneration;
     TestFurryArmorFixup;

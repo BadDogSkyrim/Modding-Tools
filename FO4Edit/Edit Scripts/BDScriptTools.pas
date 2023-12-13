@@ -5,7 +5,7 @@ implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    LOGGING = TRUE;
+    LOGGING = FALSE;
 
 var 
     LOGLEVEL: integer;
@@ -19,6 +19,14 @@ var
 Function BoolToStr(b: boolean): string;
 begin
     if b then result := 'T' else result := 'F';
+end;
+
+Function RecordName(r: IwbMainRecord): string;
+begin
+    if Assigned(r) then
+        result := Name(r)
+    else
+        result := 'NONE';
 end;
     
 //================================================================
@@ -253,6 +261,7 @@ procedure Err(txt: string);
 begin
     AddMessage('ERROR: ' + txt);
     inc(errCount);
+    exit;
 end;
 
 procedure Warn(txt: string);
