@@ -56,7 +56,7 @@ const
     CLASS_HI = 30;
 
     TINTLAYERS_MAX = 20;
-    HAIR_MAX = 400;
+    HAIR_MAX = 600;
 
     // Morphs
     EVEN = 0;
@@ -160,7 +160,7 @@ var
 
     // Separate list of regular hair, with corresponding furry hair
     vanillaHairRecords: TStringList;
-    furryHair: array [0..400 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
+    furryHair: array [0..600 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
     lionMane: IwbMainRecord;
     hairExcludeList: TStringList;
 
@@ -903,8 +903,8 @@ begin
                     raceID := RaceIndex(race);
                     if raceID >= 0 then begin
                         If LOGGING then Log(11, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
-                        if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i));
-                        furryHair[i, raceID] := hair;
+                        if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i))
+                        else furryHair[i, raceID] := hair;
                     end;
                 end;
             end;

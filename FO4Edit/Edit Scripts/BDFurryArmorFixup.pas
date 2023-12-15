@@ -85,7 +85,7 @@ begin
             aa := ElementByIndex(armaList, i);
             if IsWinningOverride(aa) then begin
                 if ARMAHasRace(aa, existingRace) then begin
-                    LogD(Format('Found target race %s on %s', [Name(existingRace), Name(aa)]));
+                    if LOGGING then LogD(Format('Found target race %s on %s', [Name(existingRace), Name(aa)]));
                     AddRaceToARMA(targetFile, aa, newRace);
                 end
                 else 

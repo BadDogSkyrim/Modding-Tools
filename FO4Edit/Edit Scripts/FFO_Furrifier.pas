@@ -1555,12 +1555,11 @@ begin
     
     /// If it's a human race (tested above) we furrify even if it gets its traits
     /// from a template. Seems like some dead NPCs don't follow the traits.
-    /// EXCEPT maybe causing CK crashes?
-    if result > 0 then begin
-        // If it gets traits from a template, just zero out the morphs.
-        if NPCInheritsTraits(npc) then
-            result := 2;
-    end;
+    // if result > 0 then begin
+    //     // If it gets traits from a template, just zero out the morphs.
+    //     if NPCInheritsTraits(npc) then
+    //         result := 2;
+    // end;
 
     if LOGGING Then LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
