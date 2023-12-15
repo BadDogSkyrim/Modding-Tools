@@ -484,8 +484,6 @@ var
     furryRace, furryChildRace: IwbMainRecord;
     ghoulRace, ghoulChildRace: IwbMainRecord;
 begin
-    LOGLEVEL := 25;
-
     // Ghoul child race should have a race record.
     Assert(Assigned(raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord), 
         'Have ghoul main record: ' + 
@@ -921,7 +919,6 @@ begin
     // AssertInt(IsValidNPC(npc), 2, FullPath(npc) + ' identified as template');
 
     // Shaun and player spouse get furrified following the player.
-    LOGLEVEL := 10;
     AddMessage('---Shaun');
     AssignNPCRace('Player', 'FFOCheetahRace');
     npc := FindAsset(Nil, 'NPC_', 'Player');
@@ -1006,6 +1003,7 @@ begin
 
     // Testing a whitetail--should have no 0-alpha tints.
     AddMessage('---StanSlavin');
+    AssignNPCRace('StanSlavin', 'FFODeerRace');
     npc := FindAsset(Nil, 'NPC_', 'StanSlavin');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerRace', 'Changed Stan Slavin`s race');
@@ -1058,7 +1056,15 @@ begin
     AssertStr(EditorID(GetNPCRace(npc)), 'GhoulRace', Format('%s has ghoul race', [Name(npc)]));
     AssertGoodTintLayers(npc, 1168);
 
-   AddMessage('---Billy');
+    // Human child being turned into snekdog
+    AssignNPCRace('RECampRJ02_Charlie', 'FFOSnekdogRace');
+    AddMessage('---RECampRJ02_Charlie');
+    npc := FindAsset(Nil, 'NPC_', 'RECampRJ02_Charlie');
+    npc := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(npc)), 'FFOSnekdogChildRace', 'RECampRJ02_Charlie has snekdog child race');
+    AssertGoodTintLayersNeg(npc, 9100);
+
+    AddMessage('---Billy');
     npc := FindAsset(Nil, 'NPC_', 'Billy');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'GhoulChildRace', 'Did not change Billy`s race');
@@ -1194,7 +1200,7 @@ begin
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
-    LOGLEVEL := 1;
+    LOGLEVEL := 15;
 
     // TestSystemFunc;
     // TestBigInts;

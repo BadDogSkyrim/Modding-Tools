@@ -11,7 +11,7 @@ const
 
     // Max actor races supported. All the arrays holding race info use this.
     RACES_MAX = 50; 
-    TEXTURES_MAX = 5; // Maximum texture alternatives for a tint layer.
+    TEXTURES_MAX = 15; // Maximum texture alternatives for a tint layer.
 
     SEX_LO = 0;
     MALE = 0;
@@ -109,7 +109,7 @@ type TRaceInfo = Record
     tintCount: array [0..100 {TINTLAYERS_MAX}] of integer;
     tintProbability: array [0..100 {TINTLAYERS_MAX}] of integer;
     tintColors: array [0..100 {TINTLAYERS_MAX}] of string;
-    tints: array [0..100 {TINTLAYERS_MAX}, 0..5 {texture alternatives}] of TSkinTintLayer;
+    tints: array [0..100 {TINTLAYERS_MAX}, 0..15 {TEXTURES_MAX}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     headpartProb: array[{headpart count} 0..10] of integer; // 0..100
     maskCount: integer;
@@ -591,6 +591,7 @@ var
     n: integer;
     raceID: integer; 
     rootElem: string;
+    tgName: string;
     thisGroup: IwbElement; 
     tintGroups: IwbElement;
     tintLayer: IwbElement;
@@ -610,37 +611,42 @@ begin
     
     for i := 0 to ElementCount(tintGroups)-1 do begin
         thisGroup := ElementByIndex(tintGroups, i);
-        If LOGGING then Log(11, 'Found tint group ' + GetElementEditValues(thisGroup, 'TTGP'));
+        tgName := GetElementEditValues(thisGroup, 'TTGP');
+        If LOGGING then Log(11, 'Found tint group ' + tgName);
 
-        tintOptions := ElementByPath(thisGroup, 'Options');
-        If LOGGING then LogT(Format('Group has %d options', [integer(ElementCount(tintOptions))]));
-        for j := 0 to ElementCount(tintOptions)-1 do begin
-            tintLayer := ElementByIndex(tintOptions, j);
-            tintName := GetElementEditValues(tintLayer, 'TTGP');
-            tintType := DetermineTintType(tintName);
+        if tgName <> 'FaceRegions' then begin
+            tintOptions := ElementByPath(thisGroup, 'Options');
+            If LOGGING then LogT(Format('Group has %d options', [integer(ElementCount(tintOptions))]));
+            for j := 0 to ElementCount(tintOptions)-1 do begin
+                tintLayer := ElementByIndex(tintOptions, j);
+                tintName := GetElementEditValues(tintLayer, 'TTGP');
+                tintType := DetermineTintType(tintName);
 
-            if tintType >= 0 then begin
-                If LOGGING then LogT(Format('Finding tint count for [%d, %s], tintType %d', [
-                    raceID, SexToStr(sex), tintType
-                ]));
-                n := raceInfo[raceID, sex].tintCount[tintType];
+                if tintType >= 0 then begin
+                    If LOGGING then LogT(Format('Finding tint count for [%d, %s], tintType %d', [
+                        raceID, SexToStr(sex), tintType
+                    ]));
+                    n := raceInfo[raceID, sex].tintCount[tintType];
 
-                // If LOGGING then Log(6, Format('[%d] Found tint option "%s" -> %d', 
-                //     [integer(j), tintname, integer(tintType)]));
-                If LOGGING then LogT(Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
+                    // If LOGGING then Log(6, Format('[%d] Found tint option "%s" -> %d', 
+                    //     [integer(j), tintname, integer(tintType)]));
+                    If LOGGING then LogT(Format('Found tint option [%d] "%s" -> [%d] %s', [integer(j), tintname, integer(n), tintlayerName[tintType]]));
 
-                if tintType < TINTLAYERS_COUNT then begin
-                    if n < TEXTURES_MAX then begin
-                        raceInfo[raceID, sex].tints[tintType, n].name := tintName;
-                        raceInfo[raceID, sex].tints[tintType, n].maskType := tintType;
-                        raceInfo[raceID, sex].tints[tintType, n].element := tintLayer;
-                        raceInfo[raceID, sex].tintCount[tintType] := n+1;
+                    if tintType < TINTLAYERS_COUNT then begin
+                        if n < TEXTURES_MAX then begin
+                            raceInfo[raceID, sex].tints[tintType, n].name := tintName;
+                            raceInfo[raceID, sex].tints[tintType, n].maskType := tintType;
+                            raceInfo[raceID, sex].tints[tintType, n].element := tintLayer;
+                            raceInfo[raceID, sex].tintCount[tintType] := n+1;
+                        end
+                        else
+                            Err('Too many tint textures');
                     end;
+                end
+                else begin
+                    Warn(Format('Unknown tint type for %s %s: %s', [
+                        Name(theRace), SexToStr(sex), tintName]));
                 end;
-            end
-            else begin
-                Warn(Format('Unknown tint type for %s %s: %s', [
-                    Name(theRace), SexToStr(sex), tintName]));
             end;
         end;
     end;

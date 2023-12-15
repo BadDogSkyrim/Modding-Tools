@@ -1,7 +1,7 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.7
+  Version: 2.8
   
   Creates a NPC furry patch for a load order.
 
@@ -484,7 +484,7 @@ var
     racename: string;
     skin: IwbMainRecord;
 begin
-    if LOGGING Then LogEntry2(5, 'NPC_SetRace', curNPC.id, IntToStr(raceIndex));
+    if LOGGING Then LogEntry2(5, 'NPC_SetRace', curNPC.id, RaceIDToStr(raceIndex));
 
     NPC_Clean;
     curNPC.plugin := GetFile(curNPC.handle);
@@ -492,6 +492,7 @@ begin
     if raceIndex = RACE_GHOUL then begin
         racename := EditorID(LinksTo(ElementByPath(curNPC.handle, 'RNAM')));
         if  (racename <> 'GhoulRace') and (racename <> 'GhoulChildRace') then begin
+            AddRecursiveMaster(curNPC.plugin, GetFile(ghoulRaceHandle));
             raceFormID := GetLoadOrderFormID(ghoulRaceHandle);
             SetNativeValue(ElementByPath(curNPC.handle, 'RNAM'), 
                 LoadOrderFormIDtoFileFormID(curNPC.plugin, raceFormID));
@@ -501,6 +502,7 @@ begin
     end
     else begin
         race := raceInfo[raceIndex, curNPC.sex].mainRecord;
+        AddRecursiveMaster(curNPC.plugin, GetFile(race));
         raceFormID := GetLoadOrderFormID(race);
         if LOGGING then LogT('Setting race to ' + Name(race));
         SetNativeValue(ElementByPath(curNPC.handle, 'RNAM'), 
@@ -519,7 +521,7 @@ begin
 
     if LOGGING then LogT(NPC_ToStr);
 
-    if LOGGING Then LogExitT1('NPC_SetRace', Name(race));
+    if LOGGING Then LogExitT1('NPC_SetRace', RaceIDToStr(curNPC.furry_race));
 end;
 
 //================================================================
