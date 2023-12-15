@@ -11,7 +11,7 @@ const
 
     // Max actor races supported. All the arrays holding race info use this.
     RACES_MAX = 50; 
-    TEXTURES_MAX = 15; // Maximum texture alternatives for a tint layer.
+    TEXTURES_MAX = 30; // Maximum texture alternatives for a tint layer.
 
     SEX_LO = 0;
     MALE = 0;
@@ -109,7 +109,7 @@ type TRaceInfo = Record
     tintCount: array [0..100 {TINTLAYERS_MAX}] of integer;
     tintProbability: array [0..100 {TINTLAYERS_MAX}] of integer;
     tintColors: array [0..100 {TINTLAYERS_MAX}] of string;
-    tints: array [0..100 {TINTLAYERS_MAX}, 0..15 {TEXTURES_MAX}] of TSkinTintLayer;
+    tints: array [0..100 {TINTLAYERS_MAX}, 0..30 {TEXTURES_MAX}] of TSkinTintLayer;
     headparts: array[{headpart count} 0..10] of TStringList;
     headpartProb: array[{headpart count} 0..10] of integer; // 0..100
     maskCount: integer;
@@ -640,7 +640,9 @@ begin
                             raceInfo[raceID, sex].tintCount[tintType] := n+1;
                         end
                         else
-                            Err('Too many tint textures');
+                            Err(Format('Too many tint textures on race %s texture %s', [
+                                RaceIDtoStr(raceID), tintName
+                            ]));
                     end;
                 end
                 else begin
