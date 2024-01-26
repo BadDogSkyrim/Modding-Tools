@@ -1,35 +1,21 @@
+{
+  Apply custom scripted filter for female NPC characters
+}
 unit ApplyCustomScriptedFilter;
 
-interface
-implementation
-uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
-
-const
-  TARGET_RACE = 'FFOTigerRace';
-  TARGET_SEX = 'M';
-
-function GetRaceTemplate(npc: IInterface): IInterface;
-begin
-  while Signature(npc) = 'LVLN' do
-    npc := LinksTo(ElementByPath(npc, 'Leveled List Entries\[0]\LVLO\Reference'));
-  
-  if GetElementNativeValues(npc, 'ACBS\Template Flags\Use Traits') then
-    Result := GetRaceTemplate(LinksTo(ElementBySignature(npc, 'TPLT')))
-  else
-    Result := npc;
-end;
+Const
+  mask = 3 + 65536;
 
 function Filter(e: IInterface): Boolean;
+var
+  v: Cardinal;
 begin
-  // e := GetRaceTemplate(e); // Use this to get NPCs based on a template
-  if ContainsText(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), TARGET_RACE) then begin
-    if TARGET_SEX = 'F' then
-      Result := (GetElementNativeValues(e, 'ACBS\Flags\female') <> 0)
-    else if TARGET_SEX = 'M' then
-      Result := (GetElementNativeValues(e, 'ACBS\Flags\female') = 0)
-    else
-      Result := True;
-  end;
+  if (Signature(e) <> 'ARMA') and (Signature(e) <> 'ARMO') then
+    Exit;
+  
+  v := GetElementNativeValues(e, 'BOD2\First Person Flags');
+  // AddMessage(Format('%s body template = %s', [Name(e), IntToHex(v,8)]));
+  Result := (v and mask) <> 0;
 end;
 
 function Initialize: Integer;
@@ -62,14 +48,14 @@ begin
   FilterVWD := False;
   FilterByHasVWDMesh := False;
   FilterHasVWDMesh := False;
-  FilterBySignature := True;
-  FilterSignatures := 'NPC_';
+  FilterBySignature := False;
+  FilterSignatures := '';
   FilterByBaseSignature := False;
   FilterBaseSignatures := '';
   FlattenBlocks := False;
   FlattenCellChilds := False;
   AssignPersWrldChild := False;
-  InheritConflictByParent := False; // color conflicts
+  InheritConflictByParent := True; // color conflicts
   FilterScripted := True; // use custom Filter() function
 
   ApplyFilter;

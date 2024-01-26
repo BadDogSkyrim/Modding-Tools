@@ -520,6 +520,9 @@ begin
     // ---------- Tigers ---------- 
     AddChildRace('FFOTigerRace', 'FFOTigerChildRace');
 
+    SetTintColors('FFOTigerRace', FEMALE, TL_MASK, '|FFOFurBlack|');
+    SetTintColors('FFOTigerRace', MALE, TL_MASK, '|FFOFurBlack|');
+
     ExcludeMorph('FFOTigerRace', FEMALE, 'Child Neck');
     ExcludeMorph('FFOTigerRace', MALE, 'Child Neck');
 

@@ -942,6 +942,11 @@ begin
         i := Hash(hashstr, seed, HAIR_MAX);
         for j := 0 to 10000 do begin // no infinite loops
             if Assigned(furryHair[i, raceID]) then begin
+                if LOGGING then LogD(Format('Testing %s - %s', [
+                    Name(furryHair[i, raceID]),
+                    IfThen(hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0, 
+                        'ALLOWED', 'EXCLUDED')
+                ]));
                 if (hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0)
                     and HeadpartSexIs(furryHair[i,raceID], targetSex) 
                 then begin
@@ -1085,7 +1090,8 @@ begin
             Result := -1;
         end
         else begin
-            If LOGGING then LogT('Found race');
+            r := WinningOverride(r);
+            If LOGGING then LogT(Format('Found race %s', [Name(r)]));
             if masterRaceList.Count >= RACES_MAX then begin
                 Err('Too many races, stopped at ' + racename);
                 Result := -1;

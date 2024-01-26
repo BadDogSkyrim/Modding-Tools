@@ -340,23 +340,25 @@ begin
 end;
 
 //==================================================
-// Hash given string with starting seed j and return result modulo m
+// Hash given string with starting seed seed and return result modulo m
 // Seed can be anything. Providing different values from different calls means even if 
 // two NPCs hash the same, not every aspect of them will be the same.
 //
-Function Hash(s: string; j: integer; m: integer): integer;
+Function Hash(s: string; seed: integer; m: integer): integer;
 var i, r: integer;
 	h: long;
 	c: Char;
 begin
-    h := 0;
+    h := seed;
+    // h := 0;
 	for i := 1 to length(s) do begin
 		c := Copy(s, i, 1);
 		h := ((31 * h) + Ord(c)) mod 16000; 
 	end;
-	h := ((31 * h) + j) mod 16000; 
+	h := (31 * h) mod 16000; 
+	// h := ((31 * h) + seed) mod 16000; 
 	if m = 0 then r := 0 else r := h mod m; 
-	If LOGGING then Log(20, 'Hash(' + s + ', ' + IntToStr(j) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
+	If LOGGING then Log(20, 'Hash(' + s + ', ' + IntToStr(seed) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
     result := r;
 End;
 

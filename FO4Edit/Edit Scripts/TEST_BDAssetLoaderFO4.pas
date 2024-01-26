@@ -10,6 +10,8 @@ uses FFO_Furrifier, FFOGenerateNPCs, BDAssetLoaderFO4, xEditAPI, Classes, SysUti
 var
     testErrorCount: integer;
     modFile: IwbFile;
+    LIST_RACE_ASSETS: Boolean;
+    LIST_RACE_HEADPARTS: Boolean;
     LIST_ALL_TINT_LAYERS: Boolean;
     LIST_HAIR_TRANSLATIONS: Boolean;
     LIST_RACE_DISTRIBUTION: Boolean;
@@ -157,6 +159,31 @@ begin
     end;
     if targetLayerIndex <> 0 then 
         Assert(foundTarget, Format('Found target tint layer %d', [targetLayerIndex]));
+end;
+
+// =========================================================================
+// Check for errors in a NPC's tint layers.
+// One of tli1 or tli2 must be in the list.
+Procedure AssertGoodTintLayers2(npc: IwbMainRecord; tli1, tli2: integer);
+var
+    ftl: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    tetiIndex: integer;
+    tetiStr: string;
+    foundTarget: boolean;
+begin
+    ftl := ElementByPath(npc, 'Face Tinting Layers');
+    foundTarget := FALSE;
+    Assert(ElementCount(ftl) > 0, 'Have tints for ' + EditorID(npc));
+    for i := 0 to ElementCount(ftl)-1 do begin
+        ele := ElementByIndex(ftl, i);
+        tetiIndex := GetElementNativeValues(ele, 'TETI\Index');
+        tetiStr := GetElementEditValues(ele, 'TETI\Index');
+        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] (%s) not 0: %d', [EditorID(npc), i, tetiStr, tetiIndex]));
+        foundTarget := foundTarget or (tetiIndex = tli1) or (tetiIndex = tli2);
+    end;
+    Assert(foundTarget, Format('Found target tint layer %d or %d', [tli1, tli2]));
 end;
 
 // =========================================================================
@@ -387,11 +414,13 @@ end;
 // Test our hashing mchanism
 Procedure TestHashing;
 var
+    a, b: integer;
     f: IwbFile;
     h1: array [1..10] of integer;
     h2: array [1..10] of integer;
     i: integer;
     npc1, npc2: IwbMainRecord;
+    s: string;
 begin
     AddMessage('---Testing Hashing---');
     AddMessage('Same hash, different seeds');
@@ -410,6 +439,16 @@ begin
     AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate04', 8707, 100)]));
     AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate05', 8707, 100)]));
     AddMessage(Format('Hash = %d', [Hash('RaderMeleeTemplate06', 8707, 100)]));
+
+    // This test doesn't work. Ideally, the a and b hash values would be independent
+    // but they aren't. Need to figure out how to fix that.
+    AddMessage('Two layers, two options, different seeds');
+    for i := 0 to 20 do begin
+        s := 'GunnerMissleLauncher' + IntToStr(i);
+        a := Hash(s + 'FIRST', 3706, 2);
+        b := Hash(s + 'SECOND', 2309, 2);
+        AddMessage(Format('%s: %d - %d', [s, a, b]))
+    end;
 
     f := FileByIndex(0);
 
@@ -616,7 +655,7 @@ begin
     Assert(childRaceList.IndexOf('FFOLykaiosChildRace') >= 0, 'Have lykaios child race');
 
     // ---------- Race Assets
-    if {listing race assets} FALSE then begin
+    if LIST_RACE_ASSETS then begin
         for i := 0 to masterRaceList.Count-1 do 
             AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
 
@@ -783,7 +822,7 @@ begin
     AssertStr(EditorID(ObjectToElement(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Objects[0])), 'FFOFoxFemHead', 'Have fox head');
     Assert(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count > 10, 'Have many hair for foxes: ' + IntToStr(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count));
 
-    if {Listing all headparts} FALSE then begin
+    if LIST_RACE_HEADPARTS then begin
         Log(0, '<<<All headparts');
         for i := 0 to masterRaceList.Count-1 do begin
             Log(0, '<' + masterRaceList[i]);
@@ -847,6 +886,23 @@ begin
     //      NPCs
     //
     // --------- Classes
+
+    LOGGING := True;
+    LOGLEVEL := 10;
+    AddMessage('-DLC01RECampSC01_LvlMerchantGuard - check for bad hair-');
+    npc := FindAsset(Nil, 'NPC_', 'DLC01RECampSC01_LvlMerchantGuard');
+    Assert(npc <> Nil, 'Found DLC01RECampSC01_LvlMerchantGuard');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    LOGGING := False;
+
+    AddMessage('-Tigers-');
+    npc := FindAsset(Nil, 'NPC_', 'CompanionX6-88');
+    Assert(npc <> Nil, 'Found CompanionX6-88');
+    furryNPC := MakeFurryNPC(npc, modFile);
+    AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOTigerRace', 'Have tiger race');
+    AssertGoodHeadparts(furryNPC, 'Facial Hair', 'FFOTigMaleRuff04');
+    AssertGoodTintLayers2(furryNPC, 2671, 2687);
+    AssertGoodTintLayers2(furryNPC, 2668, 2690);
 
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
@@ -1196,11 +1252,12 @@ begin
 
     // modFile := CreateOverrideMod('TEST.esp');
 
+    LIST_RACE_ASSETS := FALSE;
+    LIST_RACE_HEADPARTS := TRUE;
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
-    LOGLEVEL := 15;
 
     // TestSystemFunc;
     // TestBigInts;
@@ -1219,7 +1276,7 @@ begin
 
     //------------------------------------------------------------------------
 
-    // ShutdownAssetLoader;
+    ShutdownAssetLoader;
 
     AddMessage(Format('Tests completed with %d error%s', [integer(errCount), IfThen(errCount=1, '', 's')]));
     AddMessage(IfThen(errCount = 0, 

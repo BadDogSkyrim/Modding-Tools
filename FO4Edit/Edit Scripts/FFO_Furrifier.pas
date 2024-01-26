@@ -72,8 +72,8 @@ begin
     SkinLayerTranslation('Ears', TL_EAR);
     SkinLayerTranslation('Eye Lower', TL_EYESOCKET_LOWER);
     SkinLayerTranslation('Eye Shadow', TL_EYELINER);
-    SkinLayerTranslation('Eye Socket', TL_EYELINER);
     SkinLayerTranslation('Eye Socket Upper', TL_EYESOCKET_UPPER);
+    SkinLayerTranslation('Eye Socket', TL_EYELINER);
     SkinLayerTranslation('Eye Stripe', TL_Mask);
     SkinLayerTranslation('Eye Tear', TL_MASK); // Snekdogs
     SkinLayerTranslation('Eye Upper', TL_EYESOCKET_UPPER);
@@ -85,6 +85,7 @@ begin
     SkinLayerTranslation('Face Mask 3', TL_MASK);
     SkinLayerTranslation('Face Mask 4', TL_MASK);
     SkinLayerTranslation('Face Plate', TL_MASK);
+    SkinLayerTranslation('Fishbones', TL_PAINT);
     SkinLayerTranslation('Forehead', TL_FOREHEAD);
     SkinLayerTranslation('Head Scales', TL_FOREHEAD);
     SkinLayerTranslation('Lips', TL_LIP_COLOR);
@@ -94,17 +95,23 @@ begin
     SkinLayerTranslation('Muzzle Stripe', TL_MUZZLE_STRIPE); 
     SkinLayerTranslation('Muzzle Upper', TL_MUZZLE); 
     SkinLayerTranslation('Muzzle', TL_MUZZLE);
+    SkinLayerTranslation('Nose Color', TL_NOSE); // Fox
     SkinLayerTranslation('Nose Stripe 1', TL_MUZZLE_STRIPE); // Fox
     SkinLayerTranslation('Nose Stripe 2', TL_MUZZLE_STRIPE); // Fox
     SkinLayerTranslation('Nose Stripe', TL_MUZZLE_STRIPE); 
     SkinLayerTranslation('Nose', TL_NOSE);
     SkinLayerTranslation('Old', TL_OLD);
-    SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
-    SkinLayerTranslation('Star', TL_FOREHEAD);
-    SkinLayerTranslation('Upper Head', TL_FOREHEAD);
     SkinLayerTranslation('Scar - Left Long', TL_SCAR);
-    SkinLayerTranslation('Fishbones', TL_PAINT);
+    SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
     SkinLayerTranslation('Skull', TL_PAINT);
+    SkinLayerTranslation('Star', TL_FOREHEAD);
+    SkinLayerTranslation('Stripes 01', TL_MASK);
+    SkinLayerTranslation('Stripes 02', TL_MASK);
+    SkinLayerTranslation('Stripes 03', TL_MASK);
+    SkinLayerTranslation('Upper Head', TL_FOREHEAD);
+    SkinLayerTranslation('White Face', TL_CHEEK_COLOR);
+    SkinLayerTranslation('White Face 01', TL_CHEEK_COLOR);
+    SkinLayerTranslation('White Face 02', TL_CHEEK_COLOR);
 
   //SHARK
   SkinLayerTranslation('QR Code', TL_MISC);
@@ -238,13 +245,47 @@ end;
 Procedure HairExclusions;
 begin
     ExcludeHair('DLC03_HairFemale36'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_Ch'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_FoLy'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_Hy'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_Li'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_OtSn'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_Ti'); // Acid Rain
+    ExcludeHair('FFO_DLC03_HairFemale36_Ung'); // Acid Rain
     ExcludeHair('DLC03_HairFemale37'); // Beta Rays
+    ExcludeHair('FFO_DLC03_HairFemale37'); // Beta Rays
     ExcludeHair('DLC03_HairMale46'); // Gamma Dream
+    ExcludeHair('FFO_DLC03_HairMale46_Cat'); // Gamma Dream
+    ExcludeHair('FFO_DLC03_HairMale46_FoLy'); // Gamma Dream
+    ExcludeHair('FFO_DLC03_HairMale46_Hy'); // Gamma Dream
+    ExcludeHair('FFO_DLC03_HairMale46_OtSn'); // Gamma Dream
+    ExcludeHair('FFO_DLC03_HairMale46_Ung'); // Gamma Dream
     ExcludeHair('DLC03_HairMale47'); // Chemical Storm
+    ExcludeHair('FFO_DLC03_HairMale47_Cat'); // Chemical Storm
+    ExcludeHair('FFO_DLC03_HairMale47_FoLy'); // Chemical Storm
+    ExcludeHair('FFO_DLC03_HairMale47_Hy'); // Chemical Storm
+    ExcludeHair('FFO_DLC03_HairMale47_OtSn'); // Chemical Storm
+    ExcludeHair('FFO_DLC03_HairMale47_Ung'); // Chemical Storm
     ExcludeHair('HairFemale33'); // Megaton
+    ExcludeHair('FFO_HairFemale33_Cat'); // Megaton
+    ExcludeHair('FFO_HairFemale33_FoLy'); // Megaton
+    ExcludeHair('FFO_HairFemale33_Hy'); // Megaton
+    ExcludeHair('FFO_HairFemale33_Ung'); // Megaton
+    ExcludeHair('FFO_HairFemale33_OtSn'); // Megaton
     ExcludeHair('HairMale44'); // Megaton
-    ExcludeHair('HairMale45'); // Hornet's Nest
+    ExcludeHair('FFO_HairMale44_CatDog'); // Megaton
+    ExcludeHair('FFO_HairMale44_Ung'); // Megaton
+    ExcludeHair('FFO_HairMale44_Sn'); // Megaton
+    ExcludeHair('FFO_HairMale44_Ot'); // Megaton
+    ExcludeHair('FFO_HairMale45_All'); // Hornet's Nest
     ExcludeHair('HairFemale34'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_Ch'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_FoLy'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_Hy'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_Li'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_OtSn'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_Ti'); // Hornet's Nest
+    ExcludeHair('FFO_HairFemale34_Ung'); // Hornet's Nest
 end;
 
 //=========================================================================
@@ -276,7 +317,7 @@ var
     h: integer;
 begin
     h := Hash(npcsignature, 0, HighInteger);
-    furrifiedNPCs.AddObject(EditorID(npc), npcsignature);
+    // furrifiedNPCs.AddObject(EditorID(npc), npcsignature);
     curNPC.sig := npcsignature;
 end;
 
@@ -565,6 +606,7 @@ var
     slot: IwbElement;
 begin
     if LOGGING Then LogEntry1(10, 'NPC_AssignHeadpart', RecordName(hp));
+    AddRecursiveMaster(curNPC.plugin, GetFile(hp));
     headparts := ElementByPath(curNPC.handle, 'Head Parts');
     if not Assigned(headparts) then begin
         if LOGGING then LogT('No headparts on record, creating them for ' + RecordName(curNPC.handle));
@@ -722,8 +764,9 @@ var
     layer: IwbElement;
     tend: IwbElement;
     teti: IwbElement;
+    tetiIndex: integer;
 begin
-    If LOGGING then LogEntry3(5, 'NPC_AssignTint', curNPC.id, Path(tintOption), Path(tintColor));
+    If LOGGING then LogEntry3(5, 'NPC_AssignTint', curNPC.id, FullPath(tintOption), FullPath(tintColor));
 
     color := LinksTo(ElementByPath(tintColor, 'Color'));
     If LOGGING then LogD('Have color ' + EditorID(color));
@@ -737,9 +780,11 @@ begin
     else
         layer := ElementAssign(facetintLayers, HighInteger, Nil, false);
     
+    tetiIndex := integer(GetElementNativeValues(tintOption, 'TETI\Index'));
+    if LOGGING then LogD(Format('Setting tint index %d', [tetiIndex]));
     teti := Add(layer, 'TETI', True);
     SetElementEditValues(teti, 'Data Type', 'Value/Color');
-    SetElementNativeValues(teti, 'Index', integer(GetElementNativeValues(tintOption, 'TETI\Index')));
+    SetElementNativeValues(teti, 'Index', tetiIndex);
         
     tend := Add(layer, 'TEND', true);
     SetElementEditValues(tend, 'Value', GetElementEditValues(tintColor, 'Alpha'));
@@ -1422,6 +1467,7 @@ begin
     NPC_ChooseRace;
 
     if (curNPC.race >= 0) and (curNPC.race <> RACE_HUMAN) then begin
+        furrifiedNPCs.AddObject(EditorID(npc), curNPC.sig);
         curNPC.handle := CreateNPCOverride(npc, targetFile);
         NPC_SetRace(curNPC.race);
         case curNPC.race of 
@@ -1434,11 +1480,22 @@ begin
             NPC_ChooseHeadpart(HEADPART_MOUTH);
             NPC_ChooseHair;
             NPC_ChooseHeadpart(HEADPART_EYEBROWS);
+            NPC_ChooseHeadpart(HEADPART_FACIAL_HAIR);
             NPC_ChooseHeadpart(HEADPART_SCAR);
             NPC_ChooseTint(TL_SKIN_TONE, 9523);
-            NPC_ChooseTint(TL_MASK, 2188);
-            NPC_ChooseTint(TL_MUZZLE, 9487);
+            NPC_ChooseTint(TL_CHEEK_COLOR_LOWER, 2711);
+            NPC_ChooseTint(TL_CHEEK_COLOR, 5765);
+            NPC_ChooseTint(TL_CHIN, 1783);
             NPC_ChooseTint(TL_EAR, 552);
+            NPC_ChooseTint(TL_EYEBROW, 6967);
+            NPC_ChooseTint(TL_EYELINER, 919);
+            NPC_ChooseTint(TL_EYESOCKET_LOWER, 6599);
+            NPC_ChooseTint(TL_EYESOCKET_UPPER, 7021);
+            NPC_ChooseTint(TL_FOREHEAD, 7027);
+            NPC_ChooseTint(TL_MASK, 2189);
+            NPC_ChooseTint(TL_MUZZLE, 9487);
+            NPC_ChooseTint(TL_MUZZLE_STRIPE, 9563);
+            NPC_ChooseTint(TL_NECK, 2539);
             NPC_ChooseTint(TL_NOSE, 6529);
             NPC_ChooseOldTint(2351);
             NPC_SetAllRandomMorphs;
@@ -1653,6 +1710,7 @@ begin
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
+    HairExclusions;
     ghoulRaceHandle := FindAsset(NIL, 'RACE', 'GhoulRace');
     ghoulChildRaceHandle := FindAsset(NIL, 'RACE', 'GhoulChildRace');
 
