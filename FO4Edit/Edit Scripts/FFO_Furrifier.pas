@@ -1,7 +1,7 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.8
+  Version: 2.9
   
   Creates a NPC furry patch for a load order.
 
