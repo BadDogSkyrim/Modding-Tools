@@ -307,6 +307,7 @@ begin
     SetClassProb(CLASS_MACCREADY, 'FFOCheetahRace', 100);
     SetClassProb(CLASS_PIPER, 'FFODeerRace', 100);
     SetClassProb(CLASS_X688, 'FFOTigerRace', 100);
+    SetClassProb(CLASS_JAKE, 'FFOCheetahRace', 100);
 
     // Specific NPCs or families. Ensures relatives and older/younger
     // versions of the same NPC have the same race.
@@ -322,6 +323,7 @@ begin
     // These override TARGET_RACE.
     AssignNPCRace('MamaMurphy', 'FFOLionRace'); // Her hat is tailored to the lioness head
     AssignNPCRace('DLC04Mason', 'FFOHorseRace'); // I just like him this way
+    AssignNPCRace('Cricket', 'FFOCheetahRace'); // Ditto
 end;
 
 //==================================================================================
@@ -397,7 +399,7 @@ begin
 
     ExcludeMorph('FFOHorseRace', FEMALE, 'Child Neck');
     ExcludeMorph('FFOHorseRace', FEMALE, 'Horse - Neck');
-    SetMorphProbability('FFOHorseRace', FEMALE, 'Horse - Ears', 80, 0, 100, SKEW0);
+    SetMorphProbability('FFOHorseRace', FEMALE, 'Horse - Ears', 60, 0, 80, SKEW0);
     SetMorphProbability('FFOHorseRace', MALE, 'Horse - Nose Size', 80, 0, 100, SKEW0);
     ExcludeMorph('FFOHorseRace', MALE, 'Horse - Neck');
     ExcludeMorph('FFOHorseRace', MALE, 'Jaws');
@@ -498,7 +500,48 @@ begin
 
     // ---------- Otters ---------- 
     AddChildRace('FFOOtterRace', 'FFOOtterChildRace');
+    SetTintProbability('FFOOtterRace', FEMALE, TL_MUZZLE, 30);
+    SetTintProbability('FFOOtterRace', MALE, TL_MUZZLE, 30);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_CHIN, 30);
+    SetTintProbability('FFOOtterRace', MALE, TL_CHIN, 30);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_CHEEK_COLOR, 0);
+    SetTintProbability('FFOOtterRace', MALE, TL_CHEEK_COLOR, 0);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_CHEEK_COLOR_LOWER, 0);
+    SetTintProbability('FFOOtterRace', MALE, TL_CHEEK_COLOR_LOWER, 0);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_EYESOCKET_LOWER, 0);
+    SetTintProbability('FFOOtterRace', MALE, TL_EYESOCKET_LOWER, 0);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_EYESOCKET_UPPER, 0);
+    SetTintProbability('FFOOtterRace', MALE, TL_EYESOCKET_UPPER, 0);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_FOREHEAD, 10);
+    SetTintProbability('FFOOtterRace', MALE, TL_FOREHEAD, 10);
+    SetTintProbability('FFOOtterRace', FEMALE, TL_EYELINER, 20);
+    SetTintProbability('FFOOtterRace', MALE, TL_EYELINER, 0);
 
+    SetFaceMorph('FFOOtterRace', FEMALE, 'Cheeks', 
+        {loc min} 0, 0, -0.8,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 0.5,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOOtterRace', MALE, 'Jaw', 
+        {loc min} 0, 0, -1,  {rot min} 0, 0, 0, {scale min} 0,
+        {loc max} 0, 0, 1,  {rot max} 0, 0, 0, {scale max} 0);
+    SetFaceMorph('FFOOtterRace', FEMALE, 'Ears', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -1,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1);
+    SetFaceMorph('FFOOtterRace', MALE, 'Ears', 
+        {loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -1,
+        {loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 1);
+    SetFaceMorph('FFOOtterRace', FEMALE, 'Eyes', 
+        {loc min} -1, 0.5, 0.5,  {rot min} 0, 0, 0, {scale min} -1,
+        {loc max} 0.1, 0.5, 0.5,  {rot max} 0, 0, 0, {scale max} 1);
+    SetFaceMorph('FFOOtterRace', MALE, 'Eyes', 
+        {loc min} -1, 0.5, 0.5,  {rot min} 0, 0, 0, {scale min} -1,
+        {loc max} 0.1, 0.5, 0.5,  {rot max} 0, 0, 0, {scale max} 1);
+    SetFaceMorph('FFOOtterRace', FEMALE, 'Nose', 
+        {loc min} 0, -0.8, -0.8,  {rot min} -1, 0, 0, {scale min} -1,
+        {loc max} 0, 0.8, 0.8,  {rot max} 1, 0, 0, {scale max} 1);
+    SetFaceMorph('FFOOtterRace', MALE, 'Nose', 
+        {loc min} 0, -0.8, -0.8,  {rot min} -1, 0, 0, {scale min} -1,
+        {loc max} 0, 0.8, 0.8,  {rot max} 1, 0, 0, {scale max} 1);
+	
     // ---------- Snekdogs ---------- 
     AddChildRace('FFOSnekdogRace', 'FFOSnekdogChildRace');
     ExcludeMorph('FFOSnekdogRace', MALE, 'Neck');

@@ -53,7 +53,8 @@ const
     CLASS_GHOUL = 28;
     CLASS_DALTON = 29;
     CLASS_PLAYER = 30;
-    CLASS_HI = 30;
+    CLASS_JAKE = 31;
+    CLASS_HI = 31;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 600;
@@ -459,6 +460,7 @@ begin
 		CLASS_PLAYER: Result := 'CLASS_PLAYER';
 		CLASS_TRAPPER: Result := 'CLASS_TRAPPER';
 		CLASS_X688: Result := 'CLASS_X688';
+		CLASS_JAKE: Result := 'CLASS_JAKE';
     else Result := Format('Unknown Class [%d]', [classID]);
     end;
 end;
@@ -1143,6 +1145,7 @@ begin
     tintlayerName.Add('Lip Color');
     tintlayerName.Add('Mask');
     tintlayerName.Add('Muzzle');
+    tintlayerName.Add('Muzzle Stripe');
     tintlayerName.Add('Neck');
     tintlayerName.Add('Nose');
     tintlayerName.Add('Old');
@@ -1163,7 +1166,7 @@ begin
     TL_LIP_COLOR := tintlayerName.IndexOf('Lip Color');
     TL_MASK := tintlayerName.IndexOf('Mask');
     TL_MUZZLE := tintlayerName.IndexOf('Muzzle');
-    TL_MUZZLE_STRIPE := tintlayerName.IndexOf('Muzzle');
+    TL_MUZZLE_STRIPE := tintlayerName.IndexOf('Muzzle Stripe');
     TL_NECK := tintlayerName.IndexOf('Neck');
     TL_NOSE := tintlayerName.IndexOf('Nose');
     TL_OLD := tintlayerName.IndexOf('Old');
@@ -1641,6 +1644,7 @@ begin
     else if StartsText('MQ101PlayerSpouse', id) then Result := CLASS_PLAYER
     else if StartsText('MQ102PlayerSpouse', id) then Result := CLASS_PLAYER
     else if id = 'Player' then Result := CLASS_PLAYER
+    else if SameText(id, 'SS2_Jake') or SameText(id, 'SS2C2_Jake_Injured') then Result := CLASS_JAKE
 
     // Groups of NPCs that can have different probabilities
     else if ContainsText(id, 'Gunner') then Result := CLASS_GUNNER

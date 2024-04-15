@@ -26,8 +26,8 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    patchfileName = 'FFOPatch.esp'; // Set to whatever
-    USE_SELECTION = FALSE;           // FALSE or TRUE
+    patchfileName = 'FFOSimSettlementNPCPatch.esp'; // Set to whatever
+    USE_SELECTION = TRUE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
     // Ghouls. All ghouls have to be the same race (because they're one separate race in
@@ -62,8 +62,8 @@ begin
     InitializeTintLayers;
 
     // What the parts of the face are called in different races
-    SkinLayerTranslation('Blaze Narrow', TL_MUZZLE);
-    SkinLayerTranslation('Blaze Wide', TL_MUZZLE);
+    SkinLayerTranslation('Blaze Narrow', TL_FOREHEAD); // Don't combine with star
+    SkinLayerTranslation('Blaze Wide', TL_FOREHEAD);
     SkinLayerTranslation('Cap', TL_FOREHEAD);
     SkinLayerTranslation('Cheek Color Lower', TL_CHEEK_COLOR_LOWER);
     SkinLayerTranslation('Cheek Color', TL_CHEEK_COLOR);
@@ -87,13 +87,16 @@ begin
     SkinLayerTranslation('Face Plate', TL_MASK);
     SkinLayerTranslation('Fishbones', TL_PAINT);
     SkinLayerTranslation('Forehead', TL_FOREHEAD);
+    SkinLayerTranslation('Gazelle', TL_MASK);
     SkinLayerTranslation('Head Scales', TL_FOREHEAD);
     SkinLayerTranslation('Lips', TL_LIP_COLOR);
     SkinLayerTranslation('Lower Jaw', TL_CHIN);
-    SkinLayerTranslation('Mask', TL_Mask);
-    SkinLayerTranslation('Mouche', TL_CHIN);
+    SkinLayerTranslation('Mask', TL_MASK);
+    SkinLayerTranslation('Mouche', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Muzzle Side', TL_MUZZLE_STRIPE); 
+    SkinLayerTranslation('Muzzle Small', TL_MUZZLE); 
     SkinLayerTranslation('Muzzle Stripe', TL_MUZZLE_STRIPE); 
-    SkinLayerTranslation('Muzzle Upper', TL_MUZZLE); 
+    SkinLayerTranslation('Muzzle Upper', TL_MUZZLE_STRIPE); 
     SkinLayerTranslation('Muzzle', TL_MUZZLE);
     SkinLayerTranslation('Nose Color', TL_NOSE); // Fox
     SkinLayerTranslation('Nose Stripe 1', TL_MUZZLE_STRIPE); // Fox
@@ -104,14 +107,15 @@ begin
     SkinLayerTranslation('Scar - Left Long', TL_SCAR);
     SkinLayerTranslation('Skin tone', TL_SKIN_TONE);
     SkinLayerTranslation('Skull', TL_PAINT);
-    SkinLayerTranslation('Star', TL_FOREHEAD);
+    SkinLayerTranslation('Star', TL_FOREHEAD); 
     SkinLayerTranslation('Stripes 01', TL_MASK);
     SkinLayerTranslation('Stripes 02', TL_MASK);
     SkinLayerTranslation('Stripes 03', TL_MASK);
     SkinLayerTranslation('Upper Head', TL_FOREHEAD);
-    SkinLayerTranslation('White Face', TL_CHEEK_COLOR);
+    SkinLayerTranslation('White Face', TL_MASK);
     SkinLayerTranslation('White Face 01', TL_CHEEK_COLOR);
     SkinLayerTranslation('White Face 02', TL_CHEEK_COLOR);
+    SkinLayerTranslation('White Face 03', TL_CHEEK_COLOR);
 
   //SHARK
   SkinLayerTranslation('QR Code', TL_MISC);
@@ -393,6 +397,7 @@ begin
 
     if ContainsText(curNPC.id, 'Kellogg') then curNPC.sig := 'Kellogg'
     else if curNPC.npcclass = CLASS_DEACON then curNPC.sig := 'CompanionDeacon'
+    else if curNPC.npcclass = CLASS_JAKE then curNPC.sig := 'Jake'
     else if ContainsText(curNPC.id, 'Emogene') then curNPC.sig := 'EmogeneCabotOld'
     else if SameText(curNPC.name, 'Sergeant Lee') then curNPC.sig := 'MS05_SgtLee'
     else if SameText(curNPC.name, 'Sully Mathis') then curNPC.sig := 'DN138Sully'
@@ -857,43 +862,101 @@ end;
 // random number of times before selecting it.
 Procedure NPC_SelectRandomColor(seed: integer; 
     layerOption: integer; tintLayer: integer; targetColor: string);
-var 
+var
     alpha: float;
     color: IwbMainRecord;
     colorList: IwbElement;
     colorPreset: IwbElement;
-    i: integer;
+    i, h: integer;
     tc: string;
-    tintSkip: integer;
+    validColors: array [0..19] of IwbElement;
+    vcCount: integer;
 begin
     if LOGGING then LogEntry1(10, 'NPC_SelectRandomColor', curNPC.id);
     colorList := ElementByPath(
         raceInfo[curNPC.furry_race, curNPC.sex].tints[tintLayer, layerOption].element, 'TTEC'
     );
-    tintSkip := NPC_Hash(seed, ElementCount(colorList));
+    vcCount := 0;
     tc := '|' + targetColor + '|';
-    i := 0;
-    while true do begin
+    for i := 0 to ElementCount(colorList) - 1 do begin
         colorPreset := ElementByIndex(colorList, i);
         color := LinksTo(ElementByPath(colorPreset, 'Color'));
         alpha := GetNativeValue(ElementByPath(colorPreset, 'Alpha'));
-        if alpha > 0.0001 
-            and (ContainsText(tc, '|' + EditorID(color) + '|') 
-                or (targetColor = '')) 
-        then begin
-            if tintSkip = 0 then begin
-                NPC_AssignTint(raceInfo[curNPC.furry_race, curNPC.sex].tints[tintLayer, layerOption].element, colorPreset);
-                break;
-            end;
-            tintSkip := tintSkip-1;
-        end;
-        i := i + 1;
-        if i >= ElementCount(colorList) then 
-            if tintSkip = 0 then
-                break
-            else
-                i := 0;
+        if (alpha > 0.0001) 
+            and ((targetColor = '') or ContainsText(tc, '|' + EditorID(color) + '|') ) then begin
+            validColors[vcCount] := colorPreset;
+            vcCount := vcCount + 1;
+            if LOGGING then LogD(Format('Found valid tint %s', [
+                EditorID(color)
+            ]))
+        end
+        else
+            if LOGGING then LogD(Format('Found invalid tint %s', [EditorID(color)]));
+        if vcCount >= 20 then break;
     end;
+
+    if vcCount = 0 then 
+        Warn(Format('Could not find desired tint for %s, layer %s', [
+            Name(curNPC.handle), TintLayerToStr(tintLayer)]))
+    else begin
+        h := NPC_Hash(seed, vcCount);
+        NPC_AssignTint(
+            raceInfo[curNPC.furry_race, curNPC.sex].tints[tintLayer, layerOption].element, 
+            validColors[h]);
+    end;
+
+// var 
+//     alpha: float;
+//     color: IwbMainRecord;
+//     colorGood: IwbElement;
+//     colorList: IwbElement;
+//     colorPreset: IwbElement;
+//     i, j: integer;
+//     tc: string;
+//     tintSkip: integer;
+// begin
+//     if LOGGING then LogEntry1(10, 'NPC_SelectRandomColor', curNPC.id);
+//     colorList := ElementByPath(
+//         raceInfo[curNPC.furry_race, curNPC.sex].tints[tintLayer, layerOption].element, 'TTEC'
+//     );
+//     if LOGGING then LogD(PathName(colorList));
+//     tintSkip := NPC_Hash(seed, ElementCount(colorList));
+//     tc := '|' + targetColor + '|';
+//     i := 0;
+//     j := 0;
+//     while true do begin
+//         colorPreset := ElementByIndex(colorList, i);
+//         color := LinksTo(ElementByPath(colorPreset, 'Color'));
+//         alpha := GetNativeValue(ElementByPath(colorPreset, 'Alpha'));
+//         if LOGGING then LogD(Format('%d/%d/%d: Checking %s against %s', [
+//             i, tintSkip, ElementCount(colorList), EditorID(color), tc]));
+//         if LOGGING then LogD(Format('-- Alpha: %s', [FloatToStr(alpha)]));
+//         if LOGGING then LogD(Format('-- Color matches: %s', [BoolToStr(ContainsText(tc, '|' + EditorID(color) + '|'))]));
+        
+//         if (alpha > 0.0001) 
+//             and ((targetColor = '') or ContainsText(tc, '|' + EditorID(color) + '|') ) 
+//         then begin
+//             if LOGGING then LogD('-- Have match');
+//             colorGood := colorPreset;
+//             if tintSkip = 0 then break;
+//             tintSkip := tintSkip-1;
+//         end;
+//         i := i + 1;
+//         if i >= ElementCount(colorList) then begin
+//             i := 0;
+//             j := j + 1;
+//         end;
+//         if j > 10 then begin
+//             Warn(Format('Could not find desired tint for %s, layer %s', [
+//                 Name(curNPC.handle), TintLayerToStr(tintLayer)]));
+//             break;
+//         end;
+//     end;
+//     if Assigned(colorGood) then 
+//         NPC_AssignTint(
+//             raceInfo[curNPC.furry_race, curNPC.sex].tints[tintLayer, layerOption].element, 
+//             colorGood);
+
     if LOGGING then LogExitT('NPC_SelectRandomColor');
 end;
 
@@ -1263,7 +1326,7 @@ begin
 
     if curNPC.sex = MALE then begin
         NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns05');
-        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFOBeard01');
+        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFODeeBeard01');
     end;
 
     NPC_SetTintlayerColor(4480, TL_SKIN_TONE,  
@@ -1291,7 +1354,7 @@ begin
     NPC_SetWeight(1, 2, 2);
     if curNPC.sex = MALE then begin
         NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns08');
-        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFOBeard01');
+        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFODeeBeard01');
     end;
 
     NPC_SetTintlayerColor(6032, TL_SKIN_TONE,  
@@ -1337,11 +1400,11 @@ begin
         '|FFOFurGingerL|FFOFurBrown|FFOFurTan|FFOFurGinger|FFOFurBrownL|FFOFurTanD|');
     NPC_SetTintlayerColor(8514, TL_EYESOCKET_LOWER, 'FFOFurWhite');
     NPC_SetTintlayerColor(2412, TL_EYEBROW, 'FFOFurWhite');
-    NPC_SetTintlayerColorProb(60, 5794, TL_MUZZLE, '');
-    NPC_SetTintlayerColorProb(60, 5273, TL_MUZZLE_STRIPE, '');
-    NPC_SetTintlayerColorProb(60, 6305, TL_CHIN, '');
-    NPC_SetTintlayerColorProb(60, 8560, TL_CHEEK_COLOR, '');
-    NPC_SetTintlayerColorProb(60, 8631, TL_CHEEK_COLOR_LOWER, '');
+    NPC_SetTintlayerColor(5794, TL_MUZZLE, 'FFOFurWhite');
+    NPC_SetTintlayerColor(5273, TL_MASK, '');
+    // NPC_SetTintlayerColorProb(60, 6305, TL_CHIN, '');
+    // NPC_SetTintlayerColorProb(60, 8560, TL_CHEEK_COLOR, '');
+    // NPC_SetTintlayerColorProb(60, 8631, TL_CHEEK_COLOR_LOWER, '');
 
     if (curNPC.sex = MALE) or (curNPC.sex = FEMALE) then begin
         NPC_SetMorph(4726, 'Nostrils', 'Broad');
@@ -1374,7 +1437,7 @@ begin
     NPC_SetWeight(1, 2, 2);
     if curNPC.sex = MALE then begin
         NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns07'); 
-        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFOBeard01');
+        NPC_SetHeadpart(HEADPART_FACIAL_HAIR, 'FFODeeBeard01');
     end;
 
     NPC_SetTintlayerColor(8312, TL_SKIN_TONE,  
@@ -1410,19 +1473,23 @@ begin
     NPC_ChooseHeadpart(HEADPART_FACE);
 
     case curNPC.npcclass of
-        CLASS_BOBROV: deerType := 4;
+        CLASS_BOBROV: deerType := 8;
         CLASS_PIPER: deerType := 0;
     else 
-        deerType := NPC_Hash(9477, 6);
+        deerType := NPC_Hash(9477, 10);
     end;
     
     case deerType of
         0: NPC_MakeDeerWhitetail;
-        1: NPC_MakeDeerElk;
-        2: NPC_MakeDeerReindeer;
-        3: NPC_MakeDeerMoose;
-        4: NPC_MakeDeerAntelope;
-        5: NPC_MakeDeerRam;
+        1: NPC_MakeDeerWhitetail;
+        2: NPC_MakeDeerWhitetail;
+        3: NPC_MakeDeerElk;
+        4: NPC_MakeDeerElk;
+        5: NPC_MakeDeerReindeer;
+        6: NPC_MakeDeerReindeer;
+        7: NPC_MakeDeerMoose;
+        8: NPC_MakeDeerAntelope;
+        9: NPC_MakeDeerRam;
     end;
 
     NPC_ChooseOldTint(3041+deerType*13);
@@ -1842,6 +1909,8 @@ begin
         // Only add ghouls to ARMAs if we are furrifying everything.
         GhoulArmorEnable(patchFile);
     end;
+
+    LOGLEVEL := 15;
 end;
 
 // Process selected NPCs.
