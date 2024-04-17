@@ -19,6 +19,8 @@ const
     MALECHILD = 2;
     FEMALECHILD = 3;
     SEX_HI = 3;
+    FEMALE_BIT = 1;
+    CHILD_BIT = 2;
 
     // Known NPC classes
     CLASS_LO = 0;
@@ -648,8 +650,9 @@ begin
                     end;
                 end
                 else begin
-                    Warn(Format('Unknown tint type for %s %s: %s', [
-                        Name(theRace), SexToStr(sex), tintName]));
+                    if not StartsText('HumanRace', EditorID(theRace)) then
+                        Warn(Format('Unknown tint type for %s %s: %s', [
+                            Name(theRace), SexToStr(sex), tintName]));
                 end;
             end;
         end;
@@ -1104,23 +1107,15 @@ begin
                 masterRaceList.AddObject(racename, TObject(r));
                 raceInfo[Result, MALE].mainRecord := r;
                 raceInfo[Result, FEMALE].mainRecord := r;
-                raceInfo[Result, MALE].morphGroups := TStringList.Create;
-                raceInfo[Result, FEMALE].morphGroups := TStringList.Create;
-                raceInfo[Result, MALE].morphProbability := TStringList.Create;
-                raceInfo[Result, FEMALE].morphProbability := TStringList.Create;
-                raceInfo[Result, MALE].morphLo := TStringList.Create;
-                raceInfo[Result, FEMALE].morphLo := TStringList.Create;
-                raceInfo[Result, MALE].morphHi := TStringList.Create;
-                raceInfo[Result, FEMALE].morphHi := TStringList.Create;
-                raceInfo[Result, MALE].morphSkew := TStringList.Create;
-                raceInfo[Result, FEMALE].morphSkew := TStringList.Create;
-                raceInfo[Result, MALE].morphExcludes := TStringList.Create;
-                raceInfo[Result, FEMALE].morphExcludes := TStringList.Create;
-                raceInfo[Result, MALE].faceBoneList := TStringList.Create;
-                raceInfo[Result, FEMALE].faceBoneList := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphGroups := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphProbability := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphLo := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphHi := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphSkew := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphExcludes := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].faceBoneList := TStringList.Create;
                 for i := HEADPART_LO to HEADPART_HI do begin
-                    raceInfo[Result, FEMALE].headpartProb[i] := 100;
-                    raceInfo[Result, MALE].headpartProb[i] := 100;
+                    for i := SEX_LO to SEX_HI do raceInfo[Result, i].headpartProb[i] := 100;
                 end;
             end;
         end;
@@ -1331,11 +1326,11 @@ begin
         else begin
             // Find the morph record
             morphList := ElementByPath(raceInfo[r, sex].mainRecord, 
-                IfThen(sex = MALE, 'Male Face Morphs', 'Female Face Morphs'));
+                IfThen(((sex and FEMALE_BIT) = 0), 'Male Face Morphs', 'Female Face Morphs'));
             for i := 0 to ElementCount(morphList)-1 do begin
                 m := ElementByIndex(morphList, i);
                 n := GetElementEditValues(m, 'FMRN');
-                If LOGGING then LogT(Format('Checking %s = %s', [n, morph]));
+                If LOGGING then LogD(Format('Checking FMRN="%s", target="%s"', [n, morph]));
                 if n = morph then begin
                     idx := GetElementNativeValues(m, 'FMRI');
                     raceInfo[r, sex].faceBoneList.Add(morph);
@@ -1362,13 +1357,19 @@ begin
             // Race wasn't found
             if (racesNotFound.IndexOf(racename) < 0) then begin
                 racesNotFound.Add(racename);
-                Err(Format('Setting face morph %s for a race not loaded: %s', 
+                Err(Format('Setting face morph "%s" for a race not loaded: %s', 
                     [morph, racename, SexToStr(sex)]));
             end
         end
-        else 
-            Err(Format('Could not find face morph %s on race %s', 
+        else begin
+            Err(Format('Could not find face morph "%s" on race %s %s', 
                 [morph, racename, SexToStr(sex)]));
+            Err(Format('Morphlist is %s', [IfThen(Assigned(morphList), PathName(morphList), 'NOT assigned')]));
+            Err(Format('Race index = %d, %s', [r, RaceIDtoStr(r)]));
+            Err(Format('Sex = %s', [SexToStr(sex)]));
+            Err(Format('Path = %s', [IfThen(((sex and FEMALE_BIT) = 0), 'Male Face Morphs', 'Female Face Morphs')]));
+            Err(Format('RaceID = %.8x', [integer(FormID(raceInfo[r, sex].mainRecord))]));
+        end;
     end;
     If LOGGING then LogExitT('SetFaceMorph');
 end;

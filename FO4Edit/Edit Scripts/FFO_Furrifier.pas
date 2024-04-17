@@ -1,7 +1,7 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.9
+  Version: 2.10
   
   Creates a NPC furry patch for a load order.
 
@@ -26,8 +26,8 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    patchfileName = 'FFOSimSettlementNPCPatch.esp'; // Set to whatever
-    USE_SELECTION = TRUE;           // FALSE or TRUE
+    patchfileName = 'FFOPatch.esp'; // Set to whatever
+    USE_SELECTION = FALSE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
     // Ghouls. All ghouls have to be the same race (because they're one separate race in
@@ -1614,6 +1614,7 @@ end;
 Function IsValidNPC(npc: IwbMainRecord): integer;
 var
     race: IwbMainRecord;
+    isHuman: boolean;
 begin
     if LOGGING Then LogEntry1(5, 'IsValidNPC', Name(npc));
     result := 1;
@@ -1632,20 +1633,24 @@ begin
     end;
 
     race := GetNPCRace(npc);
+    isHuman := (EditorID(race) = 'HumanRace') or (EditorID(race) = 'HumanChildRace');
+    If LOGGING then LogD(Format('Found %s, %s, %s', [Name(npc), EditorID(race),
+        IfThen(isHuman, 'is human', 'not human')]));
+    if not isHuman then result := 0;
     if result > 0 then begin
         // If already furry, do nothing
-        if (masterRaceList.IndexOf(EditorID(race)) >= 0) 
-            or (childRaceList.IndexOf(EditorID(race)) >= 0)
+        if ((masterRaceList.IndexOf(EditorID(race)) >= 0) 
+            or (childRaceList.IndexOf(EditorID(race)) >= 0))
+            and (not isHuman)
         then begin
-            if LOGGING then LogD('Already furry');
+            if LOGGING then LogD(Format('Already furry: %s is %s', [Name(npc), EditorID(race)]));
             result := 0;
         end;
     end;
 
     // We only know how to furrify humans (and ghouls when asked)
     if result > 0 then begin
-        if (EditorID(race) <> 'HumanRace') 
-            and (EditorID(race) <> 'HumanChildRace') 
+        if not isHuman
         then
             if not USE_SELECTION then begin
                 if (EditorID(race) <> 'GhoulRace') 
@@ -1660,30 +1665,6 @@ begin
                 result := 0;
         end;
     end;
-
-    // ***Now furrifying player family just like anything else
-    //    
-    // if result > 0 then begin
-    //     // Must not be any of the player records, or Shaun--those are in the player race files
-    //     if LOGGING Then LogD('Is player: ' + IntToStr(playerIDs.IndexOf(EditorID(npc))));
-    //     if playerIDs.IndexOf(EditorID(npc)) >= 0 then
-    //         result := 0;
-    // end;
-
-    ///// We now furrify presets because some mods depend on them.
-    // if result > 0 then begin
-    //     // Must not be a preset--furry races have their own
-    //     if GetElementEditValues(npc, 'ACBS - Configuration\Flags\Is Chargen Face Preset') = '1' then
-    //         result := 0;
-    // end;
-    
-    /// If it's a human race (tested above) we furrify even if it gets its traits
-    /// from a template. Seems like some dead NPCs don't follow the traits.
-    // if result > 0 then begin
-    //     // If it gets traits from a template, just zero out the morphs.
-    //     if NPCInheritsTraits(npc) then
-    //         result := 2;
-    // end;
 
     if LOGGING Then LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
@@ -1887,7 +1868,8 @@ begin
     AddMessage('----------------------------------------------------------');
 
     InitializeLogging;
-    LOGLEVEL := 10;
+    LOGGING := FALSE;
+    LOGLEVEL := 5;
     errCount := 0;
     warnCount := 0;
 
@@ -1909,8 +1891,6 @@ begin
         // Only add ghouls to ARMAs if we are furrifying everything.
         GhoulArmorEnable(patchFile);
     end;
-
-    LOGLEVEL := 15;
 end;
 
 // Process selected NPCs.

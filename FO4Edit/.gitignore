@@ -1,9 +1,10 @@
-FO4Edit.exe
-FO4EditException.log
-FO4EditQuickAutoClean.exe
+*.exe
+*.log
+*.zip
 FO4Edit_log.txt
 LICENSE.txt
 Optional/
+Themes/
 README.txt
 whatsnew.rtf
 __history

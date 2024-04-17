@@ -4,10 +4,8 @@ interface
 implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
-const
-    LOGGING = FALSE;
-
 var 
+    LOGGING: boolean;
     LOGLEVEL: integer;
     logIndent: integer;
     callIndex: intger;

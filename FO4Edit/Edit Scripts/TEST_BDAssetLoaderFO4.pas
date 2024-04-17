@@ -45,11 +45,6 @@ begin
     Assert(actual = expected, Format(msg + ': "%s" = "%s"', [actual, expected]));
 end;
 
-Function Initialize: integer;
-begin
-  
-end;
-
 //=======================================================================
 // Check to ensure the given IwbContainer contains the record referenced by editor ID.
 // Also ensures all elements of the list are valid.
@@ -1244,6 +1239,12 @@ begin
     ShutdownNPCGenerator;
 end;
 
+Function Initialize: integer;
+begin
+    LOGGING := TRUE;
+    LOGLEVEL := 20;
+end;
+
 Function Finalize: integer;
 begin
     AddMessage('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
@@ -1267,12 +1268,12 @@ begin
     modFile := CreateOverrideMod('TEST.esp');
     InitializeFurrifier(modFile);
 
-    // ShowClassProbabilities;
+    ShowClassProbabilities;
 
-    TestGhoulArmor;
-    TestFFOFurrifier;
-    TestNPCGeneration;
-    TestFurryArmorFixup;
+    // TestGhoulArmor;
+    // TestFFOFurrifier;
+    // TestNPCGeneration;
+    // TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 

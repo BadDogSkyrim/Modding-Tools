@@ -296,6 +296,7 @@ begin
 	SetClassProb(CLASS_SETTLER, 'K9_GShepRace', 10);
 	SetClassProb(CLASS_SETTLER, 'K9_WolfRace', 10);
 	SetClassProb(CLASS_SETTLER, 'K9_HellhoundRace', 2);
+	SetClassProb(CLASS_SETTLER, 'K9_DobermannRace', 0);
 	
     // Followers. There's at least one follower of each race.
     SetClassProb(CLASS_GARVEY, 'FFOLionRace', 100);
@@ -663,7 +664,7 @@ begin
 	AddChildRace('K9_RaiderDogRace', 'K9_RaiderDogChildRace');
 	AddChildRace('K9_GShepRace', 'K9_GShepChildRace');
 	AddChildRace('K9_WolfRace', 'K9_WolfChildRace');
-	AddChildRace('K9_HellhoundRace', 'K9_HellhoundChildRace');
+	// AddChildRace('K9_HellhoundRace', 'K9_HellhoundChildRace');
 	AddChildRace('K9_DobermannRace', 'K9_DobermannChildRace');
 	
 	SetHeadpartProb('K9_GShepRace', MALE, HEADPART_FACIAL_HAIR, 70);
@@ -679,18 +680,18 @@ begin
 	SetHeadpartProb('K9_DobermannRace', MALE, HEADPART_MOUTH, 0); // Mouth in race record
 	SetHeadpartProb('K9_DobermannRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in race record
 	
-	SetHeadpartProb('K9_GShepChildRace', MALE, HEADPART_FACIAL_HAIR, 50);
-	SetHeadpartProb('K9_GShepChildRace', FEMALE, HEADPART_FACIAL_HAIR, 50);
-	SetHeadpartProb('K9_GShepChildRace', MALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_GShepChildRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_HellhoundChildRace', MALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_HellhoundChildRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_RaiderDogChildRace', MALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_RaiderDogChildRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_WolfChildRace', MALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_WolfChildRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_DobermannChildRace', MALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
-	SetHeadpartProb('K9_DobermannChildRace', FEMALE, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_GShepRace', MALECHILD, HEADPART_FACIAL_HAIR, 50);
+	SetHeadpartProb('K9_GShepRace', FEMALECHILD, HEADPART_FACIAL_HAIR, 50);
+	SetHeadpartProb('K9_GShepRace', MALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_GShepRace', FEMALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	// SetHeadpartProb('K9_HellhoundRace', MALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	// SetHeadpartProb('K9_HellhoundRace', FEMALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_RaiderDogRace', MALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_RaiderDogRace', FEMALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_WolfRace', MALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_WolfRace', FEMALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_DobermannRace', MALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
+	SetHeadpartProb('K9_DobermannRace', FEMALECHILD, HEADPART_MOUTH, 0); // Mouth in ChildRace record
 	
 	SetTintProbability('K9_GShepRace', MALE, TL_SCAR, 5);
 	SetTintProbability('K9_GShepRace', FEMALE, TL_SCAR, 5);
@@ -707,10 +708,10 @@ begin
 	SetMorphProbability('K9_DobermannRace', MALE, 'Ears', 30, 70, 100, EVEN);
 	ExcludeMorph('K9_HellhoundRace', FEMALE, 'Head');
 	ExcludeMorph('K9_HellhoundRace', MALE, 'Head');
-	SetMorphProbability('K9_WolfChildRace', FEMALE, 'Head', 30, 20, 100, SKEW0);
-	SetMorphProbability('K9_WolfChildRace', MALE, 'Head', 30, 20, 100, SKEW0);
-	SetMorphProbability('K9_DobermannChildRace', FEMALE, 'Ears', 30, 70, 100, EVEN);
-	SetMorphProbability('K9_DobermannChildRace', MALE, 'Ears', 30, 70, 100, EVEN);
+	SetMorphProbability('K9_WolfChildRace', FEMALECHILD, 'Head', 30, 20, 100, SKEW0);
+	SetMorphProbability('K9_WolfChildRace', MALECHILD, 'Head', 30, 20, 100, SKEW0);
+	SetMorphProbability('K9_DobermannChildRace', FEMALECHILD, 'Ears', 30, 70, 100, EVEN);
+	SetMorphProbability('K9_DobermannChildRace', MALECHILD, 'Ears', 30, 70, 100, EVEN);
 	
 	SetFaceMorph('K9_GShepRace', FEMALE, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
@@ -807,98 +808,98 @@ begin
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 		
-	SetFaceMorph('K9_GShepChildRace', FEMALE, 'Ears - Full', 
+	SetFaceMorph('K9_GShepRace', FEMALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_GShepChildRace', FEMALE, 'Cheeks', 
+	SetFaceMorph('K9_GShepRace', FEMALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_GShepChildRace', FEMALE, 'Nose - Full', 
+	SetFaceMorph('K9_GShepRace', FEMALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_GShepChildRace', MALE, 'Ears - Full', 
+	SetFaceMorph('K9_GShepRace', MALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_GShepChildRace', MALE, 'Cheeks', 
+	SetFaceMorph('K9_GShepRace', MALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_GShepChildRace', MALE, 'Nose - Full', 
+	SetFaceMorph('K9_GShepRace', MALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 	
-	SetFaceMorph('K9_HellhoundChildRace', FEMALE, 'Ears - Full', 
-		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
-		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_HellhoundChildRace', FEMALE, 'Cheeks', 
-		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
-		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_HellhoundChildRace', FEMALE, 'Nose - Full', 
-		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
-		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_HellhoundChildRace', MALE, 'Ears - Full', 
-		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
-		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_HellhoundChildRace', MALE, 'Cheeks', 
-		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
-		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_HellhoundChildRace', MALE, 'Nose - Full', 
-		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
-		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	// SetFaceMorph('K9_HellhoundRace', FEMALECHILD, 'Ears - Full', 
+	// 	{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+	// 	{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	// SetFaceMorph('K9_HellhoundRace', FEMALECHILD, 'Cheeks', 
+	// 	{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+	// 	{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	// SetFaceMorph('K9_HellhoundRace', FEMALECHILD, 'Nose - Full', 
+	// 	{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+	// 	{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
+	// SetFaceMorph('K9_HellhoundRace', MALECHILD, 'Ears - Full', 
+	// 	{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
+	// 	{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
+	// SetFaceMorph('K9_HellhoundRace', MALECHILD, 'Cheeks', 
+	// 	{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
+	// 	{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
+	// SetFaceMorph('K9_HellhoundRace', MALECHILD, 'Nose - Full', 
+	// 	{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
+	// 	{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 		
-	SetFaceMorph('K9_RaiderDogChildRace', FEMALE, 'Ears - Full', 
+	SetFaceMorph('K9_RaiderDogRace', FEMALECHILD, 'Ears - Full', 
 		{loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_RaiderDogChildRace', FEMALE, 'Cheeks', 
+	SetFaceMorph('K9_RaiderDogRace', FEMALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_RaiderDogChildRace', FEMALE, 'Nose - Full', 
+	SetFaceMorph('K9_RaiderDogRace', FEMALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_RaiderDogChildRace', MALE, 'Ears - Full', 
+	SetFaceMorph('K9_RaiderDogRace', MALECHILD, 'Ears - Full', 
 		{loc min} 0, 0, 0,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0, 0,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_RaiderDogChildRace', MALE, 'Cheeks', 
+	SetFaceMorph('K9_RaiderDogRace', MALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_RaiderDogChildRace', MALE, 'Nose - Full', 
+	SetFaceMorph('K9_RaiderDogRace', MALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 		
-	SetFaceMorph('K9_WolfChildRace', FEMALE, 'Ears - Full', 
+	SetFaceMorph('K9_WolfRace', FEMALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_WolfChildRace', FEMALE, 'Cheeks', 
+	SetFaceMorph('K9_WolfRace', FEMALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_WolfChildRace', FEMALE, 'Nose - Full', 
+	SetFaceMorph('K9_WolfRace', FEMALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_WolfChildRace', MALE, 'Ears - Full', 
+	SetFaceMorph('K9_WolfRace', MALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_WolfChildRace', MALE, 'Cheeks', 
+	SetFaceMorph('K9_WolfRace', MALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_WolfChildRace', MALE, 'Nose - Full', 
+	SetFaceMorph('K9_WolfRace', MALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 		
-	SetFaceMorph('K9_DobermannChildRace', FEMALE, 'Ears - Full', 
+	SetFaceMorph('K9_DobermannRace', FEMALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_DobermannChildRace', FEMALE, 'Cheeks', 
+	SetFaceMorph('K9_DobermannRace', FEMALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_DobermannChildRace', FEMALE, 'Nose - Full', 
+	SetFaceMorph('K9_DobermannRace', FEMALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_DobermannChildRace', MALE, 'Ears - Full', 
+	SetFaceMorph('K9_DobermannRace', MALECHILD, 'Ears - Full', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.4,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.4);
-	SetFaceMorph('K9_DobermannChildRace', MALE, 'Cheeks', 
+	SetFaceMorph('K9_DobermannRace', MALECHILD, 'Cheeks', 
 		{loc min} -0.25, -0.25, -0.25,  {rot min} 0, 0, 0, {scale min} -0.3,
 		{loc max} 0.25, 0.25, 0.25,  {rot max} 0, 0, 0, {scale max} 0.3);
-	SetFaceMorph('K9_DobermannChildRace', MALE, 'Nose - Full', 
+	SetFaceMorph('K9_DobermannRace', MALECHILD, 'Nose - Full', 
 		{loc min} 0, -0.05, -0.5,  {rot min} -0.25, 0, 0, {scale min} -0.4,
 		{loc max} 0, 0.05, 0.5,  {rot max} 0.25, 0, 0, {scale max} 0.4);
 
