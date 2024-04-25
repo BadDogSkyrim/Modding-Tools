@@ -398,6 +398,83 @@ begin
     result := ((rgbVal shr 24) and $FF)/255.0;
 end;
 
+//=========================================================
+// Create a form button
+function FormButton(f: TForm; parent: TForm; lab: String; res: Cardinal; left, top: integer):
+    TButton;
+var
+    b: TButton;
+begin
+    b := TButton.Create(f);
+    b.parent := parent;
+    b.caption := lab;
+    b.ModalResult := res;
+    b.Left := left;
+    b.top := top;
+    Result := b;
+end;
+
+//=========================================================
+// Create a form label
+function FormLabel(f: TForm; parent: TForm; caption: String; left, top: integer):
+    TLabel;
+var
+    lbl: TLabel;
+begin
+    lbl := TLabel.Create(f);
+    lbl.parent := parent;
+    lbl.caption := caption;
+    lbl.Left := left;
+    lbl.top := top;
+    Result := lbl;
+end;
+
+//=========================================================
+// Create a form check box
+function FormCheckBox(f: TForm; parent: TForm; caption: String; left, top: integer):
+    TCheckBox;
+var
+    cb: TCheckBox;
+begin
+    cb := TCheckBox.Create(f);
+    cb.parent := parent;
+    cb.caption := caption;
+    cb.width := 100;
+    cb.Left := left;
+    cb.top := top;
+    Result := cb;
+end;
+
+//=========================================================
+// Create a form panel
+function FormPanel(f: TForm; parent: TForm; bevelOuter: Cardinal; alignment: Cardinal; height: integer):
+    TPanel;
+var
+    p: TPanel;
+begin
+    p := TPanel.Create(f);
+    p.parent := parent;
+    p.BevelOuter := bevelOuter;
+    p.align := alignment;
+    p.height := height;
+    Result := p
+end;
+
+//=========================================================
+// Create a form edit text box
+function FormEdit(f: TForm; parent: TForm; left, top, width: integer):
+    TEdit;
+var
+    ed: TEdit;
+begin
+    ed := TEdit.Create(f);
+    ed.parent := parent;
+    ed.left := left;
+    ed.top := top;
+    ed.width := width;
+    result := ed;
+end;
+
 
 
 end.

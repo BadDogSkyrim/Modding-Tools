@@ -1,7 +1,6 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.10
   
   Creates a NPC furry patch for a load order.
 
@@ -23,10 +22,12 @@ interface
 implementation
 
 uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
-BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    patchfileName = 'FFOPatch.esp'; // Set to whatever
+    FURRIFIER_VERSION = '2.10';
+    SHOW_OPTIONS_DIALOG = True;
+    PATCH_FILE_NAME = 'FFOPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
@@ -39,6 +40,13 @@ const
     DO_FURRIFICATION = TRUE;
 
 var
+    patchFileName: string;
+    settingUseSelection: boolean;
+    settingTargetRace: string;
+    settingFurrifyGhouls: boolean;
+    settingGhoulRace: string;
+    settingGhoulChildRace: string;
+    cancelRun: boolean;
     patchFile: IwbFile;
 
     ffoIndex: integer;
@@ -424,9 +432,9 @@ begin
         if playerRaceID >= 0 then curNPC.race := playerRaceID;
     end;
 
-    if (curNPC.race < 0) and (length(TARGET_RACE) > 0) then begin
+    if (curNPC.race < 0) and (length(settingTargetRace) > 0) then begin
         // Use the target race, if specified.
-        curNPC.race := masterRaceList.IndexOf(TARGET_RACE);
+        curNPC.race := masterRaceList.IndexOf(settingTargetRace);
     end;
 
     if curNPC.race < 0 then begin
@@ -543,7 +551,7 @@ begin
             SetNativeValue(ElementByPath(curNPC.handle, 'RNAM'), 
                 LoadOrderFormIDtoFileFormID(curNPC.plugin, raceFormID));
         end;
-        curNPC.furry_race := RacenameIndex(GHOUL_RACE);
+        curNPC.furry_race := RacenameIndex(settingGhoulRace);
         race := raceInfo[curNPC.furry_race, curNPC.sex].mainRecord;
     end
     else begin
@@ -596,7 +604,7 @@ begin
     if result < 0 then begin
         rn := EditorID(GetNPCRace(npc));
         if (rn = 'GhoulRace') or (rn = 'GhoulChildRace') then
-            result := masterRaceList.IndexOf(GHOUL_RACE);
+            result := masterRaceList.IndexOf(settingGhoulRace);
     end;
     if LOGGING Then LogD(Format('...after checking ghouls: %s', [RaceIDToStr(result)]));
     if result < 0 then result := GetNPCRaceID(npc);
@@ -1652,7 +1660,7 @@ begin
     if result > 0 then begin
         if not isHuman
         then
-            if not USE_SELECTION then begin
+            if not settingUseSelection then begin
                 if (EditorID(race) <> 'GhoulRace') 
                     and (EditorID(race) <> 'GhoulChildRace') 
                 then begin
@@ -1712,13 +1720,13 @@ begin
 
     FurrifyRace(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        FindAsset(nil, 'RACE', GHOUL_RACE));
+        FindAsset(nil, 'RACE', settingGhoulRace));
 
     // AddRace('GhoulRace');
 
     FurrifyRace(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        FindAsset(nil, 'RACE', GHOUL_CHILD_RACE));
+        FindAsset(nil, 'RACE', settingGhoulChildRace));
 
     // AddChildRace('GhoulRace', 'GhoulChildRace');
 
@@ -1735,10 +1743,10 @@ begin
     // turning ghouls into) needs to be modified to add the ghoul race.
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALE].mainRecord); 
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALECHILD].mainRecord); 
 end;
 
 //========================================================
@@ -1754,7 +1762,7 @@ begin
 
     InitializeAssetLoader;
     SetTintLayerTranslations;
-    if TARGET_RACE <> '' then AddRace(TARGET_RACE);
+    if settingTargetRace <> '' then AddRace(settingTargetRace);
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
@@ -1834,7 +1842,88 @@ begin
     ShutdownAssetLoader;
 end;
 
-// initialize stuff
+//=========================================================
+// Create options form
+procedure OptionsForm;
+var
+    f: TForm;
+    btnOK, btnCancel: TButton;
+    pluginName: TEdit;
+    rname: TEdit;
+    lbl, lbl2, lbl3, lbl4, lbl5, lbl6: TLabel;
+    cb1, cb2, cb3, cb4: TCheckBox;
+    ghoulRace, ghoulChildRace: TEdit;
+begin
+    f := TForm.Create(nil);
+    // try
+        f.caption := 'FFO Furrifier';
+        f.width := 400;
+        f.height := 400;
+        f.position := poScreenCenter;
+        f.borderStyle := bsDialog;
+
+        lbl := FormLabel(f, f, 'New plugin name', 15, 10);
+        pluginName := FormEdit(f, f, lbl.left+lbl.width+10, lbl.top-3, 200);
+        pluginName.Text := PATCH_FILE_NAME;
+
+        lbl2 := FormLabel(f, f, 'Patch', lbl.left, lbl.top+30);
+        cb1 := FormCheckBox(f, f, 'Load order', lbl2.left, lbl2.top+20);
+        cb2 := FormCheckBox(f, f, 'Selected NPCs', lbl2.left, cb1.top+20);
+        if USE_SELECTION then cb2.checked := True else cb1.Checked := True;
+
+        lbl3 := FormLabel(f, f, 'Races', lbl2.left, cb2.top + 30);
+        cb3 := FormCheckBox(f, f, 'Use furrifier', lbl2.left, lbl3.top+20);
+        lbl4 := FormLabel(f, f, 'Force all to race', lbl2.left, cb3.top+20);
+        rname := FormEdit(f, f, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
+        if Length(TARGET_RACE) > 0 then 
+            rname.text := TARGET_RACE
+        else
+            cb3.checked := True;
+
+        lbl4 := FormLabel(f, f, 'Ghouls', lbl2.left, lbl4.top + 30);
+        cb4 := FormCheckBox(f, f, 'Furrify ghouls', lbl2.left, lbl4.top+25);
+        lbl5 := FormLabel(f, f, 'Ghoul race', lbl2.left, cb4.top+20);
+        ghoulRace := FormEdit(f, f, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
+        lbl6 := FormLabel(f, f, 'Child race', lbl2.left, lbl5.top+25);
+        ghoulChildRace := FormEdit(f, f, ghoulRace.left, lbl6.top-3, 200);
+        cb4.Checked := True;
+        ghoulRace.text := settingGhoulRace;
+        ghoulChildRace.text := settingGhoulChildRace;
+
+        //pnlBot := FormPanel(f, alBottom, 190);
+        btnOK := FormButton(f, f, 'OK', mrOK, 120, f.height-80);
+        btnCancel := FormButton(f, f, 'Cancel', mrCancel, btnOk.Left + btnOk.Width + 16, btnOK.top);
+
+        if f.ShowModal = mrOK then begin
+            AddMessage('OK');
+            if EndsText('.esp', pluginName.text) then
+                patchfileName := pluginName.text
+            else
+                patchfileName := pluginName.text + '.esp';
+            patchFileName := pluginName.text;
+            settingUseSelection := cb2.checked;
+            if cb3.checked then
+                settingTargetRace := ''
+            else
+                settingTargetRace := rname.text;
+            settingFurrifyGhouls := cb4.checked;
+            settingGhoulRace := ghoulRace.text;
+            settingGhoulChildRace := ghoulChildRace.text;
+        end
+        else begin
+            AddMessage('User cancel');
+            cancelRun := TRUE;
+        end;
+    // except
+    //     on E: Exception do
+    //     begin
+    //         AddMessage('Error')
+    //     end;
+    // end;
+end;
+
+//=========================================================
+// initializion routine
 function Initialize: integer;
 var
   i: Integer;
@@ -1844,25 +1933,31 @@ var
   f: IwbFile;
   haveTarget: boolean;
 begin
-  // welcome messages
-  AddMessage(#13#10);
-  AddMessage('==========================================================');
-  AddMessage('Furry Fallout Furrifier');
+    if SHOW_OPTIONS_DIALOG then OptionsForm;
+
+    // welcome messages
+    AddMessage(#13#10);
+    AddMessage('==========================================================');
+    AddMessage('Furry Fallout Furrifier V' + FURRIFIER_VERSION);
     AddMessage('');
-    AddMessage('Creating patch for ' + wbAppName);
-  AddMessage('----------------------------------------------------------');
-  AddMessage('');
 
-  AddMessage('----------------------------------------------------------');
-    if USE_SELECTION then 
-        AddMessage('Furrifying selected NPCs only')
-    else 
-        AddMessage('Furrifying all NPCs');
-    
-    if length(TARGET_RACE) > 0 then
-        AddMessage('All affected NPCs will be changed to ' + TARGET_RACE);
+    if cancelRun then begin
+        AddMessage('Cancelling run by user request');
+        exit;
+    end;
+    AddMessage('Creating patch in ' + patchFileName);
+    AddMessage(IfThen(settingUseSelection, 
+        'Furrifying selected NPCs only', 
+        'Furrifying all NPCs'));
+    AddMessage(IfThen(Length(settingTargetRace) > 0,
+        'All affected NPCs will be changed to ' + settingTargetRace,
+        'NPC races will be assigned by FFO_Proabilities'));
+    AddMessage(IfThen(settingFurrifyGhouls,
+        'Ghoul races are ' + settingGhoulRace + ' / ' + settingGhoulChildRace,
+        'Ghouls not being furrified'));
+    AddMessage('----------------------------------------------------------');
+    AddMessage('');
 
-    AddMessage('Patch file is ' + patchfileName);
     startTime := Time;
     // AddMessage('Start time ' + TimeToStr(startTime));
     AddMessage('----------------------------------------------------------');
@@ -1887,7 +1982,7 @@ begin
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALECHILD].mainRecord));
     end;
 
-    if not USE_SELECTION then begin
+    if settingFurrifyGhouls then begin
         // Only add ghouls to ARMAs if we are furrifying everything.
         GhoulArmorEnable(patchFile);
     end;
@@ -1899,7 +1994,8 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if (not USE_SELECTION) or (not DO_FURRIFICATION) then exit;
+    if cancelRun or (not settingUseSelection) or (not DO_FURRIFICATION) then exit;
+    
     win := WinningOverride(entity);
 
     if LOGGING then Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
@@ -1929,7 +2025,9 @@ var
     npcList: IwbContainer;
     raceID: inetger;
 begin
-    if DO_FURRIFICATION and (not USE_SELECTION) then begin
+    if cancelRun then exit;
+
+    if DO_FURRIFICATION and (not settingUseSelection) then begin
         // Walk all files up to and including FFO. Nothing after FFO will be furrified.
         for f := 0 to ffoIndex do begin
             fn := GetFileName(FileByIndex(f));
