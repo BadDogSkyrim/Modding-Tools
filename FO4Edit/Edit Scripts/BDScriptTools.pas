@@ -446,6 +446,24 @@ begin
 end;
 
 //=========================================================
+// Create a form check box
+function FormComboBox(f: TForm; parent: TForm; options: String; left, top, width: integer):
+    TComboBox;
+var
+    cb: TComboBox;
+begin
+    cb := TComboBox.Create(f);
+    cb.Parent := parent;
+    cb.Left := left;
+    cb.Top := top;
+    cb.Width := width;
+    cb.Style := csDropDownList;
+    cb.Items.Text := options;
+    cb.ItemIndex := 0;
+    result := cb;
+end;
+
+//=========================================================
 // Create a form panel
 function FormPanel(f: TForm; parent: TForm; bevelOuter: Cardinal; alignment: Cardinal; height: integer):
     TPanel;

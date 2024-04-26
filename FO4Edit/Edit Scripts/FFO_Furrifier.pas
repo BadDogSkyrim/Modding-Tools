@@ -52,6 +52,10 @@ var
     ffoIndex: integer;
     ffoFile: IwbFile;
 
+    // Strings for options pulldowns
+    raceChoices, childRaceChoices: string;
+    ghoulChoiceIndex, ghoulChildChoiceIndex: integer;
+
     // playerIDs: TStringList;
 
     // Holds furrified NPCs. Object array is the hash value of the editor ID.
@@ -1762,7 +1766,6 @@ begin
 
     InitializeAssetLoader;
     SetTintLayerTranslations;
-    if settingTargetRace <> '' then AddRace(settingTargetRace);
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
@@ -1770,11 +1773,11 @@ begin
     ghoulRaceHandle := FindAsset(NIL, 'RACE', 'GhoulRace');
     ghoulChildRaceHandle := FindAsset(NIL, 'RACE', 'GhoulChildRace');
 
-    if racesNotFound.Count > 0 then begin
-        AddMessage('These races were not found in the load order and will not be assigned:');
-        for i := 0 to racesNotFound.Count-1 do
-            AddMessage('   ' + racesNotFound[i]);
-    end;
+    // if racesNotFound.Count > 0 then begin
+    //     AddMessage('These races were not found in the load order and will not be assigned:');
+    //     for i := 0 to racesNotFound.Count-1 do
+    //         AddMessage('   ' + racesNotFound[i]);
+    // end;
 
     CorrelateChildren;
 
@@ -1843,6 +1846,47 @@ begin
 end;
 
 //=========================================================
+// Return known furry races formatted for a use in pulldown lists.
+Procedure GetRaceList;
+var
+    i: integer;
+    lst, lstch: TStringList;
+    s: string;
+begin
+    lst := TStringList.Create();
+    lst.Duplicates := dupIgnore;
+    lst.Sorted := True;
+    lstch := TStringList.Create();
+    lstch.Duplicates := dupIgnore;
+    lstch.Sorted := True;
+    for i := RACE_LO to RACE_HI do begin
+        s := EditorID(raceInfo[i, MALE].mainRecord);
+        if s = GHOUL_RACE then ghoulChoiceIndex := lst.Count-1;
+        lst.Add(s);
+        s := EditorID(raceInfo[i, MALECHILD].mainRecord);
+        if s = GHOUL_CHILD_RACE then ghoulChildChoiceIndex := lstch.count-1;
+        lstch.Add(s);
+    end;
+    raceChoices := '';
+    childRaceChoices := '';
+    for i := 0 to lst.Count-1 do begin
+        // if length(raceChoices) = 0 then raceChoices := raceChoices + #13;
+        if i = 0 then 
+            raceChoices := lst[i]
+        else
+            raceChoices := raceChoices + #13 + lst[i];
+    end;
+    for i := 0 to lstch.Count-1 do begin
+        if i = 0 then 
+            childRaceChoices := lstch[i]
+        else
+            childRaceChoices := childraceChoices + #13 + lstch[i];
+    end;
+    lst.free();
+    lstch.free();
+end;
+
+//=========================================================
 // Create options form
 procedure OptionsForm;
 var
@@ -1853,7 +1897,11 @@ var
     lbl, lbl2, lbl3, lbl4, lbl5, lbl6: TLabel;
     cb1, cb2, cb3, cb4: TCheckBox;
     ghoulRace, ghoulChildRace: TEdit;
+    races, childraces: string;
 begin
+    GetRaceList;
+    AddMessage(raceChoices);
+    AddMessage(childRaceChoices);
     f := TForm.Create(nil);
     // try
         f.caption := 'FFO Furrifier';
@@ -1874,7 +1922,8 @@ begin
         lbl3 := FormLabel(f, f, 'Races', lbl2.left, cb2.top + 30);
         cb3 := FormCheckBox(f, f, 'Use furrifier', lbl2.left, lbl3.top+20);
         lbl4 := FormLabel(f, f, 'Force all to race', lbl2.left, cb3.top+20);
-        rname := FormEdit(f, f, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
+        // rname := FormEdit(f, f, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
+        rname := FormComboBox(f, f, 'NONE'+#13+raceChoices, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
         if Length(TARGET_RACE) > 0 then 
             rname.text := TARGET_RACE
         else
@@ -1883,12 +1932,14 @@ begin
         lbl4 := FormLabel(f, f, 'Ghouls', lbl2.left, lbl4.top + 30);
         cb4 := FormCheckBox(f, f, 'Furrify ghouls', lbl2.left, lbl4.top+25);
         lbl5 := FormLabel(f, f, 'Ghoul race', lbl2.left, cb4.top+20);
-        ghoulRace := FormEdit(f, f, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
+        // ghoulRace := FormEdit(f, f, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
+        ghoulRace := FormComboBox(f, f, raceChoices, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
         lbl6 := FormLabel(f, f, 'Child race', lbl2.left, lbl5.top+25);
-        ghoulChildRace := FormEdit(f, f, ghoulRace.left, lbl6.top-3, 200);
+        // ghoulChildRace := FormEdit(f, f, ghoulRace.left, lbl6.top-3, 200);
+        ghoulChildRace := FormComboBox(f, f, childRaceChoices, ghoulRace.left, lbl6.top-3, 200);
         cb4.Checked := True;
-        ghoulRace.text := settingGhoulRace;
-        ghoulChildRace.text := settingGhoulChildRace;
+        ghoulRace.ItemIndex := ghoulChoiceIndex;
+        ghoulChildRace.ItemIndex := ghoulChildChoiceIndex;
 
         //pnlBot := FormPanel(f, alBottom, 190);
         btnOK := FormButton(f, f, 'OK', mrOK, 120, f.height-80);
@@ -1902,13 +1953,15 @@ begin
                 patchfileName := pluginName.text + '.esp';
             patchFileName := pluginName.text;
             settingUseSelection := cb2.checked;
-            if cb3.checked then
+            if rname.text = 'NONE' then
                 settingTargetRace := ''
             else
                 settingTargetRace := rname.text;
             settingFurrifyGhouls := cb4.checked;
             settingGhoulRace := ghoulRace.text;
             settingGhoulChildRace := ghoulChildRace.text;
+
+            if settingTargetRace <> '' then AddRace(settingTargetRace);
         end
         else begin
             AddMessage('User cancel');
@@ -1933,6 +1986,14 @@ var
   f: IwbFile;
   haveTarget: boolean;
 begin
+    InitializeLogging;
+    LOGGING := FALSE;
+    LOGLEVEL := 5;
+    errCount := 0;
+    warnCount := 0;
+
+    InitializeFurrifier(patchFile);
+
     if SHOW_OPTIONS_DIALOG then OptionsForm;
 
     // welcome messages
@@ -1962,20 +2023,12 @@ begin
     // AddMessage('Start time ' + TimeToStr(startTime));
     AddMessage('----------------------------------------------------------');
 
-    InitializeLogging;
-    LOGGING := FALSE;
-    LOGLEVEL := 5;
-    errCount := 0;
-    warnCount := 0;
-
     for i := 0 to FileCount-1 do begin
 
         preFurryCount := FileCount;
     end;
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
-
-    InitializeFurrifier(patchFile);
 
     for i := RACE_LO to RACE_HI do begin
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALE].mainRecord));
