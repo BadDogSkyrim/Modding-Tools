@@ -26,6 +26,14 @@ begin
     else
         result := 'NONE';
 end;
+
+Function HighestOverride(r: IwbMainRecord): IwbMainRecord;
+begin
+    if IsWinningOverride(r) then
+        result := r
+    else
+        result := WinningOverride(r);
+end;
     
 //================================================================
 // Adds "masterFile" as a master to "aeFile", if not already there.

@@ -10,7 +10,7 @@ implementation
 uses FFO_Furrifier, BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 var 
-    leveledList: array [0..50, 0..50] of IwbMainRecord;
+    leveledList: TStringList;
     badTemplates:  TStringList;
     newMod: IwbFile;
     targetFile: IwbFile;
@@ -29,12 +29,13 @@ begin
     
     // Generate a unique, unused name.
     repeat begin
-        name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4);
+        name := 'FFO_' + EditorID(npc) + '_' + IntToHex(Random(32768), 4)
+            + IfThen(targetSex = FEMALE, '_F', '_M');
+        if length(name) > 32 then name := leftstr(name, 25) + rightstr(name, 6);
         end;
     until not Assigned(FindAsset(targetFile, 'NPC_', name));
 
     if targetSex = FEMALE then begin
-        name := name + '_F';
         SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);
     end;
     SetEditorID(newNPC, name);
@@ -132,7 +133,8 @@ end;
 // 
 
 //==========================================================
-// Generate 'num' new NPCs copied from the template NPC.
+// Generate 'num' new NPCs copied from the template NPC and add them to any lists the
+// original NPC is on.
 Procedure GenerateNPCs(targetFile: IwbFile; 
     templateNPCname: string; num: integer; targetSex: integer);
 var
@@ -187,147 +189,162 @@ begin
     if LOGGING then Log(5, '>ForceLLTemplate');
 end;
 
-//===============================================================================
-// If an NPC gets its traits from a template 
-// AND is not a child 
-// AND the chain of templates to the base contains no leveled lists, 
-// AND the NPC is not included in any leveled lists, 
-// AND the name is generic
-// AND it's not one of the player spouse corpses, 
-// THEN replace the original NPC's traits with a
-// leveled list of the appropriate sex.
+//============================================================================
+// Create a new leveled list filled with NPCs based on the given template NPC.
+// Remember the LL and if the same request is made again, reuse it.
+function CreateLL(targetFile: IwbFile; name: string; templateNPC: IwbMainRecord): IwbMainRecord;
+var
+    i: integer;
+    llList: IwbElement;
+    lvln: IwbElement;
+    newLL: IwbMainRecord;
+    npc: IwbMainRecord;
+begin
+    if LOGGING then LogEntry3(5, 'CreateLL', GetFileName(targetFile), name, RecordName(templateNPC));
+
+    i := leveledList.IndexOf(EditorID(templateNPC));
+    if i >= 0 then
+        result := leveledList.objects(i)
+    else begin
+        lvln := GroupBySignature(targetFile, 'LVLN');
+        if not Assigned(lvln) then lvln := Add(targetFile, 'LVLN', true);
+        newLL := Add(lvln, 'LVLN', true);
+        SetEditorID(newLL, name);
+        Add(newll, 'Leveled List Entries', true);
+        for i := 1 to 5 do begin
+            npc := GenerateRandomNPC(targetFile, templateNPC, GetNPCSex(templateNPC));
+            AddNPCtoLevelList(npc, newLL);
+        end;
+        leveledList.AddObject(EditorID(templateNPC), TObject(newLL));
+
+        result := newLL;
+    end;
+
+    if LOGGING then LogExit1(5, 'CreateLL', RecordName(result));
+end;
+
+//============================================================================
+// Create a new leveled list filled with NPCs based on the named template NPC.
+function CreateLLByName(targetFile: IwbFile; name: string; templateNPCName: string): IwbMainRecord;
+var
+    i: integer;
+    llList: IwbElement;
+    lvln: IwbElement;
+    newLL: IwbMainRecord;
+    npc: IwbMainRecord;
+    templateNPC: IwbMainRecord;
+begin
+    if LOGGING then LogEntry3(5, 'CreateLLByName', GetFileName(targetFile), name, templateNPCName);
+
+    templateNPC := FindAsset(nil, 'NPC_', templateNPCName);
+    if Assigned(templateNPC) then 
+        result := CreateLL(targetFile, name, templateNPC);
+
+    if LOGGING then LogExit1(5, RecordName(result));
+end;
+
+{
+===============================================================================
+If an NPC gets its traits from a template 
+AND is not a child 
+AND the chain of templates to the base contains no leveled lists, 
+AND the NPC is not included in any leveled lists, 
+AND the name is generic
+AND it's not one of the player spouse corpses, 
+THEN replace the original NPC's traits with a leveled list of the appropriate sex.
+}
 function SetGenericTraits(targetFile: IwbFile; npc: IwbMainRecord): IwbMainRecord;
 var
     cl: integer;
     curTpl, tpl: IwbMainRecord;
+    i: integer;
     name: string;
     newNPC: IwbMainRecord;
     noTpl: boolean;
     sex: integer;
 begin
-    if LOGGING then LogEntry3(5, 'SetGenericTraits', GetFileName(targetFile), Name(npc), SexToStr(GetNPCSex(npc)));
+    if LOGGING then LogEntry3(5, 'SetGenericTraits', GetFileName(targetFile), RecordName(npc), SexToStr(GetNPCSex(npc)));
     
     noTpl := false;
     cl := GetNPCClass(npc);
     sex := GetNPCSex(npc);
     newNPC := npc;
-    if NPCInheritsTraits(npc) and (EditorID(npc) <> 'MQ102PlayerSpouseCorpseFemale')
+
+    if NPCInheritsTraits(npc) 
+        and (EditorID(npc) <> 'MQ102PlayerSpouseCorpseFemale')
         and (EditorID(npc) <> 'MQ102PlayerSpouseCorpseMale') 
     then begin
         curTpl := NPCTraitsTemplate(npc);
-        tpl := leveledList[cl, sex];
-        if LOGGING then LogT(Format('Have template %s for %s/%s', [
-            Name(tpl), GetNPCClassName(cl), SexToStr(sex)]));
-        if LOGGING then LogT(Format('Replacing template %s <- %s', [Name(curTpl), Name(tpl)]));
-        if badTemplates.IndexOf(EditorID(curTpl)) >= 0 then begin
-            if Assigned(tpl) then
-                newNPC := ForceLLTemplate(targetFile, npc, tpl)
-            else 
-                noTpl := true;
-        end
-        else if (not BasedOnLeveledList(npc))
+
+        if LOGGING then LogT(Format('Current template: %s', [RecordName(curTpl)]));
+        if LOGGING then LogT(Format('Based on LL: %s', [BoolToStr(BasedOnLeveledList(npc))]));
+        if LOGGING then LogT(Format('Is child: %s', [BoolToStr(NPCIsChild(npc))]));
+        if LOGGING then LogT(Format('Is generic: %s', [BoolToStr(NPCisGeneric(npc))]));
+        if Assigned(curTpl)
+            and (not BasedOnLeveledList(npc))
             and (not NPCisChild(npc)) 
             and NPCisGeneric(npc)
         then begin
-            if Assigned(tpl) then begin
-                if (not NPCinLeveledList(npc, tpl)) then begin
-                    newNPC := ForceLLTemplate(targetFile, npc, tpl);
-                end;
-            end
+            if LOGGING then LogT('NPC based on single template');
+            i := leveledList.IndexOf(EditorID(npc));
+            if i >= 0 then
+                tpl := leveledList.objects(i)
             else 
-                noTpl := true;
+                tpl := CreateLL(targetFile, EditorID(npc) + '_LVL', npc);
+            if Assigned(tpl) then begin
+                newNPC := ForceLLTemplate(targetFile, npc, tpl);
+            end;
         end;
     end;
-    if noTpl then
-        Warn(Format('Have no template LL for %s, class %s, class %s', [
-            Name(npc),
-            GetNPCClassName(GetNPCClass(npc)),
-            SexToStr(GetNPCSex(npc))
-        ]));
     result := newNPC;
+
     if LOGGING then LogExitT('SetGenericTraits');
-end;
-
-//============================================================================
-// Create a new leveled list filled with NPCs based on the given template NPC.
-function CreateLL(targetFile: IwbFile; name: string; templateNPCName: string): IwbMainRecord;
-var
-    i: integer;
-    llList: IwbElement;
-    lvln: IwbElement;
-    newLL: IwbElement;
-    npc: IwbMainRecord;
-    templateNPC: IwbMainRecord;
-begin
-    if LOGGING then Log(5, Format('<CreateLL(%s, %s, %s)', [GetFileName(targetFile), name, templateNPCName]));
-    templateNPC := FindAsset(nil, 'NPC_', templateNPCName);
-    if Assigned(templateNPC) then begin
-        lvln := GroupBySignature(targetFile, 'LVLN');
-        if not Assigned(lvln) then lvln := Add(targetFile, 'LVLN', true);
-        newLL := Add(lvln, 'LVLN', true);
-        // newLL := ElementAssign(lvln, HighInteger, nil, false);
-
-        // newLL := wbCopyElementToFile(leveledList[CLASS_RAIDER, MALE], targetFile, True, True);
-        SetEditorID(newLL, name);
-        Add(newll, 'Leveled List Entries', true);
-        // llList := ElementByPath(newLL, 'Leveled List Entries');
-        // SetNativeValue(ElementByPath(newLL, 'LLCT', 0));
-        // Remove(llList);
-        // Add(llList, 'Leveled List Entries', true);
-        // for i := 0 to ElementCount(llList)-1 do 
-        //     Remove(ElementByIndex(llList, i));
-
-        for i := 1 to 10 do begin
-            npc := GenerateRandomNPC(targetFile, templateNPC, GetNPCSex(templateNPC));
-            AddNPCtoLevelList(npc, newLL);
-        end;
-
-        result := newLL;
-    end;
-    if LOGGING then Log(5, '>');
 end;
 
 procedure InitializeNPCGenerator(targetFile: IwbFile);
 begin
-    leveledList[CLASS_ATOM, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharChildrenofAtomFemale');
-    leveledList[CLASS_ATOM, MALE] := FindAsset(Nil, 'LVLN', 'LCharChildrenofAtomMale');
-    leveledList[CLASS_BOS, FEMALE] := Nil;
-    leveledList[CLASS_BOS, MALE] := FindAsset(Nil, 'LVLN', 'LCharBoSTraitsSoldier');
-    leveledList[CLASS_DISCIPLES, FEMALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderDiscipleFaceF');
-    leveledList[CLASS_DISCIPLES, MALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderDiscipleFaceM');
-    leveledList[CLASS_GUNNER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharGunner_GunnersFemale01');
-    leveledList[CLASS_GUNNER, MALE] := FindAsset(Nil, 'LVLN', 'LCharGunner_GunnersMale02');
-    leveledList[CLASS_INSTITUTE, FEMALE] := CreateLL(targetFile, 'FFO_LCharInstituteScientist_Fem', 'InstituteScientistFemale');
-    leveledList[CLASS_INSTITUTE, MALE] := CreateLL(targetFile, 'FFO_LCharInstituteScientist_Male', 'InstituteScientistMale');
-    leveledList[CLASS_MINUTEMEN, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharMinutemenFacesFemale');
-    leveledList[CLASS_MINUTEMEN, MALE] := FindAsset(Nil, 'LVLN', 'LCharMinutemenFacesMale');
-    leveledList[CLASS_OPERATOR, FEMALE] := CreateLL(targetFile, 'FFO_LCharOperator_Fem', 'DLC04_encGangOperatorFaceF01');
-    leveledList[CLASS_OPERATOR, MALE] := CreateLL(targetFile, 'FFO_LCharOperator_Male', 'DLC04_encGangOperatorFaceM01');
-    leveledList[CLASS_PACK, FEMALE] := CreateLL(targetFile, 'FFO_LCharPack_Fem', 'DLC04_encGangPackFaceF01');
-    leveledList[CLASS_PACK, MALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderPackFace_Male');
-    leveledList[CLASS_RAIDER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharRaiderFemale');
-    leveledList[CLASS_RAIDER, MALE] := FindAsset(Nil, 'LVLN', 'LCharRaiderMale');
-    leveledList[CLASS_SETTLER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharWorkshopNPCFemale');
-    leveledList[CLASS_SETTLER, MALE] := FindAsset(Nil, 'LVLN', 'LCharWorkshopNPCMale');
-    leveledList[CLASS_TRAPPER, FEMALE] := Nil;
-    leveledList[CLASS_TRAPPER, MALE] := FindAsset(Nil, 'LVLN', 'DLC03_LCharTrapperFace');
+    leveledList := TStringList.Create;
 
-    // A NPC that gets its traits from these templates should get them from a leveled list instead.
-    badTemplates := TStringList.Create;
-    badTemplates.Add('BunkerHillWorkerF01');
-    badTemplates.Add('DLC03EncTrapper01Template');
-    badTemplates.Add('EncGunner01Template');
-    badTemplates.Add('EncMinutemen01Template');
-    badTemplates.Add('EncRaider01Template');
-    badTemplates.Add('EncSynthCourser01Template');
-    badTemplates.Add('EncTriggermanTemplate00');
-    badTemplates.Add('Loot_CorpseBase');
-    badTemplates.Add('EncChildrenOfAtom01Template');
+    // leveledList[CLASS_ATOM, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharChildrenofAtomFemale');
+    // leveledList[CLASS_ATOM, MALE] := FindAsset(Nil, 'LVLN', 'LCharChildrenofAtomMale');
+    // leveledList[CLASS_BOS, FEMALE] := Nil;
+    // leveledList[CLASS_BOS, MALE] := FindAsset(Nil, 'LVLN', 'LCharBoSTraitsSoldier');
+    // leveledList[CLASS_DISCIPLES, FEMALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderDiscipleFaceF');
+    // leveledList[CLASS_DISCIPLES, MALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderDiscipleFaceM');
+    // leveledList[CLASS_GUNNER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharGunner_GunnersFemale01');
+    // leveledList[CLASS_GUNNER, MALE] := FindAsset(Nil, 'LVLN', 'LCharGunner_GunnersMale02');
+    // leveledList[CLASS_INSTITUTE, FEMALE] := CreateLL(targetFile, 'FFO_LCharInstituteScientist_Fem', 'InstituteScientistFemale');
+    // leveledList[CLASS_INSTITUTE, MALE] := CreateLL(targetFile, 'FFO_LCharInstituteScientist_Male', 'InstituteScientistMale');
+    // leveledList[CLASS_MINUTEMEN, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharMinutemenFacesFemale');
+    // leveledList[CLASS_MINUTEMEN, MALE] := FindAsset(Nil, 'LVLN', 'LCharMinutemenFacesMale');
+    // leveledList[CLASS_OPERATOR, FEMALE] := CreateLL(targetFile, 'FFO_LCharOperator_Fem', 'DLC04_encGangOperatorFaceF01');
+    // leveledList[CLASS_OPERATOR, MALE] := CreateLL(targetFile, 'FFO_LCharOperator_Male', 'DLC04_encGangOperatorFaceM01');
+    // leveledList[CLASS_PACK, FEMALE] := CreateLL(targetFile, 'FFO_LCharPack_Fem', 'DLC04_encGangPackFaceF01');
+    // leveledList[CLASS_PACK, MALE] := FindAsset(Nil, 'LVLN', 'DLC04_LCharRaiderPackFace_Male');
+    // leveledList[CLASS_RAIDER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharRaiderFemale');
+    // leveledList[CLASS_RAIDER, MALE] := FindAsset(Nil, 'LVLN', 'LCharRaiderMale');
+    // leveledList[CLASS_SETTLER, FEMALE] := FindAsset(Nil, 'LVLN', 'LCharWorkshopNPCFemale');
+    // leveledList[CLASS_SETTLER, MALE] := FindAsset(Nil, 'LVLN', 'LCharWorkshopNPCMale');
+    // leveledList[CLASS_TRAPPER, FEMALE] := Nil;
+    // leveledList[CLASS_TRAPPER, MALE] := FindAsset(Nil, 'LVLN', 'DLC03_LCharTrapperFace');
+
+    // // A NPC that gets its traits from these templates should get them from a leveled list instead.
+    // badTemplates := TStringList.Create;
+    // badTemplates.Add('BunkerHillWorkerF01');
+    // badTemplates.Add('DLC03EncTrapper01Template');
+    // badTemplates.Add('EncGunner01Template');
+    // badTemplates.Add('EncMinutemen01Template');
+    // badTemplates.Add('EncRaider01Template');
+    // badTemplates.Add('EncSynthCourser01Template');
+    // badTemplates.Add('EncTriggermanTemplate00');
+    // badTemplates.Add('Loot_CorpseBase');
+    // badTemplates.Add('EncChildrenOfAtom01Template');
 end;
 
 procedure ShutdownNPCGenerator;
 begin
-    badTemplates.Free;
+    leveledList.Free;
+    // badTemplates.Free;
 end;
 
 Procedure GenerateFurryNPCs(patchFile: IwbFile);
@@ -397,14 +414,23 @@ begin
     newMod := CreateOverrideMod('FFOGGeneratedNPCs.esp');
     AddMessage('Created ' + GetFileName(newMod));
     InitializeFurrifier(newMod);
-    LOGLEVEL := 5;
+    LOGGING := TRUE;
+    LOGLEVEL := 1;
     InitializeNPCGenerator(newMod);
 end;
 
 function Process(e: IInterface): integer;
+var
+    rnam: string;
+    ovr: IwbMainRecord;
 begin
     if Signature(e) = 'NPC_' then begin 
-        SetGenericTraits(newMod, WinningOverride(e));
+        ovr := HighestOverride(e);
+        rnam := EditorID(HighestOverride(LinksTo(ElementByPath(ovr, 'RNAM'))));
+        if (rnam = 'HumanRace') or StartsText('FFO', rnam) then begin
+            Log(5, Format('+++Processing %s', [RecordName(ovr)]));
+            SetGenericTraits(newMod, ovr);
+        end;
     end;
 end;
 

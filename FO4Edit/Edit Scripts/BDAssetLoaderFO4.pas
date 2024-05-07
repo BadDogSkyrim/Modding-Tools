@@ -330,10 +330,31 @@ end;
 // Determine whether this is a generic NPC.
 Function NPCisGeneric(npc: IwbMainRecord): boolean;
 begin
-    if ContainsText(EditorID(npc), 'Deacon') then result := false
-    else if ContainsText(EditorID(npc), 'Kellogg') then result := false
-    else if genericNames.IndexOf(GetElementEditValues(npc, 'FULL')) >= 0 then result := true
-    ;
+    result := (GetElementNativeValues(npc, 'ACBS\Flags\unique') = 0)
+        and (not ContainsText(EditorID(npc), 'Blackbird'))
+        and (not ContainsText(EditorID(npc), 'MrMathers'))
+        and (not ContainsText(EditorID(npc), 'Maven'))
+        and (not ContainsText(EditorID(npc), 'KellyK'))
+        and (not ContainsText(EditorID(npc), 'BeatriceBell'))
+        and (not ContainsText(EditorID(npc), 'Kellogg'))
+        and (not ContainsText(EditorID(npc), 'Kath'))
+        and (not ContainsText(EditorID(npc), 'Mary'))
+        and (not ContainsText(EditorID(npc), 'Mikail'))
+        and ('EncPrewarCultistBoss02' <> EditorID(npc))
+        and ('EncPrewarCultistBoss03NEW' <> EditorID(npc))
+        and ('EncPrewarCultistBoss02NEW' <> EditorID(npc))
+        and ('DN059_Tad' <> EditorID(npc))
+        and ('DN127Loot_CorpseSettlerMale' <> EditorID(npc))
+        and ('DN132_CorpseRussell' <> EditorID(npc))
+        and ('DN132_CorpseMargaret' <> EditorID(npc))
+        and ('RECampRJ03_Moss' <> EditorID(npc))
+        and ('MQ203MemoryE_Kelloggtest' <> EditorID(npc))
+        and ('POIMR01Loot_CorpseSettlerMale' <> EditorID(npc))
+        ;
+    // if ContainsText(EditorID(npc), 'Deacon') then result := false
+    // else if ContainsText(EditorID(npc), 'Kellogg') then result := false
+    // else if genericNames.IndexOf(GetElementEditValues(npc, 'FULL')) >= 0 then result := true
+    // ;
 end;
 
 //===========================================================
@@ -728,7 +749,7 @@ begin
     presetlist := ElementByPath(raceInfo[raceIndex, sex].tints[tintLayer].element, 'Presets');
     for i := 0 to ElementCount(presetlist) - 1 do begin
         colorPreset := ElementByIndex(presetlist, i);
-        color := WinningOverride(LinksTo(ElementByPath(colorPreset, 'TINC')));
+        color := HighestOverride(LinksTo(ElementByPath(colorPreset, 'TINC')));
         if EditorID(color) = colorName then begin
             Result := colorPreset;
             break;
@@ -748,9 +769,10 @@ var
 	i: integer;
 begin
 	If LOGGING then Log(5, 'ChooseNamedColor:  ' +colorName);
-    Result := WinningOverride(LinksTo(
+    Result := HighestOverride(LinksTo(
         ElementByPath(ChoosePresetByColor(raceIndex, sex, colorName, tintLayer),
-                      'TINC')));
+                      'TINC'))
+        );
 end;
 
 //======================================================
@@ -989,7 +1011,7 @@ begin
     //     specialHeadparts.AddObject(EditorID(hp), hp);
 
     // Get the form list that has the races for this head part
-    validRaceList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM - Valid Races')));
+    validRaceList := HighestOverride(LinksTo(ElementByPath(hp, 'RNAM - Valid Races')));
     If LOGGING then LogT('Found reference to form list ' + EditorID(validRaceList));
 
     facialType := HeadpartFacialType(hp);
@@ -1054,7 +1076,7 @@ begin
 
         g := GroupBySignature(f, 'HDPT');
         for j := 0 to ElementCount(g)-1 do begin
-            hp := WinningOverride(ElementByIndex(g, j));
+            hp := HighestOverride(ElementByIndex(g, j));
             hpname := EditorID(hp);
 
             if hpDone.IndexOf(hpname) < 0 then 
@@ -1095,7 +1117,7 @@ begin
             Result := -1;
         end
         else begin
-            r := WinningOverride(r);
+            r := HighestOverride(r);
             If LOGGING then LogT(Format('Found race %s', [Name(r)]));
             if masterRaceList.Count >= RACES_MAX then begin
                 Err('Too many races, stopped at ' + racename);
