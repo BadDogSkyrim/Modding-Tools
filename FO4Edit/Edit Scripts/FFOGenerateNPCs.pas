@@ -282,6 +282,7 @@ begin
         if LOGGING then LogT(Format('Is generic: %s', [BoolToStr(NPCisGeneric(npc))]));
         if Assigned(curTpl)
             and (not BasedOnLeveledList(npc))
+            and (not UsedByLeveledList(npc))
             and (not NPCisChild(npc)) 
             and NPCisGeneric(npc)
         then begin

@@ -389,6 +389,25 @@ begin
     If LOGGING then Log(5, '>BasedOnLeveledList -> ' + IfThen(result, 'T', 'F'));
 end;
 
+//=========================================================================
+// Determine whether the NPC appears in a leveled list.
+Function UsedByLeveledList(npc: IwbMainRecord): boolean;
+var
+    
+begin
+    If LOGGING then LogEntry1(5, 'BasedOnLeveledList', Name(npc));
+    result := FALSE;
+    refcount := ReferencedByCount(npc);
+    for i := 0 to refcount-1 do begin
+        refr := ReferencedByIndex(npc, i);
+        if Signature(refr) = 'LVLN' then begin
+            result := TRUE;
+            break;
+        end;
+    end;
+    If LOGGING then LogExit1(5, 'BasedOnLeveledList', BoolToStr(result));
+end;
+
 //===========================================================
 // Determine whether the NPC inherits traits.
 Function NPCInheritsTraits(npc: IwbMainRecord): boolean;
