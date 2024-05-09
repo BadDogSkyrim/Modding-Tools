@@ -430,7 +430,7 @@ begin
     if curNPC.npcclass = CLASS_PLAYER then begin
         // This is one of Shaun's variants or another NPC that should follow the race of
         // the player.
-        player := WinningOverride(RecordByFormID(FileByIndex(0), 07, False));
+        player := HighestOverride(RecordByFormID(FileByIndex(0), 07, False));
         playerRace := LinksTo(ElementByPath(player, 'RNAM'));
         playerRaceID := masterRaceList.IndexOf(EditorID(playerRace));
         if playerRaceID >= 0 then curNPC.race := playerRaceID;
@@ -1602,11 +1602,16 @@ begin
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := FurrifyNPC(npc, targetFile);
-        // furrifiedNPCs.Add(EditorID(npc));
+
+        if not settingUseSelection then begin
+            // Furrifying the load order, add extra NPCs
+            SetGenericTraits(patchFile, furryNPC);
+        end;
+
         Result := furryNPC;
     end
     else
-        Result := WinningOverride(npc);
+        Result := HighestOverride(npc);
 
     if LOGGING Then LogExit(5, 'MakeFurryNPC');
 end;
@@ -1648,35 +1653,28 @@ begin
     isHuman := (EditorID(race) = 'HumanRace') or (EditorID(race) = 'HumanChildRace');
     If LOGGING then LogD(Format('Found %s, %s, %s', [Name(npc), EditorID(race),
         IfThen(isHuman, 'is human', 'not human')]));
-    if not isHuman then result := 0;
-    if result > 0 then begin
-        // If already furry, do nothing
+
+    if not isHuman 
+    then
         if ((masterRaceList.IndexOf(EditorID(race)) >= 0) 
             or (childRaceList.IndexOf(EditorID(race)) >= 0))
-            and (not isHuman)
         then begin
             if LOGGING then LogD(Format('Already furry: %s is %s', [Name(npc), EditorID(race)]));
             result := 0;
-        end;
-    end;
-
-    // We only know how to furrify humans (and ghouls when asked)
-    if result > 0 then begin
-        if not isHuman
-        then
-            if not settingUseSelection then begin
-                if (EditorID(race) <> 'GhoulRace') 
-                    and (EditorID(race) <> 'GhoulChildRace') 
-                then begin
-                    if LOGGING then LogD('Is neither human nor ghoul');
-                    result := 0;
-                end;
-            end
-            else begin
-                if LOGGING then LogD('Is not human and not converting ghouls');
+        end
+    else
+        if settingFurrifyGhouls
+        then begin
+            if (EditorID(race) <> 'GhoulRace') and (EditorID(race) <> 'GhoulChildRace')
+            then begin
+                if LOGGING then LogD('Is neither human nor ghoul');
                 result := 0;
+            end
+        end
+        else begin
+            if LOGGING then LogD('Is not human and not converting ghouls');
+            result := 0;
         end;
-    end;
 
     if LOGGING Then LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
@@ -2039,6 +2037,8 @@ begin
         // Only add ghouls to ARMAs if we are furrifying everything.
         GhoulArmorEnable(patchFile);
     end;
+
+    InitializeNPCGenerator(patchFile);
 end;
 
 // Process selected NPCs.
@@ -2049,7 +2049,7 @@ var
 begin
     if cancelRun or (not settingUseSelection) or (not DO_FURRIFICATION) then exit;
     
-    win := WinningOverride(entity);
+    win := HighestOverride(entity);
 
     if LOGGING then Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
 
@@ -2111,8 +2111,8 @@ begin
                 [GetFileName(FileByIndex(f)), furryCount]));
         end;
 
-        AddMessage('Generating additional furry NPCs...');
-        GenerateFurryNPCs(patchFile);
+        // AddMessage('Generating additional furry NPCs...');
+        // GenerateFurryNPCs(patchFile);
         AddMessage('Merging armor record changes...');
         MergeFurryChanges(patchFile);
     end;
@@ -2165,6 +2165,7 @@ begin
   AddMessage('==========================================================');
 
     ShutdownFurrifier;
+    ShutdownNPCGenerator();
 
 end;
 end.
