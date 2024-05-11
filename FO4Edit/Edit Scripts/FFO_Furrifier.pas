@@ -40,14 +40,15 @@ const
     DO_FURRIFICATION = TRUE;
 
 var
-    patchFileName: string;
-    settingUseSelection: boolean;
-    settingTargetRace: string;
-    settingFurrifyGhouls: boolean;
-    settingGhoulRace: string;
-    settingGhoulChildRace: string;
     cancelRun: boolean;
     patchFile: IwbFile;
+    patchFileName: string;
+    settingExtraNPCs: boolean;
+    settingFurrifyGhouls: boolean;
+    settingGhoulChildRace: string;
+    settingGhoulRace: string;
+    settingTargetRace: string;
+    settingUseSelection: boolean;
 
     ffoIndex: integer;
     ffoFile: IwbFile;
@@ -458,14 +459,19 @@ begin
         // Pick a random race.
         pointTotal := classProbs[curNPC.npcclass, masterRaceList.Count];
         if LOGGING Then LogD(Format('classProbs has pre-summed value: %d', [classProbs[curNPC.npcclass, masterRaceList.Count]]));
-        h := NPC_Hash(6795, pointTotal);
-        if LOGGING Then LogD(Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(curNPC.npcclass), pointTotal, h]));
-        for r := RACE_LO to RACE_HI do begin
-            if LOGGING Then LogD(Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[curNPC.npcclass, r], classProbsMax[curNPC.npcclass, r]]));
-            if (h >= classProbsMin[curNPC.npcclass, r]) and (h <= classProbsMax[curNPC.npcclass, r]) then begin
-                curNPC.race := r;
-                break;
-            end;
+        if pointTotal > 0 then begin
+            h := NPC_Hash(6795, pointTotal);
+            if LOGGING Then LogD(Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(curNPC.npcclass), pointTotal, h]));
+            for r := RACE_LO to RACE_HI do begin
+                if LOGGING Then LogD(Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[curNPC.npcclass, r], classProbsMax[curNPC.npcclass, r]]));
+                if (h >= classProbsMin[curNPC.npcclass, r]) and (h <= classProbsMax[curNPC.npcclass, r]) then begin
+                    curNPC.race := r;
+                    break;
+                end;
+            end
+        end
+        else begin
+            curNPC.race := -1;
         end;
     end;
 
@@ -1603,10 +1609,7 @@ begin
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := FurrifyNPC(npc, targetFile);
 
-        if not settingUseSelection then begin
-            // Furrifying the load order, add extra NPCs
-            SetGenericTraits(patchFile, furryNPC);
-        end;
+        if settingExtraNPCs then SetGenericTraits(patchFile, furryNPC);
 
         Result := furryNPC;
     end
@@ -1893,13 +1896,11 @@ var
     pluginName: TEdit;
     rname: TEdit;
     lbl, lbl2, lbl3, lbl4, lbl5, lbl6: TLabel;
-    cb1, cb2, cb3, cb4: TCheckBox;
+    cb1, cb2, cb3, cb4, cb5: TCheckBox;
     ghoulRace, ghoulChildRace: TEdit;
     races, childraces: string;
 begin
     GetRaceList;
-    AddMessage(raceChoices);
-    AddMessage(childRaceChoices);
     f := TForm.Create(nil);
     // try
         f.caption := 'FFO Furrifier';
@@ -1929,7 +1930,7 @@ begin
 
         lbl4 := FormLabel(f, f, 'Ghouls', lbl2.left, lbl4.top + 30);
         cb4 := FormCheckBox(f, f, 'Furrify ghouls', lbl2.left, lbl4.top+25);
-        lbl5 := FormLabel(f, f, 'Ghoul race', lbl2.left, cb4.top+20);
+        lbl5 := FormLabel(f, f, 'Ghoul race', lbl2.left, cb4.top+25);
         // ghoulRace := FormEdit(f, f, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
         ghoulRace := FormComboBox(f, f, raceChoices, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
         lbl6 := FormLabel(f, f, 'Child race', lbl2.left, lbl5.top+25);
@@ -1939,9 +1940,13 @@ begin
         ghoulRace.ItemIndex := ghoulChoiceIndex;
         ghoulChildRace.ItemIndex := ghoulChildChoiceIndex;
 
+        cb5 := FormCheckBox(f, f, 'Extra NPCs', lbl2.left, lbl6.top+30);
+        cb5.Checked := True;
+
         //pnlBot := FormPanel(f, alBottom, 190);
-        btnOK := FormButton(f, f, 'OK', mrOK, 120, f.height-80);
+        btnOK := FormButton(f, f, 'OK', mrOK, 120, cb5.top+40);
         btnCancel := FormButton(f, f, 'Cancel', mrCancel, btnOk.Left + btnOk.Width + 16, btnOK.top);
+        f.height := btnOK.top + 80;
 
         if f.ShowModal = mrOK then begin
             AddMessage('OK');
@@ -1960,6 +1965,8 @@ begin
             settingGhoulChildRace := ghoulChildRace.text;
 
             if settingTargetRace <> '' then AddRace(settingTargetRace);
+
+            settingExtraNPCs := cb5.Checked;
         end
         else begin
             AddMessage('User cancel');
@@ -2008,6 +2015,9 @@ begin
     AddMessage(IfThen(settingUseSelection, 
         'Furrifying selected NPCs only', 
         'Furrifying all NPCs'));
+    AddMessage(IfThen(settingExtraNPCs, 
+        'Creating extra NPCs', 
+        'No extra NPCs'));
     AddMessage(IfThen(Length(settingTargetRace) > 0,
         'All affected NPCs will be changed to ' + settingTargetRace,
         'NPC races will be assigned by FFO_Proabilities'));
@@ -2111,8 +2121,16 @@ begin
                 [GetFileName(FileByIndex(f)), furryCount]));
         end;
 
-        // AddMessage('Generating additional furry NPCs...');
-        // GenerateFurryNPCs(patchFile);
+        LOGLEVEL := 10;
+        AddMessage(Format('Creating extra npcs: %s', [BoolToStr(settingExtraNPCs)]));
+        LOGGING := TRUE;
+        if settingExtraNPCs then begin
+            if LOGGING then Log(1, 'Expanding leveled lists');
+            ExpandAllLeveledLists(patchFile);
+        end
+        else
+            if LOGGING then Log(1, 'Expanding leveled lists');
+        LOGGING := FALSE;
         AddMessage('Merging armor record changes...');
         MergeFurryChanges(patchFile);
     end;

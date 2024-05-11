@@ -362,11 +362,40 @@ end;
 Function NPCTraitsTemplate(npc: IwbMainRecord): IwbMainRecord;
 begin
     result := nil;
-    if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' then begin
+    if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' 
+    then begin
         result := LinksTo(ElementByPath(npc, 'TPTA\Traits'));
         if not Assigned(result) then
             result := LinksTo(ElementByPath(npc, 'TPLT'));
     end;
+end;
+
+//===========================================================
+// Return the ultimate base form an NPC inherits its traits from.
+// Returns nil if not depending on traits.
+Function NPCTraitsSource(npc: IwbMainRecord): IwbMainRecord;
+var
+    tpl: IwbMainRecord;
+begin
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then 
+        result := NPCTraitsSource(tpl)
+    else
+        result := npc;
+end;
+
+//===========================================================
+// Return the ultimate base form an NPC inherits its traits from.
+// Returns nil if not depending on traits.
+Function NPCBaseTraitsTemplate(npc: IwbMainRecord): IwbMainRecord;
+var
+    tpl: IwbMainRecord;
+begin
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then 
+        result := NPCTraitsSource(tpl)
+    else
+        result := nil;
 end;
 
 //=========================================================================
@@ -393,7 +422,9 @@ end;
 // Determine whether the NPC appears in a leveled list.
 Function UsedByLeveledList(npc: IwbMainRecord): boolean;
 var
-    
+    i: integer;
+    refcount: Cardinal;
+    refr: IwbMainRecord;
 begin
     If LOGGING then LogEntry1(5, 'BasedOnLeveledList', Name(npc));
     result := FALSE;

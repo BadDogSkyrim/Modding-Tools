@@ -1207,6 +1207,7 @@ Procedure TestNPCGeneration;
 var 
     i, j: integer;
     npc, newNPC: IwbMainRecord;
+    ll, llnew: IwbMainRecord;
 begin
     //-----------------------------------------------------------------------
     //
@@ -1214,18 +1215,34 @@ begin
     //
     // --------- 
     InitializeNPCGenerator(modFile);
-    if {showing all leveled lists} TRUE then begin
-        AddMessage('---Leveled lists---');
-        for i := CLASS_LO to CLASS_HI do
-            for j := MALE to FEMALE do
-                if Assigned(leveledList[i, j]) then
-                    AddMessage(Format('leveledList %s %s -- %s', [GetNPCClassName(i), SexToStr(j), EditorID(leveledList[i, j])]));
-    end;
+    ll := FindAsset(nil, 'LVLN', 'LCharSecurityDiamondCity');
+    AddMessage(Format('Testing %s', [RecordName(ll)]));
+    Assert(HasNoOverride(ll), 'LCharSecurityDiamondCity is winning override');
+    Assert(IsTooLimited(ll), 'LCharSecurityDiamondCity is too limited');
+    Assert(ContainsFurryActors(ll), 'LCharSecurityDiamondCity contains furry actors');
+    FixLimitedVariety(modFile, ll);
+    ExpandLL(modFile, ll);
+    llnew := HighestOverride(ll);
+    AddMessage(Format('%s has %d entries', [
+        RecordName(llnew),
+        ElementCount(ElementByPath(llnew, 'Leveled List Entries'))]));
+    Assert(ElementCount(ElementByPath(llnew, 'Leveled List Entries')) >= 5, 
+        'LCharSecurityDiamondCity has additional entries');
 
-    AddMessage('---Can generate NPCs');
+    ll := FindAsset(nil, 'LVLN', 'LCharGunner');
+    Assert((not IsTooLimited(ll)), 'LCharGunner is not too limited');
+    Assert(ContainsFurryActors(ll), 'LCharGunner contains furry actors');
+    FixLimitedVariety(modFile, ll);
+    Assert(OverrideCount(ll) > 0, 'LCharGunner has been overridden');
+    llnew := HighestOverride(ll);
+
+    ll := FindAsset(nil, 'LVLN', 'LCharRadScorpion');
+    Assert(not ContainsFurryActors(ll), 'LCharRadScorpion does not contain furry actors');
+
+   AddMessage('---Can generate NPCs');
     // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'EncGunner00'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'EncGunner00 Traits set to leveled list');
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 'EncGunner00 Traits not set to leveled list (because its used by leveled list)');
 
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
     AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'DLC03EncTrapper02 Traits set to leveled list');
@@ -1241,8 +1258,8 @@ end;
 
 Function Initialize: integer;
 begin
-    LOGGING := TRUE;
-    LOGLEVEL := 20;
+    LOGGING := FALSE;
+    LOGLEVEL := 10;
 end;
 
 Function Finalize: integer;
@@ -1254,7 +1271,7 @@ begin
     // modFile := CreateOverrideMod('TEST.esp');
 
     LIST_RACE_ASSETS := FALSE;
-    LIST_RACE_HEADPARTS := TRUE;
+    LIST_RACE_HEADPARTS := FALSE;
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
@@ -1268,11 +1285,12 @@ begin
     modFile := CreateOverrideMod('TEST.esp');
     InitializeFurrifier(modFile);
 
-    ShowClassProbabilities;
+    // ShowClassProbabilities;
 
     // TestGhoulArmor;
     // TestFFOFurrifier;
-    // TestNPCGeneration;
+    LOGGING := TRUE;
+    TestNPCGeneration;
     // TestFurryArmorFixup;
 
     //------------------------------------------------------------------------

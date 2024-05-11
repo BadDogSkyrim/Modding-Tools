@@ -29,10 +29,15 @@ end;
 
 Function HighestOverride(r: IwbMainRecord): IwbMainRecord;
 begin
-    if IsWinningOverride(r) then
+    if OverrideCount(r) = 0 then
         result := r
     else
         result := WinningOverride(r);
+end;
+    
+Function HasNoOverride(r: IwbMainRecord): Boolean;
+begin
+    result := (OverrideCount(r) = 0) or IsWinningOverride(r);
 end;
     
 //================================================================
