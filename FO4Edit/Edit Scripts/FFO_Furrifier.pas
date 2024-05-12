@@ -25,7 +25,7 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    FURRIFIER_VERSION = '2.12';
+    FURRIFIER_VERSION = '2.13';
     SHOW_OPTIONS_DIALOG = True;
     PATCH_FILE_NAME = 'FFOPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
@@ -2121,9 +2121,7 @@ begin
                 [GetFileName(FileByIndex(f)), furryCount]));
         end;
 
-        LOGLEVEL := 10;
         AddMessage(Format('Creating extra npcs: %s', [BoolToStr(settingExtraNPCs)]));
-        LOGGING := TRUE;
         if settingExtraNPCs then begin
             if LOGGING then Log(1, 'Expanding leveled lists');
             ExpandAllLeveledLists(patchFile);
