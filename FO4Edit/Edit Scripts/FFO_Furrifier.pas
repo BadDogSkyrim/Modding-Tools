@@ -2159,7 +2159,7 @@ begin
                 furryCount := 0;
                 npcList := GroupBySignature(FileByIndex(f), 'NPC_');
                 for n := 0 to ElementCount(npcList)-1 do begin
-                    if (furryCount mod 100) = 0 then
+                    if (furryCount > 0) and ((furryCount mod 200) = 0) then
                         AddMessage(Format('Furrifying %s: %.0f', 
                             [GetFileName(FileByIndex(f)), 100*furryCount/ElementCount(npcList)]) + '%');
 

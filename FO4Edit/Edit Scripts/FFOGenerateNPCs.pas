@@ -331,9 +331,9 @@ begin
         newlist := CreateOverrideInFile(list, plugin);
         for i := 0 to addc do begin
             le := ElementByIndex(llist, i mod llc);
-            LogD(Format('Found list entry %s', [PathName(le)]));
+            if LOGGING then LogD(Format('Found list entry %s', [PathName(le)]));
             refr := ElementByPath(le, 'LVLO\Reference');
-            LogD(Format('Found template %s', [RecordName(LinksTo(refr))]));
+            if LOGGING then LogD(Format('Found template %s', [RecordName(LinksTo(refr))]));
             tpl := HighestOverride(LinksTo(refr));
             npc := GenerateRandomNPC(plugin, tpl, -1);
             AddNPCtoLevelList(npc, newlist);
@@ -359,9 +359,9 @@ begin
     if ElementCount(lle) > 0 then begin
         llefirst := ElementByIndex(lle, 0); 
         targfirst := HighestOverride(LinksTo(ElementByPath(llefirst, 'LVLO\Reference')));
-        LogD(Format('targfirst = %s', [RecordName(targfirst)]));
+        if LOGGING then LogD(Format('targfirst = %s', [RecordName(targfirst)]));
         basefirst := HighestOverride(NPCTraitsSource(targfirst));
-        LogD(Format('Target actor base = %s', [RecordName(basefirst)]));
+        if LOGGING then LogD(Format('Target actor base = %s', [RecordName(basefirst)]));
         if GetNPCRaceID(basefirst) >= 0 then result := TRUE;
     end;    
     if LOGGING then LogExit1(5, 'ContainsFurryActors', BoolToStr(result));
@@ -425,7 +425,7 @@ begin
         refr := ElementByPath(lvlo, 'Reference');
         targ := HighestOverride(LinksTo(refr));
         basetraits := NPCBaseTraitsTemplate(targ);
-        LogD(Format('Found targ=%s, base=%s', [RecordName(targ), RecordName(basetraits)]));
+        if LOGGING then LogD(Format('Found targ=%s, base=%s', [RecordName(targ), RecordName(basetraits)]));
         if Assigned(basetraits) then begin
             if baseNPCs.IndexOf(EditorID(basetraits)) < 0 then begin
                 // New base template
@@ -463,15 +463,15 @@ begin
     if LOGGING then LogEntry(1, 'ExpandAllLeveledLists');
     for i := 0 to FileCount-1 do begin
         f := FileByIndex(i);
-        LogD(Format('Checking file %s', [GetFileName(f)]));
+        if LOGGING then LogD(Format('Checking file %s', [GetFileName(f)]));
         levelednpcs := GroupBySignature(f, 'LVLN');
         if Assigned(levelednpcs) then begin
-            LogD(Format('Checking container %s', [PathName(levelednpcs)]));
+            if LOGGING then LogD(Format('Checking container %s', [PathName(levelednpcs)]));
             n := ElementCount(levelednpcs);
             for j := 0 to n-1 do begin
                 ll := ElementByIndex(levelednpcs, j);
                 if HasNoOverride(ll) and ContainsFurryActors(ll) then begin
-                    LogD(Format('Checking LL %s', [PathName(ll)]));
+                    if LOGGING then LogD(Format('Checking LL %s', [PathName(ll)]));
                     FixLimitedVariety(plugin, ll);
                     if IsTooLimited(ll) then 
                         ExpandLL(plugin, ll);
