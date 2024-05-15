@@ -59,7 +59,10 @@ begin
 
         result := wbCopyElementToFile(arma, targetFile, False, True);
         extras := Add(result, 'Additional Races', true); 
-        entry := ElementAssign(extras, HighInteger, Nil, false);
+        if GetNativeValue(ElementByIndex(extras, 0)) = 0 then
+            entry := ElementByIndex(extras, 0)
+        else
+            entry := ElementAssign(extras, HighInteger, Nil, false);
         if LOGGING then LogD('Have load order form ID ' + IntToHex(GetLoadOrderFormID(race), 8));
         SetNativeValue(entry,
             LoadOrderFormIDtoFileFormID(targetFile, GetLoadOrderFormID(race)));
@@ -70,7 +73,8 @@ end;
 //================================================================
 // Add the new race to all armor records that specify the existing race,
 // for the entire load order.
-Procedure AddRaceToAllArmor(targetFile: IwbFile; newRace, existingRace: IwbMainRecord);
+// Do not fix any armor in the exclude list.
+Procedure AddRaceToAllArmor(targetFile: IwbFile; newRace, existingRace: IwbMainRecord; excludes: TStringList);
 var
     aa: IwbElement;
     armaList: IwbContainer;
@@ -83,7 +87,7 @@ begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
         for i := 0 to ElementCount(armaList)-1 do begin
             aa := ElementByIndex(armaList, i);
-            if IsWinningOverride(aa) then begin
+            if (excludes.IndexOf(EditorID(aa)) < 0) and IsWinningOverride(aa) then begin
                 if ARMAHasRace(aa, existingRace) then begin
                     if LOGGING then LogD(Format('Found target race %s on %s', [Name(existingRace), Name(aa)]));
                     AddRaceToARMA(targetFile, aa, newRace);

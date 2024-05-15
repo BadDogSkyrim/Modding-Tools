@@ -1743,7 +1743,6 @@ begin
         end;
     end;
 
-
     gr := HighestOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'));
     grfi := GetLoadOrder(GetFile(gr));
     if grfi < furryFalloutIndex then begin
@@ -1760,20 +1759,59 @@ begin
     if LOGGING Then LogExit(1, 'FurrifyGhoulRace');
 end;
 
+//================================================================
+// Load the bodypart armor addons. These never need to have the ghoul race added.
+procedure LoadBodyAAs(bodyparts: TStringList);
+var
+    i, j, k: integer;
+    body: IwbMainRecord;
+    modelList: IwbElement;
+    modelEntry: IwbElement;
+    aa: IwbMainRecord;
+begin
+    if LOGGING Then  LogEntry(1, 'LoadBodyAAs');
+    for i := RACE_LO to RACE_HI do begin
+        for j := SEX_LO to SEX_HI do begin
+            if (j <> FEMALE) and (j <> FEMALECHILD) then begin
+                if (EditorID(raceInfo[i, j].mainRecord) <> settingGhoulRace) 
+                    and (EditorID(raceInfo[i, j].mainRecord) <> settingGhoulChildRace)
+                then begin
+                    body := HighestOverride(LinksTo(ElementByPath(raceInfo[i, j].mainRecord, 'WNAM')));
+                    modelList := ElementByPath(body, 'Models');
+                    for k := 0 to ElementCount(modelList)-1 do begin
+                        modelEntry := ElementByIndex(modelList, k);
+                        aa := LinksTo(ElementByPath(modelEntry, 'MODL'));
+                        if LOGGING then LogT('Found bodypart: ' + Name(aa));
+                        bodyparts.add(EditorID(aa));
+                    end;
+                end;
+            end;
+        end;
+    end;
+    if LOGGING Then LogExit(1, 'LoadBodyAAs');
+end;
+
 //========================================================
 // Add the Ghoul races to all AA's that are allowed for the race the ghouls are changed
 // into.
 Procedure GhoulArmorEnable(targetFile: IwbFile);
+var
+    bodyparts: TStringList;
 begin
+    bodyparts := TStringList.Create;
+    LoadBodyAAs(bodyparts);
     FurrifyGhoulRace(targetFile);
     // Any headgear added by FFO that supports Snekdogs (or whatever race we are
     // turning ghouls into) needs to be modified to add the ghoul race.
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        raceInfo[RacenameIndex(settingGhoulRace), MALE].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALE].mainRecord, 
+        bodyparts); 
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        raceInfo[RacenameIndex(settingGhoulRace), MALECHILD].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALECHILD].mainRecord, 
+        bodyparts); 
+    bodyparts.Free;
 end;
 
 //========================================================
@@ -2122,8 +2160,8 @@ begin
                 npcList := GroupBySignature(FileByIndex(f), 'NPC_');
                 for n := 0 to ElementCount(npcList)-1 do begin
                     if (furryCount mod 100) = 0 then
-                        AddMessage(Format('Furrifying %s: %d', 
-                            [GetFileName(FileByIndex(f)), furryCount]));
+                        AddMessage(Format('Furrifying %s: %.0f', 
+                            [GetFileName(FileByIndex(f)), 100*furryCount/ElementCount(npcList)]) + '%');
 
                     npc := ElementByIndex(npcList, n);
                     if IsWinningOverride(npc) then begin
@@ -2150,7 +2188,6 @@ begin
         end
         else
             if LOGGING then Log(1, 'Expanding leveled lists');
-        LOGGING := FALSE;
         AddMessage('Merging armor record changes...');
         MergeFurryChanges(patchFile);
     end;

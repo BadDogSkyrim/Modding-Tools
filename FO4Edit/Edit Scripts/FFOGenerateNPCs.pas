@@ -560,8 +560,6 @@ begin
     newMod := CreateOverrideMod('FFOGGeneratedNPCs.esp');
     AddMessage('Created ' + GetFileName(newMod));
     InitializeFurrifier(newMod);
-    LOGGING := TRUE;
-    LOGLEVEL := 1;
     InitializeNPCGenerator(newMod);
 end;
 

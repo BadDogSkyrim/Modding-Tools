@@ -72,6 +72,25 @@ begin
 end;
 
 //=======================================================================
+// Check to ensure the given IwbContainer does not contain the record referenced by editor ID.
+// Also ensures all elements of the list are valid.
+Procedure AssertNotInList(elist: IwbContainer; target: string);
+var
+    i: integer;
+    ref: IwbMainRecord;
+    found: boolean;
+begin
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        Assert(Assigned(ElementByIndex(elist, i)), Format('List element at [%d] assigned', [i]));
+        ref := LinksTo(ElementByIndex(elist, i));
+        if (target <> '') and (EditorID(ref) = target) then found := true;
+    end;
+    if target <> '' then
+        Assert(not found, Format('Did not find target element %s in %s', [target, FullPath(elist)]));
+end;
+
+//=======================================================================
 // Check for errors in a NPC's headparts.
 // If provided, must have a headpart of the given type and name.
 Procedure AssertNoZeroTints(npc: IwbMainRecord);
@@ -592,6 +611,9 @@ begin
     rec := WinningOverride(FindAsset(nil, 'ARMA', 'FFO_AAClothesWig_Snek'));
     Assert(ARMAHasRace(rec, furryRace), 'Wig has snekdog race'); 
     AssertInList(ElementByPath(rec, 'Additional Races'), 'GhoulRace');
+
+    rec := HighestOverride(FindAsset(nil, 'ARMA', 'FFOTigTorsoNaked'));
+    AssertNotInList(ElementByPath(rec, 'Additional Races'), 'GhoulChildRace');
 end;
 
 //-------------------------------------------------------------------------
@@ -1353,9 +1375,9 @@ begin
 
     // ShowClassProbabilities;
 
-    TestGhoulArmor;
     LOGGING := TRUE;
     LOGLEVEL := 15;
+    TestGhoulArmor;
     TestFFOFurrifier;
     LOGGING := TRUE;
     TestNPCGeneration;
