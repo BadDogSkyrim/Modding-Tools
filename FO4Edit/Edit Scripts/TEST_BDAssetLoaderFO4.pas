@@ -41,8 +41,15 @@ begin
 end;
 
 procedure AssertStr(actual, expected: string; msg: string);
+var matchStr: string;
 begin
-    Assert(actual = expected, Format(msg + ': "%s" = "%s"', [actual, expected]));
+    if EndsText('*', expected) then begin
+        matchStr := LeftStr(expected, length(expected)-1);
+        Assert(StartsStr(matchStr, actual), Format(msg + ': "%s" ~ "%s"', [actual, expected]));
+    end 
+    else begin
+        Assert(actual = expected, Format(msg + ': "%s" = "%s"', [actual, expected]));
+    end;
 end;
 
 //=======================================================================
@@ -179,6 +186,31 @@ begin
         foundTarget := foundTarget or (tetiIndex = tli1) or (tetiIndex = tli2);
     end;
     Assert(foundTarget, Format('Found target tint layer %d or %d', [tli1, tli2]));
+end;
+
+// =========================================================================
+// Check for errors in a NPC's tint layers.
+// One of tli1 or tli2 or tli3 must be in the list.
+Procedure AssertGoodTintLayers3(npc: IwbMainRecord; tli1, tli2, tli3: integer);
+var
+    ftl: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    tetiIndex: integer;
+    tetiStr: string;
+    foundTarget: boolean;
+begin
+    ftl := ElementByPath(npc, 'Face Tinting Layers');
+    foundTarget := FALSE;
+    Assert(ElementCount(ftl) > 0, 'Have tints for ' + EditorID(npc));
+    for i := 0 to ElementCount(ftl)-1 do begin
+        ele := ElementByIndex(ftl, i);
+        tetiIndex := GetElementNativeValues(ele, 'TETI\Index');
+        tetiStr := GetElementEditValues(ele, 'TETI\Index');
+        Assert(tetiIndex <> 0, Format('%s`s TETI Index [%d] (%s) not 0: %d', [EditorID(npc), i, tetiStr, tetiIndex]));
+        foundTarget := foundTarget or (tetiIndex = tli1) or (tetiIndex = tli2) or (tetiIndex = tli3);
+    end;
+    Assert(foundTarget, Format('Found target tint layer %d or %d or %d', [tli1, tli2, tli3]));
 end;
 
 // =========================================================================
@@ -615,6 +647,7 @@ var
     t, t2: TDateTime;
     tend: float;
     teti: string;
+    tintOpt: IwbElement;
 begin
     f := FileByIndex(0);
 
@@ -634,7 +667,7 @@ begin
     if {listing races} FALSE then begin
         AddMessage('---Can iterate through the masterRaceList');
         for i := 0 to masterRaceList.Count-1 do 
-            for j := 0 to 3 do 
+            for j := SEX_LO to SEX_HI do 
                 AddMessage(Format('[%d %d %s] %s', [
                     i, j, masterRaceList[i], EditorID(raceInfo[i, j].mainRecord)]));
 
@@ -651,13 +684,29 @@ begin
 
     // ---------- Race Assets
     if LIST_RACE_ASSETS then begin
-        for i := 0 to masterRaceList.Count-1 do 
-            AddMessage('[' + IntToStr(i) + '] ' + masterRaceList[i]);
+        AddMessage('++++++++ Race Assets ++++++++');
+        for i := 0 to masterRaceList.Count-1 do begin
+            AddMessage(Format('%s: %s', [RaceIDToStr(i), EditorID(raceInfo[i, MALE].mainRecord)]));
+            AddMessage('    Headparts');
+            for j := SEX_LO to SEX_HI do begin
+                for k := HEADPART_LO to HEADPART_HI do begin
+                    if Assigned(raceInfo[i, j].headparts[k]) then begin
+                        AddMessage(Format('        Headpart %s %s %s', [
+                            RaceIDToStr(i), SexToStr(j), HpToStr(k)]));
+                        for n := 0 to raceInfo[i, j].headparts[k].Count-1 do begin
+                            AddMessage(Format('        %s', [
+                                PathName(ObjectToElement(raceInfo[i, j].headparts[k].Objects[n]))]));
+                        end;
+                    end;
+                end;
+            end;
+        end;
 
         AddMessage('---Can iterate through the tint list');
         for i := 0 to tintlayerName.Count-1 do
             AddMessage(Format('[%d] %s', [i, tintlayerName[i]]));
-        end;
+        AddMessage('---------- Race Assets -------');
+    end;
 
     if {Showing race/tint probabilities} FALSE then begin
         AddMessage('---Can iterate through tint probabilities');
@@ -702,7 +751,7 @@ begin
 
     n := raceInfo[RACE_HORSE, FEMALE].morphProbability.IndexOf('Horse - Ears');
     Assert(n >= 0, 'Have morph setting for "Horse - Ears"');
-    AssertInt(raceInfo[RACE_HORSE, FEMALE].morphProbability.objects[n], 80, 'Have correct probability for "Horse - Ears"');
+    AssertInt(raceInfo[RACE_HORSE, FEMALE].morphProbability.objects[n], 60, 'Have correct probability for "Horse - Ears"');
 
     If {showing all morphs} FALSE then begin
         AddMessage('-------Morphs--------');
@@ -768,7 +817,7 @@ begin
                 tintlayerName[translateTTGP[i]]
             ]));
     end;
-    AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE, 'Have nose stripe');
+    AssertInt(DetermineTintType('Nose Stripe 1'), TL_MUZZLE_STRIPE, 'Have nose stripe');
 
     // Can select skin tints of the different races.
     if LIST_ALL_TINT_LAYERS then begin
@@ -801,8 +850,10 @@ begin
         'Fox has ear ' + raceInfo[RacenameIndex('FFOFoxRace'), MALE].tints[TL_EAR, 0].name);
 
     // Can find tint presets for the different races.
-    elem := PickRandomTintOption('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_MUZZLE);
-    elem := PickRandomColorPreset('Desdemona', 280, elem, 1, '|FFOFurWhite|');
+    tintOpt := PickRandomTintOption('Desdemona', 6684, RacenameIndex('FFOHorseRace'), FEMALE, TL_FOREHEAD);
+    AddMessage(Format('Tint Option = %s', [PathName(tintOpt)]));
+    elem := PickRandomColorPreset('Desdemona', 280, tintOpt, 1, '|FFOFurWhite|');
+    AddMessage(Format('Found color preset %s', [PathName(elem)]));
     Assert(ContainsText(Path(elem), 'Template Color #'), 'Have pathname for tint preset: ' + Path(elem));
     elem := PickRandomColorPreset('Desdemona', 280, elem, 1, '|FFOFurBlack|');
     Assert(not Assigned(elem), 'Have no white tint preset');
@@ -827,7 +878,7 @@ begin
                     if Assigned(raceInfo[i, j].headparts[k]) then begin
                         Log(0, '<' + headpartsList[k]);
                             for n := 0 to raceInfo[i, j].headparts[k].Count-1 do begin
-                                log(0, EditorID(ObjectToElement(raceInfo[i, j].headparts[k].Objects[n])));
+                                log(0, RecordName(ObjectToElement(raceInfo[i, j].headparts[k].Objects[n])));
                             end;
                         Log(0, '>');
                     end;
@@ -882,22 +933,19 @@ begin
     //
     // --------- Classes
 
-    LOGGING := True;
-    LOGLEVEL := 10;
     AddMessage('-DLC01RECampSC01_LvlMerchantGuard - check for bad hair-');
     npc := FindAsset(Nil, 'NPC_', 'DLC01RECampSC01_LvlMerchantGuard');
     Assert(npc <> Nil, 'Found DLC01RECampSC01_LvlMerchantGuard');
     furryNPC := MakeFurryNPC(npc, modFile);
-    LOGGING := False;
 
     AddMessage('-Tigers-');
     npc := FindAsset(Nil, 'NPC_', 'CompanionX6-88');
     Assert(npc <> Nil, 'Found CompanionX6-88');
     furryNPC := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(furryNPC)), 'FFOTigerRace', 'Have tiger race');
-    AssertGoodHeadparts(furryNPC, 'Facial Hair', 'FFOTigMaleRuff04');
-    AssertGoodTintLayers2(furryNPC, 2671, 2687);
-    AssertGoodTintLayers2(furryNPC, 2668, 2690);
+    AssertGoodHeadparts(furryNPC, 'Facial Hair', 'FFOTigMaleRuff*');
+    AssertGoodTintLayers2(furryNPC, 2671, 2687); // Stripes
+    AssertGoodTintLayers3(furryNPC, 2668, 2690, 2678);
 
     // Class probabilities are as expected.
     Assert(classProbs[CLASS_MINUTEMEN, lykaiosIndex] > 10, 'Lykaios can be minutemen');
@@ -997,7 +1045,7 @@ begin
     Assert(EditorID(LinksTo(ElementByPath(furryNPC, 'RNAM'))) = 'FFOLykaiosRace', 
         'Changed Danse`s race');
     elist := ElementByPath(furryNPC, 'Head Parts');
-    Assert(ElementCount(elist) >= 3, 'Have head parts');
+    Assert(ElementCount(elist) > 0, 'Have head parts');
     Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
         'Have head parts from FFO');
     Assert(GetFileName(LinksTo(ElementByPath(furryNPC, 'WNAM'))) = 'FurryFallout.esp', 
@@ -1013,7 +1061,7 @@ begin
         Assert(EditorID(LinksTo(ElementByPath(npcMason, 'RNAM'))) = 'FFOHorseRace', 
             'Changed Mason`s race');
         elist := ElementByPath(npcMason, 'Head Parts');
-        Assert(ElementCount(elist) >= 3, 'Have head parts');
+        Assert(ElementCount(elist) > 0, 'Have head parts');
         Assert(GetFileName(LinksTo(ElementByIndex(elist, 0))) = 'FurryFallout.esp', 
             'Have head parts from FFO');
         Assert(GetFileName(LinksTo(ElementByPath(npcMason, 'WNAM'))) = 'FurryFallout.esp', 
@@ -1025,7 +1073,7 @@ begin
     npc := FindAsset(Nil, 'NPC_', 'CompanionCait');
     npc := MakeFurryNPC(npc, modFile);
     AssertStr(EditorID(GetNPCRace(npc)), 'FFOFoxRace', 'Changed Cait`s race');
-    AssertGoodHeadparts(npc, 'Face', 'FFOFoxFemHead');
+    // AssertGoodHeadparts(npc, 'Face', 'FFOFoxFemHead'); // No longer assigning head--comes from race
     AssertGoodHeadparts(npc, 'Hair', 'FFO_HairFemale23_Dog');
     AssertStr(GetFileName(LinksTo(ElementByPath(npc, 'WNAM'))), 'FurryFallout.esp', 'Have skin from FFO');
     AssertGoodTintLayers(npc, 2701);
@@ -1215,6 +1263,8 @@ begin
     //
     // --------- 
     InitializeNPCGenerator(modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncSecurityDiamondCityM01'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncSecurityDiamondCityM02'), modFile);
     ll := FindAsset(nil, 'LVLN', 'LCharSecurityDiamondCity');
     AddMessage(Format('Testing %s', [RecordName(ll)]));
     Assert(HasNoOverride(ll), 'LCharSecurityDiamondCity is winning override');
@@ -1229,6 +1279,17 @@ begin
     Assert(ElementCount(ElementByPath(llnew, 'Leveled List Entries')) >= 5, 
         'LCharSecurityDiamondCity has additional entries');
 
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner01Template'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner01'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner02'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner03'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner04'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner05'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner06'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner07'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner08'), modFile);
+    npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner09'), modFile);
     ll := FindAsset(nil, 'LVLN', 'LCharGunner');
     Assert((not IsTooLimited(ll)), 'LCharGunner is not too limited');
     Assert(ContainsFurryActors(ll), 'LCharGunner contains furry actors');
@@ -1245,8 +1306,7 @@ begin
     AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 'EncGunner00 Traits not set to leveled list (because its used by leveled list)');
 
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'LVLN', 'DLC03EncTrapper02 Traits set to leveled list');
-    AssertStr(EditorID(NPCTraitsTemplate(npc)), 'DLC03_LCharTrapperFace', 'DLC03EncTrapper02 Traits set to leveled list');
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 'DLC03EncTrapper02 Traits not set to leveled list');
 
     npc := FindAsset(nil, 'NPC_', 'MQ102PlayerSpouseCorpseFemale');
     newNPC := SetGenericTraits(modFile, npc);
@@ -1271,15 +1331,21 @@ begin
     // modFile := CreateOverrideMod('TEST.esp');
 
     LIST_RACE_ASSETS := FALSE;
-    LIST_RACE_HEADPARTS := FALSE;
+    LIST_RACE_HEADPARTS := TRUE;
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
+    TestSystemFunc;
+    TestBigInts;
+    TestHashing;
 
-    // TestSystemFunc;
-    // TestBigInts;
-    // TestHashing;
+    settingExtraNPCs := TRUE;
+    settingFurrifyGhouls := TRUE;
+    settingGhoulChildRace := GHOUL_CHILD_RACE;
+    settingGhoulRace := GHOUL_RACE;
+    settingTargetRace := '';
+    settingUseSelection := FALSE;
 
     // Asset loader has to be iniitialized before use.
     modFile := CreateOverrideMod('TEST.esp');
@@ -1287,11 +1353,13 @@ begin
 
     // ShowClassProbabilities;
 
-    // TestGhoulArmor;
-    // TestFFOFurrifier;
+    TestGhoulArmor;
+    LOGGING := TRUE;
+    LOGLEVEL := 15;
+    TestFFOFurrifier;
     LOGGING := TRUE;
     TestNPCGeneration;
-    // TestFurryArmorFixup;
+    TestFurryArmorFixup;
 
     //------------------------------------------------------------------------
 

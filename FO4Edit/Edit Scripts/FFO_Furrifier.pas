@@ -656,18 +656,24 @@ var
     slot: IwbElement;
 begin
     if LOGGING Then LogEntry2(5, 'NPC_ChooseHeadpart', curNPC.id, HpToStr(hpType));
-    if LOGGING Then LogD(Format('NPC race is %s', [RaceIDToStr(curNPC.furry_race)]));
+    if LOGGING Then LogD(Format('NPC info: %s, %s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
 
     hpChance := NPC_Hash(3632, 100);
-    if LOGGING Then LogD(Format('NPC info: %s, %s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
     if hpChance < raceInfo[curNPC.furry_race, curNPC.sex].headpartProb[hpType] then begin
         hp := PickRandomHeadpart(
             curNPC.sig, 113, 
             curNPC.furry_race, curNPC.sex, hpType);
+        if LOGGING then LogD(Format('Chose headpart %s', [RecordName(hp)]));
         if Assigned(hp) then begin
             if LOGGING Then LogT('Assigning headpart ' + EditorID(hp));
             NPC_AssignHeadpart(hp);
         end;
+    end
+    else begin
+        if LOGGING then LogD(Format('No headpart chosen: Probability=%d, Chance=%d, headpart count=%d', [
+            raceInfo[curNPC.furry_race, curNPC.sex].headpartProb[hpType],
+            hpChance, 
+            GetRaceHeadpartCount(curNPC.furry_race, curNPC.sex, hpType)]));
     end;
 
     if LOGGING Then LogExitT('NPC_ChooseHeadpart');
@@ -1719,21 +1725,37 @@ end;
 //========================================================
 // Furrify whatever race the user has chosen for ghouls.
 Procedure FurrifyGhoulRace(targetFile: IwbFile);
+var
+    cr: IwbMainRecord;
+    crfi: integer;
+    furryFalloutIndex: integer;
+    gr: IwbMainRecord;
+    grfi: integer;
+    i: integer;
 begin
-   if LOGGING Then  LogEntry1(1, 'FurrifyGhoulRace', GetFileName(targetFile));
-    AddMessage('Furrifying the ghoul race...');
+    if LOGGING Then  LogEntry1(1, 'FurrifyGhoulRace', GetFileName(targetFile));
 
-    FurrifyRace(targetFile, 
-        FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        FindAsset(nil, 'RACE', settingGhoulRace));
+    furryFalloutIndex := -1;
+    for i := 0 to FileCount-1 do begin
+        if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then begin
+            furryFalloutIndex := i;
+            break;
+        end;
+    end;
 
-    // AddRace('GhoulRace');
 
-    FurrifyRace(targetFile, 
-        FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        FindAsset(nil, 'RACE', settingGhoulChildRace));
+    gr := HighestOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'));
+    grfi := GetLoadOrder(GetFile(gr));
+    if grfi < furryFalloutIndex then begin
+        AddMessage('Furrifying the ghoul race...');
+        FurrifyRace(targetFile, gr, FindAsset(nil, 'RACE', settingGhoulRace));
+    end;
 
-    // AddChildRace('GhoulRace', 'GhoulChildRace');
+    cr := HighestOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'));
+    crfi := GetLoadOrder(GetFile(gr));
+    if grfi < furryFalloutIndex then begin
+        FurrifyRace(targetFile, cr, FindAsset(nil, 'RACE', settingGhoulChildRace));
+    end;
 
     if LOGGING Then LogExit(1, 'FurrifyGhoulRace');
 end;

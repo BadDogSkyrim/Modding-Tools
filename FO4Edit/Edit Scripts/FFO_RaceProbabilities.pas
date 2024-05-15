@@ -563,6 +563,8 @@ begin
 	
     // ---------- Tigers ---------- 
     AddChildRace('FFOTigerRace', 'FFOTigerChildRace');
+    SetHeadpartProb('FFOTigerRace', MALE, HEADPART_FACIAL_HAIR, 100); // Allways have a ruff
+    SetHeadpartProb('FFOTigerRace', FEMALE, HEADPART_FACIAL_HAIR, 100);
 
     SetTintColors('FFOTigerRace', FEMALE, TL_MASK, '|FFOFurBlack|');
     SetTintColors('FFOTigerRace', MALE, TL_MASK, '|FFOFurBlack|');

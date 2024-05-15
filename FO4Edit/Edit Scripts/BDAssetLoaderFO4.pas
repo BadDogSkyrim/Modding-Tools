@@ -865,7 +865,7 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
-    If LOGGING then LogEntry3(10, 'PickRandomTintOption', hashstr, SexToStr(sex), tintlayerName[tintlayer]);
+    If LOGGING then LogEntry4(10, 'PickRandomTintOption', hashstr, RaceIDtoStr(theRace), SexToStr(sex), tintlayerName[tintlayer]);
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
     If LOGGING then LogExitT1('PickRandomTintOption', PathName(result));
@@ -1599,16 +1599,17 @@ end;
 
 Function NPC_ToStr: string;
 begin
-    Result := #13#10 
-        + FullPath(curNPC.handle) + #13#10
-        + '  Editor ID = '+ curNPC.id + #13#10
-        + '  Signature = ' + curNPC.sig + #13#10
-        + '  Name = ' + curNPC.name + #13#10
-        + '  Class = ' + GetNPCClassName(curNPC.npcClass) + #13#10
-        + '  Race = ' + RaceIDtoStr(curNPC.race) + #13#10
-        + '  Furry Race = ' + RaceIDtoStr(curNPC.furry_race) + #13#10
-        + '  Sex = ' + SexToStr(curNPC.sex) + #13#10
-        + '  Plugin = ' + GetFileName(curNPC.plugin);
+    Result := Format('[NPC %s: Editor ID=%s, Signature=%s, Name=%s, Class=%s, Race=%s, Furry Race=%s, Sex=%s, Plugin=%s', [
+        FullPath(curNPC.handle),
+        curNPC.id, 
+        curNPC.sig,
+        curNPC.name,
+        GetNPCClassName(curNPC.npcClass),
+        RaceIDtoStr(curNPC.race),
+        RaceIDtoStr(curNPC.furry_race),
+        SexToStr(curNPC.sex),
+        GetFileName(curNPC.plugin)
+        ]);
 end;
 
 //============================================================
