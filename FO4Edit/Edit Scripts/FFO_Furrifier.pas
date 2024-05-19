@@ -544,7 +544,7 @@ end;
 Procedure NPC_SetRace(raceIndex: integer);
 var
     race: IwbMainRecord;
-    raceFormID: integer;
+    raceFormID: cardinal;
     racename: string;
     skin: IwbMainRecord;
 begin
