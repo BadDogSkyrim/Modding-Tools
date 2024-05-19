@@ -4,6 +4,11 @@ interface
 implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
+const
+    LBL_MSPACE = 10;
+    LBL_GAP = 10;
+    LBL_VSPACE = 5;
+    LBL_ADJ = 3;
 var 
     LOGGING: boolean;
     LOGLEVEL: integer;
@@ -13,6 +18,10 @@ var
     warnCount: integer;
     curLogLevel: array [0..100] of integer;
 
+    // Context variables for building forms
+    formPosLeft, formPosTop: integer;
+    bdstForm: TForm;
+    formParent: TForm;
 
 Function BoolToStr(b: boolean): string;
 begin
@@ -429,7 +438,7 @@ end;
 
 //=========================================================
 // Create a form label
-function FormLabel(f: TForm; parent: TForm; caption: String; left, top: integer):
+function FormLabel(f: TForm; parent: TForm; caption: String; left, top, width: integer):
     TLabel;
 var
     lbl: TLabel;
@@ -439,12 +448,13 @@ begin
     lbl.caption := caption;
     lbl.Left := left;
     lbl.top := top;
+    if width > 0 then lbl.width := width;
     Result := lbl;
 end;
 
 //=========================================================
 // Create a form check box
-function FormCheckBox(f: TForm; parent: TForm; caption: String; left, top: integer):
+function FormCheckBox(f: TForm; parent: TForm; caption: String; left, top, width: integer):
     TCheckBox;
 var
     cb: TCheckBox;
@@ -455,6 +465,7 @@ begin
     cb.width := 100;
     cb.Left := left;
     cb.top := top;
+    if width > 0 then cb.width := width;
     Result := cb;
 end;
 
@@ -506,6 +517,132 @@ begin
     result := ed;
 end;
 
+//=========================================================
+// Create a form and initialize context for form creation.
+function MakeForm(caption: string; width, height: integer): TForm;
+var
+    f: TForm;
+begin
+    f := TForm.Create(nil);
+    f.caption := caption;
+    f.width := width;
+    f.height := height;
+    f.position := poScreenCenter;
+    f.borderStyle := bsDialog;
+    formPosLeft := 5;
+    formPosTop := 5;
+    bdstForm := f;
+    formParent := f;
+    result := f;
+end;
 
+function MakeFormEdit(caption: string; defaultvalue: string): TEdit;
+var
+    lbl: TLabel;
+    ed: TEdit;
+    l: integer;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := caption;
+    lbl.Left := formPosLeft;
+    lbl.top := formPosTop+LBL_ADJ;
+
+    ed := TEdit.Create(bdstForm);
+    ed.parent := formParent;
+    ed.top := formPosTop;
+    l := lbl.left + lbl.width + LBL_MSPACE;
+    ed.left := l;
+    ed.width := formParent.width-l-LBL_MSPACE*2;
+    ed.text := defaultvalue;
+
+    formPosTop := formPosTop + ed.height + LBL_VSPACE;
+    result := ed;
+end;
+
+//=========================================================
+// Create a form check box
+function MakeFormCheckBox(caption: String; defaultvalue: boolean): TCheckBox;
+var
+    cb: TCheckBox;
+begin
+    cb := TCheckBox.Create(bdstForm);
+    cb.parent := formParent;
+    cb.caption := caption;
+    cb.top := formPosTop;
+    cb.Left := formPosLeft;
+    cb.width := formParent.width - formPosLeft - LBL_MSPACE*2;
+    cb.checked := defaultvalue;
+
+    formPosTop := formPosTop + cb.height + LBL_VSPACE;
+    Result := cb;
+end;
+
+//=========================================================
+// Create a form label
+procedure MakeFormSectionLabel(caption: String);
+var
+    lbl: TLabel;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := '= ' + caption + ' =';
+    lbl.top := formPosTop + LBL_GAP;
+    lbl.Left := formPosLeft;
+    lbl.width := formParent.width - formPosLeft - LBL_MSPACE*2;
+    formPosTop := lbl.top + lbl.height + LBL_GAP;
+end;
+
+//=========================================================
+// Create a form combo box
+function MakeFormComboBox(caption: string; options: String; defaultvalue: integer):
+    TComboBox;
+var
+    lbl: TLabel;
+    cb: TComboBox;
+    y: integer;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := caption;
+    lbl.Left := formPosLeft;
+    lbl.top := formPosTop+LBL_ADJ;
+
+    cb := TComboBox.Create(bdstForm);
+    cb.Parent := formParent;
+    cb.Top := formPosTop;
+    y := formPosLeft + lbl.width + LBL_MSPACE;
+    cb.Left := y;
+    cb.Width := formParent.width - y - LBL_MSPACE*2;
+    cb.Style := csDropDownList;
+    cb.items.text := options;
+    cb.ItemIndex := defaultvalue;
+
+    formPosTop := cb.top + cb.height + LBL_VSPACE;
+    result := cb;
+end;
+
+//=========================================================
+// Create a form button
+procedure MakeFormOKCancel;
+var
+    b, c: TButton;
+begin
+    b := TButton.Create(bdstForm);
+    b.parent := formParent;
+    b.caption := 'OK';
+    b.ModalResult := mrOK;
+    b.top := formPosTop + LBL_GAP * 2;
+    b.left := formParent.width/2 - b.width - LBL_MSPACE;
+    
+    c := TButton.Create(bdstForm);
+    c.parent := formParent;
+    c.caption := 'Cancel';
+    c.ModalResult := mrCancel;
+    c.top := b.top;
+    c.left := formParent.width/2 + LBL_MSPACE;
+    
+    formParent.height := b.top + 80;
+end;
 
 end.

@@ -1951,93 +1951,66 @@ end;
 // Create options form
 procedure OptionsForm;
 var
-    f: TForm;
-    btnOK, btnCancel: TButton;
     pluginName: TEdit;
     rname: TEdit;
-    lbl, lbl2, lbl3, lbl4, lbl5, lbl6: TLabel;
-    cb1, cb2, cb3, cb4, cb5: TCheckBox;
+    cb1, cb2, cb3, cb4, cb5, cb6, cb7: TCheckBox;
     ghoulRace, ghoulChildRace: TEdit;
     races, childraces: string;
 begin
     GetRaceList;
-    f := TForm.Create(nil);
-    // try
-        f.caption := 'FFO Furrifier';
-        f.width := 400;
-        f.height := 400;
-        f.position := poScreenCenter;
-        f.borderStyle := bsDialog;
+    MakeForm('FFO Furrifier', 500, 400);
+    pluginName := MakeFormEdit('New plugin name', PATCH_FILE_NAME);
 
-        lbl := FormLabel(f, f, 'New plugin name', 15, 10);
-        pluginName := FormEdit(f, f, lbl.left+lbl.width+10, lbl.top-3, 200);
-        pluginName.Text := PATCH_FILE_NAME;
+    MakeFormSectionLabel('Patch');
+    cb1 := MakeFormCheckBox('Load order', (not USE_SELECTION));
+    cb2 := MakeFormCheckBox('Selected NPCs', USE_SELECTION);
 
-        lbl2 := FormLabel(f, f, 'Patch', lbl.left, lbl.top+30);
-        cb1 := FormCheckBox(f, f, 'Load order', lbl2.left, lbl2.top+20);
-        cb2 := FormCheckBox(f, f, 'Selected NPCs', lbl2.left, cb1.top+20);
-        if USE_SELECTION then cb2.checked := True else cb1.Checked := True;
+    MakeFormSectionLabel('Races');
+    cb3 := MakeFormCheckBox('Use furrifier', (length(TARGET_RACE) <= 0));
+    rname := MakeFormComboBox('Force all to race', 'NONE'+#13+raceChoices, 0);
 
-        lbl3 := FormLabel(f, f, 'Races', lbl2.left, cb2.top + 30);
-        cb3 := FormCheckBox(f, f, 'Use furrifier', lbl2.left, lbl3.top+20);
-        lbl4 := FormLabel(f, f, 'Force all to race', lbl2.left, cb3.top+20);
-        // rname := FormEdit(f, f, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
-        rname := FormComboBox(f, f, 'NONE'+#13+raceChoices, lbl4.left + lbl4.width + 10, lbl4.top-3, 200);
-        if Length(TARGET_RACE) > 0 then 
-            rname.text := TARGET_RACE
+    MakeFormSectionLabel('Ghouls');
+    cb4 := MakeFormCheckBox('Furrify ghouls', (not USE_SELECTION));
+    ghoulRace := MakeFormComboBox('Ghoul race', raceChoices, ghoulChoiceIndex);
+    ghoulChildRace := MakeFormComboBox('Ghoul child race', childRaceChoices, ghoulChildChoiceIndex);
+
+    MakeFormSectionLabel('Extra NPCs');
+    cb5 := MakeFormCheckBox('Make extra NPCs', (not USE_SELECTION));
+
+    MakeFormSectionLabel('Debugging');
+    cb6 := MakeFormCheckBox('Terse', FALSE);
+    cb7 := MakeFormCheckBox('Verbose', FALSE);
+
+    MakeFormOKCancel;
+
+    if bdstForm.ShowModal = mrOK then begin
+        AddMessage('OK');
+        if EndsText('.esp', pluginName.text) then
+            patchfileName := pluginName.text
         else
-            cb3.checked := True;
+            patchfileName := pluginName.text + '.esp';
+        patchFileName := pluginName.text;
+        settingUseSelection := cb2.checked;
+        if rname.text = 'NONE' then
+            settingTargetRace := ''
+        else
+            settingTargetRace := rname.text;
+        settingFurrifyGhouls := cb4.checked;
+        settingGhoulRace := ghoulRace.text;
+        settingGhoulChildRace := ghoulChildRace.text;
 
-        lbl4 := FormLabel(f, f, 'Ghouls', lbl2.left, lbl4.top + 30);
-        cb4 := FormCheckBox(f, f, 'Furrify ghouls', lbl2.left, lbl4.top+25);
-        lbl5 := FormLabel(f, f, 'Ghoul race', lbl2.left, cb4.top+25);
-        // ghoulRace := FormEdit(f, f, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
-        ghoulRace := FormComboBox(f, f, raceChoices, lbl5.left + lbl5.width + 10, lbl5.top-3, 200);
-        lbl6 := FormLabel(f, f, 'Child race', lbl2.left, lbl5.top+25);
-        // ghoulChildRace := FormEdit(f, f, ghoulRace.left, lbl6.top-3, 200);
-        ghoulChildRace := FormComboBox(f, f, childRaceChoices, ghoulRace.left, lbl6.top-3, 200);
-        cb4.Checked := True;
-        ghoulRace.ItemIndex := ghoulChoiceIndex;
-        ghoulChildRace.ItemIndex := ghoulChildChoiceIndex;
+        if settingTargetRace <> '' then AddRace(settingTargetRace);
 
-        cb5 := FormCheckBox(f, f, 'Extra NPCs', lbl2.left, lbl6.top+30);
-        cb5.Checked := True;
+        settingExtraNPCs := cb5.Checked;
 
-        //pnlBot := FormPanel(f, alBottom, 190);
-        btnOK := FormButton(f, f, 'OK', mrOK, 120, cb5.top+40);
-        btnCancel := FormButton(f, f, 'Cancel', mrCancel, btnOk.Left + btnOk.Width + 16, btnOK.top);
-        f.height := btnOK.top + 80;
-
-        if f.ShowModal = mrOK then begin
-            AddMessage('OK');
-            if EndsText('.esp', pluginName.text) then
-                patchfileName := pluginName.text
-            else
-                patchfileName := pluginName.text + '.esp';
-            patchFileName := pluginName.text;
-            settingUseSelection := cb2.checked;
-            if rname.text = 'NONE' then
-                settingTargetRace := ''
-            else
-                settingTargetRace := rname.text;
-            settingFurrifyGhouls := cb4.checked;
-            settingGhoulRace := ghoulRace.text;
-            settingGhoulChildRace := ghoulChildRace.text;
-
-            if settingTargetRace <> '' then AddRace(settingTargetRace);
-
-            settingExtraNPCs := cb5.Checked;
-        end
-        else begin
-            AddMessage('User cancel');
-            cancelRun := TRUE;
-        end;
-    // except
-    //     on E: Exception do
-    //     begin
-    //         AddMessage('Error')
-    //     end;
-    // end;
+        LOGGING := 0;
+        if cb6.checked then LOGGING := 5;
+        if cb7.checked then LOGGING := 15;
+    end
+    else begin
+        AddMessage('User cancel');
+        cancelRun := TRUE;
+    end;
 end;
 
 //=========================================================
