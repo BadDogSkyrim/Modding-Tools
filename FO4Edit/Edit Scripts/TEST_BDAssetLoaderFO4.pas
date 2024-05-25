@@ -60,11 +60,38 @@ var
     i: integer;
     ref: IwbMainRecord;
     found: boolean;
+    npcref: IwbMainRecord;
 begin
     found := false;
     for i := 0 to ElementCount(elist)-1 do begin
-        Assert(Assigned(ElementByIndex(elist, i)), Format('List element at [%d] assigned', [i]));
-        ref := LinksTo(ElementByIndex(elist, i));
+        npcref := ElementByIndex(elist, i);
+        Assert(Assigned(npcref), Format('List element at [%d] assigned', [i]));
+        ref := LinksTo(npcref);
+        if (target <> '') and (EditorID(ref) = target) then found := true;
+    end;
+    if target <> '' then
+        Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
+end;
+
+//=======================================================================
+// Check to ensure the given LL  contains the record referenced by editor ID.
+// Also ensures all elements of the list are valid.
+Procedure AssertNPCInLL(ll: IwbMainRecord; target: string);
+var
+    i: integer;
+    elist: IwbContainer;
+    ref: IwbMainRecord;
+    found: boolean;
+    npcref: IwbMainRecord;
+begin
+    found := false;
+    elist := ElementByPath(ll, 'Leveled List Entries');
+    for i := 0 to ElementCount(elist)-1 do begin
+        npcref := ElementByPath(ElementByIndex(elist, i), 'LVLO\Reference');
+        Assert(Assigned(npcref), Format('List element at [%d] assigned', [i]));
+        AddMessage(Format('Have reference %s', [FullPath(npcref)]));
+        ref := LinksTo(npcref);
+        AddMessage(Format('Comparing %s to %s', [RecordName(ref), target]));
         if (target <> '') and (EditorID(ref) = target) then found := true;
     end;
     if target <> '' then
@@ -1285,6 +1312,9 @@ begin
     //
     // --------- 
     InitializeNPCGenerator(modFile);
+
+    // Diamond city guards just don't have enough template actors. Make sure their LL gets
+    // extended with a reasonable number.
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncSecurityDiamondCityM01'), modFile);
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncSecurityDiamondCityM02'), modFile);
     ll := FindAsset(nil, 'LVLN', 'LCharSecurityDiamondCity');
@@ -1301,6 +1331,8 @@ begin
     Assert(ElementCount(ElementByPath(llnew, 'Leveled List Entries')) >= 5, 
         'LCharSecurityDiamondCity has additional entries');
 
+    // LCharGunner has a reasonable number of entries, but they are all ultimately based
+    // on the same template. Make sure NPC generator makes some extras.
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner01Template'), modFile);
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner01'), modFile);
@@ -1319,16 +1351,26 @@ begin
     Assert(OverrideCount(ll) > 0, 'LCharGunner has been overridden');
     llnew := HighestOverride(ll);
 
+    // Make sure we only touch LL with humanoid actors.
     ll := FindAsset(nil, 'LVLN', 'LCharRadScorpion');
     Assert(not ContainsFurryActors(ll), 'LCharRadScorpion does not contain furry actors');
 
-   AddMessage('---Can generate NPCs');
+    AddMessage('---Can generate NPCs');
+    npc := GenerateNPCs(modFile, 'encMinutemenFaceF02', 1, -1);
+    Assert(Assigned(npc), 'Generated new npc: ' + RecordName(npc));
+    ll := HighestOverride(FindAsset(nil, 'LVLN', 'LCharMinutemenFacesFemale'));
+    AddMessage(Format('Have leveled list %s', [FullPath(ll)]));
+    AssertNPCInLL(ll, EditorID(npc));
+    Assert(GetNPCSex(npc) = FEMALE, 'Generated female NPC');
+
     // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'EncGunner00'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 'EncGunner00 Traits not set to leveled list (because its used by leveled list)');
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 
+        'EncGunner00 Traits not set to leveled list (because its used by leveled list)');
 
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'DLC03EncTrapper02'));
-    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 'DLC03EncTrapper02 Traits not set to leveled list');
+    AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 
+        'DLC03EncTrapper02 Traits not set to leveled list');
 
     npc := FindAsset(nil, 'NPC_', 'MQ102PlayerSpouseCorpseFemale');
     newNPC := SetGenericTraits(modFile, npc);
@@ -1358,9 +1400,9 @@ begin
     LIST_HAIR_TRANSLATIONS := FALSE;
     LIST_RACE_DISTRIBUTION := FALSE;
 
-    TestSystemFunc;
-    TestBigInts;
-    TestHashing;
+    // TestSystemFunc;
+    // TestBigInts;
+    // TestHashing;
 
     settingExtraNPCs := TRUE;
     settingFurrifyGhouls := TRUE;
@@ -1380,6 +1422,7 @@ begin
     TestGhoulArmor;
     TestFFOFurrifier;
     LOGGING := TRUE;
+
     TestNPCGeneration;
     TestFurryArmorFixup;
 

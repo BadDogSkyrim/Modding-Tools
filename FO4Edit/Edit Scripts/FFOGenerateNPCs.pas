@@ -40,6 +40,9 @@ begin
 
     if targetSex = FEMALE then begin
         SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);
+    end
+    else if targetSex = MALE then begin
+        SetElementNativeValues(newNPC, 'ACBS\Flags\female', 0);
     end;
     SetEditorID(newNPC, name);
 
@@ -142,8 +145,10 @@ end;
 //==========================================================
 // Generate 'num' new NPCs copied from the template NPC and add them to any lists the
 // original NPC is on.
-Procedure GenerateNPCs(targetFile: IwbFile; 
-    templateNPCname: string; num: integer; targetSex: integer);
+// Returns one of the generated NPCs.
+Function GenerateNPCs(targetFile: IwbFile; 
+    templateNPCname: string; num: integer; targetSex: integer):
+    IwbMainRecord;
 var
     i: integer;
     newNPC: IwbMainRecord;
@@ -158,6 +163,7 @@ begin
         else if not StartsText('DLC', templateNPCname) then
             AddMessage('ERROR: Could not find NPC ' + templateNPCname);
     end;
+    result := newNPC;
 end;
 
 //=========================================================================
@@ -502,8 +508,8 @@ begin
     InitializeNPCGenerator(patchFile);
 
     // Generate NPC variants of these and put them in any leveled lists referencing these
-    GenerateNPCs(patchFile, 'DLC03EncTrapper01Template', 10, MALE);
-    GenerateNPCs(patchFile, 'DLC03encTrapperFaceM01', 10, MALE);
+    GenerateNPCs(patchFile, 'DLC03EncTrapper01Template', 10, -1);
+    GenerateNPCs(patchFile, 'DLC03encTrapperFaceM01', 10, -1);
     GenerateNPCs(patchFile, 'DLC04_encGangDiscipleFaceF01', 10, -1);
     GenerateNPCs(patchFile, 'DLC04_encGangDiscipleFaceM01', 20, -1);
     GenerateNPCs(patchFile, 'DLC04_encGangOperatorFaceF01', 10, -1);
@@ -526,15 +532,15 @@ begin
     GenerateNPCs(patchFile, 'encRRAgentFaceF01', 10, -1);
     GenerateNPCs(patchFile, 'encRRAgentFaceF01', 10, -1);
     GenerateNPCs(patchFile, 'encRRAgentFaceM01', 20, -1);
-    GenerateNPCs(patchFile, 'EncSecurityDiamondCityM01', 10, MALE);
+    GenerateNPCs(patchFile, 'EncSecurityDiamondCityM01', 10, -);
     GenerateNPCs(patchFile, 'EncTriggermanFaceM01', 20, -1);
-    GenerateNPCs(patchFile, 'EncWorkshopNPCFemaleFarmer01', 20, FEMALE);
+    GenerateNPCs(patchFile, 'EncWorkshopNPCFemaleFarmer01', 20, -1);
     GenerateNPCs(patchFile, 'EncWorkshopNPCFemaleGuard01', 20, -1);
-    GenerateNPCs(patchFile, 'EncWorkshopNPCMaleFarmer02', 20, MALE);
+    GenerateNPCs(patchFile, 'EncWorkshopNPCMaleFarmer02', 20, -1);
     GenerateNPCs(patchFile, 'EncWorkshopNPCMaleGuard01b', 20, -1);
     GenerateNPCs(patchFile, 'FaceRaiderA', 20, -1);
-    GenerateNPCs(patchFile, 'InstituteScientistFemale', 20, FEMALE);
-    GenerateNPCs(patchFile, 'InstituteScientistMale', 20, MALE);
+    GenerateNPCs(patchFile, 'InstituteScientistFemale', 20, -1);
+    GenerateNPCs(patchFile, 'InstituteScientistMale', 20, -1);
 
     // Fix Operator, Disciple, and Pack
     // If an NPC gets its traits from a template AND is not a child AND the chain of
