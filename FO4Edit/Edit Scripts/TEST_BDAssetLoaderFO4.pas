@@ -1303,8 +1303,10 @@ end;
 Procedure TestNPCGeneration;
 var 
     i, j: integer;
-    npc, newNPC: IwbMainRecord;
+    npc, newNPC, npc2: IwbMainRecord;
     ll, llnew: IwbMainRecord;
+    ref: IwbElement;
+    npclist: IwbContainer;
 begin
     //-----------------------------------------------------------------------
     //
@@ -1312,6 +1314,9 @@ begin
     //
     // --------- 
     InitializeNPCGenerator(modFile);
+
+    // Make sure generated NPCs have the right sex.
+
 
     // Diamond city guards just don't have enough template actors. Make sure their LL gets
     // extended with a reasonable number.
@@ -1363,7 +1368,22 @@ begin
     AssertNPCInLL(ll, EditorID(npc));
     Assert(GetNPCSex(npc) = FEMALE, 'Generated female NPC');
 
-    // npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncGunner00'), modFile);
+    // Make sure that generic NPCs have multiple possible traits.
+    npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'BoSPoliceStation_EncBoSSoldier02_PAArmor_Scene'));
+    ll := NPCTraitsTemplate(npc);
+    AssertStr(Signature(ll), 'LVLN', 
+        'BoSPoliceStation_EncBoSSoldier02_PAArmor_Scene now based on leveled list');
+    // This was a female NPC so all generated NPCs should be female.
+    npclist := ElementByPath(ll, 'Leveled List Entries');
+    for i := 0 to ElementCount(npclist)-1 do begin
+        ref := ElementByPath(ElementByIndex(npclist, i), 'LVLO\Reference');
+        npc2 := HighestOverride(LinksTo(ref));
+        Assert(GetNPCSex(npc2) = FEMALE, 
+            Format('Leveled list entry %d is female: %s', [
+                i, SexToStr(GetNPCSex(npc2))
+            ]));
+    end;
+
     npc := SetGenericTraits(modFile, FindAsset(nil, 'NPC_', 'EncGunner00'));
     AssertStr(Signature(NPCTraitsTemplate(npc)), 'NPC_', 
         'EncGunner00 Traits not set to leveled list (because its used by leveled list)');

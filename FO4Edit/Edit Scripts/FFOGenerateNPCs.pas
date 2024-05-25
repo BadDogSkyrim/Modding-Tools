@@ -21,8 +21,10 @@ Function GenerateRandomNPC(targetFile: IwbFile; npc: IwbMainRecord; targetSex: i
 var
     newNPC: IwbMainRecord;
     name: string;
+    s: string;
 begin
-    if LOGGING then LogEntry2(5, 'GenerateRandomNPC', GetFileName(targetFile), Name(npc));
+    if LOGGING then LogEntry3(5, 'GenerateRandomNPC', 
+        GetFileName(targetFile), RecordName(npc), SexToStr(targetSex));
     
     AddRecursiveMaster(targetFile, GetFile(npc));
     newNPC := wbCopyElementToFile(npc, targetFile, True, True);
@@ -39,12 +41,15 @@ begin
     until not Assigned(FindAsset(targetFile, 'NPC_', name));
 
     if targetSex = FEMALE then begin
-        SetElementNativeValues(newNPC, 'ACBS\Flags\female', 1);
+        SetElementEditValues(newNPC, 'ACBS\Flags\female', '1');
     end
     else if targetSex = MALE then begin
-        SetElementNativeValues(newNPC, 'ACBS\Flags\female', 0);
+        SetElementEditValues(newNPC, 'ACBS\Flags\female', '0');
     end;
     SetEditorID(newNPC, name);
+    s := Format('NPC %s created as %s', 
+        [RecordName(newNPC), SexToStr(GetNPCSex(newNPC))]);
+    LogD(s);
 
     // Don't get traits from template, even if original did.
     SetElementNativeValues(newNPC, 'ACBS - Configuration\Use Template Actors\Traits', 0);
