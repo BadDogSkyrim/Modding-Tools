@@ -21,7 +21,6 @@ Function GenerateRandomNPC(targetFile: IwbFile; npc: IwbMainRecord; targetSex: i
 var
     newNPC: IwbMainRecord;
     name: string;
-    s: string;
 begin
     if LOGGING then LogEntry3(5, 'GenerateRandomNPC', 
         GetFileName(targetFile), RecordName(npc), SexToStr(targetSex));
@@ -47,9 +46,8 @@ begin
         SetElementEditValues(newNPC, 'ACBS\Flags\female', '0');
     end;
     SetEditorID(newNPC, name);
-    s := Format('NPC %s created as %s', 
-        [RecordName(newNPC), SexToStr(GetNPCSex(newNPC))]);
-    LogD(s);
+    if LOGGING then LogD(Format('NPC %s created as %s', [
+        RecordName(newNPC), SexToStr(GetNPCSex(newNPC))]));
 
     // Don't get traits from template, even if original did.
     SetElementNativeValues(newNPC, 'ACBS - Configuration\Use Template Actors\Traits', 0);
