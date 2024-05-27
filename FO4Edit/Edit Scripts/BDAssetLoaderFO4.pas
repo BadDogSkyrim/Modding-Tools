@@ -56,7 +56,8 @@ const
     CLASS_DALTON = 29;
     CLASS_PLAYER = 30;
     CLASS_JAKE = 31;
-    CLASS_HI = 31;
+    CLASS_CURIE = 32;
+    CLASS_HI = 32;
 
     TINTLAYERS_MAX = 20;
     HAIR_MAX = 600;
@@ -1714,6 +1715,7 @@ begin
     else if ContainsText(id, 'Pembroke') then Result := CLASS_PEMBROKE
     else if ContainsText(name, 'Cabot') then Result := CLASS_CABOT
     else if ContainsText(id, 'Dalton') then Result := CLASS_DALTON
+    else if SameText(id, 'EncCurieSynth') then Result := CLASS_CURIE
     else if ContainsText(id, 'Shaun') then Result := CLASS_PLAYER
     else if StartsText('MQ101PlayerSpouse', id) then Result := CLASS_PLAYER
     else if StartsText('MQ102PlayerSpouse', id) then Result := CLASS_PLAYER

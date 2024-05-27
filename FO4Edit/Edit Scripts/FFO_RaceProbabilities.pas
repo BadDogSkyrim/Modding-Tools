@@ -309,6 +309,7 @@ begin
     SetClassProb(CLASS_PIPER, 'FFODeerRace', 100);
     SetClassProb(CLASS_X688, 'FFOTigerRace', 100);
     SetClassProb(CLASS_JAKE, 'FFOCheetahRace', 100);
+    SetClassProb(CLASS_CURIE, 'FFOCheetahRace', 100); // Curie's synth form
 
     // Specific NPCs or families. Ensures relatives and older/younger
     // versions of the same NPC have the same race.
