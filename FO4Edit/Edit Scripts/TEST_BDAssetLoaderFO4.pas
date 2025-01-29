@@ -1,5 +1,7 @@
 {
 	Hotkey: Ctrl+Alt+T
+
+    TESTS MUST BE RUN WITH ALL DLCs LOADED.
 }
 unit TEST_BDAssetLoaderFO4;
 
@@ -71,6 +73,27 @@ begin
     end;
     if target <> '' then
         Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
+end;
+
+{ =======================================================================
+    Check to ensure the given IwbContainer contains a record referenced with editor ID
+    containing the given string. Also ensures all elements of the list are valid.
+}
+Procedure AssertNameInList(elist: IwbContainer; target: string);
+var
+    i: integer;
+    ref: IwbMainRecord;
+    found: boolean;
+    npcref: IwbMainRecord;
+begin
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        npcref := ElementByIndex(elist, i);
+        Assert(Assigned(npcref), Format('List element at [%d] assigned', [i]));
+        ref := LinksTo(npcref);
+        found := found or ContainsText(EditorID(ref), target);
+    end;
+    Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
 end;
 
 //=======================================================================
@@ -800,7 +823,7 @@ begin
 
     n := raceInfo[RACE_HORSE, FEMALE].morphProbability.IndexOf('Horse - Ears');
     Assert(n >= 0, 'Have morph setting for "Horse - Ears"');
-    AssertInt(raceInfo[RACE_HORSE, FEMALE].morphProbability.objects[n], 60, 'Have correct probability for "Horse - Ears"');
+    AssertInt(raceInfo[RACE_HORSE, FEMALE].morphProbability.objects[n], 20, 'Have correct probability for "Horse - Ears"');
 
     If {showing all morphs} FALSE then begin
         AddMessage('-------Morphs--------');
@@ -834,7 +857,7 @@ begin
     ));
     AssertInt(raceInfo[RACE_HORSE, MALE].faceBones[0].FMRI, 09, 
         'Horse "Nose - Full" FMRI value correct');
-    AssertFloat(raceInfo[RACE_HORSE, MALE].faceBones[0].min.scale, -0.4, 
+    AssertFloat(raceInfo[RACE_HORSE, MALE].faceBones[0].min.scale, -0.9, 
         'Horse "Nose - Full" min scale value correct');
     if {showing face morphs} FALSE then begin
         AddMessage('-------Face Morphs-----');
@@ -911,16 +934,10 @@ begin
     //
     //      HEADPARTS
     //
-    // Can find headparts for the different races.
-    i := masterRaceList.IndexOf('FFOFoxRace');
-    AssertInt(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Count, 1, 'Have a head for foxes');
-    AssertStr(EditorID(ObjectToElement(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Objects[0])), 'FFOFoxFemHead', 'Have fox head');
-    Assert(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count > 10, 'Have many hair for foxes: ' + IntToStr(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count));
-
     if LIST_RACE_HEADPARTS then begin
         Log(0, '<<<All headparts');
         for i := 0 to masterRaceList.Count-1 do begin
-            Log(0, '<' + masterRaceList[i]);
+            Log(0, '<' + RaceIDtoStr(i));
             for j := SEX_LO to SEX_HI do begin
                 Log(0, '<' + SexToStr(j));
                 for k := 0 to headpartsList.Count-1 do begin
@@ -938,6 +955,20 @@ begin
         end;
         Log(0, '>>>');
     end;
+
+    // Can find headparts for the different races.
+    i := masterRaceList.IndexOf('FFODeerRace');
+    AddMessage('Have deer race: ' + RaceIDtoStr(i));
+    AddMessage('Deer horns assigned: ' + BoolToStr(Assigned(raceInfo[i, MALE].headparts[HEADPART_EYEBROWS])));
+
+
+    i := masterRaceList.IndexOf('FFOFoxRace');
+    AddMessage('Have fox race: ' + RaceIDtoStr(i));
+    AddMessage('Fox Fem Faces assigned: ' + BoolToStr(Assigned(raceInfo[i, FEMALE].headparts[HEADPART_FACE])));
+    AssertInt(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Count, 1, 'Have a head for foxes');
+    AssertStr(EditorID(ObjectToElement(raceInfo[i, FEMALE].headparts[HEADPART_FACE].Objects[0])), 'FFOFoxFemHead', 'Have fox head');
+    Assert(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count > 10, 'Have many hair for foxes: ' + IntToStr(raceInfo[i, FEMALE].headparts[HEADPART_HAIR].Count));
+
     headpart := FindAsset(Nil, 'HDPT', 'FFO_HairFemale21_Dog');
     Assert(HeadpartValidForRace(headpart, RacenameIndex('FFOLykaiosRace'), FEMALE, HEADPART_HAIR), 
         'Dog female hair works on Lykaios');
@@ -1135,6 +1166,17 @@ begin
     AssertStr(EditorID(GetNPCRace(npc)), 'FFODeerChildRace', 'Changed Nat`s race');
     AssertGoodTintLayers(npc, 1168);
 
+    AddMessage('---Sheng');
+    npc := WinningOverride(FindAsset(Nil, 'NPC_', 'ShengKawolski'));
+    AssertInt(IsValidNPC(npc), 1, 'Sheng is valid');
+    modFile := CreateOverrideMod('TEST.esp');
+    npc := MakeFurryNPC(npc, modFile);
+    // Change the race depending on what the furrifier does
+    Assert(EditorID(GetNPCRace(npc)) = 'FFOLionChildRace', 'Sheng is child');
+    AssertNameInList(ElementByPath(npc, 'Head Parts'), 'FFOLionChildHead');
+    AssertNameInList(ElementByPath(npc, 'Head Parts'), 'BoyHair');
+    AssertGoodTintLayers(npc, 0);
+
     AddMessage('---Cathy and John');
     npc := FindAsset(Nil, 'NPC_', 'Cathy');
     npcCathy := MakeFurryNPC(npc, modFile);
@@ -1315,9 +1357,6 @@ begin
     // --------- 
     InitializeNPCGenerator(modFile);
 
-    // Make sure generated NPCs have the right sex.
-
-
     // Diamond city guards just don't have enough template actors. Make sure their LL gets
     // extended with a reasonable number.
     npc := MakeFurryNPC(FindAsset(Nil, 'NPC_', 'EncSecurityDiamondCityM01'), modFile);
@@ -1403,7 +1442,7 @@ end;
 Function Initialize: integer;
 begin
     LOGGING := FALSE;
-    LOGLEVEL := 10;
+    LOGLEVEL := 15;
 end;
 
 Function Finalize: integer;
@@ -1414,7 +1453,7 @@ begin
 
     // modFile := CreateOverrideMod('TEST.esp');
 
-    LIST_RACE_ASSETS := FALSE;
+    LIST_RACE_ASSETS := TRUE;
     LIST_RACE_HEADPARTS := TRUE;
     LIST_ALL_TINT_LAYERS := FALSE;
     LIST_HAIR_TRANSLATIONS := FALSE;
@@ -1432,6 +1471,8 @@ begin
     settingUseSelection := FALSE;
 
     // Asset loader has to be iniitialized before use.
+    LOGGING := TRUE;
+    LOGLEVEL := 15;
     modFile := CreateOverrideMod('TEST.esp');
     InitializeFurrifier(modFile);
 

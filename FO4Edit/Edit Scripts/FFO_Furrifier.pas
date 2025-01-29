@@ -25,7 +25,7 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    FURRIFIER_VERSION = '2.18';
+    FURRIFIER_VERSION = '2.19';
     SHOW_OPTIONS_DIALOG = True;
     PATCH_FILE_NAME = 'FFOPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
@@ -82,6 +82,9 @@ begin
     SkinLayerTranslation('Cheek Color', TL_CHEEK_COLOR);
     SkinLayerTranslation('Cheeks', TL_CHEEK_COLOR);
     SkinLayerTranslation('Chin', TL_CHIN);
+    SkinLayerTranslation('Cougar 01', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Cougar 02', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Cougar White', TL_MUZZLE);
     SkinLayerTranslation('Ears', TL_EAR);
     SkinLayerTranslation('Eye Lower', TL_EYESOCKET_LOWER);
     SkinLayerTranslation('Eye Shadow', TL_EYELINER);
@@ -407,15 +410,7 @@ begin
         curNPC.race := RACE_GHOUL;
 
     NPC_GetClass;
-
-    if ContainsText(curNPC.id, 'Kellogg') then curNPC.sig := 'Kellogg'
-    else if curNPC.npcclass = CLASS_DEACON then curNPC.sig := 'CompanionDeacon'
-    else if curNPC.npcclass = CLASS_JAKE then curNPC.sig := 'Jake'
-    else if ContainsText(curNPC.id, 'Emogene') then curNPC.sig := 'EmogeneCabotOld'
-    else if SameText(curNPC.name, 'Sergeant Lee') then curNPC.sig := 'MS05_SgtLee'
-    else if SameText(curNPC.name, 'Sully Mathis') then curNPC.sig := 'DN138Sully'
-    else if ContainsText(curNPC.id, 'Shaun') then curNPC.sig := 'Shaun';
-    
+    curNPC.sig := GetNPCSignature(curNPC.id, curNPC.name, curNPC.npcclass);
     RecordNPC(curNPC.handle, curNPC.sig);
 
     if curNPC.race < 0 then begin
@@ -690,16 +685,21 @@ begin
     if LOGGING Then LogEntry3(5, 'NPC_SetHeadpart', curNPC.id, HPtoStr(hpType), hpName);
     if LOGGING Then LogD(Format('Have race/sex %s/%s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
     hp := Nil;
-    for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType].Count-1 do begin
-        thisHP := 
-            ObjectToElement(
-                raceInfo[curNPC.furry_race, curNPC.sex]
-                    .headparts[hpType]
-                        .Objects[i]);
-        if LOGGING Then LogD('Checking ' + EditorID(thisHP));
-        if EditorID(thisHP) = hpName then begin
-            hp := thisHP;
-            break;
+    if LOGGING then LogT(Format('Have %s %s headparts: %s', [
+        SexToStr(curNPC.sex),
+        HPtoStr(hpType), BoolToStr(Assigned(raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType]))]));
+    if assigned(raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType]) then begin
+        for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType].Count-1 do begin
+            thisHP := 
+                ObjectToElement(
+                    raceInfo[curNPC.furry_race, curNPC.sex]
+                        .headparts[hpType]
+                            .Objects[i]);
+            if LOGGING Then LogD('Checking ' + EditorID(thisHP));
+            if EditorID(thisHP) = hpName then begin
+                hp := thisHP;
+                break;
+            end;
         end;
     end;
 
@@ -768,7 +768,11 @@ begin
     if (not Assigned(curNPC.old_hair)) then begin
         If LOGGING then LogT('No old hair, leaving hair alone.');
     end
-    else if StartsText('FFO', EditorID(curNPC.old_hair)) then begin
+    else if StartsText('FFO', EditorID(curNPC.old_hair)) 
+        and ((EditorID(curNPC.old_hair) <> 'FFO_HairMaleMane')
+            or (curNPC.furry_race = RACE_LION))
+    then begin
+        // Use the furry hair unless it's a lion mane and we don't have a lion.
         If LOGGING then LogT('Current hair is furry, using it');
         NPC_AssignHeadpart(curNPC.old_hair);
     end
@@ -848,21 +852,25 @@ var
 begin
     if LOGGING Then LogEntry2(5, 'NPC_ChooseTint', Name(curNPC.handle) , tintlayerName[tintlayer]);
 
-    prob := raceInfo[curNPC.furry_race, curNPC.sex].tintProbability[tintlayer];
-    probCheck := NPC_Hash(seed, 101);
-    ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
+    if curNPC.tintCount < curNPC.tintCountMax then begin
+        prob := raceInfo[curNPC.furry_race, curNPC.sex].tintProbability[tintlayer];
+        probCheck := NPC_Hash(seed, 101);
+        ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
 
-    if LOGGING then LogD(Format('Probability check: hash=%d, prob=%d, layer count=%d', [probCheck, prob, integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
-    if (probCheck <= prob) and (raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer] > 0) then begin
+        if LOGGING then LogD(Format('Probability check: hash=%d, prob=%d, layer count=%d', 
+            [probCheck, prob, integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+        if (probCheck <= prob) and (raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer] > 0) then begin
 
-        t := PickRandomTintOption(curNPC.sig, seed, curNPC.furry_race, curNPC.sex, tintlayer);
-        p := PickRandomColorPreset(curNPC.sig, seed+7989, t, ind,
-            raceInfo[curNPC.furry_race, curNPC.sex].tintColors[tintLayer]);
-        If LOGGING then LogT('Selected tint preset ' + Path(p));
-        NPC_AssignTint(t, p);
-    end
-    else begin
-        If LOGGING then LogT(Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+            t := PickRandomTintOption(curNPC.sig, seed, curNPC.furry_race, curNPC.sex, tintlayer);
+            p := PickRandomColorPreset(curNPC.sig, seed+7989, t, ind,
+                raceInfo[curNPC.furry_race, curNPC.sex].tintColors[tintLayer]);
+            If LOGGING then LogT('Selected tint preset ' + Path(p));
+            NPC_AssignTint(t, p);
+            curNPC.tintCount := curNPC.tintCount + 1;
+        end
+        else begin
+            If LOGGING then LogT(Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+        end;
     end;
     
     if LOGGING Then LogExitT('NPC_ChooseTint');
@@ -1089,13 +1097,14 @@ begin
     if mp >= 0 then
         p := raceInfo[curNPC.furry_race, curNPC.sex].morphProbability.objects[mp];
 
-    // If it'curNPC.sex not a child and we passed the probability test then do it.
-    if (h <= p) and ((curNPC.sex = MALE) or (curNPC.sex = FEMALE)) then begin
+    // If curNPC.sex not a child and we passed the probability test then do it.
+    if LOGGING then LogD(Format('Probability %d out of race probability %d', [h, p]));
+    if (h <= p) and ((curNPC.sex and CHILD_BIT) = 0) then begin
         mg := raceInfo[curNPC.furry_race, curNPC.sex].morphGroups.IndexOf(morphGroup);
         preset := GetMorphRandomPreset(
             ObjectToElement(raceInfo[curNPC.furry_race, curNPC.sex].morphGroups.objects[mg]),
-            hashstr,
-            seed+31);
+            curNPC.sig,
+            seed+31+h);
         if Assigned(preset) then begin
             mlo := 0;
             mhi := 100;
@@ -1105,7 +1114,7 @@ begin
                 mlo := raceInfo[curNPC.furry_race, curNPC.sex].morphLo.objects[mloIndex];
                 mhi := raceInfo[curNPC.furry_race, curNPC.sex].morphHi.objects[mhiIndex];
             end;
-            mval := HashVal(hashstr, seed + 29, mlo/100, mhi/100);
+            mval := HashVal(curNPC.sig, seed + 29, mlo/100, mhi/100);
 
             mskewIndex := raceInfo[curNPC.furry_race, curNPC.sex].morphSkew.IndexOf(morphGroup);
             if mskewIndex >= 0 then 
@@ -1130,6 +1139,8 @@ var
     fm, thisMorph, vals: IwbElement;
 begin
     If LOGGING then LogEntry2(5, 'NPC_SetMorphBone', curNPC.id, IntToStr(morphBoneIndex));
+    // if LOGGING then LogT(Format('[%f, %f, %f] [%f, %f, %f] %f', 
+    //     [x, y, z, pitch, roll, yaw, sc]));
     fm := Add(curNPC.handle, 'Face Morphs', true);
     thisMorph := nil;
     if (ElementCount(fm) > 0)
@@ -1179,7 +1190,7 @@ begin
 end;
 
 //================================================================================
-// Set all availble morphs on the target NPC, randomly.
+// Set all availble morphs on the target NPC, randomly, according to probabilities.
 procedure NPC_SetAllRandomMorphs;
 var
     fm: TTransform;
@@ -1200,6 +1211,8 @@ begin
     if Assigned(raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList) then begin
         for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList.Count-1 do begin
             hstr := curNPC.sig + raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList[i];
+            if LOGGING then LogT(Format('Setting morph for race %s %s > [%d] %s', 
+                [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex), i, hstr]));
             fm.x := HashVal(hstr, 9377, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.x, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.x);
             fm.y := HashVal(hstr, 9432, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.y, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.y);
             fm.z := HashVal(hstr, 2529, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.z, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.z);
@@ -1212,7 +1225,9 @@ begin
                 fm.xRot, fm.yRot, fm.zRot,
                 fm.scale);
         end;
-    end;
+    end
+    else if LOGGING then LogD(Format('No morphs for %s %s', [SexToStr(curNPC.sex, RaceIDtoStr(curNPC.furry_race))]));
+
     if LOGGING then LogExitT('NPC_SetAllRandomMorphs');
 end;
 
@@ -1416,8 +1431,10 @@ begin
         h := NPC_Hash(6728, 2);
     
     case h of
-        0: NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns03'); // Gazelle
-        1: NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns10'); // PRonghorn
+        0: NPC_SetHeadpart(HEADPART_EYEBROWS, 
+            'FFODeerHorns03' + IfThen(curNPC.sex = FEMALE, 'F', '')); // Gazelle
+        1: NPC_SetHeadpart(HEADPART_EYEBROWS, 
+            'FFODeerHorns10' + IfThen(curNPC.sex = FEMALE, 'F', '')); // Pronghorn
     end;
 
     NPC_SetTintlayerColor(1740, TL_SKIN_TONE,  
@@ -1519,16 +1536,24 @@ begin
     NPC_ChooseOldTint(3041+deerType*13);
 end;
 //================================================================
-// Special tailoring for lions. 50% of the males get manes.
+// Special tailoring for lions. 50% of the males get manes. The occasional lion is a
+// cougar.
 Procedure NPC_FurrifyLion;
+var
+    isCougar: Boolean;
 begin
     if LOGGING Then LogEntry2(5, 'NPC_FurrifyLion', Name(curNPC.handle), EditorID(curNPC.old_hair));
+    isCougar := NPC_Hash(393, 100) >= 90;
+    if isCougar then
+        if LOGGING then LogT('NPC is cougar');
+    
     NPC_SetWeight(1, 2, 1);
-    if LOGGING Then LogD(Format('Calling NPC_ChooseHeadpart with race %s', [EditorID(LinksTo(ElementByPath(curNPC.handle, 'RNAM')))]));
+
     NPC_ChooseHeadpart(HEADPART_FACE);
     NPC_ChooseHeadpart(HEADPART_EYES);
 
-    if curNPC.sex = MALE and 
+    if (not isCougar) and 
+            (curNPC.sex = MALE) and 
             ((NPC_Hash(9203, 100) > 50) 
                 or ContainsText(curNPC.id, 'PrestonGarvey')
             ) 
@@ -1541,6 +1566,12 @@ begin
     NPC_ChooseHeadpart(HEADPART_EYEBROWS);
     NPC_ChooseTint(TL_SKIN_TONE, 6351);
     NPC_ChooseTint(TL_NOSE, 1140);
+
+    if isCougar then begin
+        NPC_ChooseTint(TL_MUZZLE_STRIPE, 2390);
+        NPC_ChooseTint(TL_MUZZLE, 9424);
+    end;
+
     NPC_ChooseOldTint(4850);
 
     if LOGGING Then LogExitT('NPC_FurrifyLion');
@@ -1566,6 +1597,7 @@ begin
             RACE_LION: NPC_FurrifyLion;
         else 
             begin
+            curNPC.tintCountMax := 4;
             NPC_ChooseHeadpart(HEADPART_FACE);
             NPC_ChooseHeadpart(HEADPART_EYES);
             NPC_ChooseHeadpart(HEADPART_MOUTH);
@@ -1574,19 +1606,19 @@ begin
             NPC_ChooseHeadpart(HEADPART_FACIAL_HAIR);
             NPC_ChooseHeadpart(HEADPART_SCAR);
             NPC_ChooseTint(TL_SKIN_TONE, 9523);
-            NPC_ChooseTint(TL_CHEEK_COLOR_LOWER, 2711);
-            NPC_ChooseTint(TL_CHEEK_COLOR, 5765);
-            NPC_ChooseTint(TL_CHIN, 1783);
-            NPC_ChooseTint(TL_EAR, 552);
-            NPC_ChooseTint(TL_EYEBROW, 6967);
-            NPC_ChooseTint(TL_EYELINER, 919);
-            NPC_ChooseTint(TL_EYESOCKET_LOWER, 6599);
-            NPC_ChooseTint(TL_EYESOCKET_UPPER, 7021);
-            NPC_ChooseTint(TL_FOREHEAD, 7027);
             NPC_ChooseTint(TL_MASK, 2189);
             NPC_ChooseTint(TL_MUZZLE, 9487);
             NPC_ChooseTint(TL_MUZZLE_STRIPE, 9563);
+            NPC_ChooseTint(TL_CHIN, 1783);
+            NPC_ChooseTint(TL_EAR, 552);
+            NPC_ChooseTint(TL_EYEBROW, 6967);
+            NPC_ChooseTint(TL_FOREHEAD, 7027);
+            NPC_ChooseTint(TL_EYELINER, 919);
+            NPC_ChooseTint(TL_EYESOCKET_LOWER, 6599);
+            NPC_ChooseTint(TL_EYESOCKET_UPPER, 7021);
             NPC_ChooseTint(TL_NECK, 2539);
+            NPC_ChooseTint(TL_CHEEK_COLOR_LOWER, 2711);
+            NPC_ChooseTint(TL_CHEEK_COLOR, 5765);
             NPC_ChooseTint(TL_NOSE, 6529);
             NPC_ChooseOldTint(2351);
             NPC_SetAllRandomMorphs;
@@ -2090,7 +2122,8 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if cancelRun or (not settingUseSelection) or (not DO_FURRIFICATION) then exit;
+    if cancelRun or (not settingUseSelection) or (not DO_FURRIFICATION) or (Signature(entity) <> 'NPC_') 
+    then exit;
     
     win := HighestOverride(entity);
 
