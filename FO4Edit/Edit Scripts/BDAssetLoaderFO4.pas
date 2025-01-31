@@ -1067,7 +1067,9 @@ begin
         RaceIDtoStr(raceID), Hash(hashstr, seed+1041, 100), HORSE_MANE_CHANCE
         ]));
 
-    if (not Assigned(result)) or useMane then begin
+    if ((not Assigned(result)) or useMane) 
+        and Assigned(raceInfo[raceID, targetSex].headparts[HEADPART_HAIR]) 
+    then begin
         If LOGGING then 
             if useMane 
             then LogT('Using mane') 
