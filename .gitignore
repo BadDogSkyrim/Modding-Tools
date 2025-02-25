@@ -9,5 +9,180 @@ Microsoft VS Code/
 NifSkope*/
 Texture Toolbox/
 FO4Edit/Edit Scripts/*.pas.backup.*
-xEdit/
+xEdit/Edit Scripts/*.pas.backup.*
 FO4Edit/Edit Scripts/FFO_Furrifier.zip
+FO4Edit/Edit Scripts/FFO_Furrifier.zip
+xEdit/whatsnew.md
+xEdit/xEdit.exe - Shortcut.lnk
+xEdit/Edit Scripts/____Test.pas
+xEdit/Edit Scripts/_newscript_.pas
+xEdit/Edit Scripts/Add enable parent to the refs of specific base object.pas
+xEdit/Edit Scripts/Add into container.pas
+xEdit/Edit Scripts/Add prefix or suffix to Editor ID.pas
+xEdit/Edit Scripts/Add Prefix Plus Name To EDID.pas
+xEdit/Edit Scripts/Apply custom scripted filter.pas
+xEdit/Edit Scripts/Apply filter for cleaning.pas
+xEdit/Edit Scripts/Apply filter for deleted navmeshes.pas
+xEdit/Edit Scripts/Assets browser.pas
+xEdit/Edit Scripts/Assets manager.pas
+xEdit/Edit Scripts/Base object variations.pas
+xEdit/Edit Scripts/BASH tags autodetection.pas
+xEdit/Edit Scripts/Bookmark.ini
+xEdit/Edit Scripts/Bookmark.pas
+xEdit/Edit Scripts/Bookmark1.pas
+xEdit/Edit Scripts/Bookmark1Go.pas
+xEdit/Edit Scripts/Bookmark2.pas
+xEdit/Edit Scripts/Bookmark2Go.pas
+xEdit/Edit Scripts/Bookmark3.pas
+xEdit/Edit Scripts/Bookmark3Go.pas
+xEdit/Edit Scripts/Bookmark4.pas
+xEdit/Edit Scripts/Bookmark4Go.pas
+xEdit/Edit Scripts/Bookmark5.pas
+xEdit/Edit Scripts/Bookmark5Go.pas
+xEdit/Edit Scripts/Change load order of FormID.pas
+xEdit/Edit Scripts/Change persistent flag.pas
+xEdit/Edit Scripts/Check for circular previous INFOs.pas
+xEdit/Edit Scripts/Check for errors.pas
+xEdit/Edit Scripts/Check for invalid alternate textures.pas
+xEdit/Edit Scripts/Conflict Status.pas
+xEdit/Edit Scripts/Copy as override.pas
+xEdit/Edit Scripts/Copy FormID to clipboard.pas
+xEdit/Edit Scripts/Copy version control info from another plugin.pas
+xEdit/Edit Scripts/Create Shared Infos.pas
+xEdit/Edit Scripts/DDS - Find textures without mipmaps.pas
+xEdit/Edit Scripts/Detect conflict between elements.pas
+xEdit/Edit Scripts/Execute external applications.pas
+xEdit/Edit Scripts/Export dialogues.pas
+xEdit/Edit Scripts/Export list of cells.pas
+xEdit/Edit Scripts/ExportImportTexts.pas
+xEdit/Edit Scripts/Fallout4 - Convert ALCH to SPEL.pas
+xEdit/Edit Scripts/Fallout4 - Copy XPRI subrecord.pas
+xEdit/Edit Scripts/Fallout4 - Disable PreVis.pas
+xEdit/Edit Scripts/Fallout4 - Filter for precombined statics.pas
+xEdit/Edit Scripts/Fallout4 - Import SCLP bone weights.pas
+xEdit/Edit Scripts/Fallout4 - Workshop Menu Editor.pas
+xEdit/Edit Scripts/Find cell in worldspace.pas
+xEdit/Edit Scripts/Find ESP plugins which could be turned into ESL.pas
+xEdit/Edit Scripts/Find records.pas
+xEdit/Edit Scripts/FNV - Export dialogues.pas
+xEdit/Edit Scripts/FO3 and FNV - Translator.pas
+xEdit/Edit Scripts/FO4-AtlasMap-Commonwealth.txt
+xEdit/Edit Scripts/FO4-AtlasMap-SanctuaryHillsWorld.txt
+xEdit/Edit Scripts/FUZer.pas
+xEdit/Edit Scripts/JSON - Demo.pas
+xEdit/Edit Scripts/List FormIDs from specific space.pas
+xEdit/Edit Scripts/List hardcoded forms from references.pas
+xEdit/Edit Scripts/List loaded plugins and their masters.pas
+xEdit/Edit Scripts/List LOD objects and meshes.pas
+xEdit/Edit Scripts/List master references.pas
+xEdit/Edit Scripts/List null FormID.pas
+xEdit/Edit Scripts/List perk entry points usage.pas
+xEdit/Edit Scripts/List records referencing specific plugin.pas
+xEdit/Edit Scripts/List used baseforms and statistics.pas
+xEdit/Edit Scripts/List used meshes from references.pas
+xEdit/Edit Scripts/List used meshes.pas
+xEdit/Edit Scripts/List winning override references.pas
+xEdit/Edit Scripts/LOD Statistics.pas
+xEdit/Edit Scripts/LODGen_flat_lod.nif
+xEdit/Edit Scripts/LODGen.pas
+xEdit/Edit Scripts/Make new records from overrides.pas
+xEdit/Edit Scripts/Merge overrides into master.pas
+xEdit/Edit Scripts/NIF - Batch JSON converter.pas
+xEdit/Edit Scripts/NIF - Batch textures replacement.pas
+xEdit/Edit Scripts/NIF - Batch update tangents and bitangents.pas
+xEdit/Edit Scripts/NIF - Convert OBJ to NIF.pas
+xEdit/Edit Scripts/NIF - List blocks references.pas
+xEdit/Edit Scripts/Oblivion - Export all scripts in xml format.pas
+xEdit/Edit Scripts/Oblivion - Export Dialogues.pas
+xEdit/Edit Scripts/Oblivion - Items lookup replacement.pas
+xEdit/Edit Scripts/Oblivion - Items lookup replacement.txt
+xEdit/Edit Scripts/Oblivion - OCO faces assignment.pas
+xEdit/Edit Scripts/Output used assets filenames.pas
+xEdit/Edit Scripts/Put master references in the same cell as overriding references.pas
+xEdit/Edit Scripts/Put worldspace references in the right cells.pas
+xEdit/Edit Scripts/Redirect references.pas
+xEdit/Edit Scripts/Regular Expressions Workbench.pas
+xEdit/Edit Scripts/Remove duplicate references.pas
+xEdit/Edit Scripts/Remove excess references.pas
+xEdit/Edit Scripts/Remove identical to previous override records.pas
+xEdit/Edit Scripts/Remove invalid entries from from lists.pas
+xEdit/Edit Scripts/Remove percentage of references of specific object.pas
+xEdit/Edit Scripts/Remove same references against the master cell.pas
+xEdit/Edit Scripts/Renumber FormID of Matching EDID.pas
+xEdit/Edit Scripts/Renumber FormID.pas
+xEdit/Edit Scripts/Replace landscape texture.pas
+xEdit/Edit Scripts/Replace map marker.pas
+xEdit/Edit Scripts/Replace model alternate textures.pas
+xEdit/Edit Scripts/Replace model file name.pas
+xEdit/Edit Scripts/Replace text in EDID and FULL.pas
+xEdit/Edit Scripts/Report masters.pas
+xEdit/Edit Scripts/Report unclamped FormIDs.pas
+xEdit/Edit Scripts/Restore record names from master.pas
+xEdit/Edit Scripts/Save script source.pas
+xEdit/Edit Scripts/SaveAs.pas
+xEdit/Edit Scripts/Scale trees references.pas
+xEdit/Edit Scripts/Set default water level in exterior cells with HasWater flag.pas
+xEdit/Edit Scripts/SetESL.pas
+xEdit/Edit Scripts/Skyrim - Add keywords.pas
+xEdit/Edit Scripts/Skyrim - Add shadow bias to lights.pas
+xEdit/Edit Scripts/Skyrim - Book Covers Patch.pas
+xEdit/Edit Scripts/Skyrim - Check edge links in navmeshes.pas
+xEdit/Edit Scripts/Skyrim - Check script properties.pas
+xEdit/Edit Scripts/Skyrim - Clean edge links in navmeshes.pas
+xEdit/Edit Scripts/Skyrim - Convert BOOK to SCRL.pas
+xEdit/Edit Scripts/Skyrim - Convert LIGH record with mesh to STAT or MISC.pas
+xEdit/Edit Scripts/Skyrim - Copy book text only from master record.pas
+xEdit/Edit Scripts/Skyrim - Copy cells settings.pas
+xEdit/Edit Scripts/Skyrim - Copy VMAD subrecord.pas
+xEdit/Edit Scripts/Skyrim - Create patch for ClimatesOfTamriel and SoundsOfSkyrim-TheWilds.pas
+xEdit/Edit Scripts/Skyrim - Export and import weapons stats from spreadsheet file.pas
+xEdit/Edit Scripts/Skyrim - Filter by script.pas
+xEdit/Edit Scripts/Skyrim - Find uncompressed records.pas
+xEdit/Edit Scripts/Skyrim - List actors with more than one vendor faction.pas
+xEdit/Edit Scripts/Skyrim - List interior cells.pas
+xEdit/Edit Scripts/Skyrim - List old version plugins.pas
+xEdit/Edit Scripts/Skyrim - List used scripts.pas
+xEdit/Edit Scripts/Skyrim - Make outfits from inventories.pas
+xEdit/Edit Scripts/Skyrim - Ore Veins don't respawn.pas
+xEdit/Edit Scripts/Skyrim - Read Books Aloud.pas
+xEdit/Edit Scripts/Skyrim - Remove frequence variance from sound descriptors.pas
+xEdit/Edit Scripts/Skyrim - Remove invalid entries.pas
+xEdit/Edit Scripts/Skyrim - Reuse faces.pas
+xEdit/Edit Scripts/Skyrim - Set first person flags on armors affected by specific plugin.pas
+xEdit/Edit Scripts/Skyrim - Set HavokDontSettle flag on BOOK references.pas
+xEdit/Edit Scripts/Skyrim - Set HavokDontSettle flag on refs using models from list.pas
+xEdit/Edit Scripts/Skyrim - Set HavokDontSettle models list.txt
+xEdit/Edit Scripts/Skyrim - Show references from location.pas
+xEdit/Edit Scripts/Skyrim - Tree LOD files patcher.pas
+xEdit/Edit Scripts/Skyrim - Tweak bloom, eyes adaptation, tint.pas
+xEdit/Edit Scripts/Skyrim SE - Generate Large References.pas
+xEdit/Edit Scripts/SSE-AtlasMap-Blackreach.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DeepwoodRedoubtWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DLC01FalmerValley.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DLC1HunterHQWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DLC01SoulCairn.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DLC2ApocryphaWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-DLC2SolstheimWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-JaphetsFollyWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-Markarth.txt
+xEdit/Edit Scripts/SSE-AtlasMap-SkuldafnWorld.txt
+xEdit/Edit Scripts/SSE-AtlasMap-Sovngarde.txt
+xEdit/Edit Scripts/SSE-AtlasMap-Tamriel.txt
+xEdit/Edit Scripts/TES5-AtlasMap-Tamriel.txt
+xEdit/Edit Scripts/TEST_BDAssetLoaderFO4.pas
+xEdit/Edit Scripts/Test_System.pas
+xEdit/Edit Scripts/Undelete and Disable References.pas
+xEdit/Edit Scripts/Undelete navmeshes.pas
+xEdit/Edit Scripts/Update records form version.pas
+xEdit/Edit Scripts/Weather Editor.pas
+xEdit/Edit Scripts/Worldspace browser.pas
+xEdit/Edit Scripts/Worldspace change height.pas
+xEdit/Edit Scripts/Worldspace copy landscape area to another worldspace.pas
+xEdit/Edit Scripts/Worldspace copy landscape.pas
+xEdit/Edit Scripts/Worldspace crop.pas
+xEdit/Edit Scripts/Worldspace displacement.pas
+xEdit/Edit Scripts/Worldspace move references into another worldspace.pas
+xEdit/Edit Scripts/Worldspace region change height.pas
+xEdit/Edit Scripts/Worldspace region move.pas
+xEdit/Edit Scripts/Worldspace scale refs position.pas
+xEdit/Edit Scripts/xEditAPI.pas

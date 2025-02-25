@@ -1,0 +1,11 @@
+*.exe
+*.log
+*.zip
+*_log.txt
+LICENSE.txt
+Optional/
+Themes/
+README.txt
+whatsnew.rtf
+__history
+.vs
