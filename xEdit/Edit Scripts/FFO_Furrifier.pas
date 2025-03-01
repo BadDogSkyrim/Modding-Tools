@@ -25,7 +25,7 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    FURRIFIER_VERSION = '2.20';
+    FURRIFIER_VERSION = '2.21';
     SHOW_OPTIONS_DIALOG = False;
     PATCH_FILE_NAME = 'FFONPCPatchEd.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
