@@ -1,5 +1,5 @@
 
-unit FFO_Furrifier;
+unit FurrySkyrim;
 
 interface
 

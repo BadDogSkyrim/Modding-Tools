@@ -4,6 +4,12 @@ interface
 implementation
 uses xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
+const
+    LBL_MSPACE = 10;
+    LBL_GAP = 10;
+    LBL_VSPACE = 5;
+    LBL_ADJ = 3;
+    alphabet = 'abcdefghijklmnopqrstuvwxyz';
 var 
     LOGGING: boolean;
     LOGLEVEL: integer;
@@ -12,6 +18,43 @@ var
     errCount: integer;
     warnCount: integer;
     curLogLevel: array [0..100] of integer;
+    xEditMajor, xEditMinor, xEditUpdate: integer;
+    xEditUpdate2: string;
+    xEditVersionStr: string;
+
+    // Context variables for building forms
+    formPosLeft, formPosTop: integer;
+    bdstForm: TForm;
+    formParent: TForm;
+
+
+Function GetXEditVersion(): string;
+var v: string;
+begin
+    v := IntToHex(wbVersionNumber, 8);
+    xEditMajor := StrToInt(MidStr(v, 1, 2));
+    xEditMinor := StrToInt(MidStr(v, 3, 2));
+    xEditUpdate := StrToInt(MidStr(v, 5, 2));
+    xEditUpdate2 := MidStr(alphabet, IntToStr(wbVersionNumber and $FF), 1);
+    xEditVersionStr := IntToStr(xEditMajor) + '.' + IntToStr(xEditMinor) + '.' 
+        + IntToStr(xEditUpdate) + '.' + xEditUpdate2;
+    result := xEditVersionStr;
+end;
+
+
+{================================================================
+Compare the given version number with xEdit's. Return <0 if it's less,
+0 if it's equal, >0 if it's greater. 
+}
+Function XEditVersionCompare(majv, minv, updv: integer; upd2v: string): integer;
+begin
+    if majv <> xEditMajor then result := majv - xEditMajor
+    else if minv <> xEditMinor then result := minv - xEditMinor
+    else if updv <> xEditUpdate then result := updv - xEditUpdate
+    else if upd2v < xEditUpdate2 then result := -1
+    else if upd2v > xEditUpdate2 then result := 1
+    else result := 0;
+end;
 
 
 Function BoolToStr(b: boolean): string;
@@ -67,6 +110,17 @@ end;
 Function RealFormID(e: IInterface): Cardinal;
 begin
 	result := FileFormIDtoLoadOrderFormID(GetFile(e), FixedFormID(e));
+end;
+
+
+//==========================================
+// Return an entry in a leveled list. Check paths for both older and new versions 
+// of xEdit.
+Function LeveledListEntryRef(e: IwbElement): IwbElement;
+begin
+    result := ElementByPath(e, 'LVLO\NPC');
+    if not Assigned(result) 
+    then result := ElementByPath(e, 'LVLO\Reference');
 end;
 
 
@@ -321,6 +375,7 @@ begin
     // addmessage(Format('After exiting FindAsset: %s', [LogToStr]));
 end;
 
+
 //=======================================================================
 // Return the record referenced by the field of the element at the given index
 Function RecordAtIndex(e: IwbElement; idx: integer; field: string): IwbElement;
@@ -330,6 +385,18 @@ begin
     else
         result := nil;
 end;
+
+//=======================================================================
+// Determine whether a record has no override and is the effective record in the load order.
+function HasNoOverride(theElement: IwbMainRecord): Boolean;
+begin
+    if IsWinningOverride(theElement) 
+    then result := True
+    else if GetLoadOrder(GetFile(WinningOverride(theElement))) = GetLoadOrder(GetFile(theElement)) 
+    then result := True
+    else result := False;
+end;
+
 
 //=======================================================================
 // Get the last override (or base) *before* the given file
@@ -414,6 +481,229 @@ begin
     result := ((rgbVal shr 24) and $FF)/255.0;
 end;
 
+//=========================================================
+// Create a form button
+function FormButton(f: TForm; parent: TForm; lab: String; res: Cardinal; left, top: integer):
+    TButton;
+var
+    b: TButton;
+begin
+    b := TButton.Create(f);
+    b.parent := parent;
+    b.caption := lab;
+    b.ModalResult := res;
+    b.Left := left;
+    b.top := top;
+    Result := b;
+end;
 
+//=========================================================
+// Create a form label
+function FormLabel(f: TForm; parent: TForm; caption: String; left, top, width: integer):
+    TLabel;
+var
+    lbl: TLabel;
+begin
+    lbl := TLabel.Create(f);
+    lbl.parent := parent;
+    lbl.caption := caption;
+    lbl.Left := left;
+    lbl.top := top;
+    if width > 0 then lbl.width := width;
+    Result := lbl;
+end;
+
+//=========================================================
+// Create a form check box
+function FormCheckBox(f: TForm; parent: TForm; caption: String; left, top, width: integer):
+    TCheckBox;
+var
+    cb: TCheckBox;
+begin
+    cb := TCheckBox.Create(f);
+    cb.parent := parent;
+    cb.caption := caption;
+    cb.width := 100;
+    cb.Left := left;
+    cb.top := top;
+    if width > 0 then cb.width := width;
+    Result := cb;
+end;
+
+//=========================================================
+// Create a form check box
+function FormComboBox(f: TForm; parent: TForm; options: String; left, top, width: integer):
+    TComboBox;
+var
+    cb: TComboBox;
+begin
+    cb := TComboBox.Create(f);
+    cb.Parent := parent;
+    cb.Left := left;
+    cb.Top := top;
+    cb.Width := width;
+    cb.Style := csDropDownList;
+    cb.Items.Text := options;
+    cb.ItemIndex := 0;
+    result := cb;
+end;
+
+//=========================================================
+// Create a form panel
+function FormPanel(f: TForm; parent: TForm; bevelOuter: Cardinal; alignment: Cardinal; height: integer):
+    TPanel;
+var
+    p: TPanel;
+begin
+    p := TPanel.Create(f);
+    p.parent := parent;
+    p.BevelOuter := bevelOuter;
+    p.align := alignment;
+    p.height := height;
+    Result := p
+end;
+
+//=========================================================
+// Create a form edit text box
+function FormEdit(f: TForm; parent: TForm; left, top, width: integer):
+    TEdit;
+var
+    ed: TEdit;
+begin
+    ed := TEdit.Create(f);
+    ed.parent := parent;
+    ed.left := left;
+    ed.top := top;
+    ed.width := width;
+    result := ed;
+end;
+
+//=========================================================
+// Create a form and initialize context for form creation.
+function MakeForm(caption: string; width, height: integer): TForm;
+var
+    f: TForm;
+begin
+    f := TForm.Create(nil);
+    f.caption := caption;
+    f.width := width;
+    f.height := height;
+    f.position := poScreenCenter;
+    f.borderStyle := bsDialog;
+    formPosLeft := 5;
+    formPosTop := 5;
+    bdstForm := f;
+    formParent := f;
+    result := f;
+end;
+
+function MakeFormEdit(caption: string; defaultvalue: string): TEdit;
+var
+    lbl: TLabel;
+    ed: TEdit;
+    l: integer;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := caption;
+    lbl.Left := formPosLeft;
+    lbl.top := formPosTop+LBL_ADJ;
+
+    ed := TEdit.Create(bdstForm);
+    ed.parent := formParent;
+    ed.top := formPosTop;
+    l := lbl.left + lbl.width + LBL_MSPACE;
+    ed.left := l;
+    ed.width := formParent.width-l-LBL_MSPACE*2;
+    ed.text := defaultvalue;
+
+    formPosTop := formPosTop + ed.height + LBL_VSPACE;
+    result := ed;
+end;
+
+//=========================================================
+// Create a form check box
+function MakeFormCheckBox(caption: String; defaultvalue: boolean): TCheckBox;
+var
+    cb: TCheckBox;
+begin
+    cb := TCheckBox.Create(bdstForm);
+    cb.parent := formParent;
+    cb.caption := caption;
+    cb.top := formPosTop;
+    cb.Left := formPosLeft;
+    cb.width := formParent.width - formPosLeft - LBL_MSPACE*2;
+    cb.checked := defaultvalue;
+
+    formPosTop := formPosTop + cb.height + LBL_VSPACE;
+    Result := cb;
+end;
+
+//=========================================================
+// Create a form label
+procedure MakeFormSectionLabel(caption: String);
+var
+    lbl: TLabel;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := '= ' + caption + ' =';
+    lbl.top := formPosTop + LBL_GAP;
+    lbl.Left := formPosLeft;
+    lbl.width := formParent.width - formPosLeft - LBL_MSPACE*2;
+    formPosTop := lbl.top + lbl.height + LBL_GAP;
+end;
+
+//=========================================================
+// Create a form combo box
+function MakeFormComboBox(caption: string; options: String; defaultvalue: integer):
+    TComboBox;
+var
+    lbl: TLabel;
+    cb: TComboBox;
+    y: integer;
+begin
+    lbl := TLabel.Create(bdstForm);
+    lbl.parent := formParent;
+    lbl.caption := caption;
+    lbl.Left := formPosLeft;
+    lbl.top := formPosTop+LBL_ADJ;
+
+    cb := TComboBox.Create(bdstForm);
+    cb.Parent := formParent;
+    cb.Top := formPosTop;
+    y := formPosLeft + lbl.width + LBL_MSPACE;
+    cb.Left := y;
+    cb.Width := formParent.width - y - LBL_MSPACE*2;
+    cb.Style := csDropDownList;
+    cb.items.text := options;
+    cb.ItemIndex := defaultvalue;
+
+    formPosTop := cb.top + cb.height + LBL_VSPACE;
+    result := cb;
+end;
+
+//=========================================================
+// Create a form button
+procedure MakeFormOKCancel;
+var
+    b, c: TButton;
+begin
+    b := TButton.Create(bdstForm);
+    b.parent := formParent;
+    b.caption := 'OK';
+    b.ModalResult := mrOK;
+    b.top := formPosTop + LBL_GAP * 2;
+    b.left := formParent.width/2 - b.width - LBL_MSPACE;
+    
+    c := TButton.Create(bdstForm);
+    c.parent := formParent;
+    c.caption := 'Cancel';
+    c.ModalResult := mrCancel;
+    c.top := b.top;
+    c.left := formParent.width/2 + LBL_MSPACE;
+    
+    formParent.height := b.top + 80;
+end;
 
 end.

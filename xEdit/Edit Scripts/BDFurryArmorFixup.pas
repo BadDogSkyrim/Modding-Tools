@@ -69,7 +69,7 @@ end;
 
 //================================================================
 // Add the new race to all armor records that specify the existing race,
-// for the entire load order.
+// for the entire load order. NO:Don't add to any armor record on the ignore list.
 Procedure AddRaceToAllArmor(targetFile: IwbFile; newRace, existingRace: IwbMainRecord);
 var
     aa: IwbElement;
@@ -83,7 +83,7 @@ begin
         armaList := GroupBySignature(FileByIndex(f), 'ARMA');
         for i := 0 to ElementCount(armaList)-1 do begin
             aa := ElementByIndex(armaList, i);
-            if IsWinningOverride(aa) then begin
+            if {(ignoreList.IndexOf(EditorID(aa)) < 0) and} IsWinningOverride(aa) then begin
                 if ARMAHasRace(aa, existingRace) then begin
                     if LOGGING then LogD(Format('Found target race %s on %s', [Name(existingRace), Name(aa)]));
                     AddRaceToARMA(targetFile, aa, newRace);

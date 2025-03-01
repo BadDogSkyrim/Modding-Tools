@@ -186,6 +186,7 @@ xEdit/Edit Scripts/Worldspace region change height.pas
 xEdit/Edit Scripts/Worldspace region move.pas
 xEdit/Edit Scripts/Worldspace scale refs position.pas
 xEdit/Edit Scripts/xEditAPI.pas
+xEdit/icon.png
 xEdit/Edit Scripts/AT - Armor Mod Builder v1.4.pas
 xEdit/Edit Scripts/AT - Break it Down v1.0.pas
 xEdit/Edit Scripts/AT - CCOR Compatibility Script v1.0.pas
@@ -206,4 +207,3 @@ xEdit/Edit Scripts/System.Classes.pas
 xEdit/Edit Scripts/System.StrUtils.pas
 xEdit/Edit Scripts/System.SysUtils.pas
 xEdit/Edit Scripts/Winapi.Windows.pas
-xEdit/icon.png
