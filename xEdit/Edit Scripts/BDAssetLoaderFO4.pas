@@ -1,4 +1,4 @@
-{
+{ Functions to interpret race assets, independent of what we do with them.
 }
 unit BDAssetLoaderFO4;
 
@@ -19,6 +19,8 @@ const
     MALECHILD = 2;
     FEMALECHILD = 3;
     SEX_HI = 3;
+    FEMALE_BIT = 1;
+    CHILD_BIT = 2;
 
     // Known NPC classes
     CLASS_LO = 0;
@@ -54,10 +56,12 @@ const
     CLASS_DALTON = 29;
     CLASS_PLAYER = 30;
     CLASS_JAKE = 31;
-    CLASS_HI = 31;
+    CLASS_CURIE = 32;
+    CLASS_NAKANO = 33;
+    CLASS_HI = 33;
 
     TINTLAYERS_MAX = 20;
-    HAIR_MAX = 600;
+    HAIR_MAX = 1000;
 
     // Morphs
     EVEN = 0;
@@ -78,6 +82,8 @@ type TNPCData = record
     old_hair: IwbMainRecord;
     plugin: IwbFile;
     is_old: Boolean;
+    tintCount: integer;
+    tintCountMax: integer;
     end;
 
 type TTintPreset = record
@@ -161,7 +167,7 @@ var
 
     // Separate list of regular hair, with corresponding furry hair
     vanillaHairRecords: TStringList;
-    furryHair: array [0..600 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
+    furryHair: array [0..1000 {HAIR_MAX}, 0..50 {RACES_MAX}] of IwbMainRecord;
     lionMane: IwbMainRecord;
     hairExcludeList: TStringList;
 
@@ -239,6 +245,8 @@ var
     savedNPC: array [0..5] of TNPCData;
     savedNPCIndex: integer;
 
+    HORSE_MANE_CHANCE: integer;
+
 // =============================================================================
 
 function FormName(e: IwbMainRecord): string;
@@ -267,9 +275,10 @@ end;
 Function RaceIDtoStr(id: integer): string;
 begin
     result := '[' + IntToStr(id) + '] ';
-    if id = RACE_GHOUL then 
-        result := result + 'GhoulRace'
-    else if (id >= 0) and (id < masterRaceList.Count) then 
+    // if id = RACE_GHOUL then 
+    //     result := result + 'GhoulRace'
+    // else 
+    if (id >= 0) and (id < masterRaceList.Count) then 
         result := result + masterRaceList[id]
     else 
         result := result + 'NO RACE';
@@ -328,22 +337,77 @@ end;
 // Determine whether this is a generic NPC.
 Function NPCisGeneric(npc: IwbMainRecord): boolean;
 begin
-    if ContainsText(EditorID(npc), 'Deacon') then result := false
-    else if ContainsText(EditorID(npc), 'Kellogg') then result := false
-    else if genericNames.IndexOf(GetElementEditValues(npc, 'FULL')) >= 0 then result := true
-    ;
+    result := (GetElementNativeValues(npc, 'ACBS\Flags\unique') = 0)
+        and (not ContainsText(EditorID(npc), 'Blackbird'))
+        and (not ContainsText(EditorID(npc), 'MrMathers'))
+        and (not ContainsText(EditorID(npc), 'Maven'))
+        and (not ContainsText(EditorID(npc), 'KellyK'))
+        and (not ContainsText(EditorID(npc), 'BeatriceBell'))
+        and (not ContainsText(EditorID(npc), 'Kellogg'))
+        and (not ContainsText(EditorID(npc), 'Kath'))
+        and (not ContainsText(EditorID(npc), 'Mary'))
+        and (not ContainsText(EditorID(npc), 'Mikail'))
+        and ('EncPrewarCultistBoss02' <> EditorID(npc))
+        and ('EncPrewarCultistBoss03NEW' <> EditorID(npc))
+        and ('EncPrewarCultistBoss02NEW' <> EditorID(npc))
+        and ('DN059_Tad' <> EditorID(npc))
+        and ('DN127Loot_CorpseSettlerMale' <> EditorID(npc))
+        and ('DN132_CorpseRussell' <> EditorID(npc))
+        and ('DN132_CorpseMargaret' <> EditorID(npc))
+        and ('RECampRJ03_Moss' <> EditorID(npc))
+        and ('MQ203MemoryE_Kelloggtest' <> EditorID(npc))
+        and ('POIMR01Loot_CorpseSettlerMale' <> EditorID(npc))
+        ;
+    // if ContainsText(EditorID(npc), 'Deacon') then result := false
+    // else if ContainsText(EditorID(npc), 'Kellogg') then result := false
+    // else if genericNames.IndexOf(GetElementEditValues(npc, 'FULL')) >= 0 then result := true
+    // ;
 end;
 
 //===========================================================
 // Return the form an NPC inherits its traits from.
 Function NPCTraitsTemplate(npc: IwbMainRecord): IwbMainRecord;
 begin
+    if LOGGING then LogEntry1(5, 'NPCTraitsTemplate', Name(npc));
+    if LOGGING then LogD(Format('Use Template Actors\Traits = %s', [GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits')]));
+    if LOGGING then LogD(Format('Template Flags\Traits = %s', [GetElementEditValues(npc, 'ACBS - Configuration\Template Flags\Traits')]));
     result := nil;
-    if GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' then begin
+    if {pre xEdit 4.1.5m} (GetElementEditValues(npc, 'ACBS - Configuration\Use Template Actors\Traits') = '1' )
+        or {xEdit 4.1.5m+} (GetElementEditValues(npc, 'ACBS - Configuration\Template Flags\Traits') = '1' )
+    then begin
         result := LinksTo(ElementByPath(npc, 'TPTA\Traits'));
         if not Assigned(result) then
             result := LinksTo(ElementByPath(npc, 'TPLT'));
     end;
+    if LOGGING then LogExit1(5, 'NPCTraitsTemplate', Name(result));
+end;
+
+//===========================================================
+// Return the ultimate base form an NPC inherits its traits from.
+// Returns nil if not depending on traits.
+Function NPCTraitsSource(npc: IwbMainRecord): IwbMainRecord;
+var
+    tpl: IwbMainRecord;
+begin
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then 
+        result := NPCTraitsSource(tpl)
+    else
+        result := npc;
+end;
+
+//===========================================================
+// Return the ultimate base form an NPC inherits its traits from.
+// Returns nil if not depending on traits.
+Function NPCBaseTraitsTemplate(npc: IwbMainRecord): IwbMainRecord;
+var
+    tpl: IwbMainRecord;
+begin
+    tpl := NPCTraitsTemplate(npc);
+    if Assigned(tpl) then 
+        result := NPCTraitsSource(tpl)
+    else
+        result := nil;
 end;
 
 //=========================================================================
@@ -364,6 +428,27 @@ begin
     else
         result := false;
     If LOGGING then Log(5, '>BasedOnLeveledList -> ' + IfThen(result, 'T', 'F'));
+end;
+
+//=========================================================================
+// Determine whether the NPC appears in a leveled list.
+Function UsedByLeveledList(npc: IwbMainRecord): boolean;
+var
+    i: integer;
+    refcount: Cardinal;
+    refr: IwbMainRecord;
+begin
+    If LOGGING then LogEntry1(5, 'BasedOnLeveledList', Name(npc));
+    result := FALSE;
+    refcount := ReferencedByCount(npc);
+    for i := 0 to refcount-1 do begin
+        refr := ReferencedByIndex(npc, i);
+        if Signature(refr) = 'LVLN' then begin
+            result := TRUE;
+            break;
+        end;
+    end;
+    If LOGGING then LogExit1(5, 'BasedOnLeveledList', BoolToStr(result));
 end;
 
 //===========================================================
@@ -461,6 +546,8 @@ begin
 		CLASS_TRAPPER: Result := 'CLASS_TRAPPER';
 		CLASS_X688: Result := 'CLASS_X688';
 		CLASS_JAKE: Result := 'CLASS_JAKE';
+		CLASS_CURIE: Result := 'CLASS_CURIE';
+		CLASS_NAKANO: Result := 'CLASS_NAKANO';
     else Result := Format('Unknown Class [%d]', [classID]);
     end;
 end;
@@ -748,7 +835,8 @@ begin
 	If LOGGING then Log(5, 'ChooseNamedColor:  ' +colorName);
     Result := WinningOverride(LinksTo(
         ElementByPath(ChoosePresetByColor(raceIndex, sex, colorName, tintLayer),
-                      'TINC')));
+                      'TINC'))
+        );
 end;
 
 //======================================================
@@ -791,7 +879,7 @@ var
     r: integer;
     colorList: IwbContainer;
 Begin
-    If LOGGING then LogEntry3(10, 'PickRandomTintOption', hashstr, SexToStr(sex), tintlayerName[tintlayer]);
+    If LOGGING then LogEntry4(10, 'PickRandomTintOption', hashstr, RaceIDtoStr(theRace), SexToStr(sex), tintlayerName[tintlayer]);
     alt := Hash(hashstr, seed, raceInfo[theRace, sex].tintCount[tintLayer]);
     result := raceInfo[theRace, sex].tints[tintLayer, alt].element;
     If LOGGING then LogExitT1('PickRandomTintOption', PathName(result));
@@ -853,14 +941,27 @@ begin
     Result := i;
 end;
 
-function HeadpartSexIs(hp: IwbMainRecord; sex: integer): boolean;
-// Determine whether the head part hp works for the given sex
+{ --------------------------------------------------------------
+Determine whether the head part hp works for the given sex
+}
+function GetHeadpartSex(hp: IwbMainRecord): integer;
+var sexValue, childValue: integer;
 begin
     // If LOGGING then Log(5, 'HeadpartSexIs M:' + GetMRAssetStr(hp, 'DATA - Flags\Male')
     //     + 'F:' + GetMRAssetStr(hp, 'DATA - Flags\Female'));
-    Result := (((sex = MALE) or (sex = MALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Female') = '0'))
-        or
-        (((sex = FEMALE) or (sex = FEMALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Male') = '0'));
+    if GetElementEditValues(hp, 'DATA - Flags\Female') = '0' then
+        sexValue := MALE
+    else
+        sexValue := FEMALE;
+    if ContainsText(EditorID(LinksTo(ElementByPath(hp, 'RNAM'))), 'Child') then
+        childValue := CHILD_BIT
+    else
+        childValue := 0;
+    
+    Result := sexValue + childValue;
+    // Result := (((sex = MALE) or (sex = MALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Female') = '0'))
+    //     or
+    //     (((sex = FEMALE) or (sex = FEMALECHILD)) and (GetElementEditValues(hp, 'DATA - Flags\Male') = '0'));
 end;
 
 //------------------------------------------------------------
@@ -893,7 +994,7 @@ var
     raceList: IwbElement;
     validRaces: IwbMainRecord;
 begin
-    If LOGGING then Log(11, '<RecordFurryHair: ' + EditorID(hair));
+    If LOGGING then LogEntry1(11, 'RecordFurryHair', EditorID(hair));
     // If this is a lion mane, there's no vanilla hair, but save it for later.
     if EditorID(hair) = 'FFO_HairMaleMane' then
         lionMane := hair // TODO take this out we have a new way to do it
@@ -907,7 +1008,8 @@ begin
                     race := LinksTo(ElementByIndex(raceList, j));
                     raceID := RaceIndex(race);
                     if raceID >= 0 then begin
-                        If LOGGING then Log(11, Format('Furry hair %s race %s == vanilla %s', [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
+                        If LOGGING then Log(11, Format('Furry hair %s race %s == vanilla %s', 
+                            [EditorID(hair), EditorID(race), vanillaHairRecords[i]]));
                         if i >= HAIR_MAX then Err('Too many hair records: ' + IntToStr(i))
                         else furryHair[i, raceID] := hair;
                     end;
@@ -915,20 +1017,43 @@ begin
             end;
         end;
     end;
-    If LOGGING then Log(11, '>');
+    If LOGGING then LogExitT('RecordFurryHair');
 end;
 
 //===================================================================
-// Given a vanilla hair record and raceID, return corresponding furry hair. If there's no
-// furry hair, choose a random furry hair that is not on the exclude list.
+// Return the record for the given headpart.
+function GetRaceHeadpart(theRace, sex, hpType, hpIndex: integer): IwbMainRecord;
+var 
+    i: integer;
+begin
+    If LOGGING then LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), HpToStr(hpType), IntToStr(hpIndex));
+    // If LOGGING then Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
+    // for i := 0 to headpartsList.Count-1 do
+    //     If LOGGING then Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
+    // If LOGGING then Log(10, 'Headpart type initialized: ' + BoolToStr(Assigned(raceInfo[theRace, sex].headparts[hpType])));
+    // If LOGGING then Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
+    Result := nil;
+    if Assigned(raceInfo[theRace, sex].headparts[hpType]) then
+        Result := ObjectToElement(
+            raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
+    If LOGGING then LogExit(10, 'GetRaceHeadpart')
+end;
+
+{ ===================================================================
+Given a vanilla hair record and raceID, return corresponding furry hair. If there's no
+furry hair, choose a random furry hair that is not on the exclude list.
+}
 Function GetFurryHair(hashstr: string; seed: integer; 
     raceID: integer; targetSex: integer; oldHair: string): IwbMainRecord;
 var
+    hairID: string;
     i, j: integer;
     n: integer;
     skipCount: integer;
+    useMane: Boolean;
+    targetHair: IwbMainRecord;
 begin
-    If LOGGING then LogEntry3(5, 'GetFurryHair', IntToStr(raceID), SexToStr(targetSex), oldHair);
+    If LOGGING then LogEntry3(5, 'GetFurryHair', RaceIDtoStr(raceID), SexToStr(targetSex), oldHair);
     result := Nil;
     n := vanillaHairRecords.IndexOf(oldHair);
     if n >= 0 then begin
@@ -939,29 +1064,47 @@ begin
             Err(Format('To much hair to handle--vanillaHairRecords index bigger than furry hair: %d >= %d', [n, HAIR_MAX]));
     end;
 
-    if not Assigned(result) then begin
-        If LOGGING then LogT('No matching hair--chose random hair');
+    useMane := False;
+    if raceID = RACE_HORSE then
+        if Hash(hashstr, seed+1041, 100) <= HORSE_MANE_CHANCE then 
+            useMane := True;
+    if LOGGING then LogT(Format('Using mane hair for race %s: %d <= %d', [
+        RaceIDtoStr(raceID), Hash(hashstr, seed+1041, 100), HORSE_MANE_CHANCE
+        ]));
+
+    if ((not Assigned(result)) or useMane) 
+        and Assigned(raceInfo[raceID, targetSex].headparts[HEADPART_HAIR]) 
+    then begin
+        If LOGGING then 
+            if useMane 
+            then LogT('Using mane') 
+            else LogT('No matching hair--chose random hair');
         skipCount := Hash(hashstr, seed, 20);
-        i := Hash(hashstr, seed, HAIR_MAX);
+        i := Hash(hashstr, seed,  raceInfo[raceID, targetSex].headparts[HEADPART_HAIR].Count);
         for j := 0 to 10000 do begin // no infinite loops
-            if Assigned(furryHair[i, raceID]) then begin
-                if LOGGING then LogD(Format('Testing %s - %s', [
-                    Name(furryHair[i, raceID]),
-                    IfThen(hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0, 
+            targetHair := GetRaceHeadpart(raceID, targetSex, HEADPART_HAIR, i);
+            if Assigned(targetHair) then begin
+                hairID := EditorID(targetHair);
+                if LOGGING then LogT(Format('Testing [%d] %s - %s', [
+                    i, 
+                    Name(targetHair),
+                    IfThen(hairExcludeList.IndexOf(hairID) <= 0, 
                         'ALLOWED', 'EXCLUDED')
                 ]));
-                if (hairExcludeList.IndexOf(EditorID(furryHair[i, raceID])) <= 0)
-                    and HeadpartSexIs(furryHair[i,raceID], targetSex) 
+                if (hairExcludeList.IndexOf(hairID) <= 0)
+                    // and (GetHeadpartSex(furryHair[i,raceID]) = targetSex) 
+                    and ((not useMane) or (ContainsText(hairID, 'Mane')))
                 then begin
+                    if LOGGING then LogT(Format('Hair matches %d: %s', [skipCount, hairID]));
                     if skipCount = 0 then begin
-                        result := furryHair[i, raceID];
+                        result := targetHair;
                         break;
                     end;
                     dec(skipCount);
                 end;
             end;
             inc(i);
-            if i >= HAIR_MAX then i := 0;
+            if i >= raceInfo[raceID, targetSex].headparts[HEADPART_HAIR].Count-1 then i := 0;
         end;
     end;
     If LOGGING then LogExitT1('GetFurryHair', EditorID(result));
@@ -975,7 +1118,7 @@ var
     formList: IwbElement;
     hpsex, sex: integer;
     i: integer;
-    raceIndex: integer;
+    ri: integer;
     raceName: string;
     raceRec: IwbMainElement;
     raceRef: IwbElement;
@@ -995,9 +1138,13 @@ begin
     if facialType < 0 then 
         begin If LOGGING then LogT('Unknown facial type: ' + GetElementEditValues(hp, 'PNAM')); end
     else begin
-        If LOGGING then LogT('Headpart is for [' + IfThen(HeadpartSexIs(hp, MALE), 'M', '') + IfThen(HeadpartSexIs(hp, FEMALE), 'F', '') + ']');
+        hpsex := GetHeadpartSex(hp);
+        If LOGGING then LogT('Headpart is for [' + SexToStr(hpsex) + ']');
         
-        if facialType = HEADPART_HAIR then RecordVanillaHair(hp);
+        if facialType = HEADPART_HAIR then begin
+            RecordVanillaHair(hp);
+            RecordFurryHair(hp);
+        end;
         
         formList := ElementByPath(validRaceList, 'FormIDs');
         for i := 0 to ElementCount(formList)-1 do begin
@@ -1006,24 +1153,28 @@ begin
             if not Assigned(raceRef) then break;
 
             raceRec := LinksTo(raceRef);
-            raceName := EditorID(raceRec);
             If LOGGING then LogT('Found reference to race ' + FormName(raceRec));
-            raceIndex := masterRaceList.IndexOf(racename);
-            if raceIndex >= 0 then begin
+            ri := RaceIndex(raceRec);
+            If LOGGING then LogT('Race index ' + IntToStr(ri));
+            if ri >= 0 then begin
                 for sex := SEX_LO to SEX_HI do begin
-                    if HeadpartSexIs(hp, sex) then 
+                    if hpsex = sex then 
                     begin
-                        if not Assigned(raceInfo[raceIndex, sex].headparts[facialType]) then 
-                            raceInfo[raceIndex, sex].headParts[facialType] := TStringList.Create;
-                        raceInfo[raceIndex, sex].headParts[facialType]
+                        if not Assigned(raceInfo[ri, sex].headparts[facialType]) then 
+                            raceInfo[ri, sex].headParts[facialType] := TStringList.Create;
+                        raceInfo[ri, sex].headParts[facialType]
                             .AddObject(EditorId(hp), hp);
 
-                        if facialType = HEADPART_HAIR then RecordFurryHair(hp);
+                        //if facialType = HEADPART_HAIR then RecordFurryHair(hp);
 
-                        If LOGGING then LogT('Race ' + racename + ' has HP ' + EditorID(hp));
+                        If LOGGING then LogT('Race ' + RaceIDToStr(ri) + ' has HP ' 
+                            + EditorID(hp) + ' (' + HpToStr(facialType) + ')');
                     end;
                 end;
-            end;
+            end
+            else
+                if LOGGING then LogT('Race not found: ' + RaceIDtoStr(ri));
+
         end;
     end;
 
@@ -1105,23 +1256,15 @@ begin
                 masterRaceList.AddObject(racename, TObject(r));
                 raceInfo[Result, MALE].mainRecord := r;
                 raceInfo[Result, FEMALE].mainRecord := r;
-                raceInfo[Result, MALE].morphGroups := TStringList.Create;
-                raceInfo[Result, FEMALE].morphGroups := TStringList.Create;
-                raceInfo[Result, MALE].morphProbability := TStringList.Create;
-                raceInfo[Result, FEMALE].morphProbability := TStringList.Create;
-                raceInfo[Result, MALE].morphLo := TStringList.Create;
-                raceInfo[Result, FEMALE].morphLo := TStringList.Create;
-                raceInfo[Result, MALE].morphHi := TStringList.Create;
-                raceInfo[Result, FEMALE].morphHi := TStringList.Create;
-                raceInfo[Result, MALE].morphSkew := TStringList.Create;
-                raceInfo[Result, FEMALE].morphSkew := TStringList.Create;
-                raceInfo[Result, MALE].morphExcludes := TStringList.Create;
-                raceInfo[Result, FEMALE].morphExcludes := TStringList.Create;
-                raceInfo[Result, MALE].faceBoneList := TStringList.Create;
-                raceInfo[Result, FEMALE].faceBoneList := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphGroups := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphProbability := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphLo := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphHi := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphSkew := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].morphExcludes := TStringList.Create;
+                for i := SEX_LO to SEX_HI do raceInfo[Result, i].faceBoneList := TStringList.Create;
                 for i := HEADPART_LO to HEADPART_HI do begin
-                    raceInfo[Result, FEMALE].headpartProb[i] := 100;
-                    raceInfo[Result, MALE].headpartProb[i] := 100;
+                    for i := SEX_LO to SEX_HI do raceInfo[Result, i].headpartProb[i] := 100;
                 end;
             end;
         end;
@@ -1280,8 +1423,16 @@ begin
     result := NIl;
     presetList := ElementByPath(morphGroup, 'Morph Presets');
 
-    // Run through the list skipping a random number of good matches.
-    skipCount := Hash(hashval, seed, ElementCount(presetList));
+    // Run through the list skipping a random number of good matches. Since these lists
+    // can be short, the skip is constrained to a prime number.
+    skipCount := Hash(hashval, seed, 20);
+    if skipCount <= 5 then skipCount := 5;
+    if skipCount <= 7 then skipCount := 7;
+    if skipCount <= 11 then skipCount := 11;
+    if skipCount <= 13 then skipCount := 13;
+    if skipCount <= 17 then skipCount := 17;
+    if skipCount <= 19 then skipCount := 19;
+    if LOGGING then LogT(Format('Hashval=%s, seed=%d, skipCount=%d', [hashval, seed, skipCount]));
     foundAny := false;
     i := 0;
 
@@ -1296,7 +1447,7 @@ begin
                 break;
             end;
         end;
-        Inc(i);
+        i := i + 1;
         if i >= ElementCount(presetList) then begin
             if not foundAny then 
                 // Got through the whole list and nothing matched. Fail.
@@ -1332,11 +1483,11 @@ begin
         else begin
             // Find the morph record
             morphList := ElementByPath(raceInfo[r, sex].mainRecord, 
-                IfThen(sex = MALE, 'Male Face Morphs', 'Female Face Morphs'));
+                IfThen(((sex and FEMALE_BIT) = 0), 'Male Face Morphs', 'Female Face Morphs'));
             for i := 0 to ElementCount(morphList)-1 do begin
                 m := ElementByIndex(morphList, i);
                 n := GetElementEditValues(m, 'FMRN');
-                If LOGGING then LogT(Format('Checking %s = %s', [n, morph]));
+                If LOGGING then LogD(Format('Checking FMRN="%s", target="%s"', [n, morph]));
                 if n = morph then begin
                     idx := GetElementNativeValues(m, 'FMRI');
                     raceInfo[r, sex].faceBoneList.Add(morph);
@@ -1363,13 +1514,19 @@ begin
             // Race wasn't found
             if (racesNotFound.IndexOf(racename) < 0) then begin
                 racesNotFound.Add(racename);
-                Err(Format('Setting face morph %s for a race not loaded: %s', 
+                Err(Format('Setting face morph "%s" for a race not loaded: %s', 
                     [morph, racename, SexToStr(sex)]));
             end
         end
-        else 
-            Err(Format('Could not find face morph %s on race %s', 
+        else begin
+            Err(Format('Could not find face morph "%s" on race %s %s', 
                 [morph, racename, SexToStr(sex)]));
+            Err(Format('Morphlist is %s', [IfThen(Assigned(morphList), PathName(morphList), 'NOT assigned')]));
+            Err(Format('Race index = %d, %s', [r, RaceIDtoStr(r)]));
+            Err(Format('Sex = %s', [SexToStr(sex)]));
+            Err(Format('Path = %s', [IfThen(((sex and FEMALE_BIT) = 0), 'Male Face Morphs', 'Female Face Morphs')]));
+            Err(Format('RaceID = %.8x', [integer(FormID(raceInfo[r, sex].mainRecord))]));
+        end;
     end;
     If LOGGING then LogExitT('SetFaceMorph');
 end;
@@ -1445,25 +1602,6 @@ begin
     If LOGGING then LogExit1(10, 'GetRaceHeadpartCount', IntTostr(Result));
 end;
 
-//===================================================================
-// Return the record for the given headpart.
-function GetRaceHeadpart(theRace, sex, hpType, hpIndex: integer): IwbMainRecord;
-var 
-    i: integer;
-begin
-    If LOGGING then LogEntry4(10, 'GetRaceHeadpart', IntToStr(theRace), IntToStr(sex), HpToStr(hpType), IntToStr(hpIndex));
-    // If LOGGING then Log(10, Format('Number of headparts: %d', [headpartsList.Count]));
-    // for i := 0 to headpartsList.Count-1 do
-    //     If LOGGING then Log(10, Format('Have headpart [%d] %s', [i, headpartsList[i]]));
-    // If LOGGING then Log(10, 'Headpart type initialized: ' + BoolToStr(Assigned(raceInfo[theRace, sex].headparts[hpType])));
-    // If LOGGING then Log(10, Format('Count of headparts available: %d', [raceInfo[theRace, sex].headparts[hpType].Count]));
-    Result := nil;
-    if Assigned(raceInfo[theRace, sex].headparts[hpType]) then
-        Result := ObjectToElement(
-            raceInfo[theRace, sex].headparts[hpType].Objects[hpIndex]);
-    If LOGGING then LogExit(10, 'GetRaceHeadpart')
-end;
-
 //============================================================
 // Determine whether a headpart can be assigned to a race.
 function HeadpartValidForRace(theHP: IwbMainRecord; raceIndex, sex, hpType: integer): boolean;
@@ -1527,16 +1665,17 @@ end;
 
 Function NPC_ToStr: string;
 begin
-    Result := #13#10 
-        + FullPath(curNPC.handle) + #13#10
-        + '  Editor ID = '+ curNPC.id + #13#10
-        + '  Signature = ' + curNPC.sig + #13#10
-        + '  Name = ' + curNPC.name + #13#10
-        + '  Class = ' + GetNPCClassName(curNPC.npcClass) + #13#10
-        + '  Race = ' + RaceIDtoStr(curNPC.race) + #13#10
-        + '  Furry Race = ' + RaceIDtoStr(curNPC.furry_race) + #13#10
-        + '  Sex = ' + SexToStr(curNPC.sex) + #13#10
-        + '  Plugin = ' + GetFileName(curNPC.plugin);
+    Result := Format('[NPC %s: Editor ID=%s, Signature=%s, Name=%s, Class=%s, Race=%s, Furry Race=%s, Sex=%s, Plugin=%s', [
+        FullPath(curNPC.handle),
+        curNPC.id, 
+        curNPC.sig,
+        curNPC.name,
+        GetNPCClassName(curNPC.npcClass),
+        RaceIDtoStr(curNPC.race),
+        RaceIDtoStr(curNPC.furry_race),
+        SexToStr(curNPC.sex),
+        GetFileName(curNPC.plugin)
+        ]);
 end;
 
 //============================================================
@@ -1551,6 +1690,8 @@ begin
     curNPC.plugin := GetFile(npc);
     curNPC.is_old := NPCisOld(npc);
     curNPC.sex := GetNPCSex(npc);
+    curNPC.tintCount := 0;
+    curNPC.tintCountMax := 1000;
     if LOGGING then LogExitT('NPC_Setup');
 end;
 
@@ -1636,11 +1777,15 @@ begin
     else if SameText(id, 'MQ203MemoryA_Mom') then Result := CLASS_KELLOGG
     else if SameText(id, 'FFDiamondCity12Kyle') then Result := CLASS_KYLE
     else if SameText(id, 'FFDiamondCity12Riley') then Result := CLASS_KYLE
+    else if SameText(id, 'DLC03MrNakano') then Result := CLASS_NAKANO
+    else if SameText(id, 'DLC03MrsNakano') then Result := CLASS_NAKANO
+    else if SameText(id, 'DLC03KasumiNakano') then Result := CLASS_NAKANO
     else if ContainsText(id, 'DeLuca') then Result := CLASS_DELUCA
     else if ContainsText(id, 'Bobrov') then Result := CLASS_BOBROV
     else if ContainsText(id, 'Pembroke') then Result := CLASS_PEMBROKE
     else if ContainsText(name, 'Cabot') then Result := CLASS_CABOT
     else if ContainsText(id, 'Dalton') then Result := CLASS_DALTON
+    else if SameText(id, 'EncCurieSynth') then Result := CLASS_CURIE
     else if ContainsText(id, 'Shaun') then Result := CLASS_PLAYER
     else if StartsText('MQ101PlayerSpouse', id) then Result := CLASS_PLAYER
     else if StartsText('MQ102PlayerSpouse', id) then Result := CLASS_PLAYER

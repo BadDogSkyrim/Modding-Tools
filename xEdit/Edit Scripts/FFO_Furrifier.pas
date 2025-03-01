@@ -1,7 +1,6 @@
 {
   NPC Furry Patch Builder
   Author: Bad Dog 
-  Version: 2.9
   
   Creates a NPC furry patch for a load order.
 
@@ -23,10 +22,12 @@ interface
 implementation
 
 uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
-BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    patchfileName = 'FFOPatch.esp'; // Set to whatever
+    FURRIFIER_VERSION = '2.20';
+    SHOW_OPTIONS_DIALOG = False;
+    PATCH_FILE_NAME = 'FFONPCPatchEd.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
@@ -39,10 +40,22 @@ const
     DO_FURRIFICATION = TRUE;
 
 var
+    cancelRun: boolean;
     patchFile: IwbFile;
+    patchFileName: string;
+    settingExtraNPCs: boolean;
+    settingFurrifyGhouls: boolean;
+    settingGhoulChildRace: string;
+    settingGhoulRace: string;
+    settingTargetRace: string;
+    settingUseSelection: boolean;
 
     ffoIndex: integer;
     ffoFile: IwbFile;
+
+    // Strings for options pulldowns
+    raceChoices, childRaceChoices: string;
+    ghoulChoiceIndex, ghoulChildChoiceIndex: integer;
 
     // playerIDs: TStringList;
 
@@ -69,6 +82,9 @@ begin
     SkinLayerTranslation('Cheek Color', TL_CHEEK_COLOR);
     SkinLayerTranslation('Cheeks', TL_CHEEK_COLOR);
     SkinLayerTranslation('Chin', TL_CHIN);
+    SkinLayerTranslation('Cougar 01', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Cougar 02', TL_MUZZLE_STRIPE);
+    SkinLayerTranslation('Cougar White', TL_MUZZLE);
     SkinLayerTranslation('Ears', TL_EAR);
     SkinLayerTranslation('Eye Lower', TL_EYESOCKET_LOWER);
     SkinLayerTranslation('Eye Shadow', TL_EYELINER);
@@ -394,15 +410,7 @@ begin
         curNPC.race := RACE_GHOUL;
 
     NPC_GetClass;
-
-    if ContainsText(curNPC.id, 'Kellogg') then curNPC.sig := 'Kellogg'
-    else if curNPC.npcclass = CLASS_DEACON then curNPC.sig := 'CompanionDeacon'
-    else if curNPC.npcclass = CLASS_JAKE then curNPC.sig := 'Jake'
-    else if ContainsText(curNPC.id, 'Emogene') then curNPC.sig := 'EmogeneCabotOld'
-    else if SameText(curNPC.name, 'Sergeant Lee') then curNPC.sig := 'MS05_SgtLee'
-    else if SameText(curNPC.name, 'Sully Mathis') then curNPC.sig := 'DN138Sully'
-    else if ContainsText(curNPC.id, 'Shaun') then curNPC.sig := 'Shaun';
-    
+    curNPC.sig := GetNPCSignature(curNPC.id, curNPC.name, curNPC.npcclass);
     RecordNPC(curNPC.handle, curNPC.sig);
 
     if curNPC.race < 0 then begin
@@ -424,9 +432,9 @@ begin
         if playerRaceID >= 0 then curNPC.race := playerRaceID;
     end;
 
-    if (curNPC.race < 0) and (length(TARGET_RACE) > 0) then begin
+    if (curNPC.race < 0) and (length(settingTargetRace) > 0) then begin
         // Use the target race, if specified.
-        curNPC.race := masterRaceList.IndexOf(TARGET_RACE);
+        curNPC.race := masterRaceList.IndexOf(settingTargetRace);
     end;
 
     if curNPC.race < 0 then begin
@@ -446,14 +454,19 @@ begin
         // Pick a random race.
         pointTotal := classProbs[curNPC.npcclass, masterRaceList.Count];
         if LOGGING Then LogD(Format('classProbs has pre-summed value: %d', [classProbs[curNPC.npcclass, masterRaceList.Count]]));
-        h := NPC_Hash(6795, pointTotal);
-        if LOGGING Then LogD(Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(curNPC.npcclass), pointTotal, h]));
-        for r := RACE_LO to RACE_HI do begin
-            if LOGGING Then LogD(Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[curNPC.npcclass, r], classProbsMax[curNPC.npcclass, r]]));
-            if (h >= classProbsMin[curNPC.npcclass, r]) and (h <= classProbsMax[curNPC.npcclass, r]) then begin
-                curNPC.race := r;
-                break;
-            end;
+        if pointTotal > 0 then begin
+            h := NPC_Hash(6795, pointTotal);
+            if LOGGING Then LogD(Format('Picking random race for class %s, Range = %d, hash = %d', [GetNPCClassName(curNPC.npcclass), pointTotal, h]));
+            for r := RACE_LO to RACE_HI do begin
+                if LOGGING Then LogD(Format('Testing race %s [%d - %d]', [masterRaceList[r], classProbsMin[curNPC.npcclass, r], classProbsMax[curNPC.npcclass, r]]));
+                if (h >= classProbsMin[curNPC.npcclass, r]) and (h <= classProbsMax[curNPC.npcclass, r]) then begin
+                    curNPC.race := r;
+                    break;
+                end;
+            end
+        end
+        else begin
+            curNPC.race := -1;
         end;
     end;
 
@@ -526,7 +539,7 @@ end;
 Procedure NPC_SetRace(raceIndex: integer);
 var
     race: IwbMainRecord;
-    raceFormID: integer;
+    raceFormID: cardinal;
     racename: string;
     skin: IwbMainRecord;
 begin
@@ -543,7 +556,7 @@ begin
             SetNativeValue(ElementByPath(curNPC.handle, 'RNAM'), 
                 LoadOrderFormIDtoFileFormID(curNPC.plugin, raceFormID));
         end;
-        curNPC.furry_race := RacenameIndex(GHOUL_RACE);
+        curNPC.furry_race := RacenameIndex(settingGhoulRace);
         race := raceInfo[curNPC.furry_race, curNPC.sex].mainRecord;
     end
     else begin
@@ -596,7 +609,7 @@ begin
     if result < 0 then begin
         rn := EditorID(GetNPCRace(npc));
         if (rn = 'GhoulRace') or (rn = 'GhoulChildRace') then
-            result := masterRaceList.IndexOf(GHOUL_RACE);
+            result := masterRaceList.IndexOf(settingGhoulRace);
     end;
     if LOGGING Then LogD(Format('...after checking ghouls: %s', [RaceIDToStr(result)]));
     if result < 0 then result := GetNPCRaceID(npc);
@@ -638,18 +651,24 @@ var
     slot: IwbElement;
 begin
     if LOGGING Then LogEntry2(5, 'NPC_ChooseHeadpart', curNPC.id, HpToStr(hpType));
-    if LOGGING Then LogD(Format('NPC race is %s', [RaceIDToStr(curNPC.furry_race)]));
+    if LOGGING Then LogD(Format('NPC info: %s, %s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
 
     hpChance := NPC_Hash(3632, 100);
-    if LOGGING Then LogD(Format('NPC info: %s, %s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
     if hpChance < raceInfo[curNPC.furry_race, curNPC.sex].headpartProb[hpType] then begin
         hp := PickRandomHeadpart(
             curNPC.sig, 113, 
             curNPC.furry_race, curNPC.sex, hpType);
+        if LOGGING then LogD(Format('Chose headpart %s', [RecordName(hp)]));
         if Assigned(hp) then begin
             if LOGGING Then LogT('Assigning headpart ' + EditorID(hp));
             NPC_AssignHeadpart(hp);
         end;
+    end
+    else begin
+        if LOGGING then LogD(Format('No headpart chosen: Probability=%d, Chance=%d, headpart count=%d', [
+            raceInfo[curNPC.furry_race, curNPC.sex].headpartProb[hpType],
+            hpChance, 
+            GetRaceHeadpartCount(curNPC.furry_race, curNPC.sex, hpType)]));
     end;
 
     if LOGGING Then LogExitT('NPC_ChooseHeadpart');
@@ -666,16 +685,21 @@ begin
     if LOGGING Then LogEntry3(5, 'NPC_SetHeadpart', curNPC.id, HPtoStr(hpType), hpName);
     if LOGGING Then LogD(Format('Have race/sex %s/%s', [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex)]));
     hp := Nil;
-    for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType].Count-1 do begin
-        thisHP := 
-            ObjectToElement(
-                raceInfo[curNPC.furry_race, curNPC.sex]
-                    .headparts[hpType]
-                        .Objects[i]);
-        if LOGGING Then LogD('Checking ' + EditorID(thisHP));
-        if EditorID(thisHP) = hpName then begin
-            hp := thisHP;
-            break;
+    if LOGGING then LogT(Format('Have %s %s headparts: %s', [
+        SexToStr(curNPC.sex),
+        HPtoStr(hpType), BoolToStr(Assigned(raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType]))]));
+    if assigned(raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType]) then begin
+        for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].headparts[hpType].Count-1 do begin
+            thisHP := 
+                ObjectToElement(
+                    raceInfo[curNPC.furry_race, curNPC.sex]
+                        .headparts[hpType]
+                            .Objects[i]);
+            if LOGGING Then LogD('Checking ' + EditorID(thisHP));
+            if EditorID(thisHP) = hpName then begin
+                hp := thisHP;
+                break;
+            end;
         end;
     end;
 
@@ -744,7 +768,11 @@ begin
     if (not Assigned(curNPC.old_hair)) then begin
         If LOGGING then LogT('No old hair, leaving hair alone.');
     end
-    else if StartsText('FFO', EditorID(curNPC.old_hair)) then begin
+    else if StartsText('FFO', EditorID(curNPC.old_hair)) 
+        and ((EditorID(curNPC.old_hair) <> 'FFO_HairMaleMane')
+            or (curNPC.furry_race = RACE_LION))
+    then begin
+        // Use the furry hair unless it's a lion mane and we don't have a lion.
         If LOGGING then LogT('Current hair is furry, using it');
         NPC_AssignHeadpart(curNPC.old_hair);
     end
@@ -767,6 +795,7 @@ var
     colorval: UInt32;
     facetintLayers: IwbElement;
     layer: IwbElement;
+    targalpha: IwbElement;
     tend: IwbElement;
     teti: IwbElement;
     tetiIndex: integer;
@@ -790,6 +819,10 @@ begin
     teti := Add(layer, 'TETI', True);
     SetElementEditValues(teti, 'Data Type', 'Value/Color');
     SetElementNativeValues(teti, 'Index', tetiIndex);
+
+    // Show what's happening with alpha--changes between xEdit versions
+    LogD(Format('Edit value: %s = %s', [PathName(tintColor), GetElementEditValues(tintColor, 'Alpha')]));
+    LogD(Format('Color alpha native value: %s', [FloatToStr(GetElementNativeValues(tintColor, 'Alpha'))]));
         
     tend := Add(layer, 'TEND', true);
     SetElementEditValues(tend, 'Value', GetElementEditValues(tintColor, 'Alpha'));
@@ -800,14 +833,24 @@ begin
     SetElementNativeValues(tend, 'Color\Blue', BluePart(colorval));
     SetElementNativeValues(tend, 'Template Color Index', GetElementNativeValues(tintColor, 'Template Index'));
 
-    if GetElementEditValues(tintOption, 'TETI\Slot') = 'Skin Tone' then begin
+    if GetElementEditValues(tintOption, 'TETI\Slot') = 'Skin Tone' 
+    then begin
         SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Red', RedPart(colorval));
         SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Green', GreenPart(colorval));
         SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Blue', BluePart(colorval));
-        SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha', 
-            GetElementNativeValues(tintColor, 'Alpha'));
+        if xEditVersionCompare(4, 1, 5, 'm') >= 0 
+        then
+            SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha', 
+                255*StrToFloat(GetElementEditValues(tintColor, 'Alpha')))
+        else
+            SetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha', 
+                GetElementNativeValues(tintColor, 'Alpha'));
     end;
     
+    // Show what's happening with alpha--changes between xEdit versions
+    LogD(Format('Targ QNAM Edit value: %s', [GetElementEditValues(curNPC.handle, 'QNAM - Texture lighting\Alpha')]));
+    LogD(Format('Targ QNAM native value: %s', [FloatToStr(GetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha'))]));
+        
     If LOGGING then LogExitT('NPC_AssignTint');
 end;
 
@@ -824,21 +867,25 @@ var
 begin
     if LOGGING Then LogEntry2(5, 'NPC_ChooseTint', Name(curNPC.handle) , tintlayerName[tintlayer]);
 
-    prob := raceInfo[curNPC.furry_race, curNPC.sex].tintProbability[tintlayer];
-    probCheck := NPC_Hash(seed, 101);
-    ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
+    if curNPC.tintCount < curNPC.tintCountMax then begin
+        prob := raceInfo[curNPC.furry_race, curNPC.sex].tintProbability[tintlayer];
+        probCheck := NPC_Hash(seed, 101);
+        ind := IfThen(tintlayer = TL_SKIN_TONE, 0, 1);
 
-    if LOGGING then LogD(Format('Probability check: hash=%d, prob=%d, layer count=%d', [probCheck, prob, integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
-    if (probCheck <= prob) and (raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer] > 0) then begin
+        if LOGGING then LogD(Format('Probability check: hash=%d, prob=%d, layer count=%d', 
+            [probCheck, prob, integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+        if (probCheck <= prob) and (raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer] > 0) then begin
 
-        t := PickRandomTintOption(curNPC.sig, seed, curNPC.furry_race, curNPC.sex, tintlayer);
-        p := PickRandomColorPreset(curNPC.sig, seed+7989, t, ind,
-            raceInfo[curNPC.furry_race, curNPC.sex].tintColors[tintLayer]);
-        If LOGGING then LogT('Selected tint preset ' + Path(p));
-        NPC_AssignTint(t, p);
-    end
-    else begin
-        If LOGGING then LogT(Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+            t := PickRandomTintOption(curNPC.sig, seed, curNPC.furry_race, curNPC.sex, tintlayer);
+            p := PickRandomColorPreset(curNPC.sig, seed+7989, t, ind,
+                raceInfo[curNPC.furry_race, curNPC.sex].tintColors[tintLayer]);
+            If LOGGING then LogT('Selected tint preset ' + Path(p));
+            NPC_AssignTint(t, p);
+            curNPC.tintCount := curNPC.tintCount + 1;
+        end
+        else begin
+            If LOGGING then LogT(Format('Probability check failed, no assignment: %d <= %d, layer count %d', [integer(probCheck), integer(prob), integer(raceInfo[curNPC.furry_race, curNPC.sex].tintCount[tintlayer])]));
+        end;
     end;
     
     if LOGGING Then LogExitT('NPC_ChooseTint');
@@ -1065,13 +1112,14 @@ begin
     if mp >= 0 then
         p := raceInfo[curNPC.furry_race, curNPC.sex].morphProbability.objects[mp];
 
-    // If it'curNPC.sex not a child and we passed the probability test then do it.
-    if (h <= p) and ((curNPC.sex = MALE) or (curNPC.sex = FEMALE)) then begin
+    // If curNPC.sex not a child and we passed the probability test then do it.
+    if LOGGING then LogD(Format('Probability %d out of race probability %d', [h, p]));
+    if (h <= p) and ((curNPC.sex and CHILD_BIT) = 0) then begin
         mg := raceInfo[curNPC.furry_race, curNPC.sex].morphGroups.IndexOf(morphGroup);
         preset := GetMorphRandomPreset(
             ObjectToElement(raceInfo[curNPC.furry_race, curNPC.sex].morphGroups.objects[mg]),
-            hashstr,
-            seed+31);
+            curNPC.sig,
+            seed+31+h);
         if Assigned(preset) then begin
             mlo := 0;
             mhi := 100;
@@ -1081,7 +1129,7 @@ begin
                 mlo := raceInfo[curNPC.furry_race, curNPC.sex].morphLo.objects[mloIndex];
                 mhi := raceInfo[curNPC.furry_race, curNPC.sex].morphHi.objects[mhiIndex];
             end;
-            mval := HashVal(hashstr, seed + 29, mlo/100, mhi/100);
+            mval := HashVal(curNPC.sig, seed + 29, mlo/100, mhi/100);
 
             mskewIndex := raceInfo[curNPC.furry_race, curNPC.sex].morphSkew.IndexOf(morphGroup);
             if mskewIndex >= 0 then 
@@ -1106,6 +1154,8 @@ var
     fm, thisMorph, vals: IwbElement;
 begin
     If LOGGING then LogEntry2(5, 'NPC_SetMorphBone', curNPC.id, IntToStr(morphBoneIndex));
+    // if LOGGING then LogT(Format('[%f, %f, %f] [%f, %f, %f] %f', 
+    //     [x, y, z, pitch, roll, yaw, sc]));
     fm := Add(curNPC.handle, 'Face Morphs', true);
     thisMorph := nil;
     if (ElementCount(fm) > 0)
@@ -1155,7 +1205,7 @@ begin
 end;
 
 //================================================================================
-// Set all availble morphs on the target NPC, randomly.
+// Set all availble morphs on the target NPC, randomly, according to probabilities.
 procedure NPC_SetAllRandomMorphs;
 var
     fm: TTransform;
@@ -1176,6 +1226,8 @@ begin
     if Assigned(raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList) then begin
         for i := 0 to raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList.Count-1 do begin
             hstr := curNPC.sig + raceInfo[curNPC.furry_race, curNPC.sex].faceBoneList[i];
+            if LOGGING then LogT(Format('Setting morph for race %s %s > [%d] %s', 
+                [RaceIDToStr(curNPC.furry_race), SexToStr(curNPC.sex), i, hstr]));
             fm.x := HashVal(hstr, 9377, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.x, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.x);
             fm.y := HashVal(hstr, 9432, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.y, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.y);
             fm.z := HashVal(hstr, 2529, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].min.z, raceInfo[curNPC.furry_race, curNPC.sex].faceBones[i].max.z);
@@ -1188,7 +1240,9 @@ begin
                 fm.xRot, fm.yRot, fm.zRot,
                 fm.scale);
         end;
-    end;
+    end
+    else if LOGGING then LogD(Format('No morphs for %s %s', [SexToStr(curNPC.sex, RaceIDtoStr(curNPC.furry_race))]));
+
     if LOGGING then LogExitT('NPC_SetAllRandomMorphs');
 end;
 
@@ -1392,8 +1446,10 @@ begin
         h := NPC_Hash(6728, 2);
     
     case h of
-        0: NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns03'); // Gazelle
-        1: NPC_SetHeadpart(HEADPART_EYEBROWS, 'FFODeerHorns10'); // PRonghorn
+        0: NPC_SetHeadpart(HEADPART_EYEBROWS, 
+            'FFODeerHorns03' + IfThen(curNPC.sex = FEMALE, 'F', '')); // Gazelle
+        1: NPC_SetHeadpart(HEADPART_EYEBROWS, 
+            'FFODeerHorns10' + IfThen(curNPC.sex = FEMALE, 'F', '')); // Pronghorn
     end;
 
     NPC_SetTintlayerColor(1740, TL_SKIN_TONE,  
@@ -1495,16 +1551,24 @@ begin
     NPC_ChooseOldTint(3041+deerType*13);
 end;
 //================================================================
-// Special tailoring for lions. 50% of the males get manes.
+// Special tailoring for lions. 50% of the males get manes. The occasional lion is a
+// cougar.
 Procedure NPC_FurrifyLion;
+var
+    isCougar: Boolean;
 begin
     if LOGGING Then LogEntry2(5, 'NPC_FurrifyLion', Name(curNPC.handle), EditorID(curNPC.old_hair));
+    isCougar := NPC_Hash(393, 100) >= 90;
+    if isCougar then
+        if LOGGING then LogT('NPC is cougar');
+    
     NPC_SetWeight(1, 2, 1);
-    if LOGGING Then LogD(Format('Calling NPC_ChooseHeadpart with race %s', [EditorID(LinksTo(ElementByPath(curNPC.handle, 'RNAM')))]));
+
     NPC_ChooseHeadpart(HEADPART_FACE);
     NPC_ChooseHeadpart(HEADPART_EYES);
 
-    if curNPC.sex = MALE and 
+    if (not isCougar) and 
+            (curNPC.sex = MALE) and 
             ((NPC_Hash(9203, 100) > 50) 
                 or ContainsText(curNPC.id, 'PrestonGarvey')
             ) 
@@ -1517,6 +1581,12 @@ begin
     NPC_ChooseHeadpart(HEADPART_EYEBROWS);
     NPC_ChooseTint(TL_SKIN_TONE, 6351);
     NPC_ChooseTint(TL_NOSE, 1140);
+
+    if isCougar then begin
+        NPC_ChooseTint(TL_MUZZLE_STRIPE, 2390);
+        NPC_ChooseTint(TL_MUZZLE, 9424);
+    end;
+
     NPC_ChooseOldTint(4850);
 
     if LOGGING Then LogExitT('NPC_FurrifyLion');
@@ -1542,6 +1612,7 @@ begin
             RACE_LION: NPC_FurrifyLion;
         else 
             begin
+            curNPC.tintCountMax := 4;
             NPC_ChooseHeadpart(HEADPART_FACE);
             NPC_ChooseHeadpart(HEADPART_EYES);
             NPC_ChooseHeadpart(HEADPART_MOUTH);
@@ -1550,19 +1621,19 @@ begin
             NPC_ChooseHeadpart(HEADPART_FACIAL_HAIR);
             NPC_ChooseHeadpart(HEADPART_SCAR);
             NPC_ChooseTint(TL_SKIN_TONE, 9523);
-            NPC_ChooseTint(TL_CHEEK_COLOR_LOWER, 2711);
-            NPC_ChooseTint(TL_CHEEK_COLOR, 5765);
-            NPC_ChooseTint(TL_CHIN, 1783);
-            NPC_ChooseTint(TL_EAR, 552);
-            NPC_ChooseTint(TL_EYEBROW, 6967);
-            NPC_ChooseTint(TL_EYELINER, 919);
-            NPC_ChooseTint(TL_EYESOCKET_LOWER, 6599);
-            NPC_ChooseTint(TL_EYESOCKET_UPPER, 7021);
-            NPC_ChooseTint(TL_FOREHEAD, 7027);
             NPC_ChooseTint(TL_MASK, 2189);
             NPC_ChooseTint(TL_MUZZLE, 9487);
             NPC_ChooseTint(TL_MUZZLE_STRIPE, 9563);
+            NPC_ChooseTint(TL_CHIN, 1783);
+            NPC_ChooseTint(TL_EAR, 552);
+            NPC_ChooseTint(TL_EYEBROW, 6967);
+            NPC_ChooseTint(TL_FOREHEAD, 7027);
+            NPC_ChooseTint(TL_EYELINER, 919);
+            NPC_ChooseTint(TL_EYESOCKET_LOWER, 6599);
+            NPC_ChooseTint(TL_EYESOCKET_UPPER, 7021);
             NPC_ChooseTint(TL_NECK, 2539);
+            NPC_ChooseTint(TL_CHEEK_COLOR_LOWER, 2711);
+            NPC_ChooseTint(TL_CHEEK_COLOR, 5765);
             NPC_ChooseTint(TL_NOSE, 6529);
             NPC_ChooseOldTint(2351);
             NPC_SetAllRandomMorphs;
@@ -1590,7 +1661,9 @@ begin
 
     if furrifiedNPCs.IndexOf(EditorID(npc)) < 0 then begin
         furryNPC := FurrifyNPC(npc, targetFile);
-        // furrifiedNPCs.Add(EditorID(npc));
+
+        if settingExtraNPCs then SetGenericTraits(patchFile, furryNPC);
+
         Result := furryNPC;
     end
     else
@@ -1636,35 +1709,28 @@ begin
     isHuman := (EditorID(race) = 'HumanRace') or (EditorID(race) = 'HumanChildRace');
     If LOGGING then LogD(Format('Found %s, %s, %s', [Name(npc), EditorID(race),
         IfThen(isHuman, 'is human', 'not human')]));
-    if not isHuman then result := 0;
-    if result > 0 then begin
-        // If already furry, do nothing
+
+    if not isHuman 
+    then
         if ((masterRaceList.IndexOf(EditorID(race)) >= 0) 
             or (childRaceList.IndexOf(EditorID(race)) >= 0))
-            and (not isHuman)
         then begin
             if LOGGING then LogD(Format('Already furry: %s is %s', [Name(npc), EditorID(race)]));
             result := 0;
-        end;
-    end;
-
-    // We only know how to furrify humans (and ghouls when asked)
-    if result > 0 then begin
-        if not isHuman
-        then
-            if not USE_SELECTION then begin
-                if (EditorID(race) <> 'GhoulRace') 
-                    and (EditorID(race) <> 'GhoulChildRace') 
-                then begin
-                    if LOGGING then LogD('Is neither human nor ghoul');
-                    result := 0;
-                end;
-            end
-            else begin
-                if LOGGING then LogD('Is not human and not converting ghouls');
+        end
+    else
+        if settingFurrifyGhouls
+        then begin
+            if (EditorID(race) <> 'GhoulRace') and (EditorID(race) <> 'GhoulChildRace')
+            then begin
+                if LOGGING then LogD('Is neither human nor ghoul');
                 result := 0;
+            end
+        end
+        else begin
+            if LOGGING then LogD('Is not human and not converting ghouls');
+            result := 0;
         end;
-    end;
 
     if LOGGING Then LogExit1(5, 'IsValidNPC', IntToStr(result));
 end;
@@ -1706,39 +1772,91 @@ end;
 //========================================================
 // Furrify whatever race the user has chosen for ghouls.
 Procedure FurrifyGhoulRace(targetFile: IwbFile);
+var
+    cr: IwbMainRecord;
+    crfi: integer;
+    furryFalloutIndex: integer;
+    gr: IwbMainRecord;
+    grfi: integer;
+    i: integer;
 begin
-   if LOGGING Then  LogEntry1(1, 'FurrifyGhoulRace', GetFileName(targetFile));
-    AddMessage('Furrifying the ghoul race...');
+    if LOGGING Then  LogEntry1(1, 'FurrifyGhoulRace', GetFileName(targetFile));
 
-    FurrifyRace(targetFile, 
-        FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        FindAsset(nil, 'RACE', GHOUL_RACE));
+    furryFalloutIndex := -1;
+    for i := 0 to FileCount-1 do begin
+        if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then begin
+            furryFalloutIndex := i;
+            break;
+        end;
+    end;
 
-    // AddRace('GhoulRace');
+    gr := WinningOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'));
+    grfi := GetLoadOrder(GetFile(gr));
+    if grfi < furryFalloutIndex then begin
+        AddMessage('Furrifying the ghoul race...');
+        FurrifyRace(targetFile, gr, FindAsset(nil, 'RACE', settingGhoulRace));
+    end;
 
-    FurrifyRace(targetFile, 
-        FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        FindAsset(nil, 'RACE', GHOUL_CHILD_RACE));
-
-    // AddChildRace('GhoulRace', 'GhoulChildRace');
+    cr := WinningOverride(FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'));
+    crfi := GetLoadOrder(GetFile(gr));
+    if grfi < furryFalloutIndex then begin
+        FurrifyRace(targetFile, cr, FindAsset(nil, 'RACE', settingGhoulChildRace));
+    end;
 
     if LOGGING Then LogExit(1, 'FurrifyGhoulRace');
+end;
+
+//================================================================
+// Find and return the bodypart armor addons. These never need to have the ghoul race added.
+procedure LoadBodyAAs(bodyparts: TStringList);
+var
+    i, j, k: integer;
+    body: IwbMainRecord;
+    modelList: IwbElement;
+    modelEntry: IwbElement;
+    aa: IwbMainRecord;
+begin
+    if LOGGING Then  LogEntry(1, 'LoadBodyAAs');
+    for i := RACE_LO to RACE_HI do begin
+        for j := SEX_LO to SEX_HI do begin
+            if (j <> FEMALE) and (j <> FEMALECHILD) then begin
+                if (EditorID(raceInfo[i, j].mainRecord) <> settingGhoulRace) 
+                    and (EditorID(raceInfo[i, j].mainRecord) <> settingGhoulChildRace)
+                then begin
+                    body := WinningOverride(LinksTo(ElementByPath(raceInfo[i, j].mainRecord, 'WNAM')));
+                    modelList := ElementByPath(body, 'Models');
+                    for k := 0 to ElementCount(modelList)-1 do begin
+                        modelEntry := ElementByIndex(modelList, k);
+                        aa := LinksTo(ElementByPath(modelEntry, 'MODL'));
+                        if LOGGING then LogT('Found bodypart: ' + Name(aa));
+                        bodyparts.add(EditorID(aa));
+                    end;
+                end;
+            end;
+        end;
+    end;
+    if LOGGING Then LogExit(1, 'LoadBodyAAs');
 end;
 
 //========================================================
 // Add the Ghoul races to all AA's that are allowed for the race the ghouls are changed
 // into.
 Procedure GhoulArmorEnable(targetFile: IwbFile);
+var
+    bodyparts: TStringList;
 begin
+    bodyparts := TStringList.Create;
+    // LoadBodyAAs(bodyparts); // Don't need this?
     FurrifyGhoulRace(targetFile);
     // Any headgear added by FFO that supports Snekdogs (or whatever race we are
     // turning ghouls into) needs to be modified to add the ghoul race.
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulRace'), 
-        raceInfo[RacenameIndex(GHOUL_RACE), MALE].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALE].mainRecord); 
     AddRaceToAllArmor(targetFile, 
         FindAsset(FileByIndex(0), 'RACE', 'GhoulChildRace'), 
-        raceInfo[RacenameIndex(GHOUL_RACE), MALECHILD].mainRecord); 
+        raceInfo[RacenameIndex(settingGhoulRace), MALECHILD].mainRecord); 
+    bodyparts.Free;
 end;
 
 //========================================================
@@ -1746,7 +1864,6 @@ end;
 Procedure InitializeFurrifier(targetFile: IwbFile);
 var i, j: integer;
 begin
-    AddMessage(Format('InitializeFurrifier, logging=%s, level=%d', [BoolToStr(LOGGING), LOGLEVEL]));
     for i := 0 to FileCount-1 do
         if GetFileName(FileByIndex(i)) = 'FurryFallout.esp' then begin
             ffoFile := FileByIndex(i);
@@ -1755,7 +1872,6 @@ begin
 
     InitializeAssetLoader;
     SetTintLayerTranslations;
-    if TARGET_RACE <> '' then AddRace(TARGET_RACE);
     SetRaceProbabilities;
     SetRaceDefaults;
     TailorRaces;
@@ -1763,11 +1879,11 @@ begin
     ghoulRaceHandle := FindAsset(NIL, 'RACE', 'GhoulRace');
     ghoulChildRaceHandle := FindAsset(NIL, 'RACE', 'GhoulChildRace');
 
-    if racesNotFound.Count > 0 then begin
-        AddMessage('These races were not found in the load order and will not be assigned:');
-        for i := 0 to racesNotFound.Count-1 do
-            AddMessage('   ' + racesNotFound[i]);
-    end;
+    // if racesNotFound.Count > 0 then begin
+    //     AddMessage('These races were not found in the load order and will not be assigned:');
+    //     for i := 0 to racesNotFound.Count-1 do
+    //         AddMessage('   ' + racesNotFound[i]);
+    // end;
 
     CorrelateChildren;
 
@@ -1835,7 +1951,113 @@ begin
     ShutdownAssetLoader;
 end;
 
-// initialize stuff
+//=========================================================
+// Return known furry races formatted for a use in pulldown lists.
+Procedure GetRaceList;
+var
+    i: integer;
+    lst, lstch: TStringList;
+    s: string;
+begin
+    lst := TStringList.Create();
+    lst.Duplicates := dupIgnore;
+    lst.Sorted := True;
+    lstch := TStringList.Create();
+    lstch.Duplicates := dupIgnore;
+    lstch.Sorted := True;
+    for i := RACE_LO to RACE_HI do begin
+        s := EditorID(raceInfo[i, MALE].mainRecord);
+        if s = GHOUL_RACE then ghoulChoiceIndex := lst.Count-1;
+        lst.Add(s);
+        s := EditorID(raceInfo[i, MALECHILD].mainRecord);
+        if s = GHOUL_CHILD_RACE then ghoulChildChoiceIndex := lstch.count-1;
+        lstch.Add(s);
+    end;
+    raceChoices := '';
+    childRaceChoices := '';
+    for i := 0 to lst.Count-1 do begin
+        // if length(raceChoices) = 0 then raceChoices := raceChoices + #13;
+        if i = 0 then 
+            raceChoices := lst[i]
+        else
+            raceChoices := raceChoices + #13 + lst[i];
+    end;
+    for i := 0 to lstch.Count-1 do begin
+        if i = 0 then 
+            childRaceChoices := lstch[i]
+        else
+            childRaceChoices := childraceChoices + #13 + lstch[i];
+    end;
+    lst.free();
+    lstch.free();
+end;
+
+//=========================================================
+// Create options form
+procedure OptionsForm;
+var
+    pluginName: TEdit;
+    rname: TEdit;
+    cb1, cb2, cb3, cb4, cb5, cb6, cb7: TCheckBox;
+    ghoulRace, ghoulChildRace: TEdit;
+    races, childraces: string;
+begin
+    GetRaceList;
+    MakeForm('FFO Furrifier', 500, 400);
+    pluginName := MakeFormEdit('New plugin name', PATCH_FILE_NAME);
+
+    MakeFormSectionLabel('Patch');
+    cb1 := MakeFormCheckBox('Load order', (not USE_SELECTION));
+    cb2 := MakeFormCheckBox('Selected NPCs', USE_SELECTION);
+
+    MakeFormSectionLabel('Races');
+    cb3 := MakeFormCheckBox('Use furrifier', (length(TARGET_RACE) <= 0));
+    rname := MakeFormComboBox('Force all to race', 'NONE'+#13+raceChoices, 0);
+
+    MakeFormSectionLabel('Ghouls');
+    cb4 := MakeFormCheckBox('Furrify ghouls', (not USE_SELECTION));
+    ghoulRace := MakeFormComboBox('Ghoul race', raceChoices, ghoulChoiceIndex);
+    ghoulChildRace := MakeFormComboBox('Ghoul child race', childRaceChoices, ghoulChildChoiceIndex);
+
+    MakeFormSectionLabel('Extra NPCs');
+    cb5 := MakeFormCheckBox('Make extra NPCs', (not USE_SELECTION));
+
+    MakeFormSectionLabel('Debugging');
+    cb6 := MakeFormCheckBox('Terse', FALSE);
+    cb7 := MakeFormCheckBox('Verbose', FALSE);
+
+    MakeFormOKCancel;
+
+    if bdstForm.ShowModal = mrOK then begin
+        AddMessage('OK');
+        if EndsText('.esp', pluginName.text) then
+            patchfileName := pluginName.text
+        else
+            patchfileName := pluginName.text + '.esp';
+        patchFileName := pluginName.text;
+        settingUseSelection := cb2.checked;
+        if rname.text = 'NONE' then
+            settingTargetRace := ''
+        else
+            settingTargetRace := rname.text;
+        settingFurrifyGhouls := cb4.checked;
+        settingGhoulRace := ghoulRace.text;
+        settingGhoulChildRace := ghoulChildRace.text;
+
+        settingExtraNPCs := cb5.Checked;
+
+        LOGGING := 0;
+        if cb6.checked then LOGGING := 5;
+        if cb7.checked then LOGGING := 15;
+    end
+    else begin
+        AddMessage('User cancel');
+        cancelRun := TRUE;
+    end;
+end;
+
+//=========================================================
+// initializion routine
 function Initialize: integer;
 var
   i: Integer;
@@ -1845,32 +2067,55 @@ var
   f: IwbFile;
   haveTarget: boolean;
 begin
-  // welcome messages
-  AddMessage(#13#10);
-  AddMessage('==========================================================');
-  AddMessage('Furry Fallout Furrifier');
+    InitializeLogging;
+    LOGGING := FALSE;
+    LOGLEVEL := 5;
+    errCount := 0;
+    warnCount := 0;
+
+    InitializeFurrifier(patchFile);
+
+    patchFileName := PATCH_FILE_NAME;
+    settingUseSelection := USE_SELECTION;
+    settingTargetRace := TARGET_RACE;
+    if settingTargetRace <> '' then AddRace(settingTargetRace);
+    settingFurrifyGhouls := not USE_SELECTION;
+    settingGhoulRace := GHOUL_RACE;
+    settingGhoulChildRace := GHOUL_CHILD_RACE;
+    settingExtraNPCs := not USE_SELECTION;
+
+    if SHOW_OPTIONS_DIALOG then OptionsForm;
+
+    // welcome messages
+    AddMessage(#13#10);
+    AddMessage('==========================================================');
+    AddMessage('Furry Fallout Furrifier V' + FURRIFIER_VERSION);
+    AddMessage('Furrifying with xEdit V' + GetXEditVersion());
     AddMessage('');
-    AddMessage('Creating patch for ' + wbAppName);
-  AddMessage('----------------------------------------------------------');
-  AddMessage('');
 
-  AddMessage('----------------------------------------------------------');
-    if USE_SELECTION then 
-        AddMessage('Furrifying selected NPCs only')
-    else 
-        AddMessage('Furrifying all NPCs');
-    
-    if length(TARGET_RACE) > 0 then
-        AddMessage('All affected NPCs will be changed to ' + TARGET_RACE);
+    if cancelRun then begin
+        AddMessage('Cancelling run by user request');
+        exit;
+    end;
+    AddMessage('Creating patch in ' + patchFileName);
+    AddMessage(IfThen(settingUseSelection, 
+        'Furrifying selected NPCs only', 
+        'Furrifying all NPCs'));
+    AddMessage(IfThen(settingExtraNPCs, 
+        'Creating extra NPCs', 
+        'No extra NPCs'));
+    AddMessage(IfThen(Length(settingTargetRace) > 0,
+        'All affected NPCs will be changed to ' + settingTargetRace,
+        'NPC races will be assigned by FFO_Proabilities'));
+    AddMessage(IfThen(settingFurrifyGhouls,
+        'Ghoul races are ' + settingGhoulRace + ' / ' + settingGhoulChildRace,
+        'Ghouls not being furrified'));
+    AddMessage('----------------------------------------------------------');
+    AddMessage('');
 
-    AddMessage('Patch file is ' + patchfileName);
     startTime := Time;
     // AddMessage('Start time ' + TimeToStr(startTime));
     AddMessage('----------------------------------------------------------');
-
-    InitializeLogging;
-    errCount := 0;
-    warnCount := 0;
 
     for i := 0 to FileCount-1 do begin
 
@@ -1879,17 +2124,17 @@ begin
     patchFile := CreateOverrideMod(patchfileName);
     furryCount := 0;
 
-    InitializeFurrifier(patchFile);
-
     for i := RACE_LO to RACE_HI do begin
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALE].mainRecord));
         AddRecursiveMaster(patchFile, GetFile(raceInfo[i, MALECHILD].mainRecord));
     end;
 
-    if not USE_SELECTION then begin
+    if settingFurrifyGhouls then begin
         // Only add ghouls to ARMAs if we are furrifying everything.
         GhoulArmorEnable(patchFile);
     end;
+
+    InitializeNPCGenerator(patchFile);
 end;
 
 // Process selected NPCs.
@@ -1898,7 +2143,9 @@ function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if (not USE_SELECTION) or (not DO_FURRIFICATION) then exit;
+    if cancelRun or (not settingUseSelection) or (not DO_FURRIFICATION) or (Signature(entity) <> 'NPC_') 
+    then exit;
+    
     win := WinningOverride(entity);
 
     if LOGGING then Log(2, Format('Furrifying %s in %s', [EditorID(win), GetFileName(GetFile(win))]));
@@ -1928,7 +2175,9 @@ var
     npcList: IwbContainer;
     raceID: inetger;
 begin
-    if DO_FURRIFICATION and (not USE_SELECTION) then begin
+    if cancelRun then exit;
+
+    if DO_FURRIFICATION and (not settingUseSelection) then begin
         // Walk all files up to and including FFO. Nothing after FFO will be furrified.
         for f := 0 to ffoIndex do begin
             fn := GetFileName(FileByIndex(f));
@@ -1937,9 +2186,9 @@ begin
                 furryCount := 0;
                 npcList := GroupBySignature(FileByIndex(f), 'NPC_');
                 for n := 0 to ElementCount(npcList)-1 do begin
-                    if (furryCount mod 100) = 0 then
-                        AddMessage(Format('Furrifying %s: %d', 
-                            [GetFileName(FileByIndex(f)), furryCount]));
+                    if ((furryCount mod 200) = 0) then
+                        AddMessage(Format('Furrifying %s: %.0f', 
+                            [GetFileName(FileByIndex(f)), 100*furryCount/ElementCount(npcList)]) + '%');
 
                     npc := ElementByIndex(npcList, n);
                     if IsWinningOverride(npc) then begin
@@ -1959,8 +2208,13 @@ begin
                 [GetFileName(FileByIndex(f)), furryCount]));
         end;
 
-        AddMessage('Generating additional furry NPCs...');
-        GenerateFurryNPCs(patchFile);
+        AddMessage(Format('Creating extra npcs: %s', [BoolToStr(settingExtraNPCs)]));
+        if settingExtraNPCs then begin
+            if LOGGING then Log(1, 'Expanding leveled lists');
+            ExpandAllLeveledLists(patchFile);
+        end
+        else
+            if LOGGING then Log(1, 'Expanding leveled lists');
         AddMessage('Merging armor record changes...');
         MergeFurryChanges(patchFile);
     end;
@@ -2013,6 +2267,7 @@ begin
   AddMessage('==========================================================');
 
     ShutdownFurrifier;
+    ShutdownNPCGenerator();
 
 end;
 end.
