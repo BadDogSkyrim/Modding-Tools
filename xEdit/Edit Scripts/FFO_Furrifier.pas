@@ -25,9 +25,9 @@ uses FFO_RaceProbabilities, BDFurryArmorFixup, FFOGenerateNPCs, BDScriptTools,
 BDAssetLoaderFO4, xEditAPI, Classes, SysUtils, StrUtils, Windows, Forms;
 
 const
-    FURRIFIER_VERSION = '2.21';
-    SHOW_OPTIONS_DIALOG = False;
-    PATCH_FILE_NAME = 'FFONPCPatchEd.esp'; // Set to whatever
+    FURRIFIER_VERSION = '2.22';
+    SHOW_OPTIONS_DIALOG = True;
+    PATCH_FILE_NAME = 'FFONPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
     TARGET_RACE = '';    // Use this race for everything
 
@@ -821,8 +821,8 @@ begin
     SetElementNativeValues(teti, 'Index', tetiIndex);
 
     // Show what's happening with alpha--changes between xEdit versions
-    LogD(Format('Edit value: %s = %s', [PathName(tintColor), GetElementEditValues(tintColor, 'Alpha')]));
-    LogD(Format('Color alpha native value: %s', [FloatToStr(GetElementNativeValues(tintColor, 'Alpha'))]));
+    if LOGGING then LogD(Format('Edit value: %s = %s', [PathName(tintColor), GetElementEditValues(tintColor, 'Alpha')]));
+    if LOGGING then LogD(Format('Color alpha native value: %s', [FloatToStr(GetElementNativeValues(tintColor, 'Alpha'))]));
         
     tend := Add(layer, 'TEND', true);
     SetElementEditValues(tend, 'Value', GetElementEditValues(tintColor, 'Alpha'));
@@ -848,8 +848,8 @@ begin
     end;
     
     // Show what's happening with alpha--changes between xEdit versions
-    LogD(Format('Targ QNAM Edit value: %s', [GetElementEditValues(curNPC.handle, 'QNAM - Texture lighting\Alpha')]));
-    LogD(Format('Targ QNAM native value: %s', [FloatToStr(GetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha'))]));
+    if LOGGING then LogD(Format('Targ QNAM Edit value: %s', [GetElementEditValues(curNPC.handle, 'QNAM - Texture lighting\Alpha')]));
+    if LOGGING then LogD(Format('Targ QNAM native value: %s', [FloatToStr(GetElementNativeValues(curNPC.handle, 'QNAM - Texture lighting\Alpha'))]));
         
     If LOGGING then LogExitT('NPC_AssignTint');
 end;
