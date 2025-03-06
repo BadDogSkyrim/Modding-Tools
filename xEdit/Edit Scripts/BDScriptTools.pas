@@ -420,6 +420,16 @@ begin
     Result := thisOverride;
 end;
 
+
+//=======================================================================
+// Make an override of the given record.
+function MakeOverride(theElement: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
+begin
+    AddRecursiveMaster(targetFile, GetFile(theElement));
+    result := wbCopyElementToFile(theElement, targetFile, False, True);
+end;
+
+
 //==================================================
 // Hash given string with starting seed seed and return result modulo m
 // Seed can be anything. Providing different values from different calls means even if 
