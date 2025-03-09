@@ -66,6 +66,8 @@ begin
         Assert(Assigned(npcref), Format('List element %s at [%d] assigned', 
             [GetEditValue(npcref), i]));
         ref := LinksTo(npcref);
+        Assert(Assigned(ref), Format('List element target %s at [%d] assigned', 
+            [Name(ref), i]));
         if (target <> '') and (EditorID(ref) = target) then found := true;
     end;
     if target <> '' then
@@ -111,8 +113,8 @@ begin
     found := false;
     for i := 0 to ElementCount(elist)-1 do begin
         npcref := ElementByIndex(elist, i);
-        Assert(Assigned(npcref), Format('List element at [%d] is assigned', [i]));
         ref := LinksTo(npcref);
+        Assert(Assigned(ref), Format('List element at [%d] is assigned', [i]));
         AddMessage('AssertNameInList checking ' + EditorID(ref));
         found := found or ContainsText(EditorID(ref), target);
     end;

@@ -1,0 +1,1467 @@
+[00:00] Start: Applying script "FurrySkyrimTEST"
+ 
+ 
+====================================
+============ TESTING ===============
+====================================
+ 
+/Initialize
+|   /PreferencesInit
+|   \PreferencesInit
+\Initialize
+/Finalize
+OK: Can pass integer by reference: 1 = 1
+Current time is 8:12:45 PM
+Can format decimal values: 10
+Can format hex values: 000003FF
+Can format float values: 10.23
+Demo of stringlists
+Get SL strings: Alpha,Beta
+Index SL by text (Alpha): 0
+Index SL by text (Beta): 0
+First list has sublist: One,Two,Three
+First subentry is One
+First entry in sl1: Alpha, size 3
+First subentry in sl1: Alpha, "One,Two,Three"
+First subentry in sl1: Alpha, "One"
+First subentry in sl1[1]: Beta, "A"
+Integer value [0]: foo / 1
+Integer value [1]: bar / 2
+ArmorFalmerBoots HighestOverrideOrSelf[0] = Skyrim.esm
+ArmorFalmerBoots HighestOverrideOrSelf[1] = Update.esm
+ArmorFalmerBoots HighestOverrideOrSelf[100] = Dawnguard.esm
+ArmorFalmerBoots WinningOverride = Dawnguard.esm
+ArmorFalmerBoots IsWinningOverride = F
+OK: ArmorFalmerBoots has an override
+ChaurusRace HighestOverrideOrSelf[0] = Skyrim.esm
+ChaurusRace HighestOverrideOrSelf[1] = Skyrim.esm
+ChaurusRace HighestOverrideOrSelf[100] = Skyrim.esm
+ChaurusRace WinningOverride = Skyrim.esm
+ChaurusRace IsWinningOverride = F
+OK: ChaurusRace has no override
+Version number checking
+xEdit Version 0.0.0.
+4.0.7a <> xEdit: 4
+4.1.5t <> xEdit: 4
+4.1.5m <> xEdit: 4
+Hash(EncBandit03Melee1HTankRedguardF) = 6
+Hash(EncBandit03Melee1HTankRedguardM) = 3
+Hash(EncBandit04Melee1HTankRedguardF) = 7
+Hash(EncBandit04Melee1HTankRedguardM) = 4
+Hash(EncBandit03) = 5
+Hash(EncBandit04) = 6
+Hash(EncBandit05) = 7
+|   /SetRace(NordRace, LykaiosRace)
+|   \SetRace -> LykaiosRace
+|   /LabelHeadpart(00HairLykaiosMaleDreads001_, DREADS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads001_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads001_, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads003_, DREADS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads003_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads003_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreads003_, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsFringe_, DREADS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsFringe_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsFringe_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsFringe_, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsFringe_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsHeadband_, DREADS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsHeadband_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsHeadband_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsHeadband_, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleDreadsHeadband_, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleFringeFlip001_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleFringeFlip001_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionMane001, MANE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionMane001, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionMane002, MANE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionMane002, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionMane002, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeFringeLeftBraid_, MANE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeFringeLeftBraid_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeFringeLeftBraid_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeFringeLeftBraid_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeHeadband, MANE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeHeadband, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeHeadband, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManeHeadband, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManebraids, MANE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManebraids, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManebraids, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLionManebraids, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid001_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid001_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid001_, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid001_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid002_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid002_, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid002_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraid002_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraidLeft_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraidLeft_, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraidLeft_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleLongBraidLeft_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk001_, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk001_, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk001_, MILITARY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk001_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk003_, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk003_, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawk003_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawkFringe_, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawkFringe_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleMohawkFringe_, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShaggyHair002_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShaggyHair002_, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShaggyHair003_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShaggyHair003_, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShaggyHair003_, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop001_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop001_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop001_, MILITARY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop002_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop002_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop002_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop003_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop003_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop003_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop004_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop004_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop004_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleShorCrop004_, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyle001_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyle001_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyle001_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleFringe_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleFringe_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleFringe_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleFringe_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleHeadband_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleHeadband_, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleHeadband_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleHeadband_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleTiedStyleHeadband_, FEATHERS)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaBraid001_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaBraid001_, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaBraid001_, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaCrop001_, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaCrop001_, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaCrop001_, MILITARY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaHair001_, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(00HairLykaiosMaleVanillaHair001_, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairBeastSidehawk, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairBeastSidehawk, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairBeastSidehawk, BOLD)
+|   \LabelHeadpart
+|   /AssignHeadpart(MaleEyesHumanAmber, 00LykaiosMaleEyesAmber)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAmber
+|   /AssignHeadpart(MaleEyesHumanAmberBlindRight, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanBlind, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanBrightGreen, 00LykaiosMaleEyesGreen)
+|   \AssignHeadpart -> 00LykaiosMaleEyesGreen
+|   /AssignHeadpart(MaleEyesHumanBrightGreenBlindRight, 00LykaiosMaleEyesGreen)
+|   \AssignHeadpart -> 00LykaiosMaleEyesGreen
+|   /AssignHeadpart(MaleEyesHumanBrown, 00LykaiosMaleEyesBrown)
+|   \AssignHeadpart -> 00LykaiosMaleEyesBrown
+|   /AssignHeadpart(MaleEyesHumanBrownBlindLeft, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanBrownBlindRight, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanBrownBloodShot, 00LykaiosMaleEyesBrown)
+|   \AssignHeadpart -> 00LykaiosMaleEyesBrown
+|   /AssignHeadpart(MaleEyesHumanDarkBlue, 00LykaiosMaleEyesDarkBlue)
+|   \AssignHeadpart -> 00LykaiosMaleEyesDarkBlue
+|   /AssignHeadpart(MaleEyesHumanDemon, 00LykaiosMaleEyesRed)
+|   \AssignHeadpart -> 00LykaiosMaleEyesRed
+|   /AssignHeadpart(MaleEyesHumanGreenHazelLeft, 00LykaiosMaleEyesYellow)
+|   \AssignHeadpart -> 00LykaiosMaleEyesYellow
+|   /AssignHeadpart(MaleEyesHumanGrey, 00LykaiosMaleEyesBase)
+|   \AssignHeadpart -> 00LykaiosMaleEyesBase
+|   /AssignHeadpart(MaleEyesHumanHazel, 00LykaiosMaleEyesYellow)
+|   \AssignHeadpart -> 00LykaiosMaleEyesYellow
+|   /AssignHeadpart(MaleEyesHumanHazelBrown, 00LykaiosMaleEyesYellow)
+|   \AssignHeadpart -> 00LykaiosMaleEyesYellow
+|   /AssignHeadpart(MaleEyesHumanIceBlue, 00LykaiosMaleEyesBlue)
+|   \AssignHeadpart -> 00LykaiosMaleEyesBlue
+|   /AssignHeadpart(MaleEyesHumanLeftBlindSingle, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanLightBlue, 00LykaiosMaleEyesSnow1)
+|   \AssignHeadpart -> 00LykaiosMaleEyesSnow1
+|   /AssignHeadpart(MaleEyesHumanLightBlueBlindLeft, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanLightBlueBloodShot, 00LykaiosMaleEyesSnow1)
+|   \AssignHeadpart -> 00LykaiosMaleEyesSnow1
+|   /AssignHeadpart(MaleEyesHumanLightGrey, 00LykaiosMaleEyesGrey)
+|   \AssignHeadpart -> 00LykaiosMaleEyesGrey
+|   /AssignHeadpart(MaleEyesHumanLightIceGreyBlindLeft, 00LykaiosMaleEyesLilac)
+|   \AssignHeadpart -> 00LykaiosMaleEyesLilac
+|   /AssignHeadpart(MaleEyesHumanRightBlindSingle, 00LykaiosMaleEyesAlbino)
+|   \AssignHeadpart -> 00LykaiosMaleEyesAlbino
+|   /AssignHeadpart(MaleEyesHumanRightHazleBrownRight, 00LykaiosMaleEyesBrown)
+|   \AssignHeadpart -> 00LykaiosMaleEyesBrown
+|   /AssignHeadpart(MaleEyesHumanVampire, 00LykaiosMaleEyesVampire)
+|   \AssignHeadpart -> 00LykaiosMaleEyesVampire
+|   /LabelHeadpart(HairMaleNord01, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord01, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord02, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord02, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord02, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord03, NOBLE)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord03, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord03, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord04, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord04, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord04, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord05, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord05, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord05, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord06, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord06, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord07, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord07, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord08, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord08, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord08, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord09, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord09, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord09, MILITARY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord10, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord10, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord10, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord11, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord11, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord11, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord11, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord12, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord12, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord12, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord13, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord13, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord13, YOUNG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord13, TIEDBACK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord14, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord14, NEAT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord14, MILITARY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord15, SHORT)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord15, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord16, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord16, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord16, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord16, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord17, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord17, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord17, BRAIDS)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord17, FUNKY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord18, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord18, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord19, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord19, MESSY)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord19, MATURE)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord20, MOHAWK)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord20, LONG)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord20, BOLD)
+|   \LabelHeadpart
+|   /LabelHeadpart(HairMaleNord20, FUNKY)
+|   \LabelHeadpart
+==RACE ASSIGNMENTS==
+Race assignment NordRace -> LykaiosRace
+--RACE ASSIGNMENTS--
+|   Found target file at 7
+|   /FurrifyRace(NordRace, LykaiosRace "Lykaios" [RACE:0421AB44])
+|   |   Found race NordRace "Nord" [RACE:00013746] in file TEST.esp
+|   |   Overriding in TEST.esp
+|   |   Source RNAM value is KhajiitRace "Khajiit" [RACE:00013745]
+|   |   /LoadRaceTints(NordRace "Nord" [RACE:00013746])
+|   |   \LoadRaceTints
+|   \FurrifyRace
+==HEADPART EQUIVALENTS==
+MaleEyesHumanAmber
+|   00LykaiosMaleEyesAmber "MaleEyesLykaios" [HDPT:04005941]
+MaleEyesHumanAmberBlindRight
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanBlind
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanBrightGreen
+|   00LykaiosMaleEyesGreen "MaleEyesLykaios" [HDPT:04005946]
+MaleEyesHumanBrightGreenBlindRight
+|   00LykaiosMaleEyesGreen "MaleEyesLykaios" [HDPT:04005946]
+MaleEyesHumanBrown
+|   00LykaiosMaleEyesBrown "MaleEyesLykaios" [HDPT:04005945]
+MaleEyesHumanBrownBlindLeft
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanBrownBlindRight
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanBrownBloodShot
+|   00LykaiosMaleEyesBrown "MaleEyesLykaios" [HDPT:04005945]
+MaleEyesHumanDarkBlue
+|   00LykaiosMaleEyesDarkBlue "MaleEyesLykaios" [HDPT:04005944]
+MaleEyesHumanDemon
+|   00LykaiosMaleEyesRed "MaleEyesLykaios" [HDPT:04005949]
+MaleEyesHumanGreenHazelLeft
+|   00LykaiosMaleEyesYellow "MaleEyesLykaios" [HDPT:0400594C]
+MaleEyesHumanGrey
+|   00LykaiosMaleEyesBase "MaleEyesLykaios" [HDPT:04005942]
+MaleEyesHumanHazel
+|   00LykaiosMaleEyesYellow "MaleEyesLykaios" [HDPT:0400594C]
+MaleEyesHumanHazelBrown
+|   00LykaiosMaleEyesYellow "MaleEyesLykaios" [HDPT:0400594C]
+MaleEyesHumanIceBlue
+|   00LykaiosMaleEyesBlue "MaleEyesLykaios" [HDPT:04005943]
+MaleEyesHumanLeftBlindSingle
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanLightBlue
+|   00LykaiosMaleEyesSnow1 "MaleEyesLykaios" [HDPT:0400594A]
+MaleEyesHumanLightBlueBlindLeft
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanLightBlueBloodShot
+|   00LykaiosMaleEyesSnow1 "MaleEyesLykaios" [HDPT:0400594A]
+MaleEyesHumanLightGrey
+|   00LykaiosMaleEyesGrey "MaleEyesLykaios" [HDPT:04005947]
+MaleEyesHumanLightIceGreyBlindLeft
+|   00LykaiosMaleEyesLilac "MaleEyesLykaios" [HDPT:04005948]
+MaleEyesHumanRightBlindSingle
+|   00LykaiosMaleEyesAlbino "MaleEyesLykaios" [HDPT:04005939]
+MaleEyesHumanRightHazleBrownRight
+|   00LykaiosMaleEyesBrown "MaleEyesLykaios" [HDPT:04005945]
+MaleEyesHumanVampire
+|   00LykaiosMaleEyesVampire "MaleEyesLykaios" [HDPT:0400594B]
+--HEADPART EQUIVALENTS--
+==Headpart Labels==
+00HairLykaiosMaleDreads001_
+|   DREADS
+|   BOLD
+|   FUNKY
+00HairLykaiosMaleDreads003_
+|   DREADS
+|   NOBLE
+|   BOLD
+|   FUNKY
+00HairLykaiosMaleDreadsFringe_
+|   DREADS
+|   NOBLE
+|   BOLD
+|   FUNKY
+|   YOUNG
+00HairLykaiosMaleDreadsHeadband_
+|   DREADS
+|   NOBLE
+|   BOLD
+|   FUNKY
+|   FEATHERS
+00HairLykaiosMaleFringeFlip001_
+|   YOUNG
+|   SHORT
+00HairLykaiosMaleLionMane001
+|   MANE
+|   LONG
+00HairLykaiosMaleLionMane002
+|   MANE
+|   LONG
+|   YOUNG
+00HairLykaiosMaleLionManebraids
+|   MANE
+|   LONG
+|   NOBLE
+|   BRAIDS
+00HairLykaiosMaleLionManeFringeLeftBraid_
+|   MANE
+|   LONG
+|   NOBLE
+|   BRAIDS
+00HairLykaiosMaleLionManeHeadband
+|   MANE
+|   LONG
+|   NOBLE
+|   FEATHERS
+00HairLykaiosMaleLongBraid001_
+|   BRAIDS
+|   NEAT
+|   TIEDBACK
+|   BRAIDS
+00HairLykaiosMaleLongBraid002_
+|   NEAT
+|   TIEDBACK
+|   BRAIDS
+|   NOBLE
+00HairLykaiosMaleLongBraidLeft_
+|   NEAT
+|   TIEDBACK
+|   BRAIDS
+|   NOBLE
+00HairLykaiosMaleMohawk001_
+|   MOHAWK
+|   BRAIDS
+|   MILITARY
+|   BOLD
+00HairLykaiosMaleMohawk003_
+|   MOHAWK
+|   FEATHERS
+|   BOLD
+00HairLykaiosMaleMohawkFringe_
+|   MOHAWK
+|   YOUNG
+|   BOLD
+00HairLykaiosMaleShaggyHair002_
+|   LONG
+|   MESSY
+00HairLykaiosMaleShaggyHair003_
+|   LONG
+|   MESSY
+|   FEATHERS
+00HairLykaiosMaleShorCrop001_
+|   SHORT
+|   NEAT
+|   MILITARY
+00HairLykaiosMaleShorCrop002_
+|   SHORT
+|   NEAT
+|   YOUNG
+00HairLykaiosMaleShorCrop003_
+|   SHORT
+|   NEAT
+|   NOBLE
+00HairLykaiosMaleShorCrop004_
+|   SHORT
+|   NEAT
+|   NOBLE
+|   FEATHERS
+00HairLykaiosMaleTiedStyle001_
+|   LONG
+|   NOBLE
+|   NEAT
+00HairLykaiosMaleTiedStyleFringe_
+|   LONG
+|   NOBLE
+|   NEAT
+|   YOUNG
+00HairLykaiosMaleTiedStyleHeadband_
+|   LONG
+|   NOBLE
+|   NEAT
+|   YOUNG
+|   FEATHERS
+00HairLykaiosMaleVanillaBraid001_
+|   LONG
+|   NEAT
+|   TIEDBACK
+00HairLykaiosMaleVanillaCrop001_
+|   SHORT
+|   YOUNG
+|   MILITARY
+00HairLykaiosMaleVanillaHair001_
+|   MESSY
+|   LONG
+HairBeastSidehawk
+|   MOHAWK
+|   FUNKY
+|   BOLD
+HairMaleNord01
+|   MESSY
+|   LONG
+HairMaleNord02
+|   MESSY
+|   LONG
+|   BRAIDS
+HairMaleNord03
+|   NOBLE
+|   LONG
+|   BRAIDS
+HairMaleNord04
+|   MESSY
+|   LONG
+|   BRAIDS
+HairMaleNord05
+|   NEAT
+|   LONG
+|   TIEDBACK
+HairMaleNord06
+|   BOLD
+|   BRAIDS
+HairMaleNord07
+|   SHORT
+|   NEAT
+HairMaleNord08
+|   FUNKY
+|   BRAIDS
+|   SHORT
+HairMaleNord09
+|   NEAT
+|   SHORT
+|   MILITARY
+HairMaleNord10
+|   NEAT
+|   SHORT
+|   BRAIDS
+HairMaleNord11
+|   NEAT
+|   SHORT
+|   TIEDBACK
+|   BRAIDS
+HairMaleNord12
+|   NEAT
+|   LONG
+|   TIEDBACK
+HairMaleNord13
+|   LONG
+|   BOLD
+|   YOUNG
+|   TIEDBACK
+HairMaleNord14
+|   SHORT
+|   NEAT
+|   MILITARY
+HairMaleNord15
+|   SHORT
+|   MESSY
+HairMaleNord16
+|   MOHAWK
+|   BRAIDS
+|   BOLD
+|   FUNKY
+HairMaleNord17
+|   MOHAWK
+|   BOLD
+|   BRAIDS
+|   FUNKY
+HairMaleNord18
+|   LONG
+|   MESSY
+HairMaleNord19
+|   LONG
+|   MESSY
+|   MATURE
+HairMaleNord20
+|   MOHAWK
+|   LONG
+|   BOLD
+|   FUNKY
+--Headpart Labels--
+==Race Tint Presets (1)==
+NordRace
+|   MALEADULT
+|   |   Skin Tone @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [0] Tint Assets \ [1] Presets
+|   |   Dirt @ 8
+|   |   Cheek Color Lower @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [3] Tint Assets \ [1] Presets
+|   |   Laugh Lines @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [4] Tint Assets \ [1] Presets
+|   |   Lip Color @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [5] Tint Assets \ [1] Presets
+|   |   Forehead @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [6] Tint Assets \ [1] Presets
+|   |   Cheek Color @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [7] Tint Assets \ [1] Presets
+|   |   Neck @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [11] Tint Assets \ [1] Presets
+|   |   Chin @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [12] Tint Assets \ [1] Presets
+|   |   EyeSocket Lower @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [13] Tint Assets \ [1] Presets
+|   |   EyeSocket Upper @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [14] Tint Assets \ [1] Presets
+|   |   Eyeliner @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [15] Tint Assets \ [1] Presets
+|   |   Paint @ 16
+|   |   Nose @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [17] Tint Assets \ [1] Presets
+|   |   SPECIAL @ 3
+|   FEMALEADULT
+|   |   Skin Tone @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [0] Tint Assets \ [1] Presets
+|   |   Dirt @ 8
+|   |   Cheek Color @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [3] Tint Assets \ [1] Presets
+|   |   Cheek Color Lower @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [4] Tint Assets \ [1] Presets
+|   |   Laugh Lines @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [5] Tint Assets \ [1] Presets
+|   |   Lip Color @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [6] Tint Assets \ [1] Presets
+|   |   Forehead @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [7] Tint Assets \ [1] Presets
+|   |   EyeSocket Upper @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [11] Tint Assets \ [1] Presets
+|   |   Eyeliner @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [12] Tint Assets \ [1] Presets
+|   |   EyeSocket Lower @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [13] Tint Assets \ [1] Presets
+|   |   Nose @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [14] Tint Assets \ [1] Presets
+|   |   Neck @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [15] Tint Assets \ [1] Presets
+|   |   Chin @  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [2] Female Head Data \ [8] Tint Masks \ [16] Tint Assets \ [1] Presets
+|   |   Paint @ 15
+|   |   SPECIAL @ 3
+--Race Tint Presets--
+============ CHECKING ===============
+OK: Astrid alias works: "Astrid" = "Astrid"
+OK: Non-alias works: "AstridXXX" = "AstridXXX"
+OK: Nord skin is now lykaios: "SkinNakedLykaios" = "SkinNakedLykaios"
+OK: Nord armor race is now Khajiit: "KhajiitRace" = "KhajiitRace"
+Skyrim.esm race has headpart 0: HairMaleNord10 "HairMaleNord10" [HDPT:0005140E]
+TEST.esp race has headpart 0: LykaiosMaleHead "LykaiosMaleHead" [HDPT:04000D6F]
+OK: List element at [0] assigned
+OK: List element at [1] assigned
+OK: List element at [2] assigned
+OK: List element at [3] assigned
+OK: List element at [4] assigned
+OK: Found target element LykaiosMaleHead in  \ [06] TEST.esp \ [1] GRUP Top "RACE" \ [0] NordRace "Nord" [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [1] Head Parts
+OK: Have BalgruuftheGreater
+|   /FurrifyNPC(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD])
+|   |   /LoadNPC(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD])
+|   |   |   Sex is 0
+|   |   |   Age is 0
+|   |   \LoadNPC -> NordRace "Nord" [RACE:00013746] MALEADULT
+|   |   /FurrifyAllHeadparts(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD])
+|   |   |   /FindEquivalentHP(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], HairMaleNord03 "HairMaleNord03" [HDPT:000514B8])
+|   |   |   |   /FindSimilarHeadpart(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], HairMaleNord03 "HairMaleNord03" [HDPT:000514B8])
+|   |   |   |   |   /FindBestHeadpartMatch(HairMaleNord03 "HairMaleNord03" [HDPT:000514B8])
+|   |   |   |   |   |   NPC labels NOBLE,LONG,BRAIDS
+|   |   |   |   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1234, 49) -> 3384/3
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsHeadband_ with labels DREADS,NOBLE,BOLD,FUNKY,FEATHERS
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   New best match 00HairLykaiosMaleDreadsHeadband_ with 1 matches
+|   |   |   |   |   |   Checking 00HairLykaiosMaleFringeFlip001_ with labels YOUNG,SHORT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane001 with labels MANE,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane002 with labels MANE,LONG,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManebraids with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   New best match 00HairLykaiosMaleLionManebraids with 3 matches
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeFringeLeftBraid_ with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeHeadband with labels MANE,LONG,NOBLE,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid001_ with labels BRAIDS,NEAT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid002_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraidLeft_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk001_ with labels MOHAWK,BRAIDS,MILITARY,BOLD
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk003_ with labels MOHAWK,FEATHERS,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawkFringe_ with labels MOHAWK,YOUNG,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair002_ with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair003_ with labels LONG,MESSY,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop001_ with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop002_ with labels SHORT,NEAT,YOUNG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop003_ with labels SHORT,NEAT,NOBLE
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop004_ with labels SHORT,NEAT,NOBLE,FEATHERS
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyle001_ with labels LONG,NOBLE,NEAT
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleFringe_ with labels LONG,NOBLE,NEAT,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleHeadband_ with labels LONG,NOBLE,NEAT,YOUNG,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaBraid001_ with labels LONG,NEAT,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaCrop001_ with labels SHORT,YOUNG,MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaHair001_ with labels MESSY,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairBeastSidehawk with labels MOHAWK,FUNKY,BOLD
+|   |   |   |   |   |   Checking HairMaleNord01 with labels MESSY,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord02 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord03 with labels NOBLE,LONG,BRAIDS
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord04 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord05 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord06 with labels BOLD,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord07 with labels SHORT,NEAT
+|   |   |   |   |   |   Checking HairMaleNord08 with labels FUNKY,BRAIDS,SHORT
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord09 with labels NEAT,SHORT,MILITARY
+|   |   |   |   |   |   Checking HairMaleNord10 with labels NEAT,SHORT,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord11 with labels NEAT,SHORT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord12 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord13 with labels LONG,BOLD,YOUNG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord14 with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Checking HairMaleNord15 with labels SHORT,MESSY
+|   |   |   |   |   |   Checking HairMaleNord16 with labels MOHAWK,BRAIDS,BOLD,FUNKY
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord17 with labels MOHAWK,BOLD,BRAIDS,FUNKY
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord18 with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord19 with labels LONG,MESSY,MATURE
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord20 with labels MOHAWK,LONG,BOLD,FUNKY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads001_ with labels DREADS,BOLD,FUNKY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads003_ with labels DREADS,NOBLE,BOLD,FUNKY
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsFringe_ with labels DREADS,NOBLE,BOLD,FUNKY,YOUNG
+|   |   |   |   |   |   Matched NOBLE
+|   |   |   |   |   \FindBestHeadpartMatch -> 00HairLykaiosMaleDreadsFringe_ "dreadbeaddark" [HDPT:040D1839] w/ 3 matches
+|   |   |   |   \FindSimilarHeadpart -> 00HairLykaiosMaleDreadsFringe_ "dreadbeaddark" [HDPT:040D1839]
+|   |   |   \FindEquivalentHP -> 00HairLykaiosMaleDreadsFringe_ "dreadbeaddark" [HDPT:040D1839]
+|   |   |   Creating Head Parts list
+|   |   |   Assigning new headpart 00HairLykaiosMaleDreadsFringe_ at  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [16] Head Parts \ [0] PNAM - Head Part
+|   |   |   AssignElementRef: 040D1839
+|   |   |   /FindEquivalentHP(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   /FindSimilarHeadpart(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], BrowsMaleHumanoid07 "BrowsMaleHumanoid07" [HDPT:000C716D])
+|   |   |   |   /FindSimilarHeadpart(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], BrowsMaleHumanoid07 "BrowsMaleHumanoid07" [HDPT:000C716D])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], HumanBeard35 "HumanBeard35" [HDPT:000CDCB3])
+|   |   |   |   /FindSimilarHeadpart(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], HumanBeard35 "HumanBeard35" [HDPT:000CDCB3])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   \FurrifyAllHeadparts
+|   |   /LoadNPCSkinTones(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], NordRace, MALEADULT)
+|   |   \LoadNPCSkinTones
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Skin Tone)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 10) -> 5845/5
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [0] Tint Assets \ [1] Presets \ [5] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 75, 1241, 1.000000
+|   |   |   |   Tint layers: 1
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Cheek Color Lower)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 9) -> 5845/4
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [3] Tint Assets \ [1] Presets \ [4] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 79, 1277, 0.700000
+|   |   |   |   Tint layers: 2
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Laugh Lines)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 3) -> 5845/1
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [4] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 80, 1282, 0.900000
+|   |   |   |   Tint layers: 3
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Lip Color)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 4) -> 5845/1
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [5] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 81, 1286, 0.900000
+|   |   |   |   Tint layers: 4
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Forehead)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 3) -> 5845/1
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [6] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 106, 1768, 0.900000
+|   |   |   |   Tint layers: 5
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Cheek Color)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 7) -> 5845/0
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [7] Tint Assets \ [1] Presets \ [0] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 78, 1266, 0.000000
+|   |   |   |   Tint layers: 6
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Neck)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 4) -> 5845/1
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [11] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 83, 1300, 0.900000
+|   |   |   |   Tint layers: 7
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Chin)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 4) -> 5845/1
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [12] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 82, 1293, 0.900000
+|   |   |   |   Tint layers: 8
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], EyeSocket Lower)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 8) -> 5845/5
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [13] Tint Assets \ [1] Presets \ [5] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 84, 1311, 0.700000
+|   |   |   |   Tint layers: 9
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], EyeSocket Upper)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 8) -> 5845/5
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [14] Tint Assets \ [1] Presets \ [5] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 85, 1319, 0.700000
+|   |   |   |   Tint layers: 10
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Eyeliner)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 8) -> 5845/5
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [15] Tint Assets \ [1] Presets \ [5] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 86, 1327, 0.700000
+|   |   |   |   Tint layers: 11
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], Nose)
+|   |   |   Hash(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD], 1455, 5) -> 5845/0
+|   |   |   /SetNPCTintLayer(BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [17] Tint Assets \ [1] Presets \ [0] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [28] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 87, 1330, 0.000000
+|   |   |   |   Tint layers: 12
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   \FurrifyNPC
+OK: Override created
+OK: List element at [0] assigned
+OK: Did not find target element HumanBeard35 in  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [1] BalgruuftheGreater [NPC_:00013BBD] \ [16] Head Parts
+OK: List element at [0] is assigned
+AssertNameInList checking 00HairLykaiosMaleDreadsFringe_
+OK: Found target element Hair in  \ [06] TEST.esp \ [2] GRUP Top "NPC_" \ [1] BalgruuftheGreater "Balgruuf the Greater" [NPC_:00013BBD] \ [16] Head Parts
+OK: At least one tint layer
+|   /FurrifyNPC(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264])
+|   |   /LoadNPC(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264])
+|   |   |   Sex is 0
+|   |   |   Age is 0
+|   |   \LoadNPC -> NordRace "Nord" [RACE:00013746] MALEADULT
+|   |   /FurrifyAllHeadparts(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264])
+|   |   |   /FindEquivalentHP(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], MaleEyesHumanIceBlue "MaleEyesHumanIceBlue" [HDPT:00024244])
+|   |   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 2134, 1) -> 11858/0
+|   |   |   \FindEquivalentHP -> 00LykaiosMaleEyesBlue "MaleEyesLykaios" [HDPT:04005943]
+|   |   |   Creating Head Parts list
+|   |   |   Assigning new headpart 00LykaiosMaleEyesBlue at  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [16] Head Parts \ [0] PNAM - Head Part
+|   |   |   AssignElementRef: 04005943
+|   |   |   /FindEquivalentHP(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], HumanBeard02 "HumanBeard02" [HDPT:000510B4])
+|   |   |   |   /FindSimilarHeadpart(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], HumanBeard02 "HumanBeard02" [HDPT:000510B4])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], HairMaleNord02 "HairMaleNord02" [HDPT:000514D5])
+|   |   |   |   /FindSimilarHeadpart(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], HairMaleNord02 "HairMaleNord02" [HDPT:000514D5])
+|   |   |   |   |   /FindBestHeadpartMatch(HairMaleNord02 "HairMaleNord02" [HDPT:000514D5])
+|   |   |   |   |   |   NPC labels MESSY,LONG,BRAIDS,MILITARY
+|   |   |   |   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1234, 49) -> 15958/33
+|   |   |   |   |   |   Checking HairMaleNord05 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   New best match HairMaleNord05 with 1 matches
+|   |   |   |   |   |   Checking HairMaleNord06 with labels BOLD,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord07 with labels SHORT,NEAT
+|   |   |   |   |   |   Checking HairMaleNord08 with labels FUNKY,BRAIDS,SHORT
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord09 with labels NEAT,SHORT,MILITARY
+|   |   |   |   |   |   Matched MILITARY
+|   |   |   |   |   |   Checking HairMaleNord10 with labels NEAT,SHORT,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord11 with labels NEAT,SHORT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord12 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord13 with labels LONG,BOLD,YOUNG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord14 with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Matched MILITARY
+|   |   |   |   |   |   Checking HairMaleNord15 with labels SHORT,MESSY
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Checking HairMaleNord16 with labels MOHAWK,BRAIDS,BOLD,FUNKY
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord17 with labels MOHAWK,BOLD,BRAIDS,FUNKY
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord18 with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   New best match HairMaleNord18 with 2 matches
+|   |   |   |   |   |   Checking HairMaleNord19 with labels LONG,MESSY,MATURE
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Checking HairMaleNord20 with labels MOHAWK,LONG,BOLD,FUNKY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads001_ with labels DREADS,BOLD,FUNKY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads003_ with labels DREADS,NOBLE,BOLD,FUNKY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsFringe_ with labels DREADS,NOBLE,BOLD,FUNKY,YOUNG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsHeadband_ with labels DREADS,NOBLE,BOLD,FUNKY,FEATHERS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleFringeFlip001_ with labels YOUNG,SHORT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane001 with labels MANE,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane002 with labels MANE,LONG,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManebraids with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeFringeLeftBraid_ with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeHeadband with labels MANE,LONG,NOBLE,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid001_ with labels BRAIDS,NEAT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid002_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraidLeft_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk001_ with labels MOHAWK,BRAIDS,MILITARY,BOLD
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Matched MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk003_ with labels MOHAWK,FEATHERS,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawkFringe_ with labels MOHAWK,YOUNG,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair002_ with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair003_ with labels LONG,MESSY,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop001_ with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Matched MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop002_ with labels SHORT,NEAT,YOUNG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop003_ with labels SHORT,NEAT,NOBLE
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop004_ with labels SHORT,NEAT,NOBLE,FEATHERS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyle001_ with labels LONG,NOBLE,NEAT
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleFringe_ with labels LONG,NOBLE,NEAT,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleHeadband_ with labels LONG,NOBLE,NEAT,YOUNG,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaBraid001_ with labels LONG,NEAT,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaCrop001_ with labels SHORT,YOUNG,MILITARY
+|   |   |   |   |   |   Matched MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaHair001_ with labels MESSY,LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairBeastSidehawk with labels MOHAWK,FUNKY,BOLD
+|   |   |   |   |   |   Checking HairMaleNord01 with labels MESSY,LONG
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord02 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   New best match HairMaleNord02 with 3 matches
+|   |   |   |   |   |   Checking HairMaleNord03 with labels NOBLE,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord04 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched BRAIDS
+|   |   |   |   |   \FindBestHeadpartMatch -> 00HairLykaiosMaleLionManeHeadband "Male Hair" [HDPT:040D6949] w/ 3 matches
+|   |   |   |   \FindSimilarHeadpart -> 00HairLykaiosMaleLionManeHeadband "Male Hair" [HDPT:040D6949]
+|   |   |   \FindEquivalentHP -> 00HairLykaiosMaleLionManeHeadband "Male Hair" [HDPT:040D6949]
+|   |   |   Assigning new headpart 00HairLykaiosMaleLionManeHeadband at  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [16] Head Parts \ [0] PNAM - Head Part
+|   |   |   AssignElementRef: 040D6949
+|   |   |   /FindEquivalentHP(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   /FindSimilarHeadpart(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], BrowsMaleHumanoid08 "BrowsMaleHumanoid08" [HDPT:000C716E])
+|   |   |   |   /FindSimilarHeadpart(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], BrowsMaleHumanoid08 "BrowsMaleHumanoid08" [HDPT:000C716E])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   \FurrifyAllHeadparts
+|   |   /LoadNPCSkinTones(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], NordRace, MALEADULT)
+|   |   \LoadNPCSkinTones
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Skin Tone)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 10) -> 14809/9
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [0] Tint Assets \ [1] Presets \ [9] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [26] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 75, 1245, 1.000000
+|   |   |   |   Tint layers: 1
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Cheek Color Lower)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 9) -> 14809/4
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [3] Tint Assets \ [1] Presets \ [4] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 79, 1277, 0.700000
+|   |   |   |   Tint layers: 2
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Laugh Lines)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 3) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [4] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 80, 1282, 0.900000
+|   |   |   |   Tint layers: 3
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Lip Color)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 4) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [5] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 81, 1286, 0.900000
+|   |   |   |   Tint layers: 4
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Forehead)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 3) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [6] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 106, 1768, 0.900000
+|   |   |   |   Tint layers: 5
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Cheek Color)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 7) -> 14809/4
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [7] Tint Assets \ [1] Presets \ [4] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 78, 3140, 0.900000
+|   |   |   |   Tint layers: 6
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Neck)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 4) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [11] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 83, 1300, 0.900000
+|   |   |   |   Tint layers: 7
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Chin)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 4) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [12] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 82, 1293, 0.900000
+|   |   |   |   Tint layers: 8
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], EyeSocket Lower)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 8) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [13] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 84, 1307, 0.880000
+|   |   |   |   Tint layers: 9
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], EyeSocket Upper)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 8) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [14] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 85, 1315, 0.700000
+|   |   |   |   Tint layers: 10
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Eyeliner)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 8) -> 14809/1
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [15] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 86, 1323, 0.700000
+|   |   |   |   Tint layers: 11
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], Nose)
+|   |   |   Hash(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264], 1455, 5) -> 14809/4
+|   |   |   /SetNPCTintLayer(BolgeirBearclaw "Bolgeir Bearclaw" [NPC_:00013264],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [17] Tint Assets \ [1] Presets \ [4] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [0] BolgeirBearclaw [NPC_:00013264] \ [27] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 87, 1334, 0.800000
+|   |   |   |   Tint layers: 12
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   \FurrifyNPC
+OK: List element 00LykaiosMaleEyesBlue "MaleEyesLykaios" [HDPT:04005943] at [0] assigned
+OK: List element target 00LykaiosMaleEyesBlue "MaleEyesLykaios" [HDPT:04005943] at [0] assigned
+OK: List element 00HairLykaiosMaleLionManeHeadband "Male Hair" [HDPT:040D6949] at [1] assigned
+OK: List element target 00HairLykaiosMaleLionManeHeadband "Male Hair" [HDPT:040D6949] at [1] assigned
+OK: Found target element 00LykaiosMaleEyesBlue in NPC_ \ Head Parts
+|   /FurrifyNPC(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79])
+|   |   /LoadNPC(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79])
+|   |   |   Sex is 0
+|   |   |   Age is 0
+|   |   \LoadNPC -> NordRace "Nord" [RACE:00013746] MALEADULT
+|   |   /FurrifyAllHeadparts(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79])
+|   |   |   /FindEquivalentHP(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], MaleEyesHumanGrey "MaleEyesHumanGrey" [HDPT:0002425C])
+|   |   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 2134, 1) -> 2888/0
+|   |   |   \FindEquivalentHP -> 00LykaiosMaleEyesBase "MaleEyesLykaios" [HDPT:04005942]
+|   |   |   Creating Head Parts list
+|   |   |   Assigning new headpart 00LykaiosMaleEyesBase at  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [19] Head Parts \ [0] PNAM - Head Part
+|   |   |   AssignElementRef: 04005942
+|   |   |   /FindEquivalentHP(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], HairMaleNord05 "HairMaleNord5" [HDPT:00051416])
+|   |   |   |   /FindSimilarHeadpart(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], HairMaleNord05 "HairMaleNord5" [HDPT:00051416])
+|   |   |   |   |   /FindBestHeadpartMatch(HairMaleNord05 "HairMaleNord5" [HDPT:00051416])
+|   |   |   |   |   |   NPC labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1234, 49) -> 6988/30
+|   |   |   |   |   |   Checking HairMaleNord02 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   New best match HairMaleNord02 with 1 matches
+|   |   |   |   |   |   Checking HairMaleNord03 with labels NOBLE,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord04 with labels MESSY,LONG,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord05 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   New best match HairMaleNord05 with 3 matches
+|   |   |   |   |   |   Checking HairMaleNord06 with labels BOLD,BRAIDS
+|   |   |   |   |   |   Checking HairMaleNord07 with labels SHORT,NEAT
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking HairMaleNord08 with labels FUNKY,BRAIDS,SHORT
+|   |   |   |   |   |   Checking HairMaleNord09 with labels NEAT,SHORT,MILITARY
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking HairMaleNord10 with labels NEAT,SHORT,BRAIDS
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking HairMaleNord11 with labels NEAT,SHORT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking HairMaleNord12 with labels NEAT,LONG,TIEDBACK
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking HairMaleNord13 with labels LONG,BOLD,YOUNG,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking HairMaleNord14 with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking HairMaleNord15 with labels SHORT,MESSY
+|   |   |   |   |   |   Checking HairMaleNord16 with labels MOHAWK,BRAIDS,BOLD,FUNKY
+|   |   |   |   |   |   Checking HairMaleNord17 with labels MOHAWK,BOLD,BRAIDS,FUNKY
+|   |   |   |   |   |   Checking HairMaleNord18 with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord19 with labels LONG,MESSY,MATURE
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairMaleNord20 with labels MOHAWK,LONG,BOLD,FUNKY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads001_ with labels DREADS,BOLD,FUNKY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreads003_ with labels DREADS,NOBLE,BOLD,FUNKY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsFringe_ with labels DREADS,NOBLE,BOLD,FUNKY,YOUNG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleDreadsHeadband_ with labels DREADS,NOBLE,BOLD,FUNKY,FEATHERS
+|   |   |   |   |   |   Checking 00HairLykaiosMaleFringeFlip001_ with labels YOUNG,SHORT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane001 with labels MANE,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionMane002 with labels MANE,LONG,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManebraids with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeFringeLeftBraid_ with labels MANE,LONG,NOBLE,BRAIDS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLionManeHeadband with labels MANE,LONG,NOBLE,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid001_ with labels BRAIDS,NEAT,TIEDBACK,BRAIDS
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraid002_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking 00HairLykaiosMaleLongBraidLeft_ with labels NEAT,TIEDBACK,BRAIDS,NOBLE
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk001_ with labels MOHAWK,BRAIDS,MILITARY,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawk003_ with labels MOHAWK,FEATHERS,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleMohawkFringe_ with labels MOHAWK,YOUNG,BOLD
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair002_ with labels LONG,MESSY
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShaggyHair003_ with labels LONG,MESSY,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop001_ with labels SHORT,NEAT,MILITARY
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop002_ with labels SHORT,NEAT,YOUNG
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop003_ with labels SHORT,NEAT,NOBLE
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleShorCrop004_ with labels SHORT,NEAT,NOBLE,FEATHERS
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyle001_ with labels LONG,NOBLE,NEAT
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleFringe_ with labels LONG,NOBLE,NEAT,YOUNG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleTiedStyleHeadband_ with labels LONG,NOBLE,NEAT,YOUNG,FEATHERS
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaBraid001_ with labels LONG,NEAT,TIEDBACK
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Matched NEAT
+|   |   |   |   |   |   Matched TIEDBACK
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaCrop001_ with labels SHORT,YOUNG,MILITARY
+|   |   |   |   |   |   Checking 00HairLykaiosMaleVanillaHair001_ with labels MESSY,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   |   Checking HairBeastSidehawk with labels MOHAWK,FUNKY,BOLD
+|   |   |   |   |   |   Checking HairMaleNord01 with labels MESSY,LONG
+|   |   |   |   |   |   Matched LONG
+|   |   |   |   |   \FindBestHeadpartMatch -> 00HairLykaiosMaleLionManebraids "Male Hair" [HDPT:040D6947] w/ 3 matches
+|   |   |   |   \FindSimilarHeadpart -> 00HairLykaiosMaleLionManebraids "Male Hair" [HDPT:040D6947]
+|   |   |   \FindEquivalentHP -> 00HairLykaiosMaleLionManebraids "Male Hair" [HDPT:040D6947]
+|   |   |   Assigning new headpart 00HairLykaiosMaleLionManebraids at  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [19] Head Parts \ [0] PNAM - Head Part
+|   |   |   AssignElementRef: 040D6947
+|   |   |   /FindEquivalentHP(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   /FindSimilarHeadpart(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], MarksMaleHumanoid00NoScar "MarksMaleHumanoid00NoScar" [HDPT:0008555F])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], BrowsMaleHumanoid04 "BrowsMaleHumanoid04" [HDPT:000C710A])
+|   |   |   |   /FindSimilarHeadpart(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], BrowsMaleHumanoid04 "BrowsMaleHumanoid04" [HDPT:000C710A])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   |   /FindEquivalentHP(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], HumanBeard41 "HumanBeard41" [HDPT:000CDB77])
+|   |   |   |   /FindSimilarHeadpart(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], HumanBeard41 "HumanBeard41" [HDPT:000CDB77])
+|   |   |   |   \FindSimilarHeadpart -> 
+|   |   |   \FindEquivalentHP -> 
+|   |   \FurrifyAllHeadparts
+|   |   /LoadNPCSkinTones(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], NordRace, MALEADULT)
+|   |   \LoadNPCSkinTones
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Skin Tone)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 10) -> 14479/9
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [0] Tint Assets \ [1] Presets \ [9] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [29] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 75, 1245, 1.000000
+|   |   |   |   Tint layers: 1
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Cheek Color Lower)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 9) -> 14479/7
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [3] Tint Assets \ [1] Presets \ [7] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 79, 1280, 0.700000
+|   |   |   |   Tint layers: 2
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Laugh Lines)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 3) -> 14479/1
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [4] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 80, 1282, 0.900000
+|   |   |   |   Tint layers: 3
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Lip Color)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 4) -> 14479/3
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [5] Tint Assets \ [1] Presets \ [3] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 81, 3132, 0.830000
+|   |   |   |   Tint layers: 4
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Forehead)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 3) -> 14479/1
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [6] Tint Assets \ [1] Presets \ [1] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 106, 1768, 0.900000
+|   |   |   |   Tint layers: 5
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Cheek Color)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 7) -> 14479/3
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [7] Tint Assets \ [1] Presets \ [3] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 78, 3139, 0.880000
+|   |   |   |   Tint layers: 6
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Neck)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 4) -> 14479/3
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [11] Tint Assets \ [1] Presets \ [3] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 83, 3133, 0.870000
+|   |   |   |   Tint layers: 7
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Chin)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 4) -> 14479/3
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [12] Tint Assets \ [1] Presets \ [3] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 82, 3135, 0.880000
+|   |   |   |   Tint layers: 8
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], EyeSocket Lower)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 8) -> 14479/7
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [13] Tint Assets \ [1] Presets \ [7] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 84, 1313, 0.700000
+|   |   |   |   Tint layers: 9
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], EyeSocket Upper)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 8) -> 14479/7
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [14] Tint Assets \ [1] Presets \ [7] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 85, 1321, 0.900000
+|   |   |   |   Tint layers: 10
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Eyeliner)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 8) -> 14479/7
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [15] Tint Assets \ [1] Presets \ [7] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 86, 1329, 0.900000
+|   |   |   |   Tint layers: 11
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   |   /ChooseFurryTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], Nose)
+|   |   |   Hash(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79], 1455, 5) -> 14479/4
+|   |   |   /SetNPCTintLayer(AcolyteJenssen "Acolyte Jenssen" [NPC_:000D3E79],  \ [06] TEST.esp \ [1] Race \ [0] NordRace [RACE:00013746] \ [39] Head Data \ [1] Male Head Data \ [7] Tint Masks \ [17] Tint Assets \ [1] Presets \ [4] Preset)
+|   |   |   |   Created skin tone layer  \ [06] TEST.esp \ [2] Non-Player Character (Actor) \ [2] AcolyteJenssen [NPC_:000D3E79] \ [30] Tint Layers \ [0] Layer
+|   |   |   |   Assigned TINI, TIAS, TINV 87, 1334, 0.800000
+|   |   |   |   Tint layers: 12
+|   |   |   \SetNPCTintLayer
+|   |   \ChooseFurryTintLayer
+|   \FurrifyNPC
+OK: List element 00LykaiosMaleEyesBase "MaleEyesLykaios" [HDPT:04005942] at [0] assigned
+OK: List element target 00LykaiosMaleEyesBase "MaleEyesLykaios" [HDPT:04005942] at [0] assigned
+OK: List element 00HairLykaiosMaleLionManebraids "Male Hair" [HDPT:040D6947] at [1] assigned
+OK: List element target 00HairLykaiosMaleLionManebraids "Male Hair" [HDPT:040D6947] at [1] assigned
+XXXXXX Error: Found target element 00LykaiosMaleEyesBlue in NPC_ \ Head Parts
+[00:00] Exception in unit BDTestTools line 21: [Exception] Assert fail
+[00:00] Aborted: Applying script "FurrySkyrimTEST"

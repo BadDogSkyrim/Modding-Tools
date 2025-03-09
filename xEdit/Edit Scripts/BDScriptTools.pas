@@ -139,6 +139,7 @@ begin
     AddRecursiveMaster(GetFile(theElement), GetFile(theRef));
     id := GetLoadOrderFormID(theRef);
     s := IntToHex(id shr 24, 2) + IntToHex((id and $ffffff),6);
+    LogD('AssignElementRef: ' + s);
     SetEditValue(theElement, s);
 end;
 
@@ -421,12 +422,18 @@ begin
 end;
 
 
-//=======================================================================
-// Make an override of the given record.
+{=======================================================================
+Make an override of the given record. If the record is in the target file or above, do
+nothing.
+}
 function MakeOverride(theElement: IwbMainRecord; targetFile: IwbFile): IwbMainRecord;
 begin
-    AddRecursiveMaster(targetFile, GetFile(theElement));
-    result := wbCopyElementToFile(theElement, targetFile, False, True);
+    if GetLoadOrder(GetFile(theElement)) >= GetLoadOrder(targetFile) then
+        result := theElement
+    else begin
+        AddRecursiveMaster(targetFile, GetFile(theElement));
+        result := wbCopyElementToFile(theElement, targetFile, False, True);
+    end;
 end;
 
 

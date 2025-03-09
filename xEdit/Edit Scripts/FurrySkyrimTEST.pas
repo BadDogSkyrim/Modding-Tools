@@ -40,8 +40,16 @@ begin
     e := FurrifyNPC(old);
     Assert(GetFileName(GetFile(e)) = TEST_FILE_NAME, 'Override created');
     AssertNotInList(ElementByPath(e, 'Head Parts'), 'HumanBeard35');
-    AssertInList(ElementByPath(e, 'Head Parts'), 'HairKhajiitMale05');
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least one tint layer');
+    
+    old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
+    e := FurrifyNPC(old);
+    AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBlue');
+
+    old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
+    e := FurrifyNPC(old);
+    AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBase');
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen(testErrorCount > 0, 
@@ -235,6 +243,7 @@ begin
         targetFile := FileByIndex(targetFileIndex);
 
     FurrifyAllRaces;
+    FurrifyHeadpartLists;
     ShowHeadparts;
     ShowRaceTints;
 
