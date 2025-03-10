@@ -153,6 +153,7 @@ begin
             // This headpart works for the current NPC's race
             (nextHPraces.IndexOf(EditorID(curNPCrace)) >= 0) 
         then begin
+            if LOGGING then LogD(Format('Race %s in headpart %s', [EditorID(curNPCrace), PathName(nextHP)]));
             if LOGGING then LogD(Format('Checking %s with labels %s', 
                 [headpartLabels.strings[i], headpartlabels.objects[i].CommaText]));
             matchCount := 0;

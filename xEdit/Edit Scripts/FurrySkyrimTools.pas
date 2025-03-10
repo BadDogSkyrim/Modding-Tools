@@ -68,9 +68,11 @@ begin
 
     headpartRecords := TStringList.Create;
     headpartRecords.Duplicates := dupIgnore;
+    headpartRecords.Sorted := true;
 
     headpartRaces := TStringList.Create;
     headpartRaces.Duplicates := dupIgnore;
+    headpartRaces.Sorted := true;
 
     NPCaliases := TStringList.Create;
     NPCaliases.Duplicates := dupIgnore;
@@ -295,6 +297,7 @@ var
     i: integer;
     race: IwbMainRecord;
     racename: string;
+    thisHP: IwbMainRecord;
     vanillaRaceIdx, furryRaceIdx: integer;
 begin
     if LOGGING then LogEntry(5, 'FurrifyHeadpartLists');
@@ -356,6 +359,18 @@ begin
                 hpFormlistOvr := Add(hpOverride, 'FormIDs', true);
                 for i := 0 to hpNewList.Count-1 do begin
                     ElementAssign(hpFormlistOvr, i, ObjectToElement(hpNewList.objects[i]), false);
+                end;
+            end;
+
+            // Also update the cached headpart races for any headpart referencing this formlist.
+            for i := 0 to headpartRecords.count-1 do begin
+                thisHP := ObjectToElement(headpartRecords.objects[i]);
+                if EditorID(LinksTo(ElementByPath(thisHP, 'RNAM'))) = EditorID(hpOverride) 
+                then begin
+                    if LOGGING then LogT(Format('Updating cached headpart races for %s = %s', 
+                        [Name(thisHP), hpNewList.CommaText]));
+                    headpartRaces.objects[headpartRaces.IndexOf(EditorID(thisHP))].commaText
+                        := hpNewList.CommaText;
                 end;
             end;
         end;
