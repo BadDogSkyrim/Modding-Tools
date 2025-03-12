@@ -51,6 +51,10 @@ begin
     e := FurrifyNPC(old);
     AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBase');
 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
+    e := FurrifyNPC(old);
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'LykaiosHair');
+
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen(testErrorCount > 0, 
             'WITH ' + IntToStr(testErrorCount) + ' ERRORS',

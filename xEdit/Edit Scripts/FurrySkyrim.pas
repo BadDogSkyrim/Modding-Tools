@@ -86,7 +86,8 @@ begin
 end;
 
 {==================================================================
-Add any labels that describe the current NPC.
+Add any labels that describe the current NPC--but don't add labels that conflict with
+labels already there.
 }
 procedure LoadNPCLabels(npc: IwbMainRecord);
 var
@@ -94,26 +95,85 @@ var
     outfit: string;
 begin
     voice := GetElementEditValues(npc, 'VTCK');
-    if ContainsStr(voice, 'Young') then curNPClabels.Add('YOUNG');
-    if ContainsStr(voice, 'Old') then curNPClabels.Add('OLD');
-    if ContainsStr(voice, 'Commander') then curNPClabels.Add('MILITARY');
-    if ContainsStr(voice, 'Soldier') then curNPClabels.Add('MILITARY');
-    if ContainsStr(voice, 'Guard') then curNPClabels.Add('MILITARY');
-    if ContainsStr(voice, 'Emperor') then curNPClabels.Add('NOBLE');
-    if ContainsStr(voice, 'Forsworn') then curNPClabels.Add('FEATHERS');
-    voice := GetElementEditValues(npc, 'DOFT');
-    if ContainsStr(outfit, 'Jarl') then curNPClabels.Add('NOBLE');
-    if ContainsStr(outfit, 'FineClothes') then curNPClabels.Add('NOBLE');
-    if ContainsStr(outfit, 'Farmer') then curNPClabels.Add('MESSY');
-    if ContainsStr(outfit, 'Tavern') then curNPClabels.Add('NEAT');
-    if ContainsStr(outfit, 'College') then curNPClabels.Add('NEAT');
-    if ContainsStr(outfit, 'PenitusOculatus') then curNPClabels.Add('MILITARY');
-    if ContainsStr(outfit, 'Guard') then curNPClabels.Add('MILITARY');
-    if ContainsStr(outfit, 'Warlock') then curNPClabels.Add('BOLD');
-    if ContainsStr(outfit, 'Forsworn') then curNPClabels.Add('FEATHERS');
-    if ContainsStr(outfit, 'Forsworn') then curNPClabels.Add('MESSY');
-    if ContainsStr(outfit, 'Bandit') then curNPClabels.Add('BOLD');
-    if ContainsStr(outfit, 'Bandit') then curNPClabels.Add('MESSY');
+    outfit := GetElementEditValues(npc, 'DOFT');
+
+    if (ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
+            or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')) 
+        and (curNPClabels.IndexOf('MESSY') < 0) and (curNPClabels.IndexOf('FUNKY') < 0)
+    then curNPClabels.Add('NOBLE');
+
+    if ContainsStr(voice, 'Young') and (curNPClabels.IndexOf('OLD') < 0) 
+    then curNPClabels.Add('YOUNG');
+
+    if ContainsStr(voice, 'Old') and (curNPClabels.IndexOf('YOUNG') < 0) 
+    then curNPClabels.Add('OLD');
+
+    if ContainsStr(voice, 'Forsworn') and (curNPClabels.IndexOf('MILITARY') < 0) 
+    then curNPClabels.Add('FEATHERS');
+
+    if (ContainsStr(voice, 'Commander') or ContainsStr(voice, 'Soldier') or ContainsStr(voice, 'Guard')
+            or ContainsStr(outfit, 'PenitusOculatus'))
+        and (curNPClabels.IndexOf('FEATHERS') < 0) and (curNPClabels.IndexOf('MESSY') < 0) 
+        and (curNPClabels.IndexOf('ELABORATE') < 0) and (curNPClabels.IndexOf('FUNKY') < 0)  
+    then curNPClabels.Add('MILITARY');
+
+    if (ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') or ContainsStr(outfit, 'Bandit')) 
+        and (curNPClabels.IndexOf('NEAT') < 0) and (curNPClabels.IndexOf('MILITARY') < 0) 
+        and (curNPClabels.IndexOf('NOBLE') < 0) 
+    then curNPClabels.Add('MESSY');
+
+    if (ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College')) 
+        and (curNPClabels.IndexOf('MESSY') < 0) 
+    then curNPClabels.Add('NEAT');
+
+    if (ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit')) 
+    then curNPClabels.Add('BOLD');
+end;
+
+
+{==================================================================
+Determine whether the headpart sex works for the current NPC.
+}
+function NPCSexMatchesHeadpart(hp: iwbMainRecord): boolean;
+begin
+    result := (
+        (GetElementEditValues(hp, 'DATA - Flags\Male') and StartsText('MALE', curNPCsex))
+        or (GetElementEditValues(hp, 'DATA - Flags\Female') and StartsText('FEMALE', curNPCsex))
+    );
+end;
+
+
+{==================================================================
+Determine whether the headpart given by index has any labels that conflict with the current NPC.
+}
+function HeadpartHasExcludedLabels(hpIdx: integer): boolean;
+var
+    haveNeat: boolean;
+    haveMilitary: boolean;
+    haveNoble: boolean;
+    haveMessy: boolean;
+    haveFunky: boolean;
+    haveMane: boolean;
+    haveFeathers: boolean;
+    haveElaborate: boolean;
+begin
+    haveNeat := (curNPClabels.IndexOf('NEAT') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('NEAT') >= 0);
+    haveMilitary := (curNPClabels.IndexOf('MILITARY') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('MILITARY') >= 0);
+    haveNoble := (curNPClabels.IndexOf('NOBLE') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('NOBLE') >= 0);
+    haveMessy := (curNPClabels.IndexOf('MESSY') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('MESSY') >= 0);
+    haveFunky := (curNPClabels.IndexOf('FUNKY') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('FUNKY') >= 0);
+    haveMane := (curNPClabels.IndexOf('MANE') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('MANE') >= 0);
+    haveFeathers := (curNPClabels.IndexOf('FEATHERS') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('FEATHERS') >= 0);
+    haveFeathers := (curNPClabels.IndexOf('ELABORATE') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('ELABORATE') >= 0);
+
+    result := (haveNeat and haveMessy) 
+        or (haveMilitary and haveMessy)
+        or (haveMilitary and haveFunky)
+        or (haveMilitary and haveElaborate)
+        or (haveMilitary and haveFeathers)
+        or (haveNoble and haveMessy)
+        or (haveNoble and haveFunky)
+        or (haveMane and haveMessy);
 end;
 
 
@@ -123,35 +183,42 @@ Headpart returned will be of same type as oldHeadpart and will work for the NPC'
 }
 function FindBestHeadpartMatch(const oldHeadpart: IwbMainRecord): IwbMainRecord;
 var
-    start: integer;
-    matchCount: integer;
-    hpIdx: integer;
-    bestMatchName: string;
     bestMatchCount: integer;
+    bestMatches: TStringList;
+    hpIdx: integer;
+    hpType: string;
     i, j: integer;
+    matchCount: integer;
+    nextHP: IwbMainRecord;
     nextHPname: string;
     nextHPraces: TStringList;
-    nextHP: IwbMainRecord;
-    hpType: string;
+    raceIdx: integer;
 begin
-    if LOGGING then LogEntry1(5, 'FindBestHeadpartMatch', Name(oldHeadpart));
+    if LOGGING then LogEntry1(10, 'FindBestHeadpartMatch', Name(oldHeadpart));
     if LOGGING then LogD('NPC labels ' + curNPClabels.CommaText);
 
     result := Nil;
-    bestMatchCount := 0;
-    bestMatchName := '';
-    start := Hash(curNPCalias, 1234, headpartLabels.Count);
-    i := start;
+    bestMatchCount := -1;
+    bestMatches := TStringList.Create;
     hpType := GetElementEditValues(oldHeadpart, 'PNAM');
-    repeat
+    for i := 0 to headpartLabels.Count-1 do begin
         nextHPname := headpartLabels.strings[i];
-        nextHPraces := headpartRaces.objects[headpartRaces.IndexOf(nextHPname)];
+        raceIdx := headpartRaces.IndexOf(nextHPname);
+        if raceIdx < 0 then begin
+            if LOGGING then LogD(Format('Headpart not found in headpartRaces: %s', [nextHPname]));
+            continue;
+        end;
+        nextHPraces := headpartRaces.objects[raceIdx];
         nextHP := ObjectToElement(headpartRecords.objects[headpartRecords.IndexOf(nextHPname)]);
 
         if //This is the same type of headpart
             (GetElementEditValues(nextHP, 'PNAM') = hpType) and
             // This headpart works for the current NPC's race
-            (nextHPraces.IndexOf(EditorID(curNPCrace)) >= 0) 
+            (nextHPraces.IndexOf(EditorID(curNPCrace)) >= 0) and
+            // This headpart works for the current NPC's sex
+            NPCSexMatchesHeadpart(nextHP) and
+            // This headpart has no labels that conflict with the current NPC
+            (not HeadpartHasExcludedLabels(i))
         then begin
             if LOGGING then LogD(Format('Race %s in headpart %s', [EditorID(curNPCrace), PathName(nextHP)]));
             if LOGGING then LogD(Format('Checking %s with labels %s', 
@@ -164,22 +231,28 @@ begin
                 end;
             end;
 
-            if matchCount > bestMatchCount then begin
+            if matchCount = bestMatchCount then begin
+                bestMatches.AddObject(nextHPname, nextHP);
+                if LOGGING then LogD(Format('New equal match %s with %d matches', 
+                    [nextHPname, bestMatchCount]));
+            end
+            else if matchCount > bestMatchCount then begin
+                bestMatches.Clear;
+                bestMatches.AddObject(nextHPname, nextHP);
                 bestMatchCount := matchCount;
-                bestMatchName := nextHPname;
                 if LOGGING then LogD(Format('New best match %s with %d matches', 
-                    [bestMatchName, bestMatchCount]));
+                    [nextHPname, bestMatchCount]));
             end;
         end;
-
-        i := i + 1;
-        if i = headpartLabels.Count then i := 0;
-    until i = start;
-
-    if bestMatchName <> '' then begin
-        hpIdx := headpartRecords.IndexOf(bestMatchName);
-        result := ObjectToElement(headpartRecords.objects[hpIdx]);
     end;
+
+    if bestMatches.count > 0 then begin
+        if LOGGING then LogD(Format('Choosing from best matches: %s', [bestMatches.commatext]));
+        hpIdx := Hash(curNPCalias, 1234, bestMatches.Count);
+        result := ObjectToElement(bestMatches.objects[hpIdx]);
+    end;
+
+    bestMatches.Free;
 
     if LOGGING then LogExitT1('FindBestHeadpartMatch', Format('%s w/ %d matches', [Name(result), bestMatchCount]));
 end;
@@ -199,6 +272,7 @@ begin
     if i >= 0 then begin
         curNPClabels := TStringList.Create;
         curNPClabels.Duplicates := dupIgnore;
+        curNPClabels.Sorted := True;
         for j := 0 to headpartlabels.objects[i].Count-1 do begin
             curNPClabels.Add(headpartlabels.objects[i].strings[j]);
         end;
@@ -363,7 +437,7 @@ begin
 
     result := Nil;
     if raceAssignments.IndexOf(EditorID(LinksTo(ElementByPath(npc, 'RNAM')))) >= 0 then begin
-        furryNPC := MakeOverride(npc, targetFile);
+        furryNPC := MakeOverride(WinningOverride(npc), targetFile);
         Remove(ElementByPath(furryNPC, 'FTST - Head texture'));
         Remove(ElementByPath(furryNPC, 'QNAM - Texture lighting'));
         Remove(ElementByPath(furryNPC, 'NAM9 - Face morph'));
@@ -423,9 +497,18 @@ end;
 //
 function Initialize: integer;
 begin
+    AddMessage(' ');
+    AddMessage(' ');
+    AddMessage('====================================');
+    AddMessage('======== SKYRIM FURRIFIER ==========');
+    AddMessage('====================================');
+    AddMessage(' ');
+    AddMessage('Version ' + FURRIFIER_VERSION);
+    AddMessage('xEdit Version ' + GetXEditVersion());
+
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 20;
+    LOGLEVEL := 10;
     if LOGGING then LogEntry(1, 'Initialize');
 
     PreferencesInit;
@@ -443,6 +526,9 @@ begin
         targetFile := FileByIndex(targetFileIndex);
 
     FurrifyAllRaces;
+    FurrifyHeadpartLists;
+    ShowHeadparts;
+    ShowRaceTints;
 
     processedNPCcount := 0;
     result := 0;

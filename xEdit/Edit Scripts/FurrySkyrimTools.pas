@@ -471,6 +471,31 @@ begin
 end;
 
 
+{=====================================================================
+Assign a comma-separated list of labels to a headpart. Labels are used to identify
+appropriate furry headparts for a NPC.
+}
+procedure LabelHeadpartList(headpartName, labelNames: string);
+var
+    hpi: integer;
+    hpRecord: IwbMainRecord;
+begin
+    if LOGGING then LogEntry2(1, 'LabelHeadpartList', headpartName, labelNames);
+    hpRecord := FindAsset(Nil, 'HDPT', headpartName);
+    if not Assigned(hpRecord) then Err(Format('Headpart %s not found', [headpartName]));
+    hpi := headpartLabels.IndexOf(headpartName);
+    if hpi < 0 then begin
+        headpartLabels.AddObject(headpartName, TStringList.Create);
+        hpi := headpartLabels.IndexOf(headpartName);
+        headpartLabels.objects[hpi].duplicates := dupIgnore;
+        headpartLabels.objects[hpi].sorted := true;
+    end;
+    headpartLabels.objects[hpi].commaText := labelNames;
+    CacheHeadpart(hpRecord);
+    if LOGGING then LogExitT('LabelHeadpartList');
+end;
+
+
 procedure ShowHeadparts;
 var i, j: integer;
 begin
