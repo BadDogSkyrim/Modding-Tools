@@ -85,6 +85,21 @@ begin
     end;
 end;
 
+
+{==================================================================
+Add the given label to the curNPClabels IF it does not conflict with any existing labels.
+}
+procedure AddNPCLabel(newLabel: string);
+var i: integer;
+begin
+    for i := 0 to curNPClabels.Count-1 do begin
+        if LabelsConflict(newLabel, curNPClabels[i]) then
+            exit;
+    end;
+    curNPClabels.Add(newLabel);
+end;
+
+
 {==================================================================
 Add any labels that describe the current NPC--but don't add labels that conflict with
 labels already there.
@@ -97,36 +112,30 @@ begin
     voice := GetElementEditValues(npc, 'VTCK');
     outfit := GetElementEditValues(npc, 'DOFT');
 
-    if (ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
-            or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')) 
-        and (curNPClabels.IndexOf('MESSY') < 0) and (curNPClabels.IndexOf('FUNKY') < 0)
-    then curNPClabels.Add('NOBLE');
+    if ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
+        or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')
+    then AddNPCLabel('NOBLE');
 
-    if ContainsStr(voice, 'Young') and (curNPClabels.IndexOf('OLD') < 0) 
+    if ContainsStr(voice, 'Young') 
     then curNPClabels.Add('YOUNG');
 
-    if ContainsStr(voice, 'Old') and (curNPClabels.IndexOf('YOUNG') < 0) 
+    if ContainsStr(voice, 'Old') 
     then curNPClabels.Add('OLD');
 
-    if ContainsStr(voice, 'Forsworn') and (curNPClabels.IndexOf('MILITARY') < 0) 
+    if ContainsStr(voice, 'Forsworn')
     then curNPClabels.Add('FEATHERS');
 
-    if (ContainsStr(voice, 'Commander') or ContainsStr(voice, 'Soldier') or ContainsStr(voice, 'Guard')
-            or ContainsStr(outfit, 'PenitusOculatus'))
-        and (curNPClabels.IndexOf('FEATHERS') < 0) and (curNPClabels.IndexOf('MESSY') < 0) 
-        and (curNPClabels.IndexOf('ELABORATE') < 0) and (curNPClabels.IndexOf('FUNKY') < 0)  
+    if ContainsStr(voice, 'Commander') or ContainsStr(voice, 'Soldier') or ContainsStr(voice, 'Guard')
+        or ContainsStr(outfit, 'PenitusOculatus')
     then curNPClabels.Add('MILITARY');
 
-    if (ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') or ContainsStr(outfit, 'Bandit')) 
-        and (curNPClabels.IndexOf('NEAT') < 0) and (curNPClabels.IndexOf('MILITARY') < 0) 
-        and (curNPClabels.IndexOf('NOBLE') < 0) 
+    if ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') or ContainsStr(outfit, 'Bandit')
     then curNPClabels.Add('MESSY');
 
-    if (ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College')) 
-        and (curNPClabels.IndexOf('MESSY') < 0) 
+    if ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College')
     then curNPClabels.Add('NEAT');
 
-    if (ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit')) 
+    if ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit') 
     then curNPClabels.Add('BOLD');
 end;
 
@@ -273,10 +282,10 @@ begin
         curNPClabels := TStringList.Create;
         curNPClabels.Duplicates := dupIgnore;
         curNPClabels.Sorted := True;
-        for j := 0 to headpartlabels.objects[i].Count-1 do begin
-            curNPClabels.Add(headpartlabels.objects[i].strings[j]);
-        end;
         LoadNPCLabels(npc);
+        for j := 0 to headpartlabels.objects[i].Count-1 do begin
+            AddNPCLabel(headpartlabels.objects[i].strings[j]);
+        end;
         result := FindBestHeadpartMatch(oldHeadpart);
         curNPClabels.Free;
     end;
@@ -394,15 +403,15 @@ end;
 {==================================================================
 Select a furry tint layer for the NPC from presets in curNPCTintLayerOptions.
 }
-Procedure ChooseFurryTintLayer(npc: IwbMainRecord; layerIndex: integer);
+Procedure ChooseFurryTintLayer(npc: IwbMainRecord; typeIndex:integer; layerIndex: integer);
 var 
     h: integer;
     presetList: IwbElement;
     skintonePreset: IwbElement;
 begin
-    if LOGGING then LogEntry2(5, 'ChooseFurryTintLayer', Name(npc), curNPCTintLayerOptions.strings[layerIndex]);
+    if LOGGING then LogEntry2(5, 'ChooseFurryTintLayer', Name(npc), curNPCTintLayerOptions.objects[typeIndex].strings[layerIndex]);
     
-    presetList := ObjectToElement(curNPCTintLayerOptions.objects[layerIndex]);
+    presetList := ObjectToElement(curNPCTintLayerOptions.objects[typeIndex].objects[layerIndex]);
     h := Hash(curNPCalias, 1455, ElementCount(presetList));
     skintonePreset := ElementByIndex(presetList, h);
     SetNPCTintLayer(npc, skintonePreset);
@@ -417,11 +426,21 @@ Set all the furry tint layers on the npc, choosing presets randomly.
 Procedure ChooseFurryTints(npc: IwbMainRecord);
 var
     i: integer;
+    idx: Cardinal;
+    h: integer;
 begin
     LoadNPCSkinTones(npc);
-    for i := 0 to curNPCTintLayerOptions.Count-1 do begin
-        if multivalueMasks.IndexOf(curNPCTintLayerOptions.strings[i]) < 0 then
-            ChooseFurryTintLayer(npc, i);
+    idx := curNPCtintLayerOptions.IndexOf('REQUIRED');
+    for i := 0 to curNPCTintLayerOptions.objects[idx].Count-1 do begin
+        ChooseFurryTintLayer(npc, idx, i);
+    end;
+
+    idx := curNPCTintLayerOptions.IndexOf('OPTIONAL');
+    for i := 1 to 3 do begin
+        h := Hash(curNPCalias, 0879+i, curNPCTintLayerOptions.objects[idx].Count*3);
+        if h < curNPCTintLayerOptions.objects[idx].Count then begin
+            ChooseFurryTintLayer(npc, idx, h);
+        end;
     end;
 end;
 

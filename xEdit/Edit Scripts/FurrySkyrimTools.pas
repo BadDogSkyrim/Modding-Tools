@@ -20,6 +20,9 @@ var
     // List of headpart names; values are a list of labels for that headpart.
     headpartLabels: TStringList;
 
+    // List of labels that conflict with each other. Format is 'label1/label2'.
+    labelConflicts: TStringList;
+
     // List of headpart names; values are the IWbMainRecord of the headpart.
     headpartRecords: TStringList;
 
@@ -29,11 +32,14 @@ var
     NPCaliases: TStringList;
     sexnames: TStringList;
     tintlayerpaths: TStringList;
-    multivalueMasks: TStringList;
 
     // Race tints, a stringlist of stringlists. Structure is:
-    // list of tint presets = raceTints.objects[racename].objects[sex].objects[tintname]
+    // list of tint presets = raceTints.objects[racename].objects[sex].objects[type].objects[tintname]
+    // where type is 'REQUIRED', 'OPTIONAL'.
+    // list of tint presets = raceTints.objects[racename].objects[sex].objects[type]
+    // where type is 'PAINT', 'DIRT', or 'SPECIAL'.
     raceTints: TStringList;
+    tintTypes: TStringList;
 
     targetFile: IwbFile;
     targetFileIndex: integer;
@@ -66,6 +72,10 @@ begin
     headpartLabels.Duplicates := dupIgnore;
     headpartLabels.Sorted := true;
 
+    labelConflicts := TStringList.Create;
+    labelConflicts.Duplicates := dupIgnore;
+    labelConflicts.Sorted := true;
+
     headpartRecords := TStringList.Create;
     headpartRecords.Duplicates := dupIgnore;
     headpartRecords.Sorted := true;
@@ -77,6 +87,13 @@ begin
     NPCaliases := TStringList.Create;
     NPCaliases.Duplicates := dupIgnore;
     NPCaliases.Sorted := true;
+
+    tintTypes := TStringList.Create;
+    tintTypes.add('REQUIRED');
+    tintTypes.add('OPTIONAL');
+    tintTypes.add('Paint');
+    tintTypes.add('Dirt');
+    tintTypes.add('SPECIAL');
 
     raceTints := TStringList.Create;
     raceTints.Duplicates := dupIgnore;
@@ -94,16 +111,11 @@ begin
     tintlayerpaths.Add('Head Data\Male Head Data\Tint Masks');
     tintlayerpaths.Add('Head Data\Female Head Data\Tint Masks');
 
-    multivalueMasks := TStringList.Create;
-    multivalueMasks.Add('Paint');
-    multivalueMasks.Add('Dirt');
-    multivalueMasks.Add('SPECIAL');
-
     if LOGGING then LogExitT('PreferencesInit');
 end;
 
 Procedure PreferencesFree;
-var i, j, k, m: Cardinal;
+var raceIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     raceAssignments.Free;
     furryRaces.Free;
@@ -115,6 +127,7 @@ begin
     for i := 0 to headpartLabels.Count-1 do
         headpartLabels.objects[i].Free;
     headpartLabels.Free;
+    labelConflicts.Free;
 
     headpartRecords.Free;
 
@@ -124,20 +137,18 @@ begin
 
     NPCaliases.Free;
 
-    for i := 0 to raceTints.count-1 do begin // iterate over races
-        for j := 0 to raceTints.objects[i].count-1 do begin // iterate over age/sex
-            for k := 0 to raceTints.objects[i].objects[j].count-1 do begin // iterate over tint layers
-                if MatchText(raceTints.Objects[i].objects[j].strings[k], multivalueMasks) then begin
-                    raceTints.Objects[i].objects[j].objects[k].Free;
-                end;
+    for raceIdx := 0 to raceTints.count-1 do begin // iterate over races
+        for sexIdx := 0 to raceTints.objects[raceIdx].count-1 do begin // iterate over age/sex
+            for typeIdx := 0 to raceTints.objects[raceIdx].objects[sexIdx].count-1 do begin // iterate over types
+                raceTints.objects[raceIdx].objects[sexIdx].objects[typeIdx].Free;
             end;
-            raceTints.Objects[i].objects[j].Free;
+            raceTints.Objects[raceIdx].objects[sexIdx].Free;
         end;
-        raceTints.Objects[i].Free;
+        raceTints.Objects[raceIdx].Free;
     end;
     raceTints.Free;
-    multivalueMasks.Free;
 
+    tintTypes.Free;
     sexnames.Free;
     tintlayerpaths.Free;
 end;
@@ -184,15 +195,20 @@ Preload skin tint info for a race.
 procedure LoadRaceTints(theRace: IwbMainRecord);
 var
     i, j: Cardinal;
+    layerIdx: Cardinal;
     layername: string;
     masklist: TStringList;
     p: Cardinal;
     presetlist: IwbElement;
     raceIdx: cardinal;
     racetintmasks: IwbElement;
+    sexIdx: Cardinal;
     sexList: TStringList;
     t: IwbElement;
-    tintlayerList: TStringList;
+    tintlayerTypeList: TStringList;
+    typeIdx: Cardinal;
+    typeList: TStringList;
+    typename: string;
 begin
     if LOGGING then LogEntry1(10, 'LoadRaceTints', Name(theRace));
 
@@ -204,31 +220,38 @@ begin
         sexList := TStringList.Create;
         sexList.Duplicates := dupIgnore;
         sexList.Sorted := false;
-        sexList.AddObject('MALEADULT', TStringList.Create);
-        sexList.AddObject('FEMALEADULT', TStringList.Create);
+        for sexIdx := 0 to sexnames.Count-1 do begin
+            typeList := TStringList.Create;
+            typeList.Duplicates := dupIgnore;
+            typeList.Sorted := false;
+            for typeIdx := 0 to tintTypes.Count-1 do begin
+                typeList.AddObject(tintTypes.strings[typeIdx], TStringList.Create);
+            end;
+            sexList.AddObject(sexnames.strings[sexIdx], typeList);
+        end;
         raceTints.AddObject(EditorID(theRace), sexList);
     end;
+
     for i := 0 to 1 do begin
-        tintlayerList := sexList.objects[i];
+        tintlayerTypeList := sexList.objects[i];
         racetintmasks := ElementByPath(theRace, tintlayerpaths.strings[i]);
         for j := 0 to ElementCount(racetintmasks)-1 do begin
             t := ElementByIndex(racetintmasks, j);
-            layername := GetElementEditValues(t, 'Tint Layer\Texture\TINP - Mask Type');
-            if layername = '' then layername := 'SPECIAL';
             presetlist := ElementByPath(t, 'Presets');
-            if multivalueMasks.IndexOf(layername) >= 0 then begin
-                // These mask types can have multiple layers definitions.
-                p := tintlayerList.IndexOf(layername);
-                if p >= 0 then 
-                    masklist := tintlayerList.objects[p]
-                else begin
-                    masklist := TStringList.Create;
-                    tintlayerList.AddObject(layername, masklist);
-                end;
-                masklist.AddObject('', presetlist);
-            end
-            else
-                tintlayerList.AddObject(layername, presetlist);
+            layername := GetElementEditValues(t, 'Tint Layer\Texture\TINP - Mask Type');
+
+            if layername = '' then typename := 'SPECIAL'
+            else if layername = 'Dirt' then typename  := 'Dirt'
+            else if layername = 'Paint' then typename := 'Paint'
+            else if layername = 'Skin Tone' then typename := 'REQUIRED'
+            else if GetElementNativeValues(presetlist, '[0]\TINV') = 0.0 then typename := 'OPTIONAL'
+            else typename := 'REQUIRED';
+
+            if LOGGING then LogD(Format('Preset 0 alpha for %s = %s',  
+                [PathName(ElementByIndex(presetlist, 0)), GetElementEditValues(ElementByIndex(presetlist, 0), 'TINV')]
+                ));
+            layerIdx := tintlayerTypeList.IndexOf(typename);
+            tintlayerTypeList.objects[layerIdx].addobject(layername, presetList);
         end;
     end;
     if LOGGING then LogExitT('LoadRaceTints');
@@ -236,22 +259,20 @@ end;
 
 procedure ShowRaceTints;
 var
-    r, s, t: Cardinal;
+    r, s, l, t: Cardinal;
 begin
     AddMessage(Format('==Race Tint Presets (%d)==', [raceTints.Count]));
     for r := 0 to raceTints.Count-1 do begin
         AddMessage(raceTints.strings[r]);
         for s := 0 to raceTints.objects[r].count-1 do begin
             AddMessage('|   ' + raceTints.objects[r].strings[s]);
-            for t := 0 to raceTints.objects[r].objects[s].count-1 do begin
-                if multivalueMasks.IndexOf(raceTints.objects[r].objects[s].strings[t]) >= 0 then
-                    AddMessage(Format('|   |   %s @ %d', [
-                        raceTints.objects[r].objects[s].strings[t],
-                        raceTints.objects[r].objects[s].objects[t].count]))
-                else
-                    AddMessage(Format('|   |   %s @ %s', [
-                        raceTints.objects[r].objects[s].strings[t],
-                        PathName(ObjectToElement(raceTints.objects[r].objects[s].objects[t]))]));
+            for l := 0 to raceTints.objects[r].objects[s].count-1 do begin
+                AddMessage('|   |   ' + raceTints.objects[r].objects[s].strings[l]);
+                for t := 0 to raceTints.objects[r].objects[s].objects[l].count-1 do begin
+                    AddMessage(Format('|   |   |   "%s" @ %s', [
+                        raceTints.objects[r].objects[s].objects[l].strings[t],
+                        PathName(ObjectToElement(raceTints.objects[r].objects[s].objects[l].objects[t]))]));
+                end;
             end;
         end;
     end;
@@ -448,6 +469,22 @@ end;
 
 
 {=====================================================================
+Define label conflicts
+}
+procedure LabelConflict(label1, label2: string);
+begin
+    labelConflicts.Add(label1 + '/' + label2);
+    labelConflicts.Add(label2 + '/' + label1);
+end;
+
+
+function LabelsConflict(const label1, label2: string): boolean;
+begin
+    result := (labelConflicts.IndexOf(label1 + '/' + label2) >= 0);
+end;
+
+
+{=====================================================================
 Assign a label to a headpart. Labels are used to identify appropriate furry headparts for
 a NPC.
 }
@@ -574,7 +611,7 @@ end;
 
 {============================================================================
 Find the available skin tones for the given NPC. The skin tone presets are returned in
-curNPCTintLayerOptions. Doesn't handle skin tones that can have multiple presets.
+curNPCTintLayer*. 
 }
 procedure LoadNPCSkinTones(npc: IwbMainRecord);
 var 

@@ -245,6 +245,7 @@ begin
     NPCEquivalent('WatchesTheRootsCorpse', 'WatchesTheRoots');
 
     LabelVanillaHeadparts;
+    InitLabelConflicts;
 end;
 
 procedure LabelVanillaHeadparts;
@@ -298,6 +299,22 @@ begin
     LabelHeadpartList('HairFemaleRedguard03', 'BUZZ,MILITARY,SHORT,BOLD');
     LabelHeadpartList('HairFemaleRedguard04', 'BUZZ,MILITARY,SHORT,BOLD');
     LabelHeadpartList('HairLineFemaleNord21', 'DREADS,FUNKY,BOLD,MOHAWK');
+end;
+
+
+{==================================================================
+Set up label conflicts
+}
+procedure InitLabelConflicts;
+begin
+    LabelConflict('FUNKY', 'NOBLE');
+    LabelConflict('MESSY', 'NEAT');
+    LabelConflict('MESSY', 'NOBLE');
+    LabelConflict('MILITARY', 'ELABORATE');
+    LabelConflict('MILITARY', 'FEATHERS');
+    LabelConflict('MILITARY', 'FUNKY');
+    LabelConflict('MILITARY', 'MESSY');
+    LabelConflict('YOUNG', 'OLD');
 end;
 
 end.
