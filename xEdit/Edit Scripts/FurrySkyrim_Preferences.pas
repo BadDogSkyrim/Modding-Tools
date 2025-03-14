@@ -9,7 +9,7 @@ uses FurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Win
 
 Procedure SetPreferences;
 begin
-    SetRace('NordRace', 'LykaiosRace');
+    SetRace('NordRace', 'LykaiosRace', 'DOG');
 
     LabelHeadpartList('00HairLykaiosMaleDreads001_', 'DREADS,BOLD,FUNKY');
     // LabelHeadpart('00HairLykaiosMaleDreads002_', 'DREADS'); // Dark version
@@ -246,6 +246,7 @@ begin
 
     LabelVanillaHeadparts;
     InitLabelConflicts;
+    khajiitRace := WinningOverride(FindAsset(FileByIndex(0), 'RACE', 'KhajiitRace'));
 end;
 
 procedure LabelVanillaHeadparts;

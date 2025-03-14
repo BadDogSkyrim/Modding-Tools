@@ -71,7 +71,7 @@ begin
         if (target <> '') and (EditorID(ref) = target) then found := true;
     end;
     if target <> '' then
-        Assert(found, Format('Found target element %s in %s', [target, Path(elist)]));
+        Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
 end;
 
 

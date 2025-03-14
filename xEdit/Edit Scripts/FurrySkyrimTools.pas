@@ -10,8 +10,14 @@ var
     // List of vanilla race names; values are the furry equivalent IwbMainRecord.
     raceAssignments: TStringList;
 
+    // List of vanilla races being furrified. Values are the IwbMainRecord of the race.
+    vanillaRaces: TStringList;
+
     // List of furry race names; values are the vanilla IWbMainRecord they furrify.
     furryRaces: TStringList;
+
+    // Name/value list of furry race classes. Values are the race's class. Only furry races with defind classes are in the list.
+    furryRaceClass: TStringList;
 
     // List of vanilla headpart names; values are a list of equivalent furry headpart
     // names.
@@ -44,6 +50,17 @@ var
     targetFile: IwbFile;
     targetFileIndex: integer;
 
+    // All furrifiable armors (furrifiable bodyparts)
+    furrifiableArmors: TStringList;
+
+    // All armor addons. Key: name, value: IwbMainRecord
+    allAddons: TStringList;
+
+    // Races associated with furrifiable addons. Key: addon name, value: TStringList of races.
+    addonRaces: TStringList;
+
+    khajiitRace: IwbMainRecord;
+
     // Information about the NPC being furrified. Global variables because we can't 
     // pass structures in procedure calls.
     curNPCrace: IwbMainRecord;
@@ -63,6 +80,14 @@ begin
     furryRaces := TStringList.Create;
     furryRaces.Duplicates := dupIgnore;
     furryRaces.Sorted := true;
+
+    furryRaceClass := TStringList.Create;
+    furryRaceClass.Duplicates := dupIgnore;
+    furryRaceClass.Sorted := true;
+
+    vanillaRaces := TStringList.Create;
+    vanillaRaces.Duplicates := dupIgnore;
+    vanillaRaces.Sorted := true;
 
     headpartEquivalents := TStringList.Create;
     headpartEquivalents.Duplicates := dupIgnore;
@@ -111,6 +136,18 @@ begin
     tintlayerpaths.Add('Head Data\Male Head Data\Tint Masks');
     tintlayerpaths.Add('Head Data\Female Head Data\Tint Masks');
 
+    furrifiableArmors := TStringList.Create;
+    furrifiableArmors.Duplicates := dupIgnore;
+    furrifiableArmors.Sorted := true;
+
+    addonRaces := TStringList.Create;
+    addonRaces.Duplicates := dupIgnore;
+    addonRaces.Sorted := true;
+
+    allAddons := TStringList.Create;
+    allAddons.Duplicates := dupIgnore;
+    allAddons.Sorted := true;
+
     if LOGGING then LogExitT('PreferencesInit');
 end;
 
@@ -119,6 +156,8 @@ var raceIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     raceAssignments.Free;
     furryRaces.Free;
+    furryRaceClass.Free;
+    vanillaRaces.free;
 
     for i := 0 to headpartEquivalents.Count-1 do
         headpartEquivalents.objects[i].Free;
@@ -151,13 +190,19 @@ begin
     tintTypes.Free;
     sexnames.Free;
     tintlayerpaths.Free;
+    furrifiableArmors.free;
+    allAddons.free;
+
+    for i := 0 to addonRaces.count-1 do 
+        addonRaces.objects[i].free;
+    addonRaces.free;
 end;
 
 
 {========================================================================
 Record a vanilla to furry race equivalent. 
 }
-Procedure SetRace(vanillaRaceName, furryRaceName: String);
+Procedure SetRace(vanillaRaceName, furryRaceName, frClass: String);
 var
     vanillaRace: IwbMainRecord;
     furryRace: IwbMainRecord;
@@ -172,6 +217,8 @@ begin
     else begin
         raceAssignments.AddObject(vanillaRaceName, WinningOverride(furryRace));
         furryRaces.AddObject(furryRaceName, WinningOverride(vanillaRace));
+        vanillaRaces.AddObject(vanillaRaceName, WinningOverride(vanillaRace));
+        if frClass <> '' then furryRaceClass.add(furryRaceName + '=' + frClass);
     end; 
     if LOGGING then LogExitT1('SetRace', EditorID(furryRace));
 end;

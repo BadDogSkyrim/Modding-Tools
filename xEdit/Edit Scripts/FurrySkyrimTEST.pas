@@ -13,7 +13,8 @@ const
 
 procedure DoTests;
 var 
-    e, old: IwbElement;
+    e, aa, old: IwbElement;
+    i: integer;
 begin
     AddMessage('============ CHECKING ===============');
 
@@ -53,7 +54,29 @@ begin
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
     e := FurrifyNPC(old);
-    AssertNameInList(ElementByPath(e, 'Head Parts'), 'LykaiosHair');
+    AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
+
+    AddMessage('// Armor is properly furrified');
+    i := furrifiableArmors.IndexOf('ArmorBladesHelmet');
+    old := ObjectToElement(furrifiableArmors.objects[i]);
+    FurrifyArmorRecord(i);
+    e := WinningOverride(old);
+    assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ArmorBladesHelmet override file');
+    AssertInList(ElementByName(e, 'Armature'), 'YA_BladesHelmetAA_DOG');
+    aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('YA_BladesHelmetAA_DOG')]);
+    AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
+
+    AddMessage('// Check case where the khajiit race matches and the armor covers body as well as head.');
+    i := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
+    old := ObjectToElement(furrifiableArmors.objects[i]);
+    FurrifyArmorRecord(i);
+    e := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
+    assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ClothesMGRobesArchmage1Hooded override file');
+    AssertInList(ElementByName(e, 'Armature'), 'ArchmageHood_KhaAA');
+    aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('ArchmageHood_KhaAA')]);
+    AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
+
+    // Check what if furry ARMA already on ARMO from a prior furrification
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen(testErrorCount > 0, 
@@ -213,11 +236,9 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 20;
-    if LOGGING then LogEntry(1, 'Initialize');
+    LOGLEVEL := 15;
     PreferencesInit;
     result := 0;
-    if LOGGING then LogExitT('Initialize');
 end;
 
 function Process(entity: IwbMainRecord): integer;
@@ -227,10 +248,7 @@ end;
 
 
 function Finalize: integer;
-var
-    targetFileIndex: integer;
 begin
-    if LOGGING then LogEntry(1, 'Finalize');
     LOGGING := false;
     TestSystemFunc;
     LOGGING := true;
@@ -238,24 +256,26 @@ begin
     ShowRaceAssignments;
 
     targetFileIndex := FindFile(TEST_FILE_NAME);
-    LogD(Format('Found target file at %d', [targetFileIndex]));
     if targetFileIndex < 0 then begin
         targetFile := AddNewFileName(TEST_FILE_NAME);
+        targetFileIndex := FileCount-1;
         LogT('Creating file ' + GetFileName(targetFile));
     end
     else 
         targetFile := FileByIndex(targetFileIndex);
+    LogD(Format('Found target file at %d', [targetFileIndex]));
 
     FurrifyAllRaces;
     FurrifyHeadpartLists;
     ShowHeadparts;
     ShowRaceTints;
+    CollectArmor;
+    CollectAddons;
 
     DoTests;
 
     PreferencesFree;
     result := 0;
-    if LOGGING then LogExitT('Finalize');
 end;
 
 end.
