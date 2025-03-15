@@ -64,10 +64,10 @@ begin
     for i := 0 to ElementCount(elist)-1 do begin
         npcref := ElementByIndex(elist, i);
         Assert(Assigned(npcref), Format('List element %s at [%d] assigned', 
-            [GetEditValue(npcref), i]));
+            [FullPath(elist), i]));
         ref := LinksTo(npcref);
         Assert(Assigned(ref), Format('List element target %s at [%d] assigned', 
-            [Name(ref), i]));
+            [FullPath(elist), i]));
         if (target <> '') and (EditorID(ref) = target) then found := true;
     end;
     if target <> '' then

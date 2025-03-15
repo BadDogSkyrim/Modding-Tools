@@ -1,4 +1,8 @@
+{
 
+	Hotkey: Ctrl+Alt+T
+
+}
 unit FurrySkyrimTEST;
 
 interface
@@ -11,12 +15,12 @@ const
     TEST_FILE_NAME = 'TEST.esp';
 
 
-procedure DoTests;
+procedure TestNPCs;
 var 
     e, aa, old: IwbElement;
     i: integer;
 begin
-    AddMessage('============ CHECKING ===============');
+    AddMessage('============ CHECKING NPCS ===============');
 
     //Aliases work
     AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
@@ -56,6 +60,16 @@ begin
     e := FurrifyNPC(old);
     AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
 
+end;
+
+
+procedure TestArmor;
+var 
+    e, aa, old: IwbElement;
+    i: integer;
+begin
+    AddMessage('============ CHECKING ARMOR ===============');
+
     AddMessage('// Armor is properly furrified');
     i := furrifiableArmors.IndexOf('ArmorBladesHelmet');
     old := ObjectToElement(furrifiableArmors.objects[i]);
@@ -70,18 +84,14 @@ begin
     i := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
     old := ObjectToElement(furrifiableArmors.objects[i]);
     FurrifyArmorRecord(i);
-    e := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
-    assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ClothesMGRobesArchmage1Hooded override file');
+    e := FindAsset(nil, 'ARMO', 'ClothesMGRobesArchmage1Hooded');
+    assert(targetFileIndex > GetLoadOrder(GetFile(e)), 'ClothesMGRobesArchmage1Hooded not overridden');
     AssertInList(ElementByName(e, 'Armature'), 'ArchmageHood_KhaAA');
     aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('ArchmageHood_KhaAA')]);
     AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
 
     // Check what if furry ARMA already on ARMO from a prior furrification
 
-    AddMessage(Format('============ TESTS COMPLETED %s ===============',
-        [IfThen(testErrorCount > 0, 
-            'WITH ' + IntToStr(testErrorCount) + ' ERRORS',
-            'SUCCESSFULLY')]));
 end;
 
 
@@ -106,7 +116,7 @@ var
     xf: TTransform;
     fo4: IwbFile;
     ffo: IwbFile;
-    armo, hr: IwbMainRecord;
+    arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
 begin
     // can pass variables by var BUT NOT record by var.
@@ -218,7 +228,11 @@ begin
     AddMessage('Hash(EncBandit03) = ' + IntToStr(Hash('EncBandit03', 1234, 10)));
     AddMessage('Hash(EncBandit04) = ' + IntToStr(Hash('EncBandit04', 1234, 10)));
     AddMessage('Hash(EncBandit05) = ' + IntToStr(Hash('EncBandit05', 1234, 10)));
-end;
+
+    // Reading bodypart flags
+    arma := FindAsset(Nil, 'ARMA', 'ArchmageHoodAA');
+    AddMessage('ArchmageHoodAA bodypart flags: $' + IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8));
+    end;
 
 
 //==================================================================
@@ -267,12 +281,18 @@ begin
 
     FurrifyAllRaces;
     FurrifyHeadpartLists;
-    ShowHeadparts;
-    ShowRaceTints;
+    // ShowHeadparts;
+    // ShowRaceTints;
     CollectArmor;
     CollectAddons;
 
-    DoTests;
+    // TestNPCs;
+    TestArmor;
+
+    AddMessage(Format('============ TESTS COMPLETED %s ===============',
+        [IfThen(testErrorCount > 0, 
+            'WITH ' + IntToStr(testErrorCount) + ' ERRORS',
+            'SUCCESSFULLY')]));
 
     PreferencesFree;
     result := 0;

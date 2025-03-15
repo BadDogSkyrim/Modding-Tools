@@ -332,19 +332,8 @@ begin
         oldHP := LinksTo(ElementByIndex(oldHeadparts, i));
         newHP := FindEquivalentHP(npc, oldHP);
         if Assigned(newHP) then begin
-            if not ElementExists(furryNPC, 'Head Parts') then begin
-                LogD('Creating Head Parts list');
-                Add(furryNPC, 'Head Parts', true);
-                newHeadparts := ElementByPath(furryNPC, 'Head Parts');
-                hpslot := ElementByIndex(newHeadparts, 0);
-            end
-            else begin
-                newHeadparts := ElementByPath(furryNPC, 'Head Parts');
-                hpslot := ElementAssign(newHeadparts, HighInteger, Nil, false);
-            end;
-            if LOGGING then LogD(Format('Assigning new headpart %s at %s', 
-                [EditorID(newHP), PathName(hpslot)]));
-            AssignElementRef(hpslot, newHP);
+            AddToList(furryNPC, 'Head Parts', newHP, targetFile);
+            if LOGGING then LogD(Format('Assigning new headpart %s', [EditorID(newHP)]));
         end;
     end;
     if LOGGING then LogExitT('FurrifyAllHeadparts');
@@ -572,55 +561,135 @@ function AARacesMatch(addon: IwbMainRecord; race: IwbMainRecord): boolean;
 var
     addList: IwbElement;
     i: integer;
+    rn: string;
 begin
-    if LOGGING then LogEntry2(5, 'AARacesMatch', EditorID(addon), EditorID(race));
+    if LOGGING then LogEntry2(15, 'AARacesMatch', EditorID(addon), EditorID(race));
     result := false;
-    if EditorID(LinksTo(ElementByName(addon, 'RNAM'))) = EditorID(race) then result := true;
-    addList := ElementByName(addon, 'Additional Races');
-    for i := 0 to ElementCount(addList)-1 do begin
-        result := (EditorID(LinksTo(ElementByIndex(addList, i))) = EditorID(race));
-        if result then break;
+    rn := EditorID(LinksTo(ElementByPath(addon, 'RNAM')));
+    if LOGGING then LogD(Format('Comparing %s =? %s', [rn, EditorID(race)]));
+    if rn = EditorID(race) then result := true;
+    if not result then begin
+        addList := ElementByName(addon, 'Additional Races');
+        for i := 0 to ElementCount(addList)-1 do begin
+            rn := EditorID(LinksTo(ElementByIndex(addList, i)));
+            result := (rn = EditorID(race));
+            if result then break;
+        end;
     end;
     if LOGGING then LogExitT1('AARacesMatch', BoolToStr(result));
 end;
 
+
 {===================================================================
-Find the armor addon listed in an armor record that matches a given race.
+Compare bodypart flags and return true if any flags match.
 }
-function FindMatchingAddon(armor: IwbMainRecord; race: IwbMainRecord): IwbMainRecord;
+function AABodypartsMatch(addon1, addon2: IwbMainRecord): boolean;
+var
+    addonBodyparts1, addonBodyparts2: IwbMainRecord;
+begin
+    if LOGGING then LogEntry2(5, 'AABodypartsMatch', EditorID(addon1), EditorID(addon2));
+    result := true;
+    addonBodyparts1 := ElementByPath(addon1, 'BODT\First Person Flags');
+    addonBodyparts2 := ElementByPath(addon2, 'BODT\First Person Flags');
+    if LOGGING then LogD('Can read bodypart flags with GetEditValue: ' + GetEditValue(addonBodyparts1));
+    if LOGGING then LogD('Can read bodypart flags by index: ' + GetEditValue(ElementByIndex(addonBodyparts1, 0)));
+    if LOGGING then LogD('Can read bodypart flags individually: ' + GetElementEditValues(addon1, 'BODT - Biped Body Template\First Person Flags\31 - Hair'));
+    if LOGGING then LogD('Can read bodypart flags individually with BODT: ' + GetElementEditValues(addon1, 'BODT\First Person Flags\31 - Hair'));
+    // for i := 0 to ElementCount(addonBodyparts1)-1 do begin
+    //     bpv1 := GetNativeValue(ElementByIndex(addonBodyparts1, i));
+    //     bpv2 := GetNativeValue(ElementByIndex(addonBodyparts2, i));
+    //     LogD(Format('AABodypartsMatch comparing %s =? %s', [IntToStr(bpv1), IntToStr(bpv2)]));
+    //     result := (bpv1 = bpv2);
+    //     if not result then break;
+    // end;
+    result := ((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)) <> 0);
+    if LOGGING then LogExitT1('AABodypartsMatch', BoolToStr(result));
+end;
+
+
+{===================================================================
+Find the armor addon listed in an armor record that matches a given race and covers the
+given bodyparts.
+}
+function FindMatchingAddon(armor: IwbMainRecord; targetAddon: IwbMainRecord; race: IwbMainRecord): IwbMainRecord;
 var
     aaList: IwbElement;
     i: integer;
     addon: IwbMainRecord;
 begin
+    if LOGGING then LogEntry3(5, 'FindMatchingAddon', EditorID(armor), EditorID(targetAddon), EditorID(race));
     result := nil;
     aaList := ElementByName(armor, 'Armature');
     for i := 0 to ElementCount(aaList) - 1 do begin
         addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
-        if AARacesMatch(addon, race) then begin
-            result := addon;
-            exit;
+        if EditorID(addon) <> EditorID(targetAddon) then begin
+            if AARacesMatch(addon, race) and AABodypartsMatch(addon, targetAddon) then begin
+                result := addon;
+                break;
+            end;
         end;
     end;
+    if LOGGING then LogExitT1('FindMatchingAddon', EditorID(result));
 end;
 
 
 {===================================================================
-Find the furry armor addon that works for the given race.
+Find the armor addon with the shortest name for the given armor record. If multiple addons
+have the same shortest name length, return the one that comes first alphabetically.
+}
+function AddonRootName(armor: IwbMainRecord): string;
+var
+    aaList: IwbElement;
+    i: integer;
+    addon: IwbMainRecord;
+    shortestAddon: IwbMainRecord;
+    shortestName: string;
+begin
+    if LOGGING then LogEntry1(5, 'AddonRootName', Name(armor));
+    result := nil;
+    shortestAddon := nil;
+    shortestName := '';
+
+    aaList := ElementByName(armor, 'Armature');
+    for i := 0 to ElementCount(aaList) - 1 do begin
+        addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
+        if Assigned(addon) then begin
+            if (not Assigned(shortestAddon)) or 
+               (Length(EditorID(addon)) < Length(shortestName)) or 
+               ((Length(EditorID(addon)) = Length(shortestName)) 
+                    and (CompareText(EditorID(addon), shortestName) < 0)) 
+            then begin
+                shortestAddon := addon;
+                shortestName := EditorID(addon);
+            end;
+        end;
+    end;
+
+    result := shortestName;
+    if LOGGING then LogExitT1('AddonRootName', result);
+end;
+
+
+{===================================================================
+Find the furry armor addon that works for the given race and is a valid replacement for
+the given addon (same bodyparts).
 
     Return the furry version of the AA specific to this race
         or a furry version specific to the race class (DOG)
         or a khajiit addon already on the armor
 }
-function FindFurryAddon(race: IwbMainRecord; armor: IwbMainRecord; rootname: string): IwbMainRecord;
+function FindFurryAddon(race: IwbMainRecord; armor, addon: IwbMainRecord): IwbMainRecord;
 var
     targetName: string;
     targIdx: integer;
     furRace: IwbMainRecord;
     classIdx: integer;
+    rootName: string;
 begin
-    if LOGGING then LogEntry2(5, 'FindFurryAddon', EditorID(race), EditorID(armor));
+    if LOGGING then LogEntry3(5, 'FindFurryAddon', EditorID(race), EditorID(armor), EditorID(addon));
     result := nil;
+    
+    rootName := AddonRootName(armor);
 
     // Find an addon for this race specifically
     targetName := 'YA_' + rootname + '_' + EditorID(race);
@@ -643,7 +712,7 @@ begin
         end;
     end;
     if not Assigned(result) then begin
-        result := FindMatchingAddon(armor, khajiitRace);
+        result := FindMatchingAddon(armor, addon, khajiitRace);
         if LOGGING and Assigned(result) then LogD('Found Khajiit addon: ' + EditorID(result));
     end;
 
@@ -685,29 +754,14 @@ Add a race to an armor addon if it's not already there.
 }
 function AddAddonRace(addon: IwbMainRecord; race: IwbMainRecord): IwbMainRecord;
     var
-        addList: IwbElement;
-        i: integer;
+        addList, newEle: IwbElement;
+        // i: integer;
 begin
     if LOGGING then LogEntry2(5, 'AddAddonRace', EditorID(addon), EditorID(race));
-    if not AARacesMatch(addon, race) then begin
-        if GetLoadOrder(GetFile(addon)) < targetFileIndex then begin
-            addon := MakeOverride(addon, targetFile);
-            allAddons.objects[allAddons.IndexOf(EditorID(addon))] := addon;
-        end;
 
-        if not ElementExists(addon, 'Additional Races') then Begin 
-            Add(addon, 'Additional Races', true);
-            i := 0;
-            addList := ElementByName(addon, 'Additional Races');
-        end
-        else begin
-            addList := ElementByName(addon, 'Additional Races');
-            i := ElementCount(addList);
-            ElementAssign(addList, HighInteger, nil, false);
-        end;
-        if LOGGING then LogD('Adding new element at index ' + IntToStr(i));
-        AssignElementRef(ElementByIndex(addList, i), race);
-    end;
+    addon := AddToList(addon, 'Additional Races', race, targetFile);
+    allAddons.objects[allAddons.IndexOf(EditorID(addon))] := addon;
+
     result := addon;
     if LOGGING then LogExitT1('AddAddonRace', FullPath(result));
 end;
@@ -750,43 +804,6 @@ end;
 
 
 {===================================================================
-Find the armor addon with the shortest name for the given armor record. If multiple addons
-have the same shortest name length, return the one that comes first alphabetically.
-}
-function AddonRootName(armor: IwbMainRecord): string;
-var
-    aaList: IwbElement;
-    i: integer;
-    addon: IwbMainRecord;
-    shortestAddon: IwbMainRecord;
-    shortestName: string;
-begin
-    if LOGGING then LogEntry1(5, 'AddonRootName', Name(armor));
-    result := nil;
-    shortestAddon := nil;
-    shortestName := '';
-
-    aaList := ElementByName(armor, 'Armature');
-    for i := 0 to ElementCount(aaList) - 1 do begin
-        addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
-        if Assigned(addon) then begin
-            if (not Assigned(shortestAddon)) or 
-               (Length(EditorID(addon)) < Length(shortestName)) or 
-               ((Length(EditorID(addon)) = Length(shortestName)) 
-                    and (CompareText(EditorID(addon), shortestName) < 0)) 
-            then begin
-                shortestAddon := addon;
-                shortestName := EditorID(addon);
-            end;
-        end;
-    end;
-
-    result := shortestName;
-    if LOGGING then LogExitT1('AddonRootName', result);
-end;
-
-
-{===================================================================
 Furrify a single armor record.
 }
 procedure FurrifyArmorRecord(armorIdx: cardinal);
@@ -799,7 +816,6 @@ var
     i: integer;
     raceIdx: cardinal;
     raceName: string;
-    rootName: string;
     thisAA: IwbMainRecord;
     thisArmor: IwbMainRecord;
     thisRace: IwbMainRecord;
@@ -815,13 +831,12 @@ begin
 
         faIdx := addonRaces.IndexOf(EditorID(thisAA));
         if Assigned(thisAA) and (faIdx >= 0) then begin
-            rootName := AddonRootName(thisArmor);
 
             for raceIdx := 0 to addonRaces.objects[faIdx].count-1 do begin
                 thisRace := ObjectToElement(addonRaces.objects[faIdx].objects[raceIdx]);
                 if LOGGING then LogD('Checking race ' + EditorID(thisRace));
 
-                altAA := FindFurryAddon(thisRace, thisArmor, rootName);
+                altAA := FindFurryAddon(thisRace, thisArmor, thisAA);
                 if Assigned(altAA) then begin
                     if LOGGING then LogD(Format('Substituting AA %s with %s for race %s', 
                         [EditorID(thisAA), EditorID(altAA), EditorID(thisRace)]));

@@ -125,6 +125,30 @@ end;
 
 
 //=======================================================================
+// Determine whether an element list (e.g. list of keywords, list of races) 
+// containts an element.
+// mr = record containing the list
+// p = path to the list
+// v = editorID of the desired element in the list
+function ElementListContains(mr: IwbMainRecord; p: string; v: string): boolean;
+var
+    i: integer;
+    e: IwbElement;
+begin
+    if LOGGING then LogEntry3(15, 'ElementListContains', EditorID(mr), p, v);
+    Result := false;
+    for i := 0 to HighInteger do begin
+        e := ElementByIndex(ElementByPath(mr, p), i);
+        if not Assigned(e) then break;
+        if LOGGING then LogD('Found in list: ' + EditorID(LinksTo(e)));
+        Result := SameText(EditorID(LinksTo(e)), v);
+        if Result then break;
+    end;
+    if LOGGING then LogExitT1('ElementListContains', BoolToStr(Result));
+end;
+
+
+//=======================================================================
 // Assign the target element, which holds a reference to another
 // main record, to the given record.
 //
@@ -158,27 +182,33 @@ begin
 end;
 
 
-//=======================================================================
-// Determine whether an element list (e.g. list of keywords, list of races) 
-// containts an element.
-// mr = record containing the list
-// p = path to the list
-// v = editorID of the desired element in the list
-function ElementListContains(mr: IwbMainRecord; p: string; v: string): boolean;
-var
-    i: integer;
-    e: IwbElement;
+{===================================================================
+Add an element to a list if it's not already there. Returns the parent main record (which
+may be the new override).
+}
+function AddToList(mr: IwbMainRecord; listpath: string; e: IwbMainRecord; targf: File): IwbMainRecord;
+    var
+        addList, newEle: IwbElement;
 begin
-    if LOGGING then LogEntry3(15, 'ElementListContains', EditorID(mr), p, v);
-    Result := false;
-    for i := 0 to HighInteger do begin
-        e := ElementByIndex(ElementByPath(mr, p), i);
-        if not Assigned(e) then break;
-        if LOGGING then LogD('Found in list: ' + EditorID(LinksTo(e)));
-        Result := SameText(EditorID(LinksTo(e)), v);
-        if Result then break;
+    if LOGGING then LogEntry3(5, 'AddToList', EditorID(mr), listpath, EditorID(e));
+    if not ElementListContains(mr, listpath, EditorID(e)) then begin
+        if GetLoadOrder(GetFile(mr)) < GetLoadOrder(targf) then begin
+            mr := MakeOverride(mr, targf);
+        end;
+
+        if not ElementExists(mr, listpath) then Begin 
+            Add(mr, listpath, true);
+            addList := ElementByName(mr, listpath);
+            newEle := ElementByIndex(addList, 0);
+        end
+        else begin
+            addList := ElementByName(mr, listpath);
+            newEle := ElementAssign(addList, HighInteger, nil, false);
+        end;
+        AssignElementRef(newEle, e);
     end;
-    if LOGGING then LogExitT1('ElementListContains', BoolToStr(Result));
+    result := mr;
+    if LOGGING then LogExitT1('AddToList', FullPath(result));
 end;
 
 

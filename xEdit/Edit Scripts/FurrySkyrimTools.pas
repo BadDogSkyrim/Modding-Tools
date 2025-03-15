@@ -152,7 +152,7 @@ begin
 end;
 
 Procedure PreferencesFree;
-var raceIdx, sexIdx, typeIdx, m: Cardinal;
+var i, raceIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     raceAssignments.Free;
     furryRaces.Free;
@@ -257,7 +257,7 @@ var
     typeList: TStringList;
     typename: string;
 begin
-    if LOGGING then LogEntry1(10, 'LoadRaceTints', Name(theRace));
+    if LOGGING then LogEntry1(15, 'LoadRaceTints', Name(theRace));
 
     raceIdx := raceTints.IndexOf(EditorID(theRace));
     if raceIdx >= 0 then begin
@@ -368,7 +368,7 @@ var
     thisHP: IwbMainRecord;
     vanillaRaceIdx, furryRaceIdx: integer;
 begin
-    if LOGGING then LogEntry(5, 'FurrifyHeadpartLists');
+    if LOGGING then LogEntry(15, 'FurrifyHeadpartLists');
 
     furrifiedHPlists := TStringList.Create;
     furrifiedHPlists.Duplicates := dupIgnore;
@@ -435,7 +435,7 @@ begin
                 thisHP := ObjectToElement(headpartRecords.objects[i]);
                 if EditorID(LinksTo(ElementByPath(thisHP, 'RNAM'))) = EditorID(hpOverride) 
                 then begin
-                    if LOGGING then LogT(Format('Updating cached headpart races for %s = %s', 
+                    if LOGGING then LogD(Format('Updating cached headpart races for %s = %s', 
                         [Name(thisHP), hpNewList.CommaText]));
                     headpartRaces.objects[headpartRaces.IndexOf(EditorID(thisHP))].commaText
                         := hpNewList.CommaText;
