@@ -469,7 +469,7 @@ begin
     //             [TintlayerToStr(t), SexToStr(curNPCsex), EditorID(curNPCRace),
     //             IfThen(RaceTintIsRequired(t, curNPCsex, curNPCrace), 'REQUIRED', 'OPTIONAL'),
     //             PathName(ObjectToElement(raceTintPresets[t, curNPCsex].objects[r]))]));
-    tintMasks := ElementByPath(curNPCrace, tintlayerpaths[curNPCsex]);
+    tintMasks := ElementByPath(curNPCrace, tintMaskPaths[curNPCsex]);
     for t := 0 to ElementCount(tintMasks)-1 do begin
         thisTintAsset := ElementByIndex(tintMasks, t);
         layername := GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINP');

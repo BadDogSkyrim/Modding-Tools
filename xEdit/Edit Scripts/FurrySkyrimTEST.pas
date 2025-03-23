@@ -45,8 +45,8 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
     e := FurrifyNPC(old);
     LoadNPC(e, old);
-    // Assert(CurNPCHasTintLayer('Dirt'), 'Anvid has dirt');
-    // Assert(not CurNPCHasTintLayer('Paint'), 'Anvid has paint');
+    Assert(CurNPCHasTintLayer('Dirt'), 'Anvid has dirt');
+    Assert(not CurNPCHasTintLayer('Paint'), 'Anvid has paint');
     AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '75');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
@@ -129,11 +129,16 @@ var
     ffo: IwbFile;
     arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
+    listofints: TStringList;
 begin
     // can pass variables by var BUT NOT record by var.
     i := 0;
     TestByVar(i);
     AssertInt(i, 1, 'Can pass integer by reference');
+
+    listofints := TStringList.Create;
+    listofints.AddObject('a', 1);
+    AssertInt(Integer(listofints.objects[0])+1, 2, 'TStringList holds ints');
 
     // DOES NOT COMPILE
     // TestRecByVar(xf);
@@ -291,14 +296,14 @@ begin
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
     FurrifyAllRaces;
-    // ShowRaceTints;
+    ShowRaceTints;
     FurrifyHeadpartLists;
     // ShowHeadparts;
-    // CollectArmor;
-    // CollectAddons;
+    CollectArmor;
+    CollectAddons;
 
     TestNPCs;
-    // TestArmor;
+    TestArmor;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen((testErrorCount > 0), 
