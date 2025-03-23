@@ -92,10 +92,14 @@ begin
         namedentry := ElementByPath(listentry, ename);
         Assert(Assigned(listentry), Format('List element at [%d] assigned', [i]));
         ref := LinksTo(namedentry);
-        if (target <> '') and (EditorID(ref) = target) then found := true;
+        
+        AddMessage(Format('Checking "%s" and "%s"', [GetEditValue(namedentry), EditorID(ref)]));
+        if (target <> '') and ((GetEditValue(namedentry) = target) or (EditorID(ref) = target)) 
+        then found := true;
+        if found then break;
     end;
     if target <> '' then
-        Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
+        Assert(found, Format('Found target element %s in %s \ [*] %s', [target, FullPath(elist), ename]));
 end;
 
 

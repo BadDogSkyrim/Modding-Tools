@@ -6,9 +6,7 @@ interface
 uses
   xEditAPI;
 
-procedure SetNPCTintLayer(const npc: IwbMainRecord; const skintonePreset: IwbElement);
-
-function FindBestHeadpartMatch(const oldHeadpart: IwbMainRecord): IwbMainRecord;
+function CurNPCBestHeadpartMatch(const oldHeadpart: IwbMainRecord): IwbMainRecord;
 
 implementation
 
@@ -19,10 +17,12 @@ const
     SHOW_OPTIONS_DIALOG = False;
     PATCH_FILE_NAME = 'YANPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
+    SHOW_HAIR_ASSIGNMENT = TRUE;
 
 var
     processedNPCcount: Integer;
     addonFurrifiedRaces: TStringList;
+    hairAssignments: TStringList;
 
 
 {============================================================================
@@ -48,6 +48,8 @@ var
 begin
     if LOGGING then LogEntry2(1, 'FurrifyRace', vanillaRaceName, Name(furryRace));
     vanillaRace := WinningOverride(FindAsset(Nil, 'RACE', vanillaRaceName));
+    // LoadRaceTints(vanillaRace);
+
     LogD(Format('Found race %s in file %s', [Name(vanillaRace), GetFileName(GetFile(vanillaRace))]));
     LogD('Overriding in ' + GetFileName(targetFile));
     AddRecursiveMaster(targetFile, GetFile(vanillaRace));
@@ -64,12 +66,12 @@ begin
     // ElementAssign(ElementByPath(furrifiedRace, 'Head Data\Male Head Data'), LowInteger, Nil, false);
     // ElementAssign(ElementByPath(furrifiedRace, 'WNAM'), LowInteger, ElementByPath(furryRace, 'WNAM'), false);
     // SetElementEditValues(furrifiedRace, 'RNAM', GetElementEditValues(furryRace, 'RNAM'));
-    ElementAssign(ElementByPath(furrifiedRace, 'Head Data\Male Head Data'), 
-        LowInteger, 
-        ElementByPath(furryRace, 'Head Data\Male Head Data'), 
-        false);
-
-    LoadRaceTints(furrifiedRace);
+    // ElementAssign(ElementByPath(furrifiedRace, 'Head Data\Male Head Data'), 
+    //     LowInteger, 
+    //     ElementByPath(furryRace, 'Head Data\Male Head Data'), 
+    //     false);
+    
+    // LoadRaceTints(furryRace);
 
     if LOGGING then LogExitT('FurrifyRace');
 end;
@@ -79,7 +81,7 @@ end;
 Change all redefined races to their furry equivalent race.
 }
 procedure FurrifyAllRaces;
-var i: integer;
+var i, j: integer;
 begin
     for i := 0 to raceAssignments.Count-1 do begin
         FurrifyRace(raceAssignments[i], ObjectToElement(raceAssignments.objects[i]));
@@ -90,7 +92,7 @@ end;
 {==================================================================
 Add the given label to the curNPClabels IF it does not conflict with any existing labels.
 }
-procedure AddNPCLabel(newLabel: string);
+procedure CurNPCAddLabel(newLabel: string);
 var i: integer;
 begin
     for i := 0 to curNPClabels.Count-1 do begin
@@ -105,17 +107,17 @@ end;
 Add any labels that describe the current NPC--but don't add labels that conflict with
 labels already there.
 }
-procedure LoadNPCLabels(npc: IwbMainRecord);
+procedure CurNPCLoadLabels;
 var
     voice: string;
     outfit: string;
 begin
-    voice := GetElementEditValues(npc, 'VTCK');
-    outfit := GetElementEditValues(npc, 'DOFT');
+    voice := GetElementEditValues(curNPC, 'VTCK');
+    outfit := GetElementEditValues(curNPC, 'DOFT');
 
     if ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
         or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')
-    then AddNPCLabel('NOBLE');
+    then CurNPCAddLabel('NOBLE');
 
     if ContainsStr(voice, 'Young') 
     then curNPClabels.Add('YOUNG');
@@ -131,6 +133,7 @@ begin
     then curNPClabels.Add('MILITARY');
 
     if ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') or ContainsStr(outfit, 'Bandit')
+        // or CurNPCHasTintLayer('Dirt')
     then curNPClabels.Add('MESSY');
 
     if ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College')
@@ -138,18 +141,6 @@ begin
 
     if ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit') 
     then curNPClabels.Add('BOLD');
-end;
-
-
-{==================================================================
-Determine whether the headpart sex works for the current NPC.
-}
-function NPCSexMatchesHeadpart(hp: iwbMainRecord): boolean;
-begin
-    result := (
-        (GetElementEditValues(hp, 'DATA - Flags\Male') and StartsText('MALE', curNPCsex))
-        or (GetElementEditValues(hp, 'DATA - Flags\Female') and StartsText('FEMALE', curNPCsex))
-    );
 end;
 
 
@@ -167,6 +158,7 @@ var
     haveFeathers: boolean;
     haveElaborate: boolean;
 begin
+    // TODO: Rewrite this to use the "LabelsConflict" routine
     haveNeat := (curNPClabels.IndexOf('NEAT') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('NEAT') >= 0);
     haveMilitary := (curNPClabels.IndexOf('MILITARY') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('MILITARY') >= 0);
     haveNoble := (curNPClabels.IndexOf('NOBLE') >= 0) or (headpartlabels.objects[hpIdx].IndexOf('NOBLE') >= 0);
@@ -187,84 +179,131 @@ begin
 end;
 
 
+{==================================================================
+Determine how well headpart labels match the current NPC labels.
+Every match increases the score, every label that isn't matched decreases the score.
+Conflicting labels generate a score of -1000.
+}
+function CalculateLabelMatchScore(hpLabelIdx: integer): integer;
+var
+    i, j: integer;
+    score: integer;
+begin
+    score := 0;
+
+    for i := 0 to curNPClabels.Count - 1 do begin
+        if headpartLabels.objects[hpLabelIdx].IndexOf(curNPClabels[i]) >= 0 then
+            Inc(score) // Increase score for each match
+        else
+            Dec(score); // Decrease score for each non-match
+        for j := 0 to headpartLabels.objects[hpLabelIdx].Count -1 do begin
+            if LabelsConflict(curNPClabels.strings[i], headpartLabels.objects[hpLabelIdx].strings[j]) then 
+                score := -1000;
+        end;
+    end;
+
+    LogT(Format('CalculateLabelMatchScore %s ~ %s = %d', [curNPCalias, headpartLabels.strings[hpLabelIdx], score]));
+    result := score;
+end;
+
+
 {====================================================================
 Find the best headpart match using labels. Current NPC labels are in curNPClabels.
 Headpart returned will be of same type as oldHeadpart and will work for the NPC's race.
 }
-function FindBestHeadpartMatch(const oldHeadpart: IwbMainRecord): IwbMainRecord;
+function CurNPCBestHeadpartMatch(const oldHeadpart: IwbMainRecord): IwbMainRecord;
 var
-    bestMatchCount: integer;
     bestMatches: TStringList;
+    bestMatchScore: integer;
+    equivIdx: integer;
     hpIdx: integer;
+    hplist: TStringList;
+    hpInRaceIdx: integer;
+    hpRaceIdx: integer;
     hpType: string;
     i, j: integer;
-    matchCount: integer;
-    nextHP: IwbMainRecord;
-    nextHPname: string;
-    nextHPraces: TStringList;
+    labelIdx: integer;
+    matchScore: integer;
+    newHP: IwbMainRecord;
     raceIdx: integer;
+    thisHPname: string;
 begin
-    if LOGGING then LogEntry1(10, 'FindBestHeadpartMatch', Name(oldHeadpart));
-    if LOGGING then LogD('NPC labels ' + curNPClabels.CommaText);
+    if LOGGING then LogEntry1(10, 'CurNPCBestHeadpartMatch', Name(oldHeadpart));
 
     result := Nil;
-    bestMatchCount := -1;
+    bestMatchScore := -1000;
     bestMatches := TStringList.Create;
-    hpType := GetElementEditValues(oldHeadpart, 'PNAM');
-    for i := 0 to headpartLabels.Count-1 do begin
-        nextHPname := headpartLabels.strings[i];
-        raceIdx := headpartRaces.IndexOf(nextHPname);
-        if raceIdx < 0 then begin
-            if LOGGING then LogD(Format('Headpart not found in headpartRaces: %s', [nextHPname]));
-            continue;
+    hpType := StrToHeadpart(GetElementEditValues(oldHeadpart, 'PNAM'));
+
+    equivIdx := headpartEquivalents.IndexOf(EditorID(oldHeadpart));
+    if equivIdx >= 0 then begin
+        // Have headpart equivalents. They all go on the options list and we don't use labels.
+        hplist := headpartEquivalents.objects[equivIdx];
+        for hpIdx := 0 to hplist.count-1 do begin
+            thisHPName := EditorID(ObjectToElement(hplist.objects[hpIdx]));
+            hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCRace));
+            hpInRaceIdx := -1;
+            if hpRaceIdx >= 0 then 
+                hpInRaceIdx := raceHeadparts[hpType, curNPCsex].objects[hpRaceIdx].IndexOf(thisHPname);
+            if LOGGING then LogD(Format('Found headpart equivalent %d: %s (%s, %s, %s)', 
+                [hpInRaceIdx,
+                thisHPname,
+                HeadpartToStr(hpType), 
+                SexToStr(curNPCsex),
+                EditorID(curNPCrace)]));
+                // Can use this headpart on this NPC.
+            if hpInRaceIdx >= 0 then
+                bestMatches.AddObject(EditorID(ObjectToElement(hplist.objects[hpIdx])), 
+                    hplist.objects[hpIdx]);
         end;
-        nextHPraces := headpartRaces.objects[raceIdx];
-        nextHP := ObjectToElement(headpartRecords.objects[headpartRecords.IndexOf(nextHPname)]);
-
-        if //This is the same type of headpart
-            (GetElementEditValues(nextHP, 'PNAM') = hpType) and
-            // This headpart works for the current NPC's race
-            (nextHPraces.IndexOf(EditorID(curNPCrace)) >= 0) and
-            // This headpart works for the current NPC's sex
-            NPCSexMatchesHeadpart(nextHP) and
-            // This headpart has no labels that conflict with the current NPC
-            (not HeadpartHasExcludedLabels(i))
-        then begin
-            if LOGGING then LogD(Format('Race %s in headpart %s', [EditorID(curNPCrace), PathName(nextHP)]));
-            if LOGGING then LogD(Format('Checking %s with labels %s', 
-                [headpartLabels.strings[i], headpartlabels.objects[i].CommaText]));
-            matchCount := 0;
-            for j := 0 to headpartLabels.objects[i].Count-1 do begin
-                if curNPClabels.IndexOf(headpartLabels.objects[i].strings[j]) >= 0 then begin
-                    if LOGGING then LogD('Matched ' + headpartLabels.objects[i].strings[j]);
-                    matchCount := matchCount + 1;
+        bestMatchScore := 1000;
+    end
+    else begin
+        // No equivalents, find best match by labels.
+        if LOGGING then LogD('NPC labels ' + curNPClabels.CommaText);
+        hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCrace));
+        if hpRaceIdx >= 0 then begin
+            // Have at least one HP of this type for this sex and race.
+            // Find the ones with the highest score.
+            hplist := raceHeadparts[hpType, curNPCsex].objects[hpRaceIdx];
+            for hpIdx := 0 to hplist.count-1 do begin
+                thisHPname := hplist.strings[hpIdx];
+                labelIdx := headpartLabels.IndexOf(thisHPname);
+                if labelIdx < 0 then begin
+                    // No assigned labels, just take a score of 0
+                    if LOGGING then LogD(Format('Headpart not found in headpartLabels: %s', [thisHPname]));
+                    matchScore := 0;
+                end
+                else begin
+                    // Assigned labels, determine score
+                    matchScore := CalculateLabelMatchScore(labelIdx);
                 end;
-            end;
 
-            if matchCount = bestMatchCount then begin
-                bestMatches.AddObject(nextHPname, nextHP);
-                if LOGGING then LogD(Format('New equal match %s with %d matches', 
-                    [nextHPname, bestMatchCount]));
-            end
-            else if matchCount > bestMatchCount then begin
-                bestMatches.Clear;
-                bestMatches.AddObject(nextHPname, nextHP);
-                bestMatchCount := matchCount;
-                if LOGGING then LogD(Format('New best match %s with %d matches', 
-                    [nextHPname, bestMatchCount]));
+                if matchScore > bestMatchScore then begin
+                    bestMatches.Clear;
+                    bestMatches.AddObject(thisHPname, hplist.objects[hpIdx]);
+                    bestMatchScore := matchScore;
+                    if LOGGING then LogD(Format('New best match %s with %d matches', 
+                        [thisHPname, bestMatchScore]));
+                end
+                else if matchScore = bestMatchScore then begin
+                    bestMatches.AddObject(thisHPname, hplist.objects[hpIdx]);
+                    if LOGGING then LogD(Format('New equal match %s with %d matches', 
+                        [thisHPname, bestMatchScore]));
+                end;
             end;
         end;
     end;
 
-    if bestMatches.count > 0 then begin
+    if (bestMatchScore > -10) and (bestMatches.count > 0) then begin
         if LOGGING then LogD(Format('Choosing from best matches: %s', [bestMatches.commatext]));
-        hpIdx := Hash(curNPCalias, 1234, bestMatches.Count);
+        hpIdx := Hash(curNPCalias, 0317, bestMatches.Count);
         result := ObjectToElement(bestMatches.objects[hpIdx]);
     end;
 
     bestMatches.Free;
 
-    if LOGGING then LogExitT1('FindBestHeadpartMatch', Format('%s w/ %d matches', [Name(result), bestMatchCount]));
+    if LOGGING then LogExitT1('CurNPCBestHeadpartMatch', Format('%s w/ %d score', [Name(result), bestMatchScore]));
 end;
 
 
@@ -272,52 +311,27 @@ end;
 Choose an equivalent furry headpart for the given vanilla headpart using labels to
 identify the most similar.
 }
-function FindSimilarHeadpart(npc: IwbMainRecord; oldHeadpart: IwbMainRecord): IwbMainRecord;
+function CurNPCFindSimilarHeadpart(oldHeadpart: IwbMainRecord): IwbMainRecord;
 var
     i, j: integer;
 begin
-    if LOGGING then LogEntry2(5, 'FindSimilarHeadpart', Name(npc), Name(oldHeadpart));
+    if LOGGING then LogEntry2(5, 'CurNPCFindSimilarHeadpart', Name(curNPC), Name(oldHeadpart));
     result := Nil;
     i := headpartLabels.IndexOf(EditorID(oldHeadpart));
     if i >= 0 then begin
-        curNPClabels := TStringList.Create;
-        curNPClabels.Duplicates := dupIgnore;
-        curNPClabels.Sorted := True;
-        LoadNPCLabels(npc);
         for j := 0 to headpartlabels.objects[i].Count-1 do begin
-            AddNPCLabel(headpartlabels.objects[i].strings[j]);
+            CurNPCAddLabel(headpartlabels.objects[i].strings[j]);
         end;
-        result := FindBestHeadpartMatch(oldHeadpart);
-        curNPClabels.Free;
     end;
-    if LOGGING then LogExitT1('FindSimilarHeadpart', Name(result));
-end;
-
-
-{==================================================================
-Choose an equivalent furry headpart for the given vanilla headpart.
-}
-function FindEquivalentHP(npc: IwbMainRecord; oldHeadpart: IwbMainRecord): IwbMainRecord;
-var
-    h: integer;
-    i: integer;
-begin
-    if LOGGING then LogEntry2(5, 'FindEquivalentHP', Name(npc), Name(oldHeadpart));
-    i := headpartEquivalents.IndexOf(EditorID(oldHeadpart));
-    if i >= 0 then begin
-        h := Hash(curNPCalias, 2134, headpartEquivalents.objects[i].Count);
-        result := ObjectToElement(headpartEquivalents.objects[i].objects[h]);
-    end
-    else
-        result := FindSimilarHeadpart(npc, oldHeadpart);
-    if LOGGING then LogExitT1('FindEquivalentHP', Name(result));
+    result := CurNPCBestHeadpartMatch(oldHeadpart);
+    if LOGGING then LogExitT1('CurNPCFindSimilarHeadpart', Name(result));
 end;
 
 
 {==================================================================
 Furrify an NPC's headparts by choosing furry equivalents for vanilla headparts.
 }
-procedure FurrifyAllHeadparts(furryNPC, npc: IwbMainRecord);
+procedure CurNPCFurrifyHeadparts(vanillaNPC: IwbMainRecord);
 var
     oldHeadparts: IwbContainer;
     newHeadparts: IwbContainer;
@@ -326,17 +340,18 @@ var
     newHP: IwbMainRecord;
     hpslot: IwbElement;
 begin
-    if LOGGING then LogEntry1(5, 'FurrifyAllHeadparts', Name(npc));
-    oldHeadparts := ElementByPath(npc, 'Head Parts');
+    if LOGGING then LogEntry1(5, 'CurNPCFurrifyHeadparts', Name(curNPC));
+    oldHeadparts := ElementByPath(vanillaNPC, 'Head Parts');
     for i := 0 to ElementCount(oldHeadparts)-1 do begin
         oldHP := LinksTo(ElementByIndex(oldHeadparts, i));
-        newHP := FindEquivalentHP(npc, oldHP);
+        newHP := CurNPCFindSimilarHeadpart(oldHP);
         if Assigned(newHP) then begin
-            AddToList(furryNPC, 'Head Parts', newHP, targetFile);
-            if LOGGING then LogD(Format('Assigning new headpart %s', [EditorID(newHP)]));
+            AddToList(curNPC, 'Head Parts', newHP, targetFile);
+            if LOGGING then LogD(Format('Assigning new headpart %s: %s -> %s', 
+                [GetElementEditValues(newHP, 'PNAM'), EditorID(newHP), EditorID(vanillaNPC)]));
         end;
     end;
-    if LOGGING then LogExitT('FurrifyAllHeadparts');
+    if LOGGING then LogExitT('CurNPCFurrifyHeadparts');
 end;
 
 
@@ -365,10 +380,10 @@ begin
         GetElementNativeValues(tintAsset, 'Tint Layer\Texture\TINI'));
     SetElementNativeValues(sktLayer, 'TIAS', GetElementNativeValues(skintonePreset, 'TIRS'));
     SetElementNativeValues(sktLayer, 'TINV', GetElementNativeValues(skintonePreset, 'TINV'));
-    LogD('Assigned TINI, TIAS, TINV ' + 
-        GetElementEditValues(sktLayer, 'TINI') + ', ' + 
-        GetElementEditValues(sktLayer, 'TIAS') + ', ' + 
-        GetElementEditValues(sktLayer, 'TINV'));
+    LogD(Format('Assigned TINI %s, TIAS %s, TINV %s',
+        [GetElementEditValues(sktLayer, 'TINI'),
+        GetElementEditValues(sktLayer, 'TIAS'),
+        GetElementEditValues(sktLayer, 'TINV')]));
 
     color := WinningOverride(LinksTo(ElementByPath(skintonePreset, 'TINC')));
     if Assigned(color) then begin
@@ -391,47 +406,97 @@ end;
 
 
 {==================================================================
-Select a furry tint layer for the NPC from presets in curNPCTintLayerOptions.
+Select a furry tint layer for the NPC from the tint layer's presets.
 }
-Procedure ChooseFurryTintLayer(npc: IwbMainRecord; typeIndex:integer; layerIndex: integer);
+Procedure ChooseFurryTintLayer(npc: IwbMainRecord; presetList: IwbElement; skipfirst: boolean);
 var 
     h: integer;
-    presetList: IwbElement;
-    skintonePreset: IwbElement;
+    p: IwbElement;
+    lo, hi: integer;
 begin
-    if LOGGING then LogEntry2(5, 'ChooseFurryTintLayer', Name(npc), curNPCTintLayerOptions.objects[typeIndex].strings[layerIndex]);
+    if LOGGING then LogEntry3(5, 'ChooseFurryTintLayer', 
+        Name(npc), IfThen(skipfirst, 'SKIPFIRST', 'USEFIRST'), Pathname(presetList));
     
-    presetList := ObjectToElement(curNPCTintLayerOptions.objects[typeIndex].objects[layerIndex]);
-    h := Hash(curNPCalias, 1455, ElementCount(presetList));
-    skintonePreset := ElementByIndex(presetList, h);
-    SetNPCTintLayer(npc, skintonePreset);
+    lo := 0;
+    hi := ElementCount(presetList)-1;
+    if skipfirst then begin
+        lo := 1;
+        hi := hi - 1;
+    end;
+
+    h := Hash(curNPCalias, 1455, hi) + lo;
+    p := ElementByIndex(presetList, h);
+    SetNPCTintLayer(npc, p);
 
     if LOGGING then LogExitT('ChooseFurryTintLayer');
 end;
 
 
 {==================================================================
-Set all the furry tint layers on the npc, choosing presets randomly.
+Determine whether a tint layer has to be assigned to NPCs.
+If the first tint preset has an alpha of 0 the layer is assumed to be optional, otherwise required.
 }
-Procedure ChooseFurryTints(npc: IwbMainRecord);
-var
-    i: integer;
-    idx: Cardinal;
-    h: integer;
+function RaceTintIsRequired(tintAsset: IwbElement): boolean;
 begin
-    LoadNPCSkinTones(npc);
-    idx := curNPCtintLayerOptions.IndexOf('REQUIRED');
-    for i := 0 to curNPCTintLayerOptions.objects[idx].Count-1 do begin
-        ChooseFurryTintLayer(npc, idx, i);
+    if LOGGING then LogEntry1(10, 'RaceTintIsRequired', GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP'));
+    result := (GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP') = 'Skin Tone')
+        or (GetElementNativeValues(tintAsset, 'Presets\[0]\TINV') > 0.01);
+    if LOGGING then LogExitT1('RaceTintIsRequired', IfThen(result, 'REQUIRED', 'OPTIONAL'));
+end;
+
+
+{==================================================================
+Set all the furry tint layers on the npc, choosing presets randomly from the furrified race.
+}
+Procedure CurNPCChooseFurryTints;
+var
+    t, r: integer;
+    h, i: integer;
+    optLayers: TStringList;
+    tintMasks: IwbContainer;
+    thisTintAsset: IwbElement;
+    layername: string;
+    layerID: integer;
+begin
+    if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
+
+    optLayers := TStringList.Create;
+
+    // for t := 0 to TINT_COUNT-1 do begin
+    //     r := raceTintPresets[t, curNPCsex].IndexOf(EditorID(curNPCFurryRace));
+    //     if r >= 0 then begin
+    //         If LOGGING then LogD(Format('Have tint %s / %s / %s / %s at %s', 
+    //             [TintlayerToStr(t), SexToStr(curNPCsex), EditorID(curNPCRace),
+    //             IfThen(RaceTintIsRequired(t, curNPCsex, curNPCrace), 'REQUIRED', 'OPTIONAL'),
+    //             PathName(ObjectToElement(raceTintPresets[t, curNPCsex].objects[r]))]));
+    tintMasks := ElementByPath(curNPCrace, tintlayerpaths[curNPCsex]);
+    for t := 0 to ElementCount(tintMasks)-1 do begin
+        thisTintAsset := ElementByIndex(tintMasks, t);
+        layername := GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINP');
+        layerID := tintlayerNames.IndexOf(layername);
+        if (layerID >= 0) then 
+            if RaceTintIsRequired(thisTintAsset) then
+                // Some furry races depend on the skin tone layer having a color to look
+                // good. Others have built-in color and the skin tone just changes the
+                // shade. If the former, all the tint layers should have non-zero alphas;
+                // if the latter it's fine for the first layer to have a 0 alpha as most
+                // vanilla races do.
+                ChooseFurryTintLayer(curNPC, ElementByName(thisTintAsset, 'Presets'), False{(t = TINT_SKIN_TONE)})
+            else
+                optLayers.AddObject(TintlayerToStr(t), ElementByName(thisTintAsset, 'Presets'));
     end;
 
-    idx := curNPCTintLayerOptions.IndexOf('OPTIONAL');
-    for i := 1 to 3 do begin
-        h := Hash(curNPCalias, 0879+i, curNPCTintLayerOptions.objects[idx].Count*3);
-        if h < curNPCTintLayerOptions.objects[idx].Count then begin
-            ChooseFurryTintLayer(npc, idx, h);
+    // Assign up to 4 optional layers
+    if optLayers.count > 0 then begin
+        for i := 0 to Hash(curNPCalias, 487, 4) do begin
+            h := Hash(curNPCalias, 0879, optLayers.count);
+            ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), false);
+            optLayers.Delete(h);
         end;
     end;
+
+    optLayers.Free;
+    if LOGGING then LogExitT('CurNPCChooseFurryTints');
 end;
 
 
@@ -452,12 +517,19 @@ begin
         Remove(ElementByPath(furryNPC, 'NAM9 - Face morph'));
         Remove(ElementByPath(furryNPC, 'Tint Layers'));
 
-        LoadNPC(furryNPC);
+        LoadNPC(furryNPC, npc);
+
+        curNPClabels := TStringList.Create;
+        curNPClabels.Duplicates := dupIgnore;
+        curNPClabels.Sorted := True;
+        CurNPCLoadLabels;
 
         // Clean out existing character customization
         Remove(ElementByPath(furryNPC, 'Head Parts'));
-        FurrifyAllHeadparts(furryNPC, npc);
-        ChooseFurryTints(furryNPC);
+        CurNPCFurrifyHeadparts(npc);
+        CurNPCChooseFurryTints;
+
+        curNPClabels.Free;
 
         result := furryNPC;
     end;
@@ -502,22 +574,6 @@ end;
 
 
 {===================================================================
-Furrify a single armor record.
-
-    for each furrified race
-        for each AA in the armor record
-            if the AA is good for the furrifed race
-                alternative_armor := the furry version of the AA specific to this race
-                    or a furry version specific to the race class (DOG)
-                    or a khajiit version
-                if we found an alternative armor (which is not the AA)
-                    remove the furrified race from the AA
-                    add the alternative armor to the armor record
-                    add the furrified race to the alternative armor
-}
-
-
-{===================================================================
 Determine whether the given armor addon needs to be furrified: It's a furrifiable bodypart
 and is valid for races that are being furrified. Returns the furrified races on this addon
 in addonFurrifiedRaces (which the caller must initialze).
@@ -528,7 +584,7 @@ var
     addlRaces: IwbElement;
     raceName: string;
 begin
-    if LOGGING then LogEntry1(5, 'AAIsFurrifiable', EditorID(addon));
+    if LOGGING then LogEntry1(15, 'AAIsFurrifiable', EditorID(addon));
     result := false;
 
     // Is it a furrifiable bodypart?
@@ -587,21 +643,19 @@ function AABodypartsMatch(addon1, addon2: IwbMainRecord): boolean;
 var
     addonBodyparts1, addonBodyparts2: IwbMainRecord;
 begin
-    if LOGGING then LogEntry2(5, 'AABodypartsMatch', EditorID(addon1), EditorID(addon2));
+    if LOGGING then LogEntry2(15, 'AABodypartsMatch', PathName(addon1), PathName(addon2));
     result := true;
-    addonBodyparts1 := ElementByPath(addon1, 'BODT\First Person Flags');
-    addonBodyparts2 := ElementByPath(addon2, 'BODT\First Person Flags');
-    if LOGGING then LogD('Can read bodypart flags with GetEditValue: ' + GetEditValue(addonBodyparts1));
-    if LOGGING then LogD('Can read bodypart flags by index: ' + GetEditValue(ElementByIndex(addonBodyparts1, 0)));
-    if LOGGING then LogD('Can read bodypart flags individually: ' + GetElementEditValues(addon1, 'BODT - Biped Body Template\First Person Flags\31 - Hair'));
-    if LOGGING then LogD('Can read bodypart flags individually with BODT: ' + GetElementEditValues(addon1, 'BODT\First Person Flags\31 - Hair'));
-    // for i := 0 to ElementCount(addonBodyparts1)-1 do begin
-    //     bpv1 := GetNativeValue(ElementByIndex(addonBodyparts1, i));
-    //     bpv2 := GetNativeValue(ElementByIndex(addonBodyparts2, i));
-    //     LogD(Format('AABodypartsMatch comparing %s =? %s', [IntToStr(bpv1), IntToStr(bpv2)]));
-    //     result := (bpv1 = bpv2);
-    //     if not result then break;
-    // end;
+    // addonBodyparts1 := ElementByPath(addon1, 'BODT\First Person Flags');
+    addonBodyparts1 := ElementByPath(addon1, '[2]\[0]');
+    addonBodyparts2 := ElementByPath(addon2, '[2]\[0]');
+    // if LOGGING then LogD('Can read bodypart flags 1 with GetNativeValue: ' + IntToHex(GetNativeValue(addonBodyparts1),8));
+    // if LOGGING then LogD('Can read bodypart flags 2 with GetEditValue: ' + GetEditValue(addonBodyparts2));
+    // if LOGGING then LogD('Can read bodypart 2 RNAM: ' + GetEditValue(ElementByPath(addon2, 'RNAM')));
+    // if LOGGING then LogD('Can read bodypart 2 indexed path: ' + GetEditValue(ElementByPath(addon2, '[2]\[0]')));
+    // if LOGGING then LogD('Can read bodypart flags 2 path: ' + GetEditValue(ElementByPath(addon2, 'BODT\First Person Flags\32 - Body')));
+    // if LOGGING then LogD('Can read bodypart flags 2 path: ' + GetEditValue(ElementByPath(addon2, 'BODT\First Person Flags\35 - Amulet')));
+    // if LOGGING then LogD('Can read bodypart flags 2 with GetNativeValue: ' + IntToHex(GetNativeValue(addonBodyparts2),8));
+    // if LOGGING then LogD('Can AND bodypart flags: ' + IntToHex((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)), 8));
     result := ((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)) <> 0);
     if LOGGING then LogExitT1('AABodypartsMatch', BoolToStr(result));
 end;
@@ -617,7 +671,7 @@ var
     i: integer;
     addon: IwbMainRecord;
 begin
-    if LOGGING then LogEntry3(5, 'FindMatchingAddon', EditorID(armor), EditorID(targetAddon), EditorID(race));
+    if LOGGING then LogEntry3(10, 'FindMatchingAddon', EditorID(armor), EditorID(targetAddon), EditorID(race));
     result := nil;
     aaList := ElementByName(armor, 'Armature');
     for i := 0 to ElementCount(aaList) - 1 do begin
@@ -680,11 +734,14 @@ the given addon (same bodyparts).
 }
 function FindFurryAddon(race: IwbMainRecord; armor, addon: IwbMainRecord): IwbMainRecord;
 var
+    classIdx: integer;
+    defIdx: Integer;
+    furRace: IwbMainRecord;
+    furRaceName: string;
+    racei: integer;
+    rootName: string;
     targetName: string;
     targIdx: integer;
-    furRace: IwbMainRecord;
-    classIdx: integer;
-    rootName: string;
 begin
     if LOGGING then LogEntry3(5, 'FindFurryAddon', EditorID(race), EditorID(armor), EditorID(addon));
     result := nil;
@@ -700,8 +757,11 @@ begin
     end;
     if not Assigned(result) then begin
         // Find an addon for this race class
-        furRace := ObjectToElement(raceAssignments.objects[raceAssignments.IndexOf(EditorID(race))]);
-        classIdx := furryRaceClass.IndexOfName(EditorID(furRace));
+        racei := raceAssignments.IndexOf(EditorID(race));
+        furRace := ObjectToElement(raceAssignments.objects[racei]);
+        furRaceName := EditorID(furRace);
+        if LOGGING then LogD(Format('Associated furry race: [%d] %s', [racei, furRaceName]));
+        classIdx := furryRaceClass.IndexOfName(furRaceName);
         if classIdx >= 0 then begin
             targetName := 'YA_' + rootname + '_' + furryRaceClass.ValueFromIndex[classIdx];
             targIdx := allAddons.IndexOf(targetName);
@@ -712,8 +772,11 @@ begin
         end;
     end;
     if not Assigned(result) then begin
-        result := FindMatchingAddon(armor, addon, khajiitRace);
-        if LOGGING and Assigned(result) then LogD('Found Khajiit addon: ' + EditorID(result));
+        defIdx := furryRaces.IndexOf(armorRaces.values[furRaceName]);
+        if LOGGING then LogD(Format('Found armor race: [%d] %s', [defIdx, armorRaces.values[furRaceName]]));
+        if defIdx >= 0 then begin
+            result := FindMatchingAddon(armor, addon, ObjectToElement(furryRaces.objects[defIdx]));
+        end;
     end;
 
     if LOGGING then LogExitT1('FindFurryAddon', EditorID(result));
@@ -727,8 +790,9 @@ function RemoveAddonRace(addon: IwbMainRecord; race: IwbMainRecord): IwbMainReco
 var
     addList: IwbElement;
     i: integer;
+    j: integer;
 begin
-    if LOGGING then LogEntry2(5, 'RemoveAddonRace', EditorID(addon), EditorID(race));
+    if LOGGING then LogEntry2(10, 'RemoveAddonRace', EditorID(addon), EditorID(race));
     addList := ElementByName(addon, 'Additional Races');
     
     for i := 0 to ElementCount(addList)-1 do begin
@@ -736,7 +800,13 @@ begin
             if GetLoadOrder(GetFile(addon)) < targetFileIndex then begin
                 // Need to override
                 addon := MakeOverride(addon, targetFile);
-                allAddons.objects[allAddons.IndexOf(EditorID(addon))] := addon;
+                j := allAddons.IndexOf(EditorID(addon));
+                if j < 0 then begin
+                    Err(Format('Addon %s not found in addon list', [Name(addon)]));
+                    allAddons.AddObject(EditorID(addon), addon);
+                end
+                else
+                    allAddons.objects[j] := addon;
                 addlist := ElementByName(addon, 'Additional Races');
             end;
             RemoveByIndex(addList, i, false);
@@ -755,12 +825,18 @@ Add a race to an armor addon if it's not already there.
 function AddAddonRace(addon: IwbMainRecord; race: IwbMainRecord): IwbMainRecord;
     var
         addList, newEle: IwbElement;
-        // i: integer;
+        i: integer;
 begin
-    if LOGGING then LogEntry2(5, 'AddAddonRace', EditorID(addon), EditorID(race));
+    if LOGGING then LogEntry2(10, 'AddAddonRace', EditorID(addon), EditorID(race));
 
     addon := AddToList(addon, 'Additional Races', race, targetFile);
-    allAddons.objects[allAddons.IndexOf(EditorID(addon))] := addon;
+    i := allAddons.IndexOf(EditorID(addon));
+    if i < 0 then begin
+        Err(Format('Addon %s not found in addon list', [Name(addon)]));
+        allAddons.AddObject(EditorID(addon), addon);
+    end
+    else
+        allAddons.objects[i] := addon;
 
     result := addon;
     if LOGGING then LogExitT1('AddAddonRace', FullPath(result));
@@ -914,6 +990,18 @@ begin
 end;
 
 
+{==================================================================
+Show all hair assignments.
+}
+procedure ShowHair;
+begin
+    // AddMessage('===== HAIR ASSIGNMENTS ====');
+    // for i := 0 to hairAssignments.count-1 do begin
+    //     AddMessage(Format('%s -- %s', [hairAssignments.strings[i], ObjectToElement(hairAssignments.objects[i])]));
+    // end;
+end;
+
+
 {===================================================================
 Collect all armor addon records in the current load order and store them in a TStringList.
 }
@@ -971,10 +1059,14 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 10;
+    LOGLEVEL := 15;
     if LOGGING then LogEntry(1, 'Initialize');
 
+    hairAssignments := TStringList.Create;
+
     PreferencesInit;
+    CollectArmor;
+    CollectAddons;
     SetPreferences;
     ShowRaceAssignments;
 
@@ -990,8 +1082,8 @@ begin
 
     FurrifyAllRaces;
     FurrifyHeadpartLists;
-    ShowHeadparts;
-    ShowRaceTints;
+    // ShowHeadparts;
+    // ShowRaceTints;
 
     processedNPCcount := 0;
     result := 0;
@@ -1020,7 +1112,10 @@ begin
 
     FurrifyArmor;
 
+    if SHOW_HAIR_ASSIGNMENT then ShowHair;
+
     PreferencesFree;
+    hairAssignments.Free;
     result := 0;
     if LOGGING then LogExitT('Finalize');
 end;

@@ -40,13 +40,22 @@ begin
         'LykaiosMaleHead');
 
     // Nord NPC is properly furrified
+    // Angvid has Dirt but no Paint. 
+    // New Angvid has Skin Tone layer, no null layers.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
+    e := FurrifyNPC(old);
+    LoadNPC(e, old);
+    // Assert(CurNPCHasTintLayer('Dirt'), 'Anvid has dirt');
+    // Assert(not CurNPCHasTintLayer('Paint'), 'Anvid has paint');
+    AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '75');
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
     Assert(Assigned(old), 'Have BalgruuftheGreater');
     e := FurrifyNPC(old);
     Assert(GetFileName(GetFile(e)) = TEST_FILE_NAME, 'Override created');
     AssertNotInList(ElementByPath(e, 'Head Parts'), 'HumanBeard35');
     AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
-    Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least one tint layer');
+    Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least two tint layers');
     
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
@@ -79,6 +88,8 @@ begin
     AssertInList(ElementByName(e, 'Armature'), 'YA_BladesHelmetAA_DOG');
     aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('YA_BladesHelmetAA_DOG')]);
     AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
+
+    ShowRaceAssignments;
 
     AddMessage('// Check case where the khajiit race matches and the armor covers body as well as head.');
     i := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
@@ -250,7 +261,7 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 15;
+    LOGLEVEL := 20;
     PreferencesInit;
     result := 0;
 end;
@@ -280,17 +291,17 @@ begin
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
     FurrifyAllRaces;
+    // ShowRaceTints;
     FurrifyHeadpartLists;
     // ShowHeadparts;
-    // ShowRaceTints;
-    CollectArmor;
-    CollectAddons;
+    // CollectArmor;
+    // CollectAddons;
 
-    // TestNPCs;
-    TestArmor;
+    TestNPCs;
+    // TestArmor;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
-        [IfThen(testErrorCount > 0, 
+        [IfThen((testErrorCount > 0), 
             'WITH ' + IntToStr(testErrorCount) + ' ERRORS',
             'SUCCESSFULLY')]));
 
