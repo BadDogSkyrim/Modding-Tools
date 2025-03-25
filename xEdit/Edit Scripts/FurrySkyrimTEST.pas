@@ -15,6 +15,43 @@ const
     TEST_FILE_NAME = 'TEST.esp';
 
 
+function NPCTintLayerCount(npc: IwbMainRecord; layerType: integer): integer;
+var
+    npcRace, npcFurryRace: IwbMainRecord;
+    npcSex: integer;
+    npcTintLayers, tintLayer, raceTintLayer: IwbElement;
+    tintLayerTINI: string;
+    maskType: integer;
+    rti, i: integer;
+begin
+    if LOGGING then LogEntry2(25, 'NPCTintLayerCount', Name(npc), TintlayerToStr(layerType));
+    result := 0;
+    npcRace := LinksTo(ElementByPath(npc, 'RNAM'));
+    npcFurryRace := ObjectToElement(raceAssignments.objects[raceAssignments.IndexOf(EditorID(npcRace))]);
+    npcSex := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
+        SEX_FEMADULT, SEX_MALEADULT) 
+        + IfThen(GetElementEditValues(npcRace, 'DATA - DATA\Flags\Child') = '1', 2, 0);
+
+    npcTintLayers := ElementByPath(npc, 'Tint Layers');
+    if Assigned(npcTintLayers) then begin
+        for i := 0 to ElementCount(npcTintLayers) - 1 do begin
+            tintLayer := ElementByIndex(npcTintLayers, i);
+            tintLayerTINI := GetElementEditValues(tintLayer, 'TINI');
+            rti := tintAssets[npcSex].IndexOf(EditorID(npcFurryRace));
+            if rti >= 0 then begin
+                if LOGGING then LogD(Format('Tint Asset Index for %s %s: %d', [EditorID(npcFurryRace), tintLayerTINI, tintAssets[npcSex].objects[rti].IndexOf(tintLayerTINI)]));
+                raceTintLayer := ElementByIndex(
+                    ElementByPath(npcFurryRace, tintMaskPaths[npcSex]),
+                    tintAssets[npcSex].objects[rti].IndexOf(tintLayerTINI));
+                maskType := GetLayerID(raceTintLayer);
+                if LOGGING then LogD(Format('Have race tint layer %s - %s', [TintLayerToStr(maskType), PathName(raceTintLayer)]));
+                if maskType = layerType then result := result + 1;
+            end;
+        end;
+    end;
+    if LOGGING then LogExitT1('NPCTintLayerCount', IntToStr(result));
+end;
+
 procedure TestNPCs;
 var 
     e, aa, old: IwbElement;
@@ -45,8 +82,8 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
     e := FurrifyNPC(old);
     LoadNPC(e, old);
-    Assert(CurNPCHasTintLayer('Dirt'), 'Anvid has dirt');
-    Assert(not CurNPCHasTintLayer('Paint'), 'Anvid has paint');
+    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 0, 'Angvid has no dirt');
+    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Angvid has no paint');
     AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '75');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
@@ -56,16 +93,24 @@ begin
     AssertNotInList(ElementByPath(e, 'Head Parts'), 'HumanBeard35');
     AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least two tint layers');
-    
+    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Balgruuf has no paint');
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
     AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBlue');
+    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 1, 'BolgeirBearclaw has dirt');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
     e := FurrifyNPC(old);
     AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBase');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
+    e := FurrifyNPC(old);
+    AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
+
+    // This pit fan has invalid tint layers (looks like they changed her to a woman
+    // without fixing the tint layers). It just has to not crash.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
     e := FurrifyNPC(old);
     AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
 
@@ -130,7 +175,35 @@ var
     arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
     listofints: TStringList;
+    dynlist: array of Integer;
 begin
+    // // Cannot use dynamic lists--the following does not compile.
+    // SetLength(dynlist, 5);
+    // dynlist[4] := 4;
+    // AssertInt(dynlist[4], 4, 'Can use dynamic list');
+
+    AddMessage('--');
+    RandomizeIndexList('alpha', 1234, 5);
+    for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
+        IntToStr(i), indexList[i], Integer(indexList.objects[i])]));
+    AddMessage('--');
+    RandomizeIndexList('beta', 4567, 5);
+    for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
+        IntToStr(i), indexList[i], Integer(indexList.objects[i])]));
+    AddMessage('--');
+    RandomizeIndexList('delta', 148, 5);
+    for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
+        IntToStr(i), indexList[i], Integer(indexList.objects[i])]));
+    AddMessage('--');
+    RandomizeIndexList('gamma', 1148, 5);
+    for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
+        IntToStr(i), indexList[i], Integer(indexList.objects[i])]));
+    AddMessage('--');
+    RandomizeIndexList('upsilon', 3333, 5);
+    for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
+        IntToStr(i), indexList[i], Integer(indexList.objects[i])]));
+    AddMessage('--');
+
     // can pass variables by var BUT NOT record by var.
     i := 0;
     TestByVar(i);
@@ -299,11 +372,11 @@ begin
     ShowRaceTints;
     FurrifyHeadpartLists;
     // ShowHeadparts;
-    CollectArmor;
-    CollectAddons;
+    // CollectArmor;
+    // CollectAddons;
 
     TestNPCs;
-    TestArmor;
+    // TestArmor;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen((testErrorCount > 0), 

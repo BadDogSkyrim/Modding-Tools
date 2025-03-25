@@ -18,6 +18,7 @@ const
     PATCH_FILE_NAME = 'YANPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
     SHOW_HAIR_ASSIGNMENT = TRUE;
+    MAX_TINT_LAYERS = 4; // Max tint layers to apply to a NPC
 
 var
     processedNPCcount: Integer;
@@ -451,16 +452,21 @@ Set all the furry tint layers on the npc, choosing presets randomly from the fur
 Procedure CurNPCChooseFurryTints;
 var
     t, r: integer;
-    h, i: integer;
+    h, i, j: integer;
+    appliedLayers: TStringList;
     optLayers: TStringList;
     tintMasks: IwbContainer;
     thisTintAsset: IwbElement;
     layername: string;
     layerID: integer;
+    thisLayer: string;
+    thisLayerID: integer;
+    tintOK: Boolean;
 begin
     if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
 
     optLayers := TStringList.Create;
+    appliedLayers := TStringList.Create;
 
     // for t := 0 to TINT_COUNT-1 do begin
     //     r := raceTintPresets[t, curNPCsex].IndexOf(EditorID(curNPCFurryRace));
@@ -469,30 +475,55 @@ begin
     //             [TintlayerToStr(t), SexToStr(curNPCsex), EditorID(curNPCRace),
     //             IfThen(RaceTintIsRequired(t, curNPCsex, curNPCrace), 'REQUIRED', 'OPTIONAL'),
     //             PathName(ObjectToElement(raceTintPresets[t, curNPCsex].objects[r]))]));
+    
+    // Go through tint layers in "random" order so we pick up different layers for different NPCs.
     tintMasks := ElementByPath(curNPCrace, tintMaskPaths[curNPCsex]);
-    for t := 0 to ElementCount(tintMasks)-1 do begin
-        thisTintAsset := ElementByIndex(tintMasks, t);
-        layername := GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINP');
-        layerID := tintlayerNames.IndexOf(layername);
-        if (layerID >= 0) then 
-            if RaceTintIsRequired(thisTintAsset) then
+    RandomizeIndexList(curNPCAlias, 5345, ElementCount(tintMasks));
+    for t := 0 to indexList.Count-1 do begin
+        thisTintAsset := ElementByIndex(tintMasks, Integer(indexList.objects[t]));
+        // layername := GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINP');
+        // layerID := tintlayerNames.IndexOf(layername);
+        layerID := GetLayerID(thisTintAsset);
+        layername := tintlayerNames[layerID];
+        if (layerID >= 0) then begin
+            if RaceTintIsRequired(thisTintAsset) then begin
                 // Some furry races depend on the skin tone layer having a color to look
                 // good. Others have built-in color and the skin tone just changes the
                 // shade. If the former, all the tint layers should have non-zero alphas;
                 // if the latter it's fine for the first layer to have a 0 alpha as most
                 // vanilla races do.
-                ChooseFurryTintLayer(curNPC, ElementByName(thisTintAsset, 'Presets'), False{(t = TINT_SKIN_TONE)})
-            else
-                optLayers.AddObject(TintlayerToStr(t), ElementByName(thisTintAsset, 'Presets'));
+                ChooseFurryTintLayer(curNPC, ElementByName(thisTintAsset, 'Presets'), False);
+                appliedLayers.Add(layername);
+            end
+            else begin
+                if appliedLayers.IndexOf(layername) < 0 then begin
+                    // Special layers only applied if original has them.
+                    tintOK := (layerID < TINT_SPECIAL_LO);
+                    if not tintOK then tintOK := CurNPCHasTintlayer(layerID);
+                    if tintOK then begin
+                        optLayers.AddObject(layername, ElementByName(thisTintAsset, 'Presets'));
+                        appliedLayers.Add(layername);
+                        if LOGGING then LogD(Format('Found optional layer %s at %d', [layername, Integer(indexList.objects[t])]))
+                    end;
+                end;
+            end;
+        end;
     end;
 
     // Assign up to 4 optional layers
-    if optLayers.count > 0 then begin
-        for i := 0 to Hash(curNPCalias, 487, 4) do begin
-            h := Hash(curNPCalias, 0879, optLayers.count);
-            ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), false);
-            optLayers.Delete(h);
-        end;
+    i := Hash(curNPCalias, 487, MAX_TINT_LAYERS);
+    while (optLayers.count > 0) do begin
+        
+        h := Hash(curNPCalias, 0879, optLayers.count);
+        thisLayer := optLayers.strings[h];
+        thisLayerID := tintlayerNames.IndexOf(thisLayer); 
+        if (thisLayerID >= TINT_SPECIAL_LO) or (i >= 0) then
+            ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), True);
+        optLayers.Delete(h);
+
+        // Only non-special layers count against the tint layer maximum.
+        if thisLayerID < TINT_SPECIAL_LO then i := i - 1;
+        if LOGGING then LogD(Format('Added layer of type %s, %d/%d remaining', [thisLayer, optLayers.count, i]));
     end;
 
     optLayers.Free;
@@ -994,11 +1025,67 @@ end;
 Show all hair assignments.
 }
 procedure ShowHair;
+var
+    npcList: IwbElement;
+    npc: IwbMainRecord;
+    headParts: IwbElement;
+    headPart: IwbMainRecord;
+    i, j: integer;
+    partType, npcSex: string;
+    maleHairCount, femaleHairCount: TStringList;
+    totalMaleNPCs, totalFemaleNPCs: integer;
 begin
-    // AddMessage('===== HAIR ASSIGNMENTS ====');
-    // for i := 0 to hairAssignments.count-1 do begin
-    //     AddMessage(Format('%s -- %s', [hairAssignments.strings[i], ObjectToElement(hairAssignments.objects[i])]));
-    // end;
+    maleHairCount := TStringList.Create;
+    femaleHairCount := TStringList.Create;
+    maleHairCount.Sorted := True;
+    femaleHairCount.Sorted := True;
+    maleHairCount.Duplicates := dupIgnore;
+    femaleHairCount.Duplicates := dupIgnore;
+
+    npcList := GroupBySignature(targetFile, 'NPC_');
+    totalMaleNPCs := 0;
+    totalFemaleNPCs := 0;
+
+    for i := 0 to ElementCount(npcList) - 1 do begin
+        npc := ElementByIndex(npcList, i);
+        npcSex := GetElementEditValues(npc, 'ACBS\Flags');
+        headParts := ElementByPath(npc, 'Head Parts');
+        for j := 0 to ElementCount(headParts) - 1 do begin
+            headPart := LinksTo(ElementByIndex(headParts, j));
+            partType := GetElementEditValues(headPart, 'PNAM');
+            if partType = 'Hair' then begin
+                if Pos('Female', npcSex) > 0 then begin
+                    Inc(totalFemaleNPCs);
+                    if femaleHairCount.IndexOf(EditorID(headPart)) = -1 then
+                        femaleHairCount.AddObject(EditorID(headPart), TObject(1))
+                    else
+                        femaleHairCount.Objects[femaleHairCount.IndexOf(EditorID(headPart))] := TObject(Integer(femaleHairCount.Objects[femaleHairCount.IndexOf(EditorID(headPart))]) + 1);
+                end else begin
+                    Inc(totalMaleNPCs);
+                    if maleHairCount.IndexOf(EditorID(headPart)) = -1 then
+                        maleHairCount.AddObject(EditorID(headPart), TObject(1))
+                    else
+                        maleHairCount.Objects[maleHairCount.IndexOf(EditorID(headPart))] := TObject(Integer(maleHairCount.Objects[maleHairCount.IndexOf(EditorID(headPart))]) + 1);
+                end;
+                Break;
+            end;
+        end;
+    end;
+
+    AddMessage('Male Hair Summary:');
+    for i := 0 to maleHairCount.Count - 1 do begin
+        AddMessage(Format('Hair: %s, Count: %d, Percentage: %.2f%%', 
+            [maleHairCount[i], Integer(maleHairCount.Objects[i]), (Integer(maleHairCount.Objects[i]) / totalMaleNPCs) * 100]));
+    end;
+
+    AddMessage('Female Hair Summary:');
+    for i := 0 to femaleHairCount.Count - 1 do begin
+        AddMessage(Format('Hair: %s, Count: %d, Percentage: %.2f%%', 
+            [femaleHairCount[i], Integer(femaleHairCount.Objects[i]), (Integer(femaleHairCount.Objects[i]) / totalFemaleNPCs) * 100]));
+    end;
+
+    maleHairCount.Free;
+    femaleHairCount.Free;
 end;
 
 
@@ -1059,7 +1146,7 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 15;
+    LOGLEVEL := 5;
     if LOGGING then LogEntry(1, 'Initialize');
 
     hairAssignments := TStringList.Create;

@@ -95,6 +95,26 @@ begin
         AssignHeadpart('MaleEyesHumanLightGrey', '00LykaiosMaleEyesGrey');
         AssignHeadpart('MaleEyesHumanLightIceGreyBlindLeft', '00LykaiosMaleEyesLilac');
         AssignHeadpart('MaleEyesHumanVampire', '00LykaiosMaleEyesVampire');
+
+        // Lykaios tint layers
+        SetTintLayerType('LykaiosRace', 'MaskFullCheeks.dds', TINT_MASK);
+        SetTintLayerType('LykaiosRace', 'MaskFull.dds', TINT_MASK);
+        SetTintLayerType('LykaiosRace', 'Lykaios_paint04.dds', TINT_NORD);
+        SetTintLayerType('LykaiosRace', 'Lykaios_paint02.dds', TINT_NORD);
+        SetTintLayerType('LykaiosRace', 'Lykaios_paint03.dds', TINT_NORD);
+        SetTintLayerType('LykaiosRace', 'wolfpawprint.dds', TINT_HAND);
+        SetTintLayerType('LykaiosRace', 'SkullPaint.dds', TINT_SKULL);
+        SetTintLayerType('LykaiosRace', 'TintEar.dds', TINT_EAR);
+        SetTintLayerType('LykaiosRace', 'NoseMuzzle.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'Muzzle.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'NoseStripeLarge.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'MuzzleStripe.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'NoseStripe.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'NoseDot2.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'NoseDot.dds', TINT_MUZZLE);
+        SetTintLayerType('LykaiosRace', 'Chin.dds', TINT_CHIN);
+        SetTintLayerType('LykaiosRace', 'Brows.dds', TINT_EYE_UPPER);
+        SetTintLayerType('LykaiosRace', 'BrowsSmall.dds', TINT_EYE_UPPER);
     END;
 
 
