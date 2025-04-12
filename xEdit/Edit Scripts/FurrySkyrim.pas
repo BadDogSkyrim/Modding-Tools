@@ -18,7 +18,12 @@ const
     PATCH_FILE_NAME = 'YANPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
     SHOW_HAIR_ASSIGNMENT = TRUE;
-    MAX_TINT_LAYERS = 4; // Max tint layers to apply to a NPC
+    MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
+
+    IS_NONE = 0;
+    IS_FURRIFIABLE = 1;
+    IS_FURRY = 2;
+    IS_ALREADY_TESTED = 4;
 
 var
     processedNPCcount: Integer;
@@ -203,7 +208,7 @@ begin
         end;
     end;
 
-    LogT(Format('CalculateLabelMatchScore %s ~ %s = %d', [curNPCalias, headpartLabels.strings[hpLabelIdx], score]));
+    if LOGGING then LogT(Format('CalculateLabelMatchScore %s ~ %s = %d', [curNPCalias, headpartLabels.strings[hpLabelIdx], score]));
     result := score;
 end;
 
@@ -316,7 +321,7 @@ function CurNPCFindSimilarHeadpart(oldHeadpart: IwbMainRecord): IwbMainRecord;
 var
     i, j: integer;
 begin
-    if LOGGING then LogEntry2(5, 'CurNPCFindSimilarHeadpart', Name(curNPC), Name(oldHeadpart));
+    if LOGGING then LogEntry2(10, 'CurNPCFindSimilarHeadpart', Name(curNPC), Name(oldHeadpart));
     result := Nil;
     i := headpartLabels.IndexOf(EditorID(oldHeadpart));
     if i >= 0 then begin
@@ -364,8 +369,9 @@ var
     color: IwbMainRecord;
     sktLayer: IwbElement;
     tintAsset: IwbContainer;
+    v: single;
 begin
-    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), PathName(skintonePreset));
+    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), FullPath(skintonePreset));
 
     tintAsset := GetContainer(GetContainer(skintonePreset));
     if not ElementExists(npc, 'Tint Layers') then begin
@@ -380,7 +386,9 @@ begin
     SetElementNativeValues(sktLayer, 'TINI', 
         GetElementNativeValues(tintAsset, 'Tint Layer\Texture\TINI'));
     SetElementNativeValues(sktLayer, 'TIAS', GetElementNativeValues(skintonePreset, 'TIRS'));
-    SetElementNativeValues(sktLayer, 'TINV', GetElementNativeValues(skintonePreset, 'TINV'));
+    v := HashVal(curNPCalias + FullPath(skintonePreset), 6804, 0, GetElementNativeValues(skintonePreset, 'TINV'));
+    if LOGGING then LogD(Format('Tint HashVal %s = %f', [curNPCalias, v]));
+    SetElementNativeValues(sktLayer, 'TINV', v);
     LogD(Format('Assigned TINI %s, TIAS %s, TINV %s',
         [GetElementEditValues(sktLayer, 'TINI'),
         GetElementEditValues(sktLayer, 'TIAS'),
@@ -415,7 +423,7 @@ var
     p: IwbElement;
     lo, hi: integer;
 begin
-    if LOGGING then LogEntry3(5, 'ChooseFurryTintLayer', 
+    if LOGGING then LogEntry3(10, 'ChooseFurryTintLayer', 
         Name(npc), IfThen(skipfirst, 'SKIPFIRST', 'USEFIRST'), Pathname(presetList));
     
     lo := 0;
@@ -484,15 +492,15 @@ begin
         // layername := GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINP');
         // layerID := tintlayerNames.IndexOf(layername);
         layerID := GetLayerID(thisTintAsset);
-        layername := tintlayerNames[layerID];
         if (layerID >= 0) then begin
+            layername := tintlayerNames[layerID];
             if RaceTintIsRequired(thisTintAsset) then begin
                 // Some furry races depend on the skin tone layer having a color to look
                 // good. Others have built-in color and the skin tone just changes the
                 // shade. If the former, all the tint layers should have non-zero alphas;
                 // if the latter it's fine for the first layer to have a 0 alpha as most
                 // vanilla races do.
-                ChooseFurryTintLayer(curNPC, ElementByName(thisTintAsset, 'Presets'), False);
+                ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
                 appliedLayers.Add(layername);
             end
             else begin
@@ -501,13 +509,14 @@ begin
                     tintOK := (layerID < TINT_SPECIAL_LO);
                     if not tintOK then tintOK := CurNPCHasTintlayer(layerID);
                     if tintOK then begin
-                        optLayers.AddObject(layername, ElementByName(thisTintAsset, 'Presets'));
+                        optLayers.AddObject(layername, ElementByPath(thisTintAsset, 'Presets'));
                         appliedLayers.Add(layername);
                         if LOGGING then LogD(Format('Found optional layer %s at %d', [layername, Integer(indexList.objects[t])]))
                     end;
                 end;
             end;
-        end;
+        end
+        else Warn('Unknown tint layer: ' + PathName(thisTintAsset));
     end;
 
     // Assign up to 4 optional layers
@@ -627,9 +636,9 @@ begin
     end;
 
     // If it is, does it cover a furrified race?
-    addlRaces := ElementByName(addon, 'Additional Races');
+    addlRaces := ElementByPath(addon, 'Additional Races');
     for i := -1 to ElementCount(addlRaces)-1 do begin
-        if i < 0 then raceName := EditorID(LinksTo(ElementByName(addon, 'RNAM')))
+        if i < 0 then raceName := EditorID(LinksTo(ElementByPath(addon, 'RNAM')))
         else raceName := EditorID(LinksTo(ElementByIndex(addlRaces, i)));
         if raceAssignments.IndexOf(raceName) >= 0 then begin
             addonFurrifiedRaces.AddObject(raceName, vanillaRaces.objects[vanillaRaces.IndexOf(raceName)]);
@@ -656,7 +665,7 @@ begin
     if LOGGING then LogD(Format('Comparing %s =? %s', [rn, EditorID(race)]));
     if rn = EditorID(race) then result := true;
     if not result then begin
-        addList := ElementByName(addon, 'Additional Races');
+        addList := ElementByPath(addon, 'Additional Races');
         for i := 0 to ElementCount(addList)-1 do begin
             rn := EditorID(LinksTo(ElementByIndex(addList, i)));
             result := (rn = EditorID(race));
@@ -667,29 +676,21 @@ begin
 end;
 
 
-{===================================================================
-Compare bodypart flags and return true if any flags match.
-}
-function AABodypartsMatch(addon1, addon2: IwbMainRecord): boolean;
-var
-    addonBodyparts1, addonBodyparts2: IwbMainRecord;
-begin
-    if LOGGING then LogEntry2(15, 'AABodypartsMatch', PathName(addon1), PathName(addon2));
-    result := true;
-    // addonBodyparts1 := ElementByPath(addon1, 'BODT\First Person Flags');
-    addonBodyparts1 := ElementByPath(addon1, '[2]\[0]');
-    addonBodyparts2 := ElementByPath(addon2, '[2]\[0]');
-    // if LOGGING then LogD('Can read bodypart flags 1 with GetNativeValue: ' + IntToHex(GetNativeValue(addonBodyparts1),8));
-    // if LOGGING then LogD('Can read bodypart flags 2 with GetEditValue: ' + GetEditValue(addonBodyparts2));
-    // if LOGGING then LogD('Can read bodypart 2 RNAM: ' + GetEditValue(ElementByPath(addon2, 'RNAM')));
-    // if LOGGING then LogD('Can read bodypart 2 indexed path: ' + GetEditValue(ElementByPath(addon2, '[2]\[0]')));
-    // if LOGGING then LogD('Can read bodypart flags 2 path: ' + GetEditValue(ElementByPath(addon2, 'BODT\First Person Flags\32 - Body')));
-    // if LOGGING then LogD('Can read bodypart flags 2 path: ' + GetEditValue(ElementByPath(addon2, 'BODT\First Person Flags\35 - Amulet')));
-    // if LOGGING then LogD('Can read bodypart flags 2 with GetNativeValue: ' + IntToHex(GetNativeValue(addonBodyparts2),8));
-    // if LOGGING then LogD('Can AND bodypart flags: ' + IntToHex((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)), 8));
-    result := ((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)) <> 0);
-    if LOGGING then LogExitT1('AABodypartsMatch', BoolToStr(result));
-end;
+// {===================================================================
+// Compare bodypart flags and return true if any flags match.
+// }
+// function AABodypartsMatch(addon1, addon2: IwbMainRecord): boolean;
+// var
+//     addonBodyparts1, addonBodyparts2: IwbMainRecord;
+// begin
+//     if LOGGING then LogEntry2(15, 'AABodypartsMatch', PathName(addon1), PathName(addon2));
+//     // result := true;
+//     // addonBodyparts1 := ElementByPath(addon1, '[2]\[0]');
+//     // addonBodyparts2 := ElementByPath(addon2, '[2]\[0]');
+//     // result := ((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)) <> 0);
+//     result := ((GetBodypartFags(addon1) and GetBodypartFags(addon2)) <> 0);
+//     if LOGGING then LogExitT1('AABodypartsMatch', BoolToStr(result));
+// end;
 
 
 {===================================================================
@@ -704,11 +705,13 @@ var
 begin
     if LOGGING then LogEntry3(10, 'FindMatchingAddon', EditorID(armor), EditorID(targetAddon), EditorID(race));
     result := nil;
-    aaList := ElementByName(armor, 'Armature');
+    aaList := ElementByPath(armor, 'Armature');
     for i := 0 to ElementCount(aaList) - 1 do begin
         addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
         if EditorID(addon) <> EditorID(targetAddon) then begin
-            if AARacesMatch(addon, race) and AABodypartsMatch(addon, targetAddon) then begin
+            if AARacesMatch(addon, race) 
+                and ((GetBodypartFags(addon) and GetBodypartFags(targetAddon)) <> 0)
+            then begin
                 result := addon;
                 break;
             end;
@@ -735,7 +738,7 @@ begin
     shortestAddon := nil;
     shortestName := '';
 
-    aaList := ElementByName(armor, 'Armature');
+    aaList := ElementByPath(armor, 'Armature');
     for i := 0 to ElementCount(aaList) - 1 do begin
         addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
         if Assigned(addon) then begin
@@ -820,16 +823,22 @@ Remove a race from an armor addon. Returns the addon as modified (may be an over
 function RemoveAddonRace(addon: IwbMainRecord; race: IwbMainRecord): IwbMainRecord;
 var
     addList: IwbElement;
+    r: IwbMainRecord;
     i: integer;
     j: integer;
 begin
     if LOGGING then LogEntry2(10, 'RemoveAddonRace', EditorID(addon), EditorID(race));
-    addList := ElementByName(addon, 'Additional Races');
+    addList := ElementByPath(addon, 'Additional Races');
     
-    for i := 0 to ElementCount(addList)-1 do begin
-        if EditorID(LinksTo(ElementByIndex(addList, i))) = EditorID(race) then begin
-            if GetLoadOrder(GetFile(addon)) < targetFileIndex then begin
-                // Need to override
+    if GetLoadOrder(GetFile(addon)) < targetFileIndex then begin
+        for i := ElementCount(addList)-1 downto -1 do begin
+            if i < 0 then r := LinksTo(ElementByPath(addon, 'RNAM'))
+            else r := LinksTo(ElementByIndex(addList, i));
+            if LOGGING then LogD(Format('[%d] Checking addon race %s %s', [
+                i, EditorID(r), IfThen(EditorID(r) = EditorID(race), '(remove)', '')]));
+
+            if EditorID(r) = EditorID(race) then begin
+                // Need to override 
                 addon := MakeOverride(addon, targetFile);
                 j := allAddons.IndexOf(EditorID(addon));
                 if j < 0 then begin
@@ -838,10 +847,11 @@ begin
                 end
                 else
                     allAddons.objects[j] := addon;
-                addlist := ElementByName(addon, 'Additional Races');
+                addlist := ElementByPath(addon, 'Additional Races');
+
+                if i < 0 then AssignElementRef(ElementByPath(addon, 'RNAM'), defaultRace)
+                else RemoveByIndex(addList, i, false);
             end;
-            RemoveByIndex(addList, i, false);
-            break;
         end;
     end;
 
@@ -886,7 +896,7 @@ begin
     if LOGGING then LogEntry2(5, 'AddArmorAddon', Name(armor), Name(addon));
     begin
         exists := false;
-        aaList := ElementByName(armor, 'Armature');
+        aaList := ElementByPath(armor, 'Armature');
         for i := 0 to ElementCount(aaList)-1 do begin
             if EditorID(LinksTo(ElementByIndex(aaList, i))) = EditorID(addon) then begin
                 exists := true;
@@ -898,7 +908,7 @@ begin
             if GetLoadOrder(GetFile(armor)) < targetFileIndex then begin
                 armor := MakeOverride(armor, targetFile);
                 furrifiableArmors.objects[furrifiableArmors.IndexOf(EditorID(armor))] := armor;
-                aaList := ElementByName(armor, 'Armature');
+                aaList := ElementByPath(armor, 'Armature');
             end;
             ElementAssign(aaList, HighInteger, nil, false);
             // SetEditValue(ElementByIndex(aaList, ElementCount(aaList)-1), Name(addon));
@@ -931,8 +941,8 @@ begin
     thisArmor := ObjectToElement(furrifiableArmors.objects[armorIdx]);
 
     // Walk through the armor's addons looking for furrifiable addons.
-    aaList := ElementByName(thisArmor, 'Armature');
-    for aaIdx := 0 to ElementCount(aaList)-1 do begin
+    aaList := ElementByPath(thisArmor, 'Armature');
+    for aaIdx := ElementCount(aaList)-1 downto 0 do begin
         thisAA := WinningOverride(LinksTo(ElementByIndex(aaList, aaIdx)));
         if LOGGING then LogD('Checking addon ' + EditorID(thisAA));
 
@@ -941,20 +951,182 @@ begin
 
             for raceIdx := 0 to addonRaces.objects[faIdx].count-1 do begin
                 thisRace := ObjectToElement(addonRaces.objects[faIdx].objects[raceIdx]);
-                if LOGGING then LogD('Checking race ' + EditorID(thisRace));
 
-                altAA := FindFurryAddon(thisRace, thisArmor, thisAA);
-                if Assigned(altAA) then begin
-                    if LOGGING then LogD(Format('Substituting AA %s with %s for race %s', 
-                        [EditorID(thisAA), EditorID(altAA), EditorID(thisRace)]));
-                    thisAA := RemoveAddonRace(thisAA, thisRace);
-                    altAA := AddAddonRace(altAA, thisRace);
-                    thisArmor := AddArmorAddon(thisArmor, altAA);
+                if raceAssignments.IndexOf(EditorID(thisRace)) >= 0 then begin
+                    // Furry races are in the list too, so ignore them.
+                    if LOGGING then LogD(Format('[%d] %s has race %s', [
+                        raceIdx, EditorID(thisAA), EditorID(thisRace)]));
+
+                    altAA := FindFurryAddon(thisRace, thisArmor, thisAA);
+                    if Assigned(altAA) then begin
+                        if LOGGING then LogD(Format('Substituting AA %s with %s for race %s', 
+                            [EditorID(thisAA), EditorID(altAA), EditorID(thisRace)]));
+                        thisAA := RemoveAddonRace(thisAA, thisRace);
+                        altAA := AddAddonRace(altAA, thisRace);
+                        thisArmor := AddArmorAddon(thisArmor, altAA);
+                    end;
                 end;
             end;
         end;
     end;
     if LOGGING then LogExitT('FurrifyArmorRecord');
+end;
+
+
+{===================================================================
+Add the winning override of the given armor addon to allAddons if not already present.
+}
+procedure RecordAddon(addon: IwbMainRecord);
+var
+    e: string;
+begin
+    if LOGGING then LogEntry1(20, 'RecordAddon', Name(addon));
+
+    addon := WinningOverride(addon);
+    e := EditorID(addon);
+
+    if allAddons.IndexOf(e) < 0 then begin
+        allAddons.AddObject(e, addon);
+        if LOGGING then LogD(Format('Added addon %s to allAddons', [e]));
+    end
+    else 
+        if LOGGING then LogD(Format('Addon %s already exists in allAddons', [e]));
+
+    if LOGGING then LogExitT1('RecordAddon', IntToStr(allAddons.count));
+end;
+
+
+{===================================================================
+Determine whether the given addon is furrifiable or furry. Furrifiable if it is valid for
+a race being furrified; furry if it is valid for a furry race.
+}
+function IsFurryAddon(addon: IwbMainRecord): integer;
+var
+    racesList: IwbElement;
+    raceIdx: integer;
+    race: IwbMainRecord;
+begin
+    if LOGGING then LogEntry1(20, 'IsFurryAddon', Name(addon));
+
+    addon := WinningOverride(addon);
+
+    if allAddons.IndexOf(EditorID(addon)) < 0 then begin
+        if LOGGING then LogD('Not checked already');
+        result := IS_NONE;
+
+        // if LOGGING then LogD(Format('%s is hair: %d', [EditorID(addon), Integer(GetElementNativeValues(addon, 'BODT\First Person Flags\31 - Hair'))]));
+        // if LOGGING then LogD(Format('%s is hands: %d', [EditorID(addon), Integer(GetElementNativeValues(addon, 'BODT\First Person Flags\33 - Hands'))]));
+        
+        if ((GetBodypartFlags(addon) and BP_HAIR) <> 0) 
+            or ((GetBodypartFlags(addon) and BP_HANDS) <> 0) 
+        then begin
+            // Hands and hair are furrifiable bodyparts.
+            if LOGGING then LogD('Is hands or hair');
+            allAddons.AddObject(EditorID(addon), addon);
+
+            racesList := ElementByPath(addon, 'Additional Races');
+            for raceIdx := -1 to ElementCount(racesList)-1 do begin
+                if raceIdx < 0 then race := WinningOverride(LinksTo(ElementByPath(addon, 'RNAM')))
+                else race := WinningOverride(LinksTo(ElementByIndex(racesList, raceIdx)));
+
+                if raceAssignments.IndexOf(EditorID(race)) >= 0 then begin
+                    // Is a furried race, so is furrifiable addon.
+                    if LOGGING then LogD('Is furrifiable: ' + EditorID(race));
+                    result := result or IS_FURRIFIABLE;
+                end;
+
+                if furryRaces.IndexOf(EditorID(race)) >= 0 then begin
+                    if LOGGING then LogD('Is furry: ' + EditorID(race));
+                    result := result or IS_FURRY;
+                end;
+
+                if (result and (IS_FURRY or IS_FURRIFIABLE)) = (IS_FURRY or IS_FURRIFIABLE) then
+                    // Once we've set both bits no need to look farther.
+                    break;
+            end;
+        end;
+    end
+    else
+        result := IS_ALREADY_TESTED;
+        
+    if LOGGING then LogExitT1('IsFurryAddon', IntToStr(result));
+end;
+
+
+{===================================================================
+Check the addon for furrified races; if it has any then add it to the list of
+furrifiable addons, along with the furrified races it's good for.
+}
+function RecordFurryAddon(addon: IwbMainRecord): boolean;
+var
+    racesList: IwbElement;
+    raceIdx: integer;
+    race: IwbMainRecord;
+    isf: integer;
+begin
+    if LOGGING then LogEntry1(20, 'RecordFurryAddon', Name(addon));
+    addon := WinningOverride(addon);
+
+    isf := IsFurryAddon(addon);
+    if (isf and (IS_FURRIFIABLE or IS_FURRY)) <> 0 then begin
+        // Record addon and all races it is valid for.
+        racesList := ElementByPath(addon, 'Additional Races');
+        for raceIdx := -1 to ElementCount(racesList)-1 do begin
+            if raceIdx < 0 then race := WinningOverride(LinksTo(ElementByPath(addon, 'RNAM')))
+            else race := WinningOverride(LinksTo(ElementByIndex(racesList, raceIdx)));
+            if LOGGING then LogD(Format('Found race %s', [EditorID(race)]));
+
+            if Assigned(race) then begin
+                // Only add the race if it's relevant to furrification
+                if (raceAssignments.IndexOf(EditorID(race)) >= 0)
+                    or (furryRaces.IndexOf(EditorID(race)) >= 0)
+                then begin
+                    if addonRaces.IndexOf(EditorID(addon)) < 0 then begin
+                        addonRaces.AddObject(EditorID(addon), TStringList.Create);
+                    end;
+                    addonRaces.objects[addonRaces.IndexOf(EditorID(addon))].AddObject(EditorID(race), race);
+                end;
+            end;
+        end;
+    end;
+
+    if (isf and (IS_FURRIFIABLE or IS_FURRY)) <> 0 then result := true
+    else if addonRaces.IndexOf(EditorID(addon)) >= 0 then result := true
+    else result := false;
+
+    if LOGGING then LogExitT('RecordFurryAddon');
+end;
+
+
+{===================================================================
+Collect all armor addons good for furry races.
+}
+procedure CollectFurryAddons;
+var
+    f, n, i: integer;
+    addonList: IwbElement;
+    addon: IwbMainRecord;
+    racesList: IwbElement;
+    race: IwbMainRecord;
+    raceName: string;
+    isFurryRace: boolean;
+begin
+    if LOGGING then LogEntry1(15, 'CollectFurryAddonRaces', Format('0 - %d', [targetFileIndex-1]));
+
+    // Walk through all files
+    for f := 0 to targetFileIndex - 1 do begin
+        if LOGGING then LogD('Processing file: ' + GetFileName(FileByIndex(f)));
+
+        // Walk through all armor addons in the file
+        addonList := GroupBySignature(FileByIndex(f), 'ARMA');
+        for n := 0 to ElementCount(addonList) - 1 do begin
+            addon := ElementByIndex(addonList, n);
+            if IsWinningOverride(addon) then 
+                RecordFurryAddon(addon);
+        end;
+    end;
+
+    if LOGGING then LogExitT('CollectFurryAddonRaces');
 end;
 
 
@@ -978,13 +1150,20 @@ var
     sl: TStringList;
 begin
     if LOGGING then LogEntry1(15, 'CollectArmor', Format('0 - %d', [targetFileIndex-1]));
+
+    // Walk through all files
     for f := 0 to targetFileIndex - 1 do begin
         if LOGGING Then LogD(Format('File %s with %s armors, %s addons', 
             [GetFileName(FileByIndex(f)), IntToStr(furrifiableArmors.Count), IntToStr(addonRaces.count)]));
+
+        // Walk through all armors in the file
         armorList := GroupBySignature(FileByIndex(f), 'ARMO');
         for n := 0 to ElementCount(armorList) - 1 do begin
+
+            // Only process the winning override of the armor record
             armor := ElementByIndex(armorList, n);
             if IsWinningOverride(armor) then begin
+                // Furrifiable armors are those that have a hair or hand bodypart flag set.
                 isFurrifiable := false;
                 if LOGGING then LogD(Format('Armor %s hair: %s hands %s:', 
                     [Name(armor),
@@ -993,31 +1172,36 @@ begin
                 if (GetElementNativeValues(armor, 'BOD2\First Person Flags\31 - Hair') <> 0) 
                     or (GetElementNativeValues(armor, 'BOD2\First Person Flags\33 - Hands') <> 0) 
                 then begin
-                    aaList := ElementByName(armor, 'Armature');
+                    // Furrifiable armors must have an addon that is good for a furrified race.
+                    aaList := ElementByPath(armor, 'Armature');
                     for aaIdx := 0 to ElementCount(aaList)-1 do begin
-                        addon := WinningOverride(LinksTo(ElementByIndex(aalist, aaIdx)));
-                        racesList := ElementByName(addon, 'Additional Races');
-                        for raceIdx := -1 to ElementCount(racesList)-1 do begin
-                            if raceIdx < 0 then race := WinningOverride(LinksTo(ElementByName(addon, 'RNAM')))
-                            else race := WinningOverride(LinksTo(ElementByIndex(racesList, raceIdx)));
-                            if raceAssignments.IndexOf(EditorID(race)) >= 0 then begin
-                                // Is a furrifiable addon
-                                isFurrifiable := true;
-                                if LOGGING then LogD('Have furrifiable addon: ' + Name(addon));
-                                if addonRaces.IndexOf(EditorID(addon)) < 0 then begin
-                                    // furrifiableAddons.AddObject(EditorID(addon), addon);
-                                    addonRaces.AddObject(EditorID(addon), TStringList.Create);
-                                end;
-                                addonRaces.objects[addonRaces.IndexOf(EditorID(addon))].AddObject(EditorID(race), race);
-                            end;
-                        end;
+                        isFurrifiable := isFurrifiable or RecordFurryAddon(LinksTo(ElementByIndex(aaList, aaIdx)));
                     end;
                 end;
+
+                if LOGGING and isFurrifiable then LogD('Have furrifiable armor: ' + Name(armor));
                 if isFurrifiable then furrifiableArmors.AddObject(EditorID(armor), armor);
             end;
         end;
     end;
+    CollectFurryAddons;
     if LOGGING then LogExitT('CollectArmor');
+end;
+
+
+procedure ShowArmor;
+var i, j: integer;
+begin
+    AddMessage('++++ Addon Races ++++');
+    for i := 0 to addonRaces.Count-1 do begin
+        if Assigned(addonRaces.objects[i]) then begin
+            for j := 0 to addonRaces.objects[i].Count-1 do 
+                AddMessage(Format('%s == %s', [addonRaces.strings[i], addonRaces.objects[i].strings[j]]));
+        end
+        else
+            AddMessage(Format('%s == %s', [addonRaces.strings[i], '<NONE>']));
+    end;
+    AddMessage('---- Addon Races ----');
 end;
 
 
@@ -1090,31 +1274,6 @@ end;
 
 
 {===================================================================
-Collect all armor addon records in the current load order and store them in a TStringList.
-}
-procedure CollectAddons;
-var
-    f: integer;
-    n: integer;
-    addonList: IwbElement;
-    addon: IwbMainRecord;
-begin
-    if LOGGING then LogEntry(15, 'CollectAddons');
-    for f := 0 to targetFileIndex - 1 do begin
-        if LOGGING Then LogD('File ' + GetFileName(FileByIndex(f)));
-        addonList := GroupBySignature(FileByIndex(f), 'ARMA');
-        for n := 0 to ElementCount(addonList) - 1 do begin
-            addon := ElementByIndex(addonList, n);
-            if IsWinningOverride(addon) then begin
-                allAddons.AddObject(EditorID(addon), addon);
-            end;
-        end;
-    end;
-    if LOGGING then LogExitT('CollectAddons');
-end;
-
-
-{===================================================================
 Furrify all armor. Walk through all armor in the load order and fix their armor addons to
 be furrified.
 }
@@ -1137,23 +1296,23 @@ function Initialize: integer;
 begin
     AddMessage(' ');
     AddMessage(' ');
-    AddMessage('====================================');
-    AddMessage('======== SKYRIM FURRIFIER ==========');
-    AddMessage('====================================');
+    AddMessage('====================================================');
+    AddMessage('================ SKYRIM FURRIFIER ==================');
+    AddMessage('====================================================');
     AddMessage(' ');
     AddMessage('Version ' + FURRIFIER_VERSION);
     AddMessage('xEdit Version ' + GetXEditVersion());
 
     InitializeLogging;
-    LOGGING := True;
-    LOGLEVEL := 5;
+    LOGGING := False;
+    LOGLEVEL := 1;
     if LOGGING then LogEntry(1, 'Initialize');
 
     hairAssignments := TStringList.Create;
 
     PreferencesInit;
     CollectArmor;
-    CollectAddons;
+    // CollectAddons;
     SetPreferences;
     ShowRaceAssignments;
 

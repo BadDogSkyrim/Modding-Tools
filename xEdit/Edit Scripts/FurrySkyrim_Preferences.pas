@@ -12,170 +12,204 @@ begin
     { ================================== LYKAIOS ================================== }
 
     BEGIN
-        SetRace('NordRace', 'LykaiosRace', 'DOG', 'KhajiitRace');
-        SetRace('NordRaceVampire', 'LykaiosRaceVampire', 'DOG', 'KhajiitRaceVampire');
-        SetRace('DLC1NordRace', 'LykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceVampire', 'BDLykaiosRaceVampire', 'DOG', 'KhajiitRace');
+        SetRace('DLC1NordRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceAstrid', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
 
         // Lykaios Hair
-        LabelHeadpartList('00HairLykaiosMaleDreads001_', 'DREADS,BOLD,FUNKY');
-        // LabelHeadpart('00HairLykaiosMaleDreads002_', 'DREADS'); // Dark version
-        LabelHeadpartList('00HairLykaiosMaleDreads003_', 'DREADS,NOBLE,BOLD,FUNKY');
-        // LabelHeadpart('00HairLykaiosMaleDreads004_', 'DREADS'); // Dark version
-        LabelHeadpartList('00HairLykaiosMaleDreadsFringe_', 'DREADS,NOBLE,BOLD,FUNKY,YOUNG');
-        LabelHeadpartList('00HairLykaiosMaleDreadsHeadband_', 'DREADS,NOBLE,BOLD,FUNKY,FEATHERS');
-        LabelHeadpartList('00HairLykaiosMaleFringeFlip001_', 'YOUNG,SHORT');
-        LabelHeadpartList('00HairLykaiosMaleLionMane001', 'MANE,LONG');
-        LabelHeadpartList('00HairLykaiosMaleLionMane002', 'MANE,LONG,YOUNG');
-        LabelHeadpartList('00HairLykaiosMaleLionManebraids', 'MANE,LONG,NOBLE,BRAIDS');
-        LabelHeadpartList('00HairLykaiosMaleLionManeFringeLeftBraid_', 'MANE,LONG,NOBLE,BRAIDS');
-        LabelHeadpartList('00HairLykaiosMaleLionManeHeadband', 'MANE,LONG,NOBLE,FEATHERS');
-        LabelHeadpartList('00HairLykaiosMaleLongBraid001_', 'BRAIDS,NEAT,TIEDBACK,BRAIDS,NEAT');
-        LabelHeadpartList('00HairLykaiosMaleLongBraid002_', 'TIEDBACK,BRAIDS,NOBLE');
-        LabelHeadpartList('00HairLykaiosMaleLongBraidLeft_', 'NEAT,TIEDBACK,BRAIDS,NOBLE');
-        LabelHeadpartList('00HairLykaiosMaleMohawk001_', 'MOHAWK,BRAIDS,MILITARY,BOLD');
-        LabelHeadpartList('00HairLykaiosMaleMohawk003_', 'MOHAWK,FEATHERS,BOLD');
-        LabelHeadpartList('00HairLykaiosMaleMohawkFringe_', 'MOHAWK,YOUNG,BOLD');
-        LabelHeadpartList('00HairLykaiosMaleShaggyHair002_', 'LONG,MESSY');
-        LabelHeadpartList('00HairLykaiosMaleShaggyHair003_', 'LONG,MESSY,FEATHERS');
-        LabelHeadpartList('00HairLykaiosMaleShorCrop001_', 'SHORT,NEAT');
-        LabelHeadpartList('00HairLykaiosMaleShorCrop002_', 'SHORT,NEAT,YOUNG');
-        LabelHeadpartList('00HairLykaiosMaleShorCrop003_', 'SHORT,NEAT,NOBLE');
-        LabelHeadpartList('00HairLykaiosMaleShorCrop004_', 'SHORT,NEAT,NOBLE,FEATHERS');
-        LabelHeadpartList('00HairLykaiosMaleTiedStyle001_', 'LONG,NOBLE,NEAT');
-        LabelHeadpartList('00HairLykaiosMaleTiedStyleFringe_', 'LONG,NOBLE,NEAT,YOUNG');
-        LabelHeadpartList('00HairLykaiosMaleTiedStyleHeadband_', 'LONG,NOBLE,NEAT,YOUNG,FEATHERS');
-        LabelHeadpartList('00HairLykaiosMaleVanillaBraid001_', 'LONG,NEAT,TIEDBACK');
-        LabelHeadpartList('00HairLykaiosMaleVanillaCrop001_', 'SHORT,YOUNG,MILITARY');
-        LabelHeadpartList('00HairLykaiosMaleVanillaHair001_', 'MESSY,LONG');
+        LabelHeadpartList('BDCanMaleHairDreads001', 'DREADS,BOLD,FUNKY');
+        // LabelHeadpart('BDLykMaleHairDreads002', 'DREADS'); // Dark version
+        LabelHeadpartList('BDCanMaleHairDreads003', 'DREADS,NOBLE,BOLD,FUNKY');
+        // LabelHeadpart('BDLykMaleHairDreads004', 'DREADS'); // Dark version
+        LabelHeadpartList('BDCanMaleHairDreadsFringe', 'DREADS,NOBLE,BOLD,FUNKY,YOUNG');
+        LabelHeadpartList('BDCanMaleHairDreadsHeadband', 'DREADS,NOBLE,BOLD,FUNKY,FEATHERS');
+        LabelHeadpartList('BDCanMaleHairFringeFlip001', 'YOUNG,SHORT');
+        LabelHeadpartList('BDCanMaleHairLionMane001', 'MANE,LONG');
+        LabelHeadpartList('BDCanMaleHairLionMane002', 'MANE,LONG,YOUNG');
+        LabelHeadpartList('BDCanMaleHairLionManebraids', 'MANE,LONG,NOBLE,BRAIDS');
+        LabelHeadpartList('BDCanMaleHairLionManeFringeLeftBraid', 'MANE,LONG,NOBLE,BRAIDS');
+        LabelHeadpartList('BDCanMaleHairLionManeHeadband', 'MANE,LONG,NOBLE,FEATHERS');
+        LabelHeadpartList('BDCanMaleHairLongBraid001', 'BRAIDS,NEAT,TIEDBACK,BRAIDS,NEAT');
+        LabelHeadpartList('BDCanMaleHairLongBraid002', 'TIEDBACK,BRAIDS,NOBLE');
+        LabelHeadpartList('BDCanMaleHairLongBraidleft', 'NEAT,TIEDBACK,BRAIDS,NOBLE');
+        LabelHeadpartList('BDCanMaleHairMohawk001', 'MOHAWK,BRAIDS,MILITARY,BOLD');
+        LabelHeadpartList('BDCanMaleHairMohawk003', 'MOHAWK,FEATHERS,BOLD');
+        LabelHeadpartList('BDCanMaleHairMohawkFringe', 'MOHAWK,YOUNG,BOLD');
+        LabelHeadpartList('BDCanMaleHairShaggyHair002', 'LONG,MESSY');
+        LabelHeadpartList('BDCanMaleHairShaggyHair003', 'LONG,MESSY,FEATHERS');
+        LabelHeadpartList('BDCanMaleHairShorCrop001', 'SHORT,NEAT');
+        LabelHeadpartList('BDCanMaleHairShorCrop002', 'SHORT,NEAT,YOUNG');
+        LabelHeadpartList('BDCanMaleHairShorCrop003', 'SHORT,NEAT,NOBLE');
+        LabelHeadpartList('BDCanMaleHairShorCrop004', 'SHORT,NEAT,NOBLE,FEATHERS');
+        LabelHeadpartList('BDCanMaleHairTiedStyle001', 'LONG,NOBLE,NEAT');
+        LabelHeadpartList('BDCanMaleHairTiedStyleFringe', 'LONG,NOBLE,NEAT,YOUNG');
+        LabelHeadpartList('BDCanMaleHairTiedStyleHeadband', 'LONG,NOBLE,NEAT,YOUNG,FEATHERS');
+        LabelHeadpartList('BDCanMaleHairVanillaBraid001', 'LONG,NEAT,TIEDBACK');
+        LabelHeadpartList('BDCanMaleHairVanillaCrop001', 'SHORT,YOUNG,MILITARY');
+        LabelHeadpartList('BDCanMaleHairVanillaHair001', 'MESSY,LONG');
         LabelHeadpartList('HairBeastSidehawk', 'MOHAWK,FUNKY,BOLD');
 
-        LabelHeadpartList('00HairLykaiosFemaleBraid001_', 'NEAT,TIEDBACK,LONG,BRAIDS');
-        LabelHeadpartList('00HairLykaiosFemaleBraid002_', 'NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
-        LabelHeadpartList('00HairLykaiosFemaleDreads001_', 'DREADS,BOLD,FUNKY');
-        LabelHeadpartList('00HairLykaiosFemaleDreads002_', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
-        LabelHeadpartList('00HairLykaiosFemaleFringeFlip001_', 'YOUNG,NEAT,SHORT');
-        LabelHeadpartList('00HairLykaiosFemaleMane001_', 'MANE,LONG,BOLD');
-        LabelHeadpartList('00HairLykaiosFemaleMane002_', 'MANE,LONG,BOLD');
-        LabelHeadpartList('00HairLykaiosFemaleMane003', 'MANE,LONG,BOLD,NOBLE');
-        LabelHeadpartList('00HairLykaiosFemaleMohawk001_', 'MOHAWK,BOLD,FUNKY');
-        LabelHeadpartList('00HairLykaiosFemaleMohawk002_', 'MOHAWK,BOLD,FUNKY,FEATHERS');
-        LabelHeadpartList('00HairLykaiosFemaleShaggy001_', 'LONG,MESSY,LONG');
-        LabelHeadpartList('00HairLykaiosFemaleShaggy002_', 'MESSY,BRAIDS');
-        LabelHeadpartList('00HairLykaiosFemaleShortCrop001_', 'SHORT,NEAT,MILITARY');
-        LabelHeadpartList('00HairLykaiosFemaleShortCrop002_', 'SHORT,NEAT');
-        LabelHeadpartList('00HairLykaiosFemaleShortCrop003_', 'SHORT,NEAT,BRAIDS,NOBLE');
-        LabelHeadpartList('00HairLykaiosFemaleTiedStyle001_', 'LONG,NOBLE,ELABORATE');
-        LabelHeadpartList('00HairLykaiosFemaleVanillaBraid001_', 'TIEDBACK,BRAIDS');
-        LabelHeadpartList('00HairLykaiosFemaleVanillaCrop001_', 'SHORT,TIEDBACK');
-        LabelHeadpartList('00HairLykaiosFemaleVanillaHair001_', 'SHORT,BRAIDS,FUNKY');
+        LabelHeadpartList('BDCanFemHairBraid001', 'NEAT,TIEDBACK,LONG,BRAIDS');
+        LabelHeadpartList('BDCanFemHairBraid002', 'NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
+        LabelHeadpartList('BDCanFemHairDreads001', 'DREADS,BOLD,FUNKY');
+        LabelHeadpartList('BDCanFemHairDreads002', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
+        LabelHeadpartList('BDCanFemHairFringeFlip001', 'YOUNG,NEAT,SHORT');
+        LabelHeadpartList('BDCanFemHairMane001', 'MANE,LONG,BOLD');
+        LabelHeadpartList('BDCanFemHairMane002', 'MANE,LONG,BOLD');
+        LabelHeadpartList('BDCanFemHairMane003', 'MANE,LONG,BOLD,NOBLE');
+        LabelHeadpartList('BDCanFemHairMohawk001', 'MOHAWK,BOLD,FUNKY');
+        LabelHeadpartList('BDCanFemHairMohawk002', 'MOHAWK,BOLD,FUNKY,FEATHERS');
+        LabelHeadpartList('BDCanFemHairShaggy001', 'LONG,MESSY,LONG');
+        LabelHeadpartList('BDCanFemHairShaggy002', 'MESSY,BRAIDS');
+        LabelHeadpartList('BDCanFemHairShortCrop001', 'SHORT,NEAT,MILITARY');
+        LabelHeadpartList('BDCanFemHairShortCrop002', 'SHORT,NEAT');
+        LabelHeadpartList('BDCanFemHairShortCrop003', 'SHORT,NEAT,BRAIDS,NOBLE');
+        LabelHeadpartList('BDCanFemHairTiedStyle001', 'LONG,NOBLE,ELABORATE');
+        LabelHeadpartList('BDCanFemHairVanillaBraid001', 'TIEDBACK,BRAIDS');
+        LabelHeadpartList('BDCanFemHairVanillaCrop001', 'SHORT,TIEDBACK');
+        LabelHeadpartList('BDCanFemHairVanillaHair001', 'SHORT,BRAIDS,FUNKY');
         LabelHeadpartList('00LykaiosHairKhajiitFemale02', 'SHORT,TIEDBACK');
         LabelHeadpartList('00LykaiosHairKhajiitFemale03', 'SHORT,BRAIDS,FUNKY');
 
         // Lykaios Eyes
 
-        AssignHeadpart('MaleEyesHumanAmber', '00LykaiosMaleEyesAmber');
-        AssignHeadpart('MaleEyesHumanAmberBlindRight', '00LykaiosMaleEyesAlbino');
-        AssignHeadpart('MaleEyesHumanBlind', '00LykaiosMaleEyesAlbino');
-        AssignHeadpart('MaleEyesHumanBrightGreen', '00LykaiosMaleEyesGreen');
-        AssignHeadpart('MaleEyesHumanBrightGreenBlindRight', '00LykaiosMaleEyesGreen');
-        AssignHeadpart('MaleEyesHumanBrown', '00LykaiosMaleEyesBrown');
-        AssignHeadpart('MaleEyesHumanBrownBlindLeft', '00LykaiosMaleEyesAlbino');
-        AssignHeadpart('MaleEyesHumanBrownBlindRight', '00LykaiosMaleEyesAlbino');
-        AssignHeadpart('MaleEyesHumanBrownBloodShot', '00LykaiosMaleEyesBrown');
-        AssignHeadpart('MaleEyesHumanDarkBlue', '00LykaiosMaleEyesDarkBlue');
-        AssignHeadpart('MaleEyesHumanDemon', '00LykaiosMaleEyesRed');
-        AssignHeadpart('MaleEyesHumanGreenHazelLeft', '00LykaiosMaleEyesYellow');
-        AssignHeadpart('MaleEyesHumanGrey', '00LykaiosMaleEyesBase');
-        AssignHeadpart('MaleEyesHumanHazel', '00LykaiosMaleEyesYellow');
-        AssignHeadpart('MaleEyesHumanHazelBrown', '00LykaiosMaleEyesYellow');
-        AssignHeadpart('MaleEyesHumanIceBlue', '00LykaiosMaleEyesBlue');
-        AssignHeadpart('MaleEyesHumanLightBlue', '00LykaiosMaleEyesSnow1');
-        AssignHeadpart('MaleEyesHumanLightBlueBlindLeft', '00LykaiosMaleEyesAlbino');
-        AssignHeadpart('MaleEyesHumanLightBlueBloodShot', '00LykaiosMaleEyesSnow1');
-        AssignHeadpart('MaleEyesHumanLightGrey', '00LykaiosMaleEyesGrey');
-        AssignHeadpart('MaleEyesHumanLightIceGreyBlindLeft', '00LykaiosMaleEyesLilac');
-        AssignHeadpart('MaleEyesHumanVampire', '00LykaiosMaleEyesVampire');
+        AssignHeadpart('MaleEyesHumanAmber', 'BDCanMaleEyesAmber');
+        AssignHeadpart('MaleEyesHumanAmberBlindRight', 'BDCanMaleEyesAlbino');
+        AssignHeadpart('MaleEyesHumanBlind', 'BDCanMaleEyesAlbino');
+        AssignHeadpart('MaleEyesHumanBrightGreen', 'BDCanMaleEyesGreen');
+        AssignHeadpart('MaleEyesHumanBrightGreenBlindRight', 'BDCanMaleEyesGreen');
+        AssignHeadpart('MaleEyesHumanBrown', 'BDCanMaleEyesBrown');
+        AssignHeadpart('MaleEyesHumanBrownBlindLeft', 'BDCanMaleEyesAlbino');
+        AssignHeadpart('MaleEyesHumanBrownBlindRight', 'BDCanMaleEyesAlbino');
+        AssignHeadpart('MaleEyesHumanBrownBloodShot', 'BDCanMaleEyesBrown');
+        AssignHeadpart('MaleEyesHumanDarkBlue', 'BDCanMaleEyesDarkBlue');
+        AssignHeadpart('MaleEyesHumanDemon', 'BDCanMaleEyesRed');
+        AssignHeadpart('MaleEyesHumanGreenHazelLeft', 'BDCanMaleEyesYellow');
+        AssignHeadpart('MaleEyesHumanGrey', 'BDCanMaleEyesDarkGray');
+        AssignHeadpart('MaleEyesHumanHazel', 'BDCanMaleEyesYellow');
+        AssignHeadpart('MaleEyesHumanHazelBrown', 'BDCanMaleEyesYellow');
+        AssignHeadpart('MaleEyesHumanIceBlue', 'BDCanMaleEyesBlue');
+        AssignHeadpart('MaleEyesHumanLightBlue', 'BDCanMaleEyesSnow');
+        AssignHeadpart('MaleEyesHumanLightBlueBlindLeft', 'BDCanMaleEyesAlbino');
+        AssignHeadpart('MaleEyesHumanLightBlueBloodShot', 'BDCanMaleEyesSnow');
+        AssignHeadpart('MaleEyesHumanLightGrey', 'BDCanMaleEyesGrey');
+        AssignHeadpart('MaleEyesHumanLightIceGreyBlindLeft', 'BDCanMaleEyesLilac');
+        AssignHeadpart('MaleEyesHumanVampire', 'BDCanMaleEyesVampire');
 
         // Lykaios tint layers
-        SetTintLayerType('LykaiosRace', 'MaskFullCheeks.dds', TINT_MASK);
-        SetTintLayerType('LykaiosRace', 'MaskFull.dds', TINT_MASK);
-        SetTintLayerType('LykaiosRace', 'Lykaios_paint04.dds', TINT_NORD);
-        SetTintLayerType('LykaiosRace', 'Lykaios_paint02.dds', TINT_NORD);
-        SetTintLayerType('LykaiosRace', 'Lykaios_paint03.dds', TINT_NORD);
-        SetTintLayerType('LykaiosRace', 'wolfpawprint.dds', TINT_HAND);
-        SetTintLayerType('LykaiosRace', 'SkullPaint.dds', TINT_SKULL);
-        SetTintLayerType('LykaiosRace', 'TintEar.dds', TINT_EAR);
-        SetTintLayerType('LykaiosRace', 'NoseMuzzle.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'Muzzle.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'NoseStripeLarge.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'MuzzleStripe.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'NoseStripe.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'NoseDot2.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'NoseDot.dds', TINT_MUZZLE);
-        SetTintLayerType('LykaiosRace', 'Chin.dds', TINT_CHIN);
-        SetTintLayerType('LykaiosRace', 'Brows.dds', TINT_EYE_UPPER);
-        SetTintLayerType('LykaiosRace', 'BrowsSmall.dds', TINT_EYE_UPPER);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios\Male\Tints\Eyebrow.dds', TINT_BROW);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios\Male\Tints\EyebrowSpot.dds', TINT_BROW);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios\Male\Tints\Tintmasks\TintEar.dds', TINT_EAR);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios\Male\Tints\EyebrowSpot.dds', TINT_NOSE);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios_paint04.dds', TINT_NORD);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios_paint02.dds', TINT_NORD);
+        SetTintLayerType('BDLykaiosRace', 'Lykaios_paint03.dds', TINT_NORD);
+        SetTintLayerType('BDLykaiosRace', 'wolfpawprint.dds', TINT_HAND);
+        SetTintLayerType('BDLykaiosRace', 'SkullPaint.dds', TINT_SKULL);
     END;
 
 
-    { ================================== HORSES ================================== }
+    { ================================== ELDER ================================== }
+    BEGIN
+        SetRace('ElderRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+    end;
+
+    { ================================== IMPERIAL ================================== }
+    BEGIN
+        // SetRace('ImperialRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+        // SetRace('ImperialRaceVampire', 'BDLykaiosRaceVampire', 'DOG', 'KhajiitRace');
+    end;
+
+    { ================================== BRETON ================================== }
+    BEGIN
+        // SetRace('BretonRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+        // SetRace('BretonRaceVampire', 'BDLykaiosRaceVampire', 'DOG', 'KhajiitRace');
+    end;
+
+    { ================================== REDGUARD ================================== }
+    BEGIN
+        // SetRace('RedguardRace', 'BDLykaiosRace', 'DOG', 'KhajiitRace');
+        // SetRace('RedguardRaceVampire', 'BDLykaiosRaceVampire', 'DOG', 'KhajiitRace');
+    end;
+
+    { ================================== HIGH ELF ================================== }
+    BEGIN
+        SetRace('HighElfRace', 'BDSabrelionRace', 'CAT', 'KhajiitRace');
+        SetRace('HighElfRaceVampire', 'BDSabrelionRaceVampire', 'CAT', 'KhajiitRaceVampire');
+    end;
+
+    { ================================== WOOD ELF ================================== }
     BEGIN
 
-        SetRace('OrcRace', 'BDMinoRace', 'MINO', 'KhajiitRace');
-        SetRace('OrcRaceVampire', 'BDMinoRaceVampire', 'MINO', 'KhajiitRaceVampire');
+        SetRace('WoodElfRace', 'BDCheetahRace', 'CAT', 'KhajiitRace');
+        SetRace('WoodElfRaceVampire', 'BDCheetahRaceVampire', 'CAT', 'KhajiitRaceVampire');
+    end;
 
-        // Male hair
-        LabelHeadpartList('BDMinoHairFringe', 'NEAT,SHORT,YOUNG');
-        LabelHeadpartList('BDMinoHairNone', 'NEAT,BUZZ,MILITARY');
-        LabelHeadpartList('BDMinoHairMaleDreads01', 'DREADS,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairMaleDreadsBeads', 'DREADS,LONG,BOLD,NOBLE');
-        LabelHeadpartList('BDMinoHairMaleMohawk', 'MOHAWK,BOLD');
-        LabelHeadpartList('BDMinoHairMaleMohawkDark', 'MOHAWK,BOLD');
-        LabelHeadpartList('BDMinoHairMaleMohawkFeathers', 'MOHAWK,BOLD,FUNKY,FEATHERS');
-        LabelHeadpartList('BDMinoHairMaleMane', 'MANE,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairMaleShaggy', 'LONG,MESSY');
-        LabelHeadpartList('BDMinoHairMale01', 'BRAIDS,LONG,TIEDBACK');
-        LabelHeadpartList('BDMinoHairMale02', 'LONG,TIEDBACK');
-        LabelHeadpartList('BDMinoHairMale04', 'SHORT,NEAT');
-        LabelHeadpartList('BDMinoHairMale03', 'MESSY,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairMale05', 'NEAT,BRAID,ELABORATE');
-        LabelHeadpartList('BDMinoHairMale06', 'NEAT,TIEDBACK');
-        LabelHeadpartList('BDMinoHairMale07', 'MOHAWK,NEAT,MILITARY');
-        LabelHeadpartList('BDMinoHairMale08', 'LONG,MESSY');
-        LabelHeadpartList('BDMinoHairMale09', 'NEAT,BRAIDS,FUNKY');
-        LabelHeadpartList('BDMinoHairMaleLong', 'LONG,ELABORATE');
-        LabelHeadpartList('BDMinoHairMaleManeHeadband', 'MANE,LONG,NOBLE');
-        LabelHeadpartList('BDMinoHairMaleManeFeather', 'MANE,LONG,FEATHERS');
-        LabelHeadpartList('BDMinoHairMaleManeCurly', 'MANE,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairMinoManeRough', 'MANE,LONG,MESSY');
+    { ================================== DARK ELF ================================== }
+    BEGIN
 
-        // Female Hair
-        LabelHeadpartList('BDMinoHairFemTiedStyle001', 'LONG,ELABORATE,NOBLE');
-        LabelHeadpartList('BDMinoHairFem10', 'SHORT,TIEDBACK');
-        LabelHeadpartList('BDMinoHairFem09', 'SHORT,BRAIDS,TIEDBACK');
-        LabelHeadpartList('BDMinoHairFem03', 'SHORT,TIEDBACK');
-        LabelHeadpartList('BDMinoHairFem04', 'BRAIDS,NEAT');
-        LabelHeadpartList('BDMinoHairFem05', 'TIEDBACK,FUNKY');
-        LabelHeadpartList('BDMinoHairFem06', 'SHORT,TIEDBACK,NEAT,FUNKY');
-        LabelHeadpartList('BDMinoHairFemFringe', 'SHORT,YOUNG');
-        LabelHeadpartList('BDMinoHairFemDreads01', 'DREADS,LONG');
-        LabelHeadpartList('BDMinoHairFemDreadsBeads', 'DREADS,LONG,NOBLE');
-        LabelHeadpartList('BDMinoHairFemMane', 'MANE,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairFemShaggy', 'LONG,MESSY');
-        LabelHeadpartList('BDMinoHairFemManeHeadband', 'MANE,LONG,BOLD,NOBLE');
-        LabelHeadpartList('BDMinoHairFemManeFeather', 'MANE,LONG,FEATHERS');
-        LabelHeadpartList('BDMinoHairFemManeCurly', 'MANE,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairFemManeRough', 'MANE,LONG,BOLD');
-        LabelHeadpartList('BDMinoHairFemLongBraid', 'LONG,BRAID');
-        LabelHeadpartList('BDMinoHairFemApachii01', 'SHORT,YOUNG');
-        LabelHeadpartList('BDMinoHairFemApachii02', 'DREADS,LONG,ELABORATE');
-        LabelHeadpartList('BDMinoHairFemApachii03', 'SHORT,YOUNG,MESSY');
-        LabelHeadpartList('BDMinoHairFemApachii04', 'LONG,MESSY');
-        LabelHeadpartList('BDMinoHairFemApachii05', 'LONG,MESSY');
+        SetRace('DarkElfRace', 'BDPantherRace', 'CAT', 'KhajiitRace');
+        SetRace('DarkElfRaceVampire', 'BDPantherRaceVampire', 'CAT', 'KhajiitRaceVampire');
+    end;
+
+    { ================================== ORC ================================== }
+    BEGIN
+        // SetRace('OrcRace', 'BDMinoRace', 'MINO', 'KhajiitRace');
+        // SetRace('OrcRaceVampire', 'BDMinoRaceVampire', 'MINO', 'KhajiitRaceVampire');
+
+        // // Male hair
+        // LabelHeadpartList('BDMinoHairFringe', 'NEAT,SHORT,YOUNG');
+        // LabelHeadpartList('BDMinoHairNone', 'NEAT,BUZZ,MILITARY');
+        // LabelHeadpartList('BDMinoHairMaleDreads01', 'DREADS,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairMaleDreadsBeads', 'DREADS,LONG,BOLD,NOBLE');
+        // LabelHeadpartList('BDMinoHairMaleMohawk', 'MOHAWK,BOLD');
+        // LabelHeadpartList('BDMinoHairMaleMohawkDark', 'MOHAWK,BOLD');
+        // LabelHeadpartList('BDMinoHairMaleMohawkFeathers', 'MOHAWK,BOLD,FUNKY,FEATHERS');
+        // LabelHeadpartList('BDMinoHairMaleMane', 'MANE,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairMaleShaggy', 'LONG,MESSY');
+        // LabelHeadpartList('BDMinoHairMale01', 'BRAIDS,LONG,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairMale02', 'LONG,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairMale04', 'SHORT,NEAT');
+        // LabelHeadpartList('BDMinoHairMale03', 'MESSY,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairMale05', 'NEAT,BRAID,ELABORATE');
+        // LabelHeadpartList('BDMinoHairMale06', 'NEAT,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairMale07', 'MOHAWK,NEAT,MILITARY');
+        // LabelHeadpartList('BDMinoHairMale08', 'LONG,MESSY');
+        // LabelHeadpartList('BDMinoHairMale09', 'NEAT,BRAIDS,FUNKY');
+        // LabelHeadpartList('BDMinoHairMaleLong', 'LONG,ELABORATE');
+        // LabelHeadpartList('BDMinoHairMaleManeHeadband', 'MANE,LONG,NOBLE');
+        // LabelHeadpartList('BDMinoHairMaleManeFeather', 'MANE,LONG,FEATHERS');
+        // LabelHeadpartList('BDMinoHairMaleManeCurly', 'MANE,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairMinoManeRough', 'MANE,LONG,MESSY');
+
+        // // Female Hair
+        // LabelHeadpartList('BDMinoHairFemTiedStyle001', 'LONG,ELABORATE,NOBLE');
+        // LabelHeadpartList('BDMinoHairFem10', 'SHORT,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairFem09', 'SHORT,BRAIDS,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairFem03', 'SHORT,TIEDBACK');
+        // LabelHeadpartList('BDMinoHairFem04', 'BRAIDS,NEAT');
+        // LabelHeadpartList('BDMinoHairFem05', 'TIEDBACK,FUNKY');
+        // LabelHeadpartList('BDMinoHairFem06', 'SHORT,TIEDBACK,NEAT,FUNKY');
+        // LabelHeadpartList('BDMinoHairFemFringe', 'SHORT,YOUNG');
+        // LabelHeadpartList('BDMinoHairFemDreads01', 'DREADS,LONG');
+        // LabelHeadpartList('BDMinoHairFemDreadsBeads', 'DREADS,LONG,NOBLE');
+        // LabelHeadpartList('BDMinoHairFemMane', 'MANE,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairFemShaggy', 'LONG,MESSY');
+        // LabelHeadpartList('BDMinoHairFemManeHeadband', 'MANE,LONG,BOLD,NOBLE');
+        // LabelHeadpartList('BDMinoHairFemManeFeather', 'MANE,LONG,FEATHERS');
+        // LabelHeadpartList('BDMinoHairFemManeCurly', 'MANE,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairFemManeRough', 'MANE,LONG,BOLD');
+        // LabelHeadpartList('BDMinoHairFemLongBraid', 'LONG,BRAID');
+        // LabelHeadpartList('BDMinoHairFemApachii01', 'SHORT,YOUNG');
+        // LabelHeadpartList('BDMinoHairFemApachii02', 'DREADS,LONG,ELABORATE');
+        // LabelHeadpartList('BDMinoHairFemApachii03', 'SHORT,YOUNG,MESSY');
+        // LabelHeadpartList('BDMinoHairFemApachii04', 'LONG,MESSY');
+        // LabelHeadpartList('BDMinoHairFemApachii05', 'LONG,MESSY');
     END;
 
 
-    { ================================== MINOTAURS ================================== }
+    { ================================== ORC ================================== }
     BEGIN
 
         SetRace('OrcRace', 'BDHorseRace', 'UNG', '');
@@ -270,29 +304,67 @@ begin
     { ================================== VANILLA ================================== }
 
     // Vanilla NPC equivalents
-    NPCEquivalent('AstridEnd', 'Astrid');
-    NPCEquivalent('BreyaCorpse', 'Breya');
-    NPCEquivalent('C04DeadKodlak', 'Kodlak');
-    NPCEquivalent('C06DeadKodlak', 'Kodlak');
-    NPCEquivalent('MQ304Kodlak', 'Kodlak');
-    NPCEquivalent('DA05SindingGhost', 'DA05Sinding');
-    NPCEquivalent('DA05SindingHuman', 'DA05Sinding');
-    NPCEquivalent('Thorek_Ambush', 'Thorek');
-    NPCEquivalent('TovaDead', 'Tova');
-    NPCEquivalent('MS11SusannaDeadA', 'Susanna');
-    NPCEquivalent('MS11SusannaDeadA', 'Susanna');
-    NPCEquivalent('CurweDead', 'Curwe');
-    NPCEquivalent('DLC1MalkusDead', 'DLC1Malkus');
-    NPCEquivalent('EltrysDead', 'Eltrys');
-    NPCEquivalent('FestusKrexDead', 'FestusKrex');
-    NPCEquivalent('GabriellaDead', 'Gabriella');
-    NPCEquivalent('VantusLoreiusDead', 'VantusLoreius');
-    NPCEquivalent('VeezaraDead', 'Veezara');
-    NPCEquivalent('BreyaCorpse', 'Breya');
-    NPCEquivalent('DLC1LD_KatriaCorpse', 'DLC1LD_Katria');
-    NPCEquivalent('DLC1VQ01VigilantTolanCorpse', 'DLC1VigilantTolan');
-    NPCEquivalent('DrennenCorpse', 'Drennen');
-    NPCEquivalent('WatchesTheRootsCorpse', 'WatchesTheRoots');
+    NPCAlias('AmaundMotierre', 'AmaundMotierreEnd');
+    NPCAlias('Astrid', 'AstridEnd');
+    NPCAlias('Breya', 'BreyaCorpse');
+    NPCAlias('Breya', 'BreyaCorpse');
+    NPCAlias('Cicero', 'CiceroDawnstar');
+    NPCAlias('Cicero', 'CiceroRoad');
+    NPCAlias('Curwe', 'CurweDead');
+    NPCAlias('DA01MalynVaren', 'DA01MalynVarenCorpse');
+    NPCAlias('DA05Sinding', 'DA05SindingGhost');
+    NPCAlias('DA05Sinding', 'DA05SindingHuman');
+    NPCAlias('DBLis', 'DBLisDead');
+    NPCAlias('Dravynea', 'DravyneaDUPLICATE001');
+    NPCAlias('Drennen', 'DrennenCorpse');
+    NPCAlias('dunAnsilvundFemaleGhost', 'DunAnsilvundDraugrWarlordFemale');
+    NPCAlias('dunAnsilvundMaleGhost', 'DunAnsilvundDraugrWarlord');
+    NPCAlias('dunGeirmundSigdis', 'dunGeirmundSigdisDuplicate');
+    NPCAlias('dunGeirmundSigdis', 'dunReachwaterRockSigdisDuplicate');
+    NPCAlias('Eltrys', 'EltrysDead');
+    NPCAlias('FelldirTheOld', 'MQ206Felldir');
+    NPCAlias('FelldirTheOld', 'SummonFelldir');
+    NPCAlias('FestusKrex', 'FestusKrexDead');
+    NPCAlias('Gabriella', 'GabriellaDead');
+    NPCAlias('Galmar', 'CWBattleGalmar');
+    NPCAlias('GeneralTullius', 'CWBattleTullius');
+    NPCAlias('GormlaithGoldenHilt', 'MQ206Gormlaith');
+    NPCAlias('GormlaithGoldenHilt', 'SummonGormlaith');
+    NPCAlias('Haming', 'dunHunterChild');
+    NPCAlias('Kodlak', 'C04DeadKodlak');
+    NPCAlias('Kodlak', 'C06DeadKodlak');
+    NPCAlias('Kodlak', 'MQ304Kodlak');
+    NPCAlias('Malborn', 'MQ201FakeMalborn');
+    NPCAlias('MQ206Hakon', 'HakonOneEye');
+    NPCAlias('MQ206Hakon', 'SummonHakon');
+    NPCAlias('MS13Arvel', 'e3DemoArvel');
+    NPCAlias('Nazir', 'NazirSancAttack');
+    NPCAlias('Nerien', 'MG02Nerien');
+    NPCAlias('Rikke', 'CWBattleRikke');
+    NPCAlias('SavosAren', 'SavosArenGhost');
+    NPCAlias('Susanna', 'MS11SusannaDeadA');
+    NPCAlias('Susanna', 'MS11SusannaDeadA');
+    NPCAlias('Thorek', 'Thorek_Ambush');
+    NPCAlias('Thorek', 'Thorek_Ambush');
+    NPCAlias('TitusMedeII', 'TitusMedeIIDecoy');
+    NPCAlias('Tova', 'TovaDead');
+    NPCAlias('Ulfric', 'CWBattleUlfric');
+    NPCAlias('Ulfric', 'MQ304Ulfric');
+    NPCAlias('VantusLoreius', 'VantusLoreiusDead');
+    NPCAlias('VantusLoreius', 'VantusLoreiusDead');
+    NPCAlias('Veezara', 'VeezaraDead');
+    NPCAlias('VerenDuleri', 'VerenDuleri_Ambush');
+    NPCAlias('WatchesTheRoots', 'WatchesTheRootsCorpse');
+    NPCAlias('WEDL04PlautisCarvain', 'WEDL03PlautisCarvain');
+    NPCAlias('WEDL04SaloniaCarvain', 'WEDL03SaloniaCarvain');
+    NPCAlias('DLC1Harkon', 'DLC1HarkonCombat');
+    NPCAlias('DLC1LD_Katria', 'DLC1LD_KatriaCorpse');
+    NPCAlias('DLC1Malkus', 'DLC1MalkusDead');
+    NPCAlias('DLC1VigilantTolan', 'DLC1VQ01VigilantTolanCorpse');
+    NPCAlias('DLC2Miraak', 'DLC2MiraakMQ01');
+    NPCAlias('DLC2Miraak', 'DLC2MiraakMQ06');
+    NPCAlias('DLC2RRLygrleidSolstheim', 'DLC2RRLygrleidWindhelm');
+    NPCAlias('DLC2RRSogrlafSolstheim', 'DLC2RRSogrlafWindhelm');
 
     LabelVanillaHeadparts;
     InitLabelConflicts;

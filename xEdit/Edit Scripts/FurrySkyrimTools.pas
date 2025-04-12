@@ -21,22 +21,25 @@ const
     TINT_SKIN_TONE = 11;
     TINT_MUZZLE = 12;
     TINT_MASK = 13;
-    TINT_EAR = 14;
-    TINT_BLACKBLOOD = 15;
-    TINT_BOTHIAH = 16;
-    TINT_FREKLES = 17;
-    TINT_NORD = 18;
-    TINT_DARKELF = 19;
-    TINT_IMPERIAL = 20;
-    TINT_ORC = 21;
-    TINT_REDGUARD = 22;
-    TINT_WOODELF = 23;
-    TINT_HAND = 24;
-    TINT_SKULL = 25;
-    TINT_PAINT = 26;
-    TINT_DIRT = 27;
-    TINT_COUNT = 28;
-    TINT_SPECIAL_LO = 15;
+    TINT_BROW = 14;
+    TINT_EAR = 15;
+    TINT_BLACKBLOOD = 16;
+    TINT_BOTHIAH = 17;
+    TINT_FREKLES = 18;
+    TINT_NORD = 19;
+    TINT_DARKELF = 20;
+    TINT_IMPERIAL = 21;
+    TINT_ORC = 22;
+    TINT_REDGUARD = 23;
+    TINT_WOODELF = 24;
+    TINT_HAND = 25;
+    TINT_SKULL = 26;
+    TINT_PAINT = 27;
+    TINT_DIRT = 28;
+    TINT_COUNT = 29;
+
+    // "Special" tint layers are only assigned if the NPC has them.
+    TINT_SPECIAL_LO = 16;
 
     SEX_MALEADULT = 0;
     SEX_FEMADULT = 1;
@@ -141,8 +144,10 @@ var
     // curNPCTintLayerOptions: IwbMainRecord;
     curNPClabels: TStringList;
     curNPCalias: string;
+    curNPCHash: string;
 
     indexList: TStringList;
+    defaultRace: IwbMainRecord;
 
 
 Procedure PreferencesInit;
@@ -206,6 +211,7 @@ begin
     tintlayerNames.Add('Skin Tone');
     tintlayerNames.Add('Muzzle');
     tintlayerNames.Add('Mask');
+    tintlayerNames.Add('Brow');
     tintlayerNames.Add('Ear');
     tintlayerNames.Add('BlackBlood');
     tintlayerNames.Add('Bothiah');
@@ -254,6 +260,8 @@ begin
     allAddons := TStringList.Create;
     allAddons.Duplicates := dupIgnore;
     allAddons.Sorted := true;
+
+    defaultRace := FindAsset(FileByIndex(0), 'RACE', 'DefaultRace');
 
     if LOGGING then LogExitT('PreferencesInit');
 end;
@@ -613,9 +621,9 @@ begin
     vanillaRace := FindAsset(Nil, 'RACE', vanillaRaceName);
     furryRace := FindAsset(Nil, 'RACE', furryRaceName);
     if not Assigned(furryRace) then 
-        Err(Format('Race %s not found', [furryRaceName]))
+        Warn(Format('Race %s not found, will not be assigned', [furryRaceName]))
     else if not Assigned(vanillaRace) then 
-        Err(Format('Race %s not found', [vanillaRaceName]))
+        Warn(Format('Race %s not found, will not be furrified', [vanillaRaceName]))
     else begin
         raceAssignments.AddObject(vanillaRaceName, WinningOverride(furryRace));
 
@@ -633,7 +641,8 @@ begin
         if defaultArmorRace <> '' then begin
             armorRace := FindAsset(nil, 'RACE', defaultArmorRace);
             if not Assigned(armorRace) then
-                Err(Format('Race %s not found', [defaultArmorRace]))
+                Warn(Format('Race %s not found, race %s may have trouble wearing armor', [
+                    defaultArmorRace, vanillaRaceName]))
             else begin
                 furryRaces.AddObject(defaultArmorRace, armorRace);
                 armorRaces.add(furryRaceName + '=' + defaultArmorRace);
@@ -702,16 +711,24 @@ var
     racename: string;
     sl: TStringList;
 begin
+    if LOGGING then LogEntry(15, 'RecordHeadpartAssignments');
+
     for hpIter := 0 to headpartRecords.Count-1 do begin
         hp := ObjectToElement(headpartRecords.objects[hpIter]);
         hpType := StrToHeadpart(GetElementEditValues(hp, 'PNAM'));
 
+        if LOGGING then LogT(Format('Processing headpart: %s (Type: %s)', [Name(hp), HeadpartToStr(hpType)]));
+
         for s := SEX_MALEADULT to SEX_FEMADULT do begin
             if SexMatchesHeadpart(hp, s) then begin
+                if LOGGING then LogT(Format('Headpart %s matches sex: %s', [Name(hp), SexToStr(s)]));
+
                 formlist := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM')));
-                racelist := ElementByName(formlist, 'FormIDs');
+                racelist := ElementByPath(formlist, 'FormIDs');
                 for rIdx := 0 to ElementCount(racelist)-1 do begin
                     racename := EditorID(LinksTo(ElementByIndex(racelist, rIdx)));
+                    if LOGGING then LogT(Format('Processing race: %s for headpart: %s', [racename, Name(hp)]));
+
                     r := raceHeadparts[hpType, s].IndexOf(racename);
                     if r < 0 then begin
                         sl := TStringList.Create;
@@ -719,12 +736,16 @@ begin
                         sl.Sorted := true;
                         raceHeadparts[hpType, s].AddObject(racename, sl);
                         r := raceHeadparts[hpType, s].IndexOf(racename);
+                        if LOGGING then LogT(Format('Added new race: %s to headpart type: %s', [racename, HeadpartToStr(hpType)]));
                     end;
                     raceHeadparts[hpType, s].objects[r].AddObject(EditorID(hp), hp);
+                    if LOGGING then LogT(Format('Assigned headpart: %s to race: %s', [Name(hp), racename]));
                 end;
             end;
         end;
     end;
+
+    if LOGGING then LogExitT('RecordHeadpartAssignments');
 end;
 
 
@@ -765,7 +786,8 @@ begin
         hp := ObjectToElement(headpartRecords.objects[hpIter]);
         hpType := StrToHeadpart(GetElementEditValues(hp, 'PNAM'));
 
-        if LOGGING then LogT(Format('Checking headpart %s', [Name(hp)]));
+        if LOGGING then LogT(Format('Checking headpart %s', [
+            IfThen(Assigned(hp), Name(hp), headpartRecords.strings[hpIter] + ' [Unassigned]')]));
         
         headpartList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM')));
 
@@ -839,8 +861,8 @@ begin
 
     vanillaHP := FindAsset(Nil, 'HDPT', vanillaHPName);
     furryHP := FindAsset(Nil, 'HDPT', furryHPName);
-    if not Assigned(furryHP) then Err(Format('Headpart %s not found', [furryHPName]));
-    if not Assigned(vanillaHP) then Err(Format('Headpart %s not found', [vanillaHPName]));
+    if not Assigned(furryHP) then Warn(Format('Headpart %s not found', [furryHPName]));
+    if not Assigned(vanillaHP) then Warn(Format('Headpart %s not found', [vanillaHPName]));
     if Assigned(furryHP) and Assigned(vanillaHP) then begin
         hpi := headpartEquivalents.IndexOf(vanillaHPName);
         if hpi < 0 then begin
@@ -848,7 +870,9 @@ begin
             headpartEquivalents.AddObject(vanillaHPName, hplist);
             hpi := headpartEquivalents.IndexOf(vanillaHPName);
         end;
+        if LOGGING then LogD(Format('Adding headpartRecord %s / %s', [vanillaHPName, Name(vanillaHP)]));
         headpartRecords.AddObject(vanillaHPName, vanillaHP);
+        if LOGGING then LogD(Format('Adding headpartRecord %s / %s', [furryHPName, Name(furryHP)]));
         headpartRecords.AddObject(furryHPName, furryHP);
         headpartEquivalents.objects[hpi].AddObject(vanillaHPName, WinningOverride(furryHP));
     end; 
@@ -892,7 +916,8 @@ begin
         headpartLabels.objects[hpi].duplicates := dupIgnore;
     end;
     headpartLabels.objects[hpi].Add(labelName);
-    headpartRecords.AddObject(EditorID(hp), hp);
+    if LOGGING then LogD(Format('Adding headpartRecord %s / %s', [EditorID(hpRecord), Name(hpRecord)]));
+    headpartRecords.AddObject(EditorID(hpRecord), hpRecord);
     // CacheHeadpart(hpRecord);
     if LOGGING then LogExitT('LabelHeadpart');
 end;
@@ -909,17 +934,21 @@ var
 begin
     if LOGGING then LogEntry2(1, 'LabelHeadpartList', headpartName, labelNames);
     hpRecord := FindAsset(Nil, 'HDPT', headpartName);
-    if not Assigned(hpRecord) then Err(Format('Headpart %s not found', [headpartName]));
-    hpi := headpartLabels.IndexOf(headpartName);
-    if hpi < 0 then begin
-        headpartLabels.AddObject(headpartName, TStringList.Create);
+    if not Assigned(hpRecord) then 
+        Warn(Format('Headpart %s not found', [headpartName]))
+    else begin
         hpi := headpartLabels.IndexOf(headpartName);
-        headpartLabels.objects[hpi].duplicates := dupIgnore;
-        headpartLabels.objects[hpi].sorted := true;
+        if hpi < 0 then begin
+            headpartLabels.AddObject(headpartName, TStringList.Create);
+            hpi := headpartLabels.IndexOf(headpartName);
+            headpartLabels.objects[hpi].duplicates := dupIgnore;
+            headpartLabels.objects[hpi].sorted := true;
+        end;
+        headpartLabels.objects[hpi].commaText := labelNames;
+        if LOGGING then LogD(Format('Adding headpartRecord %s / %s', [headpartName, Name(hpRecord)]));
+        headpartRecords.AddObject(headpartName, hpRecord);
+        // CacheHeadpart(hpRecord);
     end;
-    headpartLabels.objects[hpi].commaText := labelNames;
-    headpartRecords.AddObject(headpartName, hpRecord);
-    // CacheHeadpart(hpRecord);
     if LOGGING then LogExitT('LabelHeadpartList');
 end;
 
@@ -960,12 +989,12 @@ end;
 {============================================================================
 Some NPCs have multiple NPC records. This makes sure all records look the same.
 }
-procedure NPCEquivalent(npcalias, basenpc: string);
+procedure NPCAlias(basenpc, altnpc: string);
 var
     alist: TStringList;
     i: integer;
 begin
-    NPCaliases.Add(npcalias + '=' + basenpc);
+    NPCaliases.Add(altnpc + '=' + basenpc);
 end;
 
 
@@ -1000,14 +1029,17 @@ begin
     curNPCoriginal := originalNPC;
     curNPCrace := LinksTo(ElementByPath(npc, 'RNAM'));
     curNPCFurryRace := ObjectToElement(raceAssignments.objects[raceAssignments.IndexOf(EditorID(curNPCrace))]);
-    LogT('Race is ' + EditorID(curNPCrace));
-    LogT('FUrry Race is ' + EditorID(curNPCFurryrace));
-    LogT('Sex is ' + GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female'));
-    LogT('Age is ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
+    if LOGGING then begin
+        LogT('Race is ' + EditorID(curNPCrace));
+        LogT('FUrry Race is ' + EditorID(curNPCFurryrace));
+        LogT('Sex is ' + GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female'));
+        LogT('Age is ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
+    end;
     curNPCsex := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
         SEX_FEMADULT, SEX_MALEADULT) 
         + IfThen(GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child') = '1', 2, 0);
     curNPCalias := Unalias(Name(npc));
+    curNPCHash := curNPCalias + GetElementEditValues(npc, 'Record Header\Data Size');
     if LOGGING then LogExitT1('LoadNPC', Format('%s %s', [Name(curNPCrace), SexToStr(curNPCsex)]));
 end;
 

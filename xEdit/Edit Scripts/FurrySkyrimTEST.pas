@@ -2,6 +2,11 @@
 
 	Hotkey: Ctrl+Alt+T
 
+    Load:
+    - BDCanines.esp
+    - CatRaces.esp
+    - YASGear.esp (BDFurryGear)
+
 }
 unit FurrySkyrimTEST;
 
@@ -24,7 +29,7 @@ var
     maskType: integer;
     rti, i: integer;
 begin
-    if LOGGING then LogEntry2(25, 'NPCTintLayerCount', Name(npc), TintlayerToStr(layerType));
+    if LOGGING then LogEntry2(15, 'NPCTintLayerCount', Name(npc), TintlayerToStr(layerType));
     result := 0;
     npcRace := LinksTo(ElementByPath(npc, 'RNAM'));
     npcFurryRace := ObjectToElement(raceAssignments.objects[raceAssignments.IndexOf(EditorID(npcRace))]);
@@ -66,7 +71,7 @@ begin
     // Nord race should be lykaios race
     e := FindAsset(targetFile, 'RACE', 'NordRace');
     old := FindAsset(FileByIndex(0), 'RACE', 'NordRace');
-    AssertStr(EditorID(LinksTo(ElementByPath(e, 'WNAM'))), 'SkinNakedLykaios',
+    AssertStr(EditorID(LinksTo(ElementByPath(e, 'WNAM'))), 'BDLykSkin',
         'Nord skin is now lykaios');
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'KhajiitRace',
         'Nord armor race is now Khajiit');
@@ -74,9 +79,13 @@ begin
     AddMessage(GetFileName(GetFile(e)) + ' race has headpart 0: ' + GetElementEditValues(e, 'Head Data\Male Head Data\Head Parts\[0]\HEAD'));
     AssertInCompoundList(ElementByPath(e, 'Head Data\Male Head Data\Head Parts'), 
         'HEAD',
-        'LykaiosMaleHead');
+        'BDLykMaleHead');
 
     // Nord NPC is properly furrified
+    // CorpsePrisoner doesn't have negative tint indices.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'CorpsePrisonerNordMale');
+    e := FurrifyNPC(old);
+
     // Angvid has Dirt but no Paint. 
     // New Angvid has Skin Tone layer, no null layers.
     old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
@@ -97,22 +106,22 @@ begin
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBlue');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'BDCanMaleEyesBlue');
     AssertInt(NPCTintLayerCount(e, TINT_DIRT), 1, 'BolgeirBearclaw has dirt');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), '00LykaiosMaleEyesBase');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'BDCanMaleEyesDarkGray');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
     e := FurrifyNPC(old);
-    AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
 
     // This pit fan has invalid tint layers (looks like they changed her to a woman
     // without fixing the tint layers). It just has to not crash.
     old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
     e := FurrifyNPC(old);
-    AssertNameInList(ElementByPath(e, 'Head Parts'), '00HairLykaiosFemale');
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
 
 end;
 
@@ -124,6 +133,8 @@ var
 begin
     AddMessage('============ CHECKING ARMOR ===============');
 
+    Assert(allAddons.IndexOf('BladesHelmetAA') >= 0, 'BladesHelmetAA in allAddons');
+
     AddMessage('// Armor is properly furrified');
     i := furrifiableArmors.IndexOf('ArmorBladesHelmet');
     old := ObjectToElement(furrifiableArmors.objects[i]);
@@ -133,8 +144,6 @@ begin
     AssertInList(ElementByName(e, 'Armature'), 'YA_BladesHelmetAA_DOG');
     aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('YA_BladesHelmetAA_DOG')]);
     AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
-
-    ShowRaceAssignments;
 
     AddMessage('// Check case where the khajiit race matches and the armor covers body as well as head.');
     i := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
@@ -172,7 +181,7 @@ var
     xf: TTransform;
     fo4: IwbFile;
     ffo: IwbFile;
-    arma, armo, hr: IwbMainRecord;
+    e, arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
     listofints: TStringList;
     dynlist: array of Integer;
@@ -181,6 +190,14 @@ begin
     // SetLength(dynlist, 5);
     // dynlist[4] := 4;
     // AssertInt(dynlist[4], 4, 'Can use dynamic list');
+    e := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
+
+    // How to access the sex flag
+    AddMessage('Sex: ' + IntToStr(GetElementNativeValues(e, 'ACBS\Flags') and 1));
+    AddMessage('EditorID: ' + EditorID(LinksTo(ElementByPath(e, 'RNAM'))));
+    
+    // Can read the data size like any other field
+    AddMessage('Data size: ' + IntToStr(GetElementEditValues(e, 'Record Header\Data Size')));
 
     AddMessage('--');
     RandomizeIndexList('alpha', 1234, 5);
@@ -258,7 +275,7 @@ begin
     AddMessage(Format('First subentry in sl1: %s, "%s"', [sl1[0], TList(sl1.objects[0]).strings[0]])); // This works
     AddMessage(Format('First subentry in sl1[1]: %s, "%s"', [sl1[1], TList(sl1.objects[1]).strings[0]])); // This works
 
-    // No way I can find to put records in a TStringList
+    // DOESNT WORK: No way I can find to put records in a TStringList
     // sl1 := TStringList.Create;
     // sk.name := 'TEST';
     // sl1.AddObject('test', sk);
@@ -267,7 +284,7 @@ begin
     // AddMessage(sl1[0]);
     // AddMessage(sl1.objects[0].name);
 
-    // AddPair is not implemented.
+    // DOESNT WORK: AddPair is not implemented.
     // sl1 := TStringList.Create;
     // sl1.AddPair('foo', 1);
     // sl1.AddPair('bar', 2);
@@ -318,9 +335,43 @@ begin
     AddMessage('Hash(EncBandit04) = ' + IntToStr(Hash('EncBandit04', 1234, 10)));
     AddMessage('Hash(EncBandit05) = ' + IntToStr(Hash('EncBandit05', 1234, 10)));
 
-    // Reading bodypart flags
-    arma := FindAsset(Nil, 'ARMA', 'ArchmageHoodAA');
-    AddMessage('ArchmageHoodAA bodypart flags: $' + IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8));
+    // How to read bodypart flags. They have to be read DIFFERENTLY depending on form version.
+    AddMessage('---Reading bodypart flags---');
+    arma := FindAsset(FileByIndex(0), 'ARMA', 'DraugrGlovesAA');
+    i := GetElementNativeValues(arma, 'Record Header\Form Version');
+    Assert(i = 40, Format('Form version %d=40', [i]));
+    AddMessage(Format('%s bodypart flags: $%s', [
+        Name(arma), IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8)]));
+    Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\31 - Hair') = 0, 
+        Format('%s has hair bit clear', [EditorID(arma)]));
+    Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands') <> 0, 
+        Format('%s has hands bit set', [EditorID(arma)]));
+    Assert((GetBodypartFlags(arma) and BP_HANDS) <> 0, 
+        Format('%s has hands bit set', [EditorID(arma)]));
+    Assert((GetBodypartFlags(arma) and BP_HAIR) = 0, 
+        Format('%s has hair bit clear', [EditorID(arma)]));
+        
+    arma := FindAsset(FileByIndex(0), 'ARMA', 'MythicDawnHoodAA');
+    AddMessage(Format('%s bodypart flags: $%s', [
+        Name(arma), IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8)]));
+    Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\31 - Hair') <> 0, 
+        Format('%s has hair bit clear', [EditorID(arma)]));
+    Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands') = 0, 
+        Format('%s has hands bit set', [EditorID(arma)]));
+        
+    arma := FindAsset(nil, 'ARMA', 'YA_BladesHelmetAA_DOG');
+    i := GetElementNativeValues(arma, 'Record Header\Form Version');
+    Assert(i = 44, Format('Form version %d=44', [i]));
+    AddMessage(Format('%s bodypart flags: $%s', [
+        Name(arma), IntToHex(GetElementNativeValues(arma, 'BOD2\First Person Flags'), 8)]));
+    Assert(GetElementNativeValues(arma, 'BOD2\First Person Flags\31 - Hair') <> 0, 
+        Format('%s has hair bit set', [EditorID(arma)]));
+    Assert(GetElementNativeValues(arma, 'BOD2\First Person Flags\33 - Hands') = 0, 
+        Format('%s has hands bit clear', [EditorID(arma)]));
+    Assert((GetBodypartFlags(arma) and BP_HAIR) <> 0, 
+        Format('%s has hair bit set', [EditorID(arma)]));
+    Assert((GetBodypartFlags(arma) and BP_HANDS) = 0, 
+        Format('%s has hair bit clear', [EditorID(arma)]));
     end;
 
 
@@ -339,7 +390,7 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 20;
+    LOGLEVEL := 100;
     PreferencesInit;
     result := 0;
 end;
@@ -352,12 +403,6 @@ end;
 
 function Finalize: integer;
 begin
-    LOGGING := false;
-    TestSystemFunc;
-    LOGGING := true;
-    SetPreferences;
-    ShowRaceAssignments;
-
     targetFileIndex := FindFile(TEST_FILE_NAME);
     if targetFileIndex < 0 then begin
         targetFile := AddNewFileName(TEST_FILE_NAME);
@@ -368,15 +413,21 @@ begin
         targetFile := FileByIndex(targetFileIndex);
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
-    FurrifyAllRaces;
-    ShowRaceTints;
-    FurrifyHeadpartLists;
-    // ShowHeadparts;
-    // CollectArmor;
-    // CollectAddons;
+    TestSystemFunc;
 
-    TestNPCs;
-    // TestArmor;
+    LOGGING := False;
+    SetPreferences;
+    // ShowRaceAssignments;
+    FurrifyAllRaces;
+    // ShowRaceTints;
+    FurrifyHeadpartLists;
+    LOGGING := True;
+    // ShowHeadparts;
+    CollectArmor;
+    ShowArmor;
+
+    //TestNPCs;
+    TestArmor;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen((testErrorCount > 0), 

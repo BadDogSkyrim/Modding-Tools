@@ -10,6 +10,10 @@ const
     LBL_VSPACE = 5;
     LBL_ADJ = 3;
     alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+    // Body part "first person" flags
+    BP_HAIR = 2;
+    BP_HANDS = 8;
 var 
     LOGGING: boolean;
     LOGLEVEL: integer;
@@ -386,7 +390,6 @@ var
     r: IwbMainRecord;
 begin
     LogEntry3(21, 'FindAsset', GetFileName(f), recordType, name);
-    // Addmessage(format('Entered FindAsset: %s', [LogToStr]));
     Result := Nil;
 
     if not Assigned(f) then begin
@@ -394,18 +397,32 @@ begin
             r := MainRecordByEditorID(GroupBySignature(FileByIndex(i), recordType), name);
             if Assigned(r) then begin
                 Result := r;
-                LogT('Found in file index ' + IntToStr(i));
+                // LogT('Found in file index ' + IntToStr(i));
                 break;
             end;
         end
     end
     else
         Result := MainRecordByEditorID(GroupBySignature(f, recordType), name);
-    // addmessage(Format('Leaving FindAsset: %s', [LogToStr]));
-    LogExitT1('FindAsset', EditorID(result));
-    // addmessage(Format('After exiting FindAsset: %s', [LogToStr]));
+    LogExitT1('FindAsset', PathName(result));
 end;
 
+
+//=======================================================================
+// Return the bodypart flags, honoring the form version.
+Function GetBodypartFlags(arma: IwbMainRecord): integer;
+var fv: integer;
+begin
+    // ==Could look at the form version to decide. Simpler to use offsets. Maybe more robust?==
+    // fv := GetElementNativeValues(arma, 'Record Header\Form Version');
+    // if fv >= 44 then begin
+    //     result := GetElementNativeValues(arma, 'BOD2\First Person Flags');
+    // end
+    // else begin
+    //     result := GetElementNativeValues(arma, 'BODT\First Person Flags');
+    // end;
+    result := GetElementNativeValues(arma, '[2]\[0]');
+end;
 
 //=======================================================================
 // Return the record referenced by the field of the element at the given index

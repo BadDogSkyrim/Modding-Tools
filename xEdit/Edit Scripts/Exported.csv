@@ -1,492 +1,714 @@
-Record,EDID,PNAM,RNAM,Model\MODL,DATA\Playable,DATA\Female
-85391282,BDMinoEarring,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Earring.nif,1,
-85370544,BDMinoHairFemApachii05HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hairline05.nif,1,1
-85370543,BDMinoHairFemApachii04HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hairline04.nif,1,1
-85370542,BDMinoHairFemApachii03HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hairline03.nif,1,1
-85370541,BDMinoHairFemApachii05,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hair05.nif,1,1
-85370540,BDMinoHairFemApachii04,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hair04.nif,1,1
-85370539,BDMinoHairFemApachii03,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hair03.nif,1,1
-85370538,BDMinoHairFemApachii02HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hairline02.nif,1,1
-85370537,BDMinoHairFemApachii02,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hair02.nif,1,1
-85370536,BDMinoHairFemApachii01,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hair01.nif,1,1
-85370535,BDMinoHairFemApachii01HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\apachiikh\hairline01.nif,1,1
-85349797,BDMinoFemEyesHumanVamp,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesVampHumTex.nif,1,1
-85349796,BDMinoHairFemLongBraidHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\longbraidbase_hl_f.nif,1,1
-85349795,BDMinoHairFemLongBraid,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\longbraidbase_f.nif,1,1
-85183895,BDMinoHairMinoManeRough,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_m.nif,1,
-85183894,BDMinoHairMaleManeRoughHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_hl_m.nif,1,
-85183893,BDMinoHairMaleManeCurlyHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_hl_m.nif,1,
-85183892,BDMinoHairMaleManeCurly,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_m.nif,1,
-85100941,BDMinoNoseRingIron,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\NoseRingIron.nif,1,
-85100940,BDMinoHairMaleManeFeather,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_m.nif,1,
-85100939,BDMinoHairHeadbandFeatherHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\acc_featheracc_hl01_m.nif,1,
-85100938,BDMinoHairHeadbandFeather,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\acc_featheracc_hl_m.nif,1,
-85100937,BDMinoHairMaleManeHeadband,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_m.nif,1,
-85100936,BDMinoHairHeadband,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\acc_featheracc_m.nif,1,
-85059461,BDMinoBeard03Ring,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard03.nif,1,
-85059460,BDMinoBeard03HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard03HL.nif,1,
-85059459,BDMinoBeard03,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard03.nif,1,
-84935036,BDMinoBeard02Ring,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard02.nif,1,
-84935035,BDMinoBeard02,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard02.nif,1,
-84935034,BDMinoBeard02HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard02hl.nif,1,
-84935033,BDMinoBeard01Ring,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard01.nif,1,
-84935032,BDMinoNoseRingXP,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\NoseRing.nif,1,
-84914294,BDMinoBeard01HL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard01HL.nif,1,
-84893556,BDMinoBisonBase,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\SteerBase.nif,1,
-84893554,BDMinoBisonHorns,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\BisonHorns.nif,1,
-84893553,BDMinoLonghorn,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\Longhorns.nif,1,
-84872815,BDMinoAfricanHorns,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\AfricanHorns.nif,1,
-84872814,BDMinoAfricanBase,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\AfricanHornBase.nif,1,
-84831339,BDMinoCapeBase,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\CapeHornsBase.nif,1,
-84831338,BDMinoCapeHorns,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\CapeHorns.nif,1,
-84706915,BDDeerMaleEyesWoodElfLightBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706914,BDDeerMaleEyesWoodElfDeepViolet,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706913,BDDeerMaleEyesWoodElfDeepBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706912,BDDeerMaleEyesWoodElfBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706911,BDDeerMaleEyesOrcYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706910,BDDeerMaleEyesOrcRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706909,BDDeerMaleEyesOrcIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706908,BDDeerMaleEyesOrcDarkGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706907,BDDeerMaleEyesOrcBlind,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706906,BDDeerMaleEyesHumanYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706905,BDDeerMaleEyesHumanLightGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706904,BDDeerMaleEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706903,BDDeerMaleEyesHumanLightBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706902,BDDeerMaleEyesHumanIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706901,BDDeerMaleEyesHumanHazelBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706900,BDDeerMaleEyesHumanHazel,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706899,BDDeerMaleEyesHumanGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706898,BDDeerMaleEyesHumanDemon,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706897,BDDeerMaleEyesHumanDarkBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706896,BDDeerMaleEyesHumanBrownBloodShot,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706895,BDDeerMaleEyesHumanBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706894,BDDeerMaleEyesHumanBrightGreen,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706893,BDDeerMaleEyesHumanAmber,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706892,BDDeerMaleEyesHighElfYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706891,BDDeerMaleEyesHighElfOrange,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706890,BDDeerMaleEyesHighElfDarkYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706889,BDDeerMaleEyesDarkElfRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706888,BDDeerMaleEyesDarkElfDeepRed2,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84706887,BDDeerMaleEyesDarkElfDeepRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseMaleEyesHumTex.nif,1,
-84686149,BDDeerMaleShaggyHL,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\ShaggyHair_HL_F.nif,1,
-84686147,BDDeerMaleShaggy001,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\ShaggyHair_F.nif,1,
-84644669,BDDeerGiraffeHorns02a,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\GiraffeHorns02a.nif,1,
-84644668,BDDeerGiraffeHorns01a,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\GiraffeHorns01a.nif,1,
-84644667,BDDeerGiraffeHorns02,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\GiraffeHorns02.nif,1,
-84644666,BDDeerGiraffeHorns01,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\GiraffeHorns01.nif,1,
-84644665,BDDeerHorns9,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\GiraffeHorns.nif,1,
-84573814,BDDeerFemMane,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-84573813,BDDeerFemManeHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Female\lionmane_hl_f.nif,1,1
-84573811,BDDeerFemDreadsBeads,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Female\dreads_beads_f.nif,1,1
-84573810,BDDeerFemDreads,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Female\dreads_f.nif,1,1
-84540979,BDDeerHairFemVanillaBraidHL,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\vanillabraid_hl01_f.nif,1,1
-84540978,BDDeerHairFemVanillaBraidHL02,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaBraid_HL02_F.nif,1,1
-84540975,BDDeerHairFemManeBraidBeadAcc,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\ACC_Fringe_braid_beadMane.nif,1,1
-84540974,BDDeerHairFringeAcc,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Fringe.nif,1,
-84540973,BDDeerHairFemFringeBraidBeadShaggyAcc,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\ACC_Fringe_braid_bead.nif,1,1
-84540972,BDDeerHairFemVanillaHairHL_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaHair_HL.nif,1,1
-84540971,BDDeerHairFemVanillaHair001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaHair.nif,1,1
-84540970,BDDeerHairFemVanillaCropHL_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaCrop_HL.nif,1,1
-84540969,BDDeerHairFemVanillaCrop001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaCrop.nif,1,1
-84540966,BDDeerHairFemVanillaBraid001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\VanillaBraid_f.nif,1,1
-84540965,BDDeerHairFemTiedStyleHL02_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\TiedStyle_HL02_F.nif,1,1
-84540964,BDDeerHairFemTiedStyleHL01_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\TiedStyle_HL01_F.nif,1,1
-84540963,BDDeerHairFemTiedStyle001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\TiedStyle_F.nif,1,1
-84540962,BDDeerHairFemShortCropHL_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Shortcrop_HL_F.nif,1,1
-84540961,BDDeerHairFemShortCrop003_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Shortcrop_F.nif,1,1
-84540960,BDDeerHairFemShortCrop002_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Shortcrop_F.nif,1,1
-84540959,BDDeerHairFemShortCrop001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Shortcrop_F.nif,1,1
-84540958,BDDeerHairFemShaggyHL_,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\ShaggyHair_HL_F.nif,1,1
-84540956,BDDeerHairFemShaggy001_,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\ShaggyHair_F.nif,1,1
-84540955,BDDeerHairFemMohawkFeathers,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFem.nif,1,1
-84540954,BDDeerHairFemMohawkDark,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFemDark.nif,1,1
-84540952,BDDeerHairFemMohawkDarkHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFemDarkHL.nif,1,
-84540951,BDDeerHairFemMohawkHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFemHL.nif,1,1
-84540950,BDDeerHairFemMohawk,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFem.nif,1,1
-84540949,BDDeerManeHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\ManeHL.nif,1,
-84540948,BDDeerMane,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\Mane.nif,1,
-84428530,BDDeerHorns10,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\ProngHorns.nif,1,
-84416517,BDDeerFemMouth,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Female\DeerFemMouth.nif,1,1
-84407791,BDHairLineHorseMaleOrc12,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\MaleOrcHair12_hairline.nif,1,
-84407790,BDHairHorseMaleOrc13,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\MaleOrcHair13.nif,1,
-84407788,BDHairMaleOrc27,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\MaleOrcHair27.nif,1,
-84407787,BDEHairLineHorseMaleOrc27,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\MaleOrcHair27_hairline.nif,1,
-84407786,BDHairHorseMaleNord17,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Male\Hair17.nif,1,
-84407785,BDHairLineHorseMaleNord17,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Male\Hairline17.nif,1,
-84407784,BDHairHorseMaleNord20,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Male\Hair20.nif,1,
-84407783,BDHairlineHorseMaleNord20,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Male\Hairline20.nif,1,
-84407782,BDHairHorseFemNord04,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Female\Hair04.nif,1,1
-84407781,BDHairlineHorseFemNord04,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\Female\Hairline04.nif,1,1
-84407780,BDHairHorseFemOrc03,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair03.nif,1,1
-84407779,BDHairlineHorseFemOrc03,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair03_hairline.nif,1,1
-84407778,BDHairHorseFemOrc08,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair08.nif,1,1
-84407777,BDHairlineHorseFemOrc08,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair08_hairline.nif,1,1
-84407775,BDHairHorseFemOrc14,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair14.nif,1,1
-84407774,BDHairlineHorseFemOrc14,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair14_hairline.nif,1,1
-84407773,BDHairHoseFemOrc17,Hair,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair17.nif,1,1
-84407772,BDHairLineHorseFemOrc17,Misc,BDHeadPartsHairHorseDeer [FLST:0507F5ED],Actors\Character\Character Assets\Hair\FemaleOrcHair17_hairline.nif,1,1
-84395778,BDDeerFemHead,Face,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Female\DeerFemHead.nif,1,1
-84333563,BDDeerMaleMohawkFeathers,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\Mohawk.nif,1,
-84333562,BDDeerMohawkFeathersAcc,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFeathersAcc.nif,1,
-84333561,BDDeerMohawkFeathersAccHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkFeathersAccHL.nif,1,
-84333560,BDDeerMaleMohawkDarkHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkDarkHL.nif,1,
-84333559,BDDeerMaleMohawkDark,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkDark.nif,1,
-84333557,BDDeerMaleMohawk,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\Mohawk.nif,1,
-84333556,BDDeerMaleMohawkHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\MohawkHL.nif,1,
-84312818,BDDeerDreadsBeadsDark,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\DreadsBeadsDark.nif,1,
-84312817,BDDeerDreadsForeDarkHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\DreadsForeDarkHL.nif,1,
-84312816,BDDeerDreadsForeDark,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\DreadsForeDark.nif,1,
-84312815,BDDeerDreadsBeads,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Male\dreads_beads_m.nif,1,
-84312814,BDDeerDreads01,Hair,BDHeadPartsDeer [FLST:05000D65],actors\character\BDMinotaurHead\Hair\Male\dreads_m.nif,1,
-84312813,BDDeerDreadsFore,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\DreadsFore.nif,1,
-84312812,BDDeerDreadsForeHL,Misc,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Hair\DreadsForeHL.nif,1,
-84292074,BDDeerHornsBase5,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\HornsBase5.nif,1,
-84292073,BDDeerHorns8,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\MooseAntlers8.nif,1,
-84281934,BDDeerBeard4HL,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Beard\Beard04Hairline.nif,1,
-84281933,BDDeerBeard4,Facial Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Beard\Beard04.nif,1,
-84281932,BDDeerBeard3HL,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Beard\Beard03Hairline.nif,1,
-84271793,BDDeerBeard3,Facial Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Beard\Beard03.nif,1,
-84221005,BDMinoMaleScarR04,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarR04.nif,1,
-84221004,BDMinoMaleScarR03,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarR03.nif,1,
-84221003,BDMinoMaleScarR02,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarR02.nif,1,
-84221002,BDMinoMaleScarR01,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarR01.nif,1,
-84221001,BDMinoMaleScarL04,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarL04.nif,1,
-84221000,BDMinoMaleScarL03,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarL03.nif,1,
-84220999,BDMinoMaleScarL02,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarL02.nif,1,
-84200255,BDMinoMaleScarL01,Scar,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\ScarL01.nif,1,
-84180537,BDDeerBeard0,Facial Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],,1,
-84170397,BDDeerBeard2,Facial Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Beard2.nif,1,
-84170396,BDDeerBeard1,Facial Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Beard1.nif,1,
-84160257,BDDeerHorns0,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],,1,
-84150118,BDDeerHornsRam,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\RamsHorns7.nif,1,
-84150117,BDDeerHornsBase4,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\HornBase4.nif,1,
-84139978,BDDeerHornsBase3,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\HornsBase3.nif,1,
-84129839,BDDeerHornsBase2,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\HornsBase2.nif,1,
-84129838,BDDeerHorns6,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\DeerHorns6.nif,1,
-84129837,BDDeerHornsReindeer,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\DeerHorns5.nif,1,
-84129836,BDDeerHorns4,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\DeerHorns4.nif,1,
-84129835,BDDeerHorns3,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\DeerHorns3.nif,1,
-84075463,BDMinoHairMaleLong,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\MaleLong.nif,1,
-84075462,BDMinoHairMaleLongHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\MaleLong_hl.nif,1,
-84054721,BDMinoHairMale09,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hair09.nif,1,
-84054720,BDMinoHairMale08,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair08.nif,1,
-84054719,BDMinoHairMale07,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair07.nif,1,
-84054718,BDMinoHairlineMale07,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hairline07.nif,1,
-84048726,BDDeerHorns2,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\DeerHorns2.nif,1,
-84033979,BDMinoMaleEarringXP,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Earring.nif,1,
-84033978,BDMinoHairMale06,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair06.nif,1,
-84033977,BDMinoEarringXP,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Earring.nif,1,
-84033976,BDMinoHairMale05,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair05.nif,1,
-84033975,BDMinoHairlineMale05,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hairline05.nif,1,
-84028449,BDDeerNoHair,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],,1,
-84013235,BDMinoHairMale03,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair03.nif,1,
-84013234,BDMinoHairMale04,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair04.nif,1,
-84013233,BDMinoHairlineMale04,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hairline04.nif,1,
-83992470,BDMinoHairMale02,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair02.nif,1,
-83992469,BDMinoHairMale01,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hair01.nif,1,
-83992468,BDMinoHairlineMale01,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\Hairline01.nif,1,
-83987881,BDDeerFemEyesBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83987880,BDDeerFemEyesYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83987879,BDDeerFemEyesGreen,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83987878,BDDeerFemEyesRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83987877,BDDeerMaleEyesRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83987872,BDDeerMaleEyesYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83987871,BDDeerMaleEyesBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83987870,BDDeerMaleEyesGreen,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83930071,BDMinoHairFemManeRough,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-83930070,BDMinoHairFemManeRoughHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_hl_f.nif,1,1
-83930068,BDMinoHairFemManeCurly,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-83930067,BDMinoHairFemManeCurlyHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_hl_f.nif,1,1
-83930065,BDMinoHairFemManeFeather,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-83926920,BDHorseMaleEyesWoodElfLightBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926919,BDHorseMaleEyesWoodElfDeepViolet,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926918,BDHorseMaleEyesWoodElfDeepBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926917,BDHorseMaleEyesWoodElfBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926916,BDHorseMaleEyesOrcYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926915,BDHorseMaleEyesOrcRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926914,BDHorseMaleEyesOrcIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926913,BDHorseMaleEyesOrcDarkGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926912,BDHorseMaleEyesOrcBlind,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926911,BDHorseMaleEyesHumanYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926910,BDHorseMaleEyesHumanLightGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926909,BDHorseMaleEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926908,BDHorseMaleEyesHumanLightBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926907,BDHorseMaleEyesHumanIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926906,BDHorseMaleEyesHumanHazelBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926905,BDHorseMaleEyesHumanHazel,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926904,BDHorseMaleEyesHumanGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926903,BDHorseMaleEyesHumanDemon,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926902,BDHorseMaleEyesHumanDarkBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926901,BDHorseMaleEyesHumanBrownBloodShot,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926900,BDHorseMaleEyesHumanBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926899,BDHorseMaleEyesHumanBrightGreen,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926898,BDHorseMaleEyesHumanAmber,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926897,BDHorseMaleEyesHighElfYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926896,BDHorseMaleEyesHighElfOrange,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926895,BDHorseMaleEyesHighElfDarkYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926894,BDHorseMaleEyesDarkElfRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926893,BDHorseMaleEyesDarkElfDeepRed2,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926892,BDHorseMaleEyesDarkElfDeepRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyesHumTex.nif,1,
-83926891,BDDeerFemEyesWoodElfLightBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926890,BDDeerFemEyesWoodElfDeepViolet,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926889,BDDeerFemEyesWoodElfDeepBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926888,BDDeerFemEyesWoodElfBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926887,BDDeerFemEyesOrcYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926886,BDDeerFemEyesOrcRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926885,BDDeerFemEyesOrcIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926884,BDDeerFemEyesOrcDarkGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926883,BDDeerFemEyesOrcBlind,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926882,BDDeerFemEyesHumanYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926881,BDDeerFemEyesHumanLightGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926880,BDDeerFemEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926879,BDDeerFemEyesHumanLightBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926878,BDDeerFemEyesHumanIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926877,BDDeerFemEyesHumanHazelBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926876,BDDeerFemEyesHumanHazel,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926875,BDDeerFemEyesHumanGrey,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926874,BDDeerFemEyesHumanGreenHazel,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926873,BDDeerFemEyesHumanDemon,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926872,BDDeerFemEyesHumanDarkBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926871,BDDeerFemEyesHumanBrownBloodShot,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926870,BDDeerFemEyesHumanBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926869,BDDeerFemEyesHumanBrightGreen,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926868,BDDeerFemEyesHumanAmber,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926867,BDDeerFemEyesHighElfYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926866,BDDeerFemEyesHighElfOrange,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926865,BDDeerFemEyesHighElfDarkYellow,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926864,BDDeerFemEyesDarkElfUnique,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926863,BDDeerFemEyesDarkElfRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926862,BDDeerFemEyesDarkElfDeepRed2,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926861,BDDeerFemEyesDarkElfDeepRed,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyesHumTex.nif,1,1
-83926846,BDHorseFemManeLong,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Shieldmaiden.nif,1,1
-83926845,BDHorseFemManeLongHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ShieldmaidenHL.nif,1,1
-83922665,BDDeerFemEyesVamp,Eyes,BDHeadPartsDeerVampire [FLST:05009F3F],actors\character\BDDeerHead\Eyes\HorseFemaleEyesVampHumTex.nif,1,1
-83921285,BDDeerMaleEyesVamp,Eyes,BDHeadPartsDeerVampire [FLST:05009F3F],actors\character\BDDeerHead\Eyes\HorseMaleEyesVHumTex.nif,1,
-83921284,BDHorseFemManeShortHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeShort_hl.nif,1,1
-83921283,BDHorseFemManeShort,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeShort.nif,1,1
-83921282,BDHorseFemManeRoached,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemRoached.nif,1,1
-83921281,BDHorseFemManeSide01Fringe,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemSideMane.nif,1,1
-83921280,BDHorseFemManeSide01,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemSideMane.nif,1,1
-83921279,BDHorseFemManeSideHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemSideMane_hl.nif,1,1
-83921278,BDHorseFemManeMohawkFlip,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemMohawk.nif,1,1
-83921277,BDHorseFemManeFringeEX,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemFringe.nif,1,1
-83921276,BDHorseFemManeFringe,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemFringe.nif,1,1
-83921275,BDHorseFemManeFringeHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemFringe_hl.nif,1,1
-83921274,BDHorseFemManeMohawk,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemMohawk.nif,1,1
-83921273,BDHorseFemManeMohawkHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemMohawk_hl.nif,1,1
-83921272,BDHorseFemManeSide03,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSide03.nif,1,1
-83921271,BDHorseFemManeSide03HL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSide03.nif,1,1
-83921270,BDHorseMaleManeSide03HL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSide03_hl.nif,1,
-83921269,BDHorseMaleManeSide03,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSide03.nif,1,
-83918512,BDHorseFemManeSide02,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSide02.nif,1,1
-83918511,BDHorseFemManeSide02HL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSide02_hl.nif,1,1
-83917132,BDHorseMaleManeSide02,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSide02.nif,1,
-83917131,BDHorseMaleManeSide02HL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSide02_hl.nif,1,
-83917130,BDHorseFemManeFree,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeFree.nif,1,1
-83917129,BDHorseFemManeFreeHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeFree_hl.nif,1,1
-83917128,BDHorseMaleManeFreeHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeFree_hl.nif,1,
-83917127,BDHorseMaleManeFree,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeFree.nif,1,
-83915748,BDHorseFemManeBaseEX,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeBase.nif,1,1
-83915747,BDHorseFemManeSimple,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSimple.nif,1,1
-83915746,BDHorseFemManeSimpleHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeSimple_hl.nif,1,1
-83914367,BDHorseFemManeBase,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeBase.nif,1,1
-83914366,BDHorseMaleManeBase,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeBase.nif,1,
-83912987,BDHorseFemManeTied,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeTied.nif,1,1
-83912986,BDHorseFemManeTiedHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\FemManeTied_hl.nif,1,1
-83911603,BDDeerFemEyesBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83910224,BDDeerFemEyesIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\HorseFemaleEyes01.nif,1,1
-83910222,BDHorseFemMouth,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\HorseFemaleMouth01.nif,1,1
-83910221,BDHorseFemHead,Face,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\HorseFemaleHead.nif,1,1
-83909168,BDMinoHairFemManeHeadband,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-83909167,BDMinoHairFemShaggy,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\shaggyhair_f.nif,1,1
-83909166,BDMinoHairFemShaggyHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\shaggyhair_hl_f.nif,1,1
-83909165,BDMinoHairFemMane,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_f.nif,1,1
-83909164,BDMinoHairFemManeHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\lionmane_hl_f.nif,1,1
-83909163,BDMinoHairFemDreadsBeads,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\dreads_beads_f.nif,1,1
-83909162,BDMinoHairFemDreads01,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Female\dreads_f.nif,1,1
-83909161,BDMinoHairFemFringe,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFemFringe.nif,1,1
-83909160,BDMinoHairFemFringeHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFemFringe_hl.nif,1,1
-83909159,BDMinoHairFem06,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFem06.nif,1,1
-83909158,BDMinoHairFem05,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFem05.nif,1,1
-83909157,BDMinoHairFem04,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFem04.nif,1,1
-83909156,BDMinoHairlineFemm04,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairline04.nif,1,1
-83909155,BDMinoHairFem03,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],Actors\Character\Character Assets\Hair\Khajiit\Female\Hair03.nif,1,1
-83909154,BDMinoHairlineFem02,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairline01.nif,1,1
-83909153,BDMinoHairFem09,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFem09.nif,1,1
-83909152,BDMinoHairFem10,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\BDMinoHairFem02.nif,1,1
-83908842,BDHorseMaleHairTiedHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeTied_hl.nif,1,
-83907463,BDDeerMaleEyesBrown,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83906083,BDDeerMaleMouth,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\DeerMaleMouth.nif,1,
-83904704,BDHorseMaleHairTied,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeTied.nif,1,
-83904703,BDHorseMaleManeSimple,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSimple.nif,1,
-83904702,BDHorseMaleManeSimpleHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeSimple_hl.nif,1,
-83896424,BDHorseUnicornHornDark,Eyebrows,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\UnicornHorn.nif,1,
-83896422,BDHorseUnicornHornGold,Eyebrows,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\UnicornHornGold.nif,1,
-83896421,BDHorseMaleHairManeShort,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeShort.nif,1,
-83896420,BDHorseMaleHairRoached,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\ManeRoached.nif,1,
-83896419,BDDeerNoHorn,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],,1,
-83895040,BDDeerHorns1,Eyebrows,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Horns\Horns1NoBase.nif,1,
-83895039,BDHorseMaleHairSideManeFringe,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\SideMane.nif,1,
-83895038,BDHorseMaleHairSideMane,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\SideMane.nif,1,
-83895037,BDHorseMaleHairSideManeHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\SideMane_hl.nif,1,
-83893658,BDHorseMaleHairFringeEX,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Fringe.nif,1,
-83893657,BDHorseMaleHairMohawkFringe,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Mohawk01.nif,1,
-83893656,BDDeerHairFringeHL,Misc,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Fringe_hl.nif,1,
-83893655,BDDeerHairFringe,Hair,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\Hair\Fringe.nif,1,
-83892276,BDHorseMaleHairMohawkHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Mohawk01_hl.nif,1,
-83892275,BDHorseMaleManeMohawk,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Mohawk01.nif,1,
-83889516,BDDeerMaleEyesIceBlue,Eyes,BDHeadPartsDeer [FLST:05000D65],actors\character\BDDeerHead\Eyes\MaleEyes01.nif,1,
-83889508,BDDeerMaleHead,Face,BDHeadPartsDeerAndVampire [FLST:05000D66],actors\character\BDDeerHead\DeerMaleHead.nif,1,
-83888441,BDMinoMaleEyesOrcYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888440,BDMinoMaleEyesOrcRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888439,BDMinoMaleEyesOrcIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888438,BDMinoMaleEyesOrcDarkGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888437,BDMinoMaleEyesOrcBlind,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888436,BDMinoMaleEyesHumanYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888435,BDMinoMaleEyesHumanLightGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888434,BDMinoMaleEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888433,BDMinoMaleEyesHumanLightBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888432,BDMinoMaleEyesHumanIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888431,BDMinoMaleEyesHumanHazelBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888430,BDMinoMaleEyesHumanHazel,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888429,BDMinoMaleEyesHumanGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888428,BDMinoMaleEyesHumanDemon,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888427,BDMinoMaleEyesHumanDarkBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888426,BDMinoMaleEyesHumanBrownBloodShot,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888425,BDMinoMaleEyesHumanBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888424,BDMinoMaleEyesHumanBrightGreen,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888423,BDMinoMaleEyesHumanAmber,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888422,BDMinoMaleEyesHighElfYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888421,BDMinoMaleEyesHighElfOrange,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888420,BDMinoMaleEyesHighElfDarkYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888419,BDMinoMaleEyesDarkElfRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888418,BDMinoMaleEyesDarkElfDeepRed2,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888417,BDMinoMaleEyesDarkElfDeepRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesHumTex.nif,1,
-83888416,BDMinoHairMaleShaggyHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\shaggyhair_hl_m.nif,1,
-83888415,BDMinoHairMaleShaggy,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Male\shaggyhair_m.nif,1,
-83888414,BDMinoHairFemTiedStyleHL02,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\tiedstyle_hl02_f.nif,1,1
-83888413,BDMinoHairFemTiedStyleHL01,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\tiedstyle_hl01_f.nif,1,1
-83888412,BDMinoHairFemTiedStyle001,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\Female\tiedstyle_f.nif,1,1
-83888411,BDMinoHairMaleManeHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_hl_m.nif,1,
-83888410,BDMinoHairMaleMane,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\lionmane_m.nif,1,
-83888403,BDMinoFemMouth,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Female\MinoFemMouth.nif,1,1
-83888402,BDMinoFemHead,Face,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Female\MinoFemHead.nif,1,1
-83888401,BDMinoHairMaleMohawkFeathers,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\mohawk_m.nif,1,
-83888400,BDMinoHairMohawkFeathersAcc,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\acc_mohawkfeathers_m.nif,1,
-83888399,BDMinoHairMohawkFeathersAccHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\acc_mohawkfeathers_hl_m.nif,1,
-83888398,BDMinoHairMaleMohawkDarkHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\mohawkalt_hl_m.nif,1,
-83888397,BDMinoHairMaleMohawkDark,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\mohawkalt_m.nif,1,
-83888396,BDMinoHairMaleMohawk,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\mohawk_m.nif,1,
-83888395,BDMinoHairMaleMohawkHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\mohawk_hl_m.nif,1,
-83888394,BDMinoHairMaleDreadsBeads,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\dreads_beads_m.nif,1,
-83888393,BDMinoHairMaleDreads01,Hair,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\dreads_m.nif,1,
-83888392,BDMinoHairMaleDreadsFore,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\dreads_hl01_m.nif,1,
-83888391,BDMinoHairMaleDreadsForeHL,Misc,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Hair\Male\dreads_hl02_m.nif,1,
-83888381,BDMinoBeard0,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],,1,
-83888380,BDMinoBeard01,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\Beard01.nif,1,
-83888379,BDMinoNoseRing,Facial Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Beard\NoseRing.nif,1,
-83888378,BDMinoHorns0,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],,1,
-83888377,BDMinoSteerBase,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\SteerBase.nif,1,
-83888371,BDMinoSteerHorns,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Horns\SteerHorn.nif,1,
-83888370,BDMinoHairNone,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],,1,
-83888369,BDMinoFemEyesBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888368,BDMinoFemEyesYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888367,BDMinoFemEyesGreen,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888366,BDMinoFemEyesRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888365,BDMinoMaleEyesRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888360,BDMinoMaleEyesYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888359,BDMinoMaleEyesBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888358,BDMinoMaleEyesGreen,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888356,BDMinoFemEyesWoodElfLightBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888355,BDMinoFemEyesWoodElfDeepViolet,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888354,BDMinoFemEyesWoodElfDeepBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888353,BDMinoFemEyesWoodElfBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888352,BDMinoFemEyesOrcYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888351,BDMinoFemEyesOrcRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888350,BDMinoFemEyesOrcIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888349,BDMinoFemEyesOrcDarkGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888348,BDMinoFemEyesOrcBlind,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888347,BDMinoFemEyesHumanYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888346,BDMinoFemEyesHumanLightGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888345,BDMinoFemEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888344,BDMinoFemEyesHumanLightBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888343,BDMinoFemEyesHumanIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888342,BDMinoFemEyesHumanHazelBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888341,BDMinoFemEyesHumanHazel,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888340,BDMinoFemEyesHumanGrey,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888339,BDMinoFemEyesHumanGreenHazel,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888338,BDMinoFemEyesHumanDemon,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888337,BDMinoFemEyesHumanDarkBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888336,BDMinoFemEyesHumanBrownBloodShot,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888335,BDMinoFemEyesHumanBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888334,BDMinoFemEyesHumanBrightGreen,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888333,BDMinoFemEyesHumanAmber,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888332,BDMinoFemEyesHighElfYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888331,BDMinoFemEyesHighElfOrange,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888330,BDMinoFemEyesHighElfDarkYellow,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888329,BDMinoFemEyesDarkElfUnique,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888328,BDMinoFemEyesDarkElfRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888327,BDMinoFemEyesDarkElfDeepRed2,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888326,BDMinoFemEyesDarkElfDeepRed,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesHumTex.nif,1,1
-83888315,BDMinoFemEyesVamp,Eyes,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyesVamp.nif,1,1
-83888314,BDMinoMaleEyesVamp,Eyes,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Eyes\MinoMaleEyesVHumTex.nif,1,
-83888312,BDMinoFemEyesBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888311,BDMinoFemEyesIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoFemaleEyes01.nif,1,1
-83888310,BDMinoMaleEyesBrown,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888308,BDMinoMaleMouth,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\MinoMaleMouth.nif,1,
-83888303,BDMinoHornNone,Eyebrows,BDHeadPartsMinoAndVampire [FLST:050008A3],,1,
-83888301,BDMinoHairFringeHL,Misc,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\fringeflip_hl_m.nif,1,
-83888300,BDMinoHairFringe,Hair,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Hair\fringeflip_m.nif,1,
-83888297,BDMinoMaleEyesIceBlue,Eyes,BDHeadPartsMino [FLST:050008A2],actors\character\BDMinotaurHead\Eyes\MinoMaleEyes01.nif,1,
-83888289,BDMinoMaleHead,Face,BDHeadPartsMinoAndVampire [FLST:050008A3],actors\character\BDMinotaurHead\Male\MinoMaleHead.nif,1,
-83888215,BDHorse0FemEyesBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888214,BDHorse0FemEyesYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888213,BDHorse0FemEyesGreen,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888212,BDHorse0FemEyesRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888211,BDHorse0MaleEyesRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888206,BDHorse0MaleEyesYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888205,BDHorse0MaleEyesBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888204,BDHorse0MaleEyesGreen,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888202,BDHorseFemEyesWoodElfLightBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888201,BDHorseFemEyesWoodElfDeepViolet,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888200,BDHorseFemEyesWoodElfDeepBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888199,BDHorseFemEyesWoodElfBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888198,BDHorseFemEyesOrcYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888197,BDHorseFemEyesOrcRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888196,BDHorseFemEyesOrcIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888195,BDHorseFemEyesOrcDarkGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888194,BDHorseFemEyesOrcBlind,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888193,BDHorseFemEyesHumanYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888192,BDHorseFemEyesHumanLightGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888191,BDHorseFemEyesHumanLightBlueBloodShot,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888190,BDHorseFemEyesHumanLightBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888189,BDHorseFemEyesHumanIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888188,BDHorseFemEyesHumanHazelBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888187,BDHorseFemEyesHumanHazel,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888186,BDHorseFemEyesHumanGrey,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888185,BDHorseFemEyesHumanGreenHazel,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888184,BDHorseFemEyesHumanDemon,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888183,BDHorseFemEyesHumanDarkBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888182,BDHorseFemEyesHumanBrownBloodShot,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888181,BDHorseFemEyesHumanBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888180,BDHorseFemEyesHumanBrightGreen,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888179,BDHorseFemEyesHumanAmber,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888178,BDHorseFemEyesHighElfYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888177,BDHorseFemEyesHighElfOrange,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888176,BDHorseFemEyesHighElfDarkYellow,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888175,BDHorseFemEyesDarkElfUnique,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888174,BDHorseFemEyesDarkElfRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888173,BDHorseFemEyesDarkElfDeepRed2,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888172,BDHorseFemEyesDarkElfDeepRed,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyesHumTex.nif,1,1
-83888160,BDHorseFemEyesVamp,Eyes,BDHeadPartsHorseVampire [FLST:05000825],actors\character\BDHorseHead\HorseFemaleEyesVampHumTex.nif,1,1
-83888159,BDHorseMaleEyesVamp,Eyes,BDHeadPartsHorseVampire [FLST:05000825],actors\character\BDHorseHead\HorseMaleEyesVHumTex.nif,1,
-83888157,BDHorse0FemEyesBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888156,BDHorse0FemEyesIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseFemaleEyes01.nif,1,1
-83888155,BDHorse0MaleEyesBrown,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888153,BDHorseMaleMouth,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\HoseMaleMouth.nif,1,
-83888148,BDHorseNoHorn,Eyebrows,BDHeadPartsHorseAndVampire [FLST:05000808],,1,
-83888147,BDHorseUnicornHorn,Eyebrows,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\UnicornHorn.nif,1,
-83888146,BDHorseMaleHairFringeHL,Misc,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Fringe_hl.nif,1,
-83888145,BDHorseMaleHairFringe,Hair,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\Hair\Fringe.nif,1,
-83888142,BDHorse0MaleEyesIceBlue,Eyes,BDHeadPartsHorse [FLST:05000807],actors\character\BDHorseHead\HorseMaleEyes01.nif,1,
-83888133,BDHorseMaleHead,Face,BDHeadPartsHorseAndVampire [FLST:05000808],actors\character\BDHorseHead\HorseMaleHead.nif,1,
+Record,EDID,FULL
+33637447,DLC2ExpSpiderPoisonJumping,Jumping Poisonous Spider
+33637498,DLC2ExpSpiderFireJumping,Jumping Flame Spider
+33637515,DLC2ExpSpiderPoisonJumpingFriend,Jumping Poisonous Spider
+33637520,DLC2ExpSpiderTemplate,Imbued Spider
+33637521,DLC2ExpSpiderFireJumpingFriend,Jumping Flame Spider
+33637524,TestDLC2Lurker,Lurker
+33637829,DLC2ExpSpiderAlbino,Albino Spider
+33648154,DLC2ExpSpiderZombieFriend,
+33648756,DLC2ExpSpiderAlbinoFriend,Albino Spider
+33648759,DLC2ExpSpiderFireCloaking,Flame Cloaked Spider
+33650490,DLC2Neloth,Neloth
+33650491,DLC2Ildari,Ildari Sarothril
+33650551,DLC2Talvas,Talvas Fathryon
+33650552,DLC2Elynea,Elynea Mothren
+33650553,DLC2Drovas,Drovas Relvi
+33650556,DLC2Varona,Varona Nelas
+33650557,DLC2Ulves,Ulves Romoran
+33650614,DLC2SummonAshGuardian,
+33650996,DLC2Frea,Frea
+33650997,DLC2Storn,Storn Crag-Strider
+33650998,DLC2MiraakMQ01,Miraak
+33651000,DLC2MiraakMQ02,
+33651039,DLC2ExpSpiderZombieLvlBanditMelee1H,
+33651143,DLC2dunKolbjornRalis,Ralis Sedarys
+33651153,DLC2EncMountedRiekling,Mounted Riekling
+33651234,testjeffbDragon,Dragon
+33652551,DLC2EncRiekling01Melee,Riekling
+33652605,DLC2Miraak,Miraak
+33652609,DLC2MiraakMQ04,
+33652615,DLC2MQ05Dragon,Krosulhah
+33653368,DLC2RRCresciusCaerellius,Crescius Caerellius
+33653372,DLC2RRAphiaVelothi,Aphia Velothi
+33653374,DLC2RRLlerilMorvayn,Lleril Morvayn
+33653376,DLC2RRAdrilArano,Adril Arano
+33653378,DLC2RRCindiriArano,Cindiri Arano
+33653380,DLC2RRVendilSeverin,Vendil Severin
+33653382,DLC2RRTilisuSeverin,Tilisu Severin
+33653384,DLC2RRMirriSeverin,Mirri Severin
+33653386,DLC2RRElderOthreloth,Elder Othreloth
+33653388,DLC2RRGaldrusHlervu,Galdrus Hlervu
+33653390,DLC2RRGloverMallory,Glover Mallory
+33653392,DLC2RRGeldisSadri,Geldis Sadri
+33653394,DLC2RRFethisAlor,Fethis Alor
+33653396,DLC2RRDreylaAlor,Dreyla Alor
+33653407,DLC2RRGarynIenth,Garyn Ienth
+33653409,DLC2RRMiloreIenth,Milore Ienth
+33653420,DLC2RRModynVeleth,Captain Veleth
+33653422,DLC2RRGjalundSaltSageWindhelm,Gjalund Salt-Sage
+33653548,TestMeleeAndMissile,Test Guardian
+33653831,DravyneaDUPLICATE001,Dravynea the Stoneweaver
+33656211,DLC2dunGyldenhulAdventurer,Adventurer
+33656283,DLC2dunGyldenhulHaknirSkeleton,Haknir Death-Brand
+33656596,DLC2RRRirnsLlervu,Rirns Llervu
+33656597,DLC2RRBralsaDrel,Bralsa Drel
+33656729,DLC2SVOslaf,Oslaf
+33656732,DLC2SVFinna,Finna
+33656741,DLC2SVDeor,Deor Woodcutter
+33656745,DLC2SVMorwen,Morwen
+33656750,DLC2SVWulfWildblood,Wulf Wild-Blood
+33656757,DLC2SVBaldorIronShaper,Baldor Iron-Shaper
+33656761,DLC2SVYrsa,Yrsa
+33656765,DLC2SVEdla,Edla
+33656769,DLC2SVNikulas,Nikulas
+33656773,DLC2SVFanariStrongVoice,Fanari Strong-Voice
+33656776,DLC2SVTharstan,Tharstan
+33656778,DLC2SVAeta,Aeta
+33657452,DLC2ExpSpiderAlbinoEMPTY,Albino Spider
+33658153,DLC2ExpSpiderFireCloakingFriend,Flame Cloaked Spider
+33658262,DLC2MogrulThugTT1b,Slitter
+33658266,DLC2Mogrul,Mogrul
+33658287,DLC2RRGuardTemplate,Redoran Guard
+33658288,DLC2RRGuardMorvaynManorInterior,
+33658289,DLC2RRGuardMorvaynManorExterior,
+33658290,DLC2RRGuardTempleExterior,
+33658291,DLC2RRGuardGateExterior,
+33658292,DLC2RRGuardMarketExterior,
+33658293,DLC2RRGuardPatrol,
+33658294,DLC2RRGuardJail,
+33658295,DLC2RRGuardBarracks,
+33658391,DLC2DetectionTarget,Detection Target
+33658469,DLC2dunKarstaag,Karstaag
+33659600,DLC2EncAshHopperTest,Ash Hopper
+33661811,DLC2dunHaknir,Haknir Death-Brand
+33662216,DLC2ThirskRieklingChief,Riekling Chief
+33662225,DLC2Bujold,Bujold the Intrepid
+33662229,DLC2Hilund,Hilund
+33662232,DLC2Kuvar,Kuvar
+33662234,DLC2Elmus,Elmus
+33662236,DLC2Halbarn,Halbarn Iron-Fur
+33662308,DLC2GeneralCarius,General Falx Carius
+33662312,DLC2RR01AttackingAshSpawn,Ash Spawn
+33663532,DLC2LvlBanditBoss,Reaver Lord
+33663533,DLC2LvlBanditMelee1H,
+33663534,DLC2LvlBanditMissile,
+33663535,DLC2LvlBanditWizard,
+33663663,DLC2encAshGuardian,Ash Guardian
+33663666,DLC2TTF1AshGuardian,
+33665960,DLC2LvlBanditMissileHoldPositionLinkCustom02256,
+33665962,DLC2LvlBanditMeleeTank,
+33665988,DLC2LvlBanditWizardHoldPositionLinkCustom02512,
+33666491,DLC2dunNchardakBanditBoss01,
+33666614,DLC2EncAshSpawn1H01,Ash Spawn
+33666617,DLC2EncAshSpawn1H02,Ash Spawn Skirmisher
+33666618,DLC2EncAshSpawn1H03,Ash Spawn Immolator
+33666621,DLC2LvlAshSpawnMelee1H,
+33666622,DLC2EncHorkerYoungling,Horker Youngling
+33666623,DLC2EncSprigganBurnt,Burnt Spriggan
+33666624,DLC2EncLurker01,Lurker
+33666625,DLC2EncLurker02,Lurker Guardian
+33666626,DLC2EncLurker03,Lurker Sentinel
+33666629,DLC2EncLurker04,Lurker Vindicator
+33666633,DLC2EncNetchBetty,Betty Netch
+33666638,DLC2EncRiekling02Melee,Riekling Scout
+33666639,DLC2EncRiekling03Melee,Riekling Hunter
+33666640,DLC2EncRiekling01Missile,
+33666641,DLC2EncRiekling02Missile,
+33666642,DLC2EncRiekling03Missile,
+33666645,DLC2LvlRieklingMissile,
+33666646,DLC2LvlRieklingMelee,
+33666647,DLC2EncAshHopper,Ash Hopper
+33669229,DLC2LvlAshSpawnMagic,
+33671731,DLC2ExpSpiderZombieLvlBanditMissile,
+33671846,DLC2ServosRendas,Servos Rendas
+33671848,DLC2MerilarRendas,Merilar Rendas
+33671853,DLC2ExpSpiderPoisonCloaking,Poisonous Cloaked Spider
+33671854,DLC2ExpSpiderPoisonCloakingFriend,Poisonous Cloaked Spider
+33671893,DLC2SV01DragonPriestBoss,Vahlok the Jailor
+33671894,DLC2FrostGiant01,Frost Giant
+33671923,DLC2SV02Ancarion,Ancarion
+33672092,DLC2dunNchardakLvlDwarvenSphereAmbushHoldPositionLinkCustom02384,
+33672696,DLC2SummonAshSpawn01,Ash Spawn
+33672704,DLC2LvlCultist,
+33674478,DLC2dunNchardakCenturionBoss,
+33675130,DLC2dunNorthshoreLandingCrabBoss,Old Salty
+33675653,DLC2Hrothmund,Hrothmund
+33675774,DLC2ExpSpiderOil,Oil Spider
+33676228,DLC2dunKolbjornMiner,
+33676391,DLC2dunFrostmoonMajni,Majni
+33676474,DLC2EncSeeker02,Seeker Aspirant
+33677217,DLC2SummonTrollFrost,Frost Troll
+33677292,DLC2ExpSpiderFrostJumping,Jumping Frost Spider
+33677293,DLC2ExpSpiderShockJumping,Jumping Shock Spider
+33677692,DLC2EncTribalWerebearA,Werebear
+33679364,DLC2EncBandit00Template,Reaver
+33679365,DLC2EncBandit01MagicDarkElf01M,
+33679366,DLC2EncBandit01MagicDarkElf01F,
+33679367,DLC2EncBandit01TemplateMagic,
+33679368,DLC2EncBandit01TemplateMelee,
+33679369,DLC2EncBandit01MagicDarkElf03F,
+33679370,DLC2EncBandit01MagicDarkElf03M,
+33679371,DLC2EncBandit01MagicDarkElf04M,
+33679372,DLC2EncBandit01MagicDarkElf02F,
+33679373,DLC2EncBandit01MagicDarkElf02M,
+33679374,DLC2EncBandit01Melee1HDarkElf02F,
+33679375,DLC2EncBandit01Melee1HDarkElf01M,
+33679376,DLC2EncBandit01Melee1HDarkElf04M,
+33679377,DLC2EncBandit01Melee1HDarkElf03F,
+33679378,DLC2EncBandit01Melee1HDarkElf03M,
+33679379,DLC2EncBandit01Melee1HDarkElf01F,
+33679380,DLC2EncBandit01Melee1HDarkElf02M,
+33679381,DLC2EncBandit01TemplateMissile,
+33679382,DLC2EncBandit01MissileDarkElf03F,
+33679383,DLC2EncBandit01MissileDarkElf03M,
+33679384,DLC2EncBandit01MissileDarkElf04M,
+33679385,DLC2EncBandit01MissileDarkElf01F,
+33679386,DLC2EncBandit01MissileDarkElf01M,
+33679387,DLC2EncBandit01MissileDarkElf02F,
+33679388,DLC2EncBandit01MissileDarkElf02M,
+33679389,DLC2EncBandit02TemplateMagic,Reaver Outlaw
+33679390,DLC2EncBandit02TemplateMelee,Reaver Outlaw
+33679391,DLC2EncBandit02TemplateMissile,Reaver Outlaw
+33679392,DLC2EncBandit02MagicDarkELf04M,
+33679393,DLC2EncBandit02MagicDarkElf03F,
+33679394,DLC2EncBandit02MagicDarkElf03M,
+33679395,DLC2EncBandit02MagicDarkElf01F,
+33679396,DLC2EncBandit02MagicDarkElf01M,
+33679397,DLC2EncBandit02MagicDarkElf02F,
+33679398,DLC2EncBandit02MagicDarkElf02M,
+33679399,DLC2EncBandit02Melee1HDarkElf01F,
+33679400,DLC2EncBandit02Melee1HDarkElf01M,
+33679401,DLC2EncBandit02Melee1HDarkElf02F,
+33679402,DLC2EncBandit02Melee1HDarkElf02M,
+33679403,DLC2EncBandit02Melee1HDarkElf04M,
+33679404,DLC2EncBandit02Melee1HDarkElf03F,
+33679405,DLC2EncBandit02Melee1HDarkElf03M,
+33679406,DLC2EncBandit02MissileDarkElf01F,
+33679407,DLC2EncBandit02MissileDarkElf02F,
+33679408,DLC2EncBandit02MissileDarkElf01M,
+33679409,DLC2EncBandit02MissileDarkElf02M,
+33679410,DLC2EncBandit03TemplateMagic,Reaver Thug
+33679411,DLC2EncBandit03TemplateMelee,Reaver Thug
+33679412,DLC2EncBandit03TemplateMissile,Reaver Thug
+33679413,DLC2EncBandit04TemplateMagic,Reaver Highwayman
+33679414,DLC2EncBandit04TemplateMelee,Reaver Highwayman
+33679415,DLC2EncBandit04TemplateMissile,Reaver Highwayman
+33679416,DLC2EncBandit05TemplateMagic,Reaver Plunderer
+33679417,DLC2EncBandit05TemplateMelee,Reaver Plunderer
+33679418,DLC2EncBandit05TemplateMissile,Reaver Plunderer
+33679419,DLC2EncBandit06TemplateMagic,Reaver Marauder
+33679420,DLC2EncBandit06TemplateMelee,Reaver Marauder
+33679421,DLC2EncBandit06TemplateMissile,Reaver Marauder
+33679422,DLC2EncBandit03MagicDarkELl04M,
+33679423,DLC2EncBandit03MagicDarkElf03F,
+33679424,DLC2EncBandit03MagicDarkElf03M,
+33679425,DLC2EncBandit03MagicDarkElf01F,
+33679426,DLC2EncBandit03MagicDarkElf01M,
+33679427,DLC2EncBandit03MagicDarkElf02F,
+33679428,DLC2EncBandit03MagicDarkElf02M,
+33679429,DLC2EncBandit03Melee1HDarkElf01F,
+33679430,DLC2EncBandit03Melee1HDarkElf01M,
+33679431,DLC2EncBandit03Melee1HDarkElf02F,
+33679432,DLC2EncBandit03Melee1HDarkElf02M,
+33679433,DLC2EncBandit03Melee1HDarkElf04M,
+33679434,DLC2EncBandit03Melee1HDarkElf03F,
+33679435,DLC2EncBandit03Melee1HDarkElf03M,
+33679436,DLC2EncBandit03MissileDarkElf01F,
+33679437,DLC2EncBandit03MissileDarkElf01M,
+33679438,DLC2EncBandit03MissileDarkElf02F,
+33679439,DLC2EncBandit03MissileDarkElf02M,
+33679440,DLC2EncBandit03MissileDarkElf04M,
+33679441,DLC2EncBandit03MissileDarkElf03M,
+33679442,DLC2EncBandit03MissileDarkELf03F,
+33679443,DLC2EncBandit04MagicDarkElf04M,
+33679444,DLC2EncBandit04MagicDarkElf03F,
+33679445,DLC2EncBandit04MagicDarkElf03M,
+33679446,DLC2EncBandit04MagicDarkElf01F,
+33679447,DLC2EncBandit04MagicDarkElf01M,
+33679448,DLC2EncBandit04MagicDarkElf02F,
+33679449,DLC2EncBandit04MagicDarkElf02M,
+33679450,DLC2EncBandit04Melee1HDarkElf01F,
+33679451,DLC2EncBandit04Melee1HDarkElf01M,
+33679452,DLC2EncBandit04Melee1HDarkElf02F,
+33679453,DLC2EncBandit04Melee1HDarkElf02M,
+33679454,DLC2EncBandit04Melee1HDarkElf04M,
+33679455,DLC2EncBandit04Melee1HDarkElf03F,
+33679456,DLC2EncBandit04Melee1HDarkElf03M,
+33679457,DLC2EncBandit04MissileDarkElf01F,
+33679458,DLC2EncBandit04MissileDarkElf01M,
+33679459,DLC2EncBandit04MissileDarkElf02F,
+33679460,DLC2EncBandit04MissileDarkElf02M,
+33679461,DLC2EncBandit04MissileDarkElf04M,
+33679462,DLC2EncBandit05MagicDarkElf04M,
+33679463,DLC2EncBandit05MagicDarkElf03F,
+33679464,DLC2EncBandit05MagicDarkElf03M,
+33679465,DLC2EncBandit05MagicDarkElf01F,
+33679466,DLC2EncBandit05MagicDarkElf01M,
+33679467,DLC2EncBandit05MagicDarkElf02F,
+33679468,DLC2EncBandit05MagicDarkElf02M,
+33679469,DLC2EncBandit05Melee1HDarkElf01F,
+33679470,DLC2EncBandit05Melee1HDarkElf01M,
+33679471,DLC2EncBandit05Melee1HDarkElf02F,
+33679472,DLC2EncBandit05Melee1HDarkElf02M,
+33679473,DLC2EncBandit05Melee1HDarkElf04M,
+33679474,DLC2EncBandit05Melee1HDarkElf03F,
+33679475,DLC2EncBandit05Melee1HDarkElf03M,
+33679476,DLC2EncBandit04MissileDarkElf03F,
+33679477,DLC2EncBandit04MissileDarkElf03M,
+33679478,DLC2EncBandit05MissileDarkElf01F,
+33679479,DLC2EncBandit02MissileDarkElf04M,
+33679480,DLC2EncBandit02MissileDarkElf03F,
+33679481,DLC2EncBandit02MissileDarkElf03M,
+33679482,DLC2EncBandit05MissileDarkElf01M,
+33679483,DLC2EncBandit05MissileDarkElf02F,
+33679484,DLC2EncBandit05MissileDarkElf02M,
+33679485,DLC2EncBandit05MissileDarkElf04M,
+33679487,DLC2EncBandit05MissileDarkElf03F,
+33679488,DLC2EncBandit05MissileDarkElf03M,
+33679489,DLC2EncBandit06MagicDarkElf04M,
+33679490,DLC2EncBandit06MagicDarkElf03F,
+33679491,DLC2EncBandit06MagicDarkElf03M,
+33679492,DLC2EncBandit06MagicDarkElf01F,
+33679493,DLC2EncBandit06MagicDarkElf01M,
+33679494,DLC2EncBandit06MagicDarkElf02F,
+33679495,DLC2EncBandit06MagicDarkElf02M,
+33679496,DLC2EncBandit06Melee1HDarkElf01F,
+33679497,DLC2EncBandit06Melee1HDarkElf01M,
+33679498,DLC2EncBandit06Melee1HDarkElf02F,
+33679499,DLC2EncBandit06Melee1HDarkElf02M,
+33679500,DLC2EncBandit06Melee1HDarkElf04M,
+33679501,DLC2EncBandit06Melee1HDarkElf03F,
+33679502,DLC2EncBandit06Melee1HDarkElf03M,
+33679503,DLC2EncBandit06MissileDarkElf01F,
+33679504,DLC2EncBandit06MissileDarkElf01M,
+33679505,DLC2EncBandit06MissileDarkElf02F,
+33679506,DLC2EncBandit06MissileDarkElf02M,
+33679507,DLC2EncBandit06MissileDarkElf04M,
+33679508,DLC2EncBandit06MissileDarkElf03F,
+33679509,DLC2EncBandit06MissileDarkELf03M,
+33679531,DLC2EncBandit02Boss,
+33679534,DLC2EncBandit03Boss,
+33679537,DLC2EncBandit04Boss,
+33679538,DLC2EncBandit05Boss,
+33679539,DLC2EncBandit06Boss,
+33681073,DLC2DremoraMerchant,Dremora Merchant
+33681097,DLC2SummonSeeker,Seeker
+33681267,DLC2TameDragonVoice,
+33681785,AudioTemplateAshHopper,AudioTemplateAshHopper
+33681801,DLC2MH02Bilgemuck,Bilgemuck
+33683832,DLC2EncHunterNordF1,
+33683833,DLC2EncHunterNordM1,
+33683834,DLC2EncHunterNordF2,
+33683835,DLC2EncHunterNordM2,
+33683836,DLC2EncHunterNordM3,
+33683838,DLC2LvlHunter,
+33683839,DLC2EncHunterNordM4,
+33683856,dlc2FireWyrmCreated,Fire Wyrm
+33683864,DLC2MiraakTest,
+33683907,DLC2dunFrostmoonAkar,Akar
+33683908,DLC2dunFrostmoonHjordis,Hjordis
+33683909,DLC2dunFrostmoonRakel,Rakel
+33684376,DLC2MiraakMQ06,Miraak
+33684987,AudioTemplateLurker,AudioTemplate Lurker
+33685280,DLC2DremoraButler,Dremora Butler
+33685306,DLC2HermaeusMoraVoice,Hermaeus Mora
+33685721,DLC2MiraakSoulSteal,
+33687260,DLC2ExpSpiderFrostCloakingFriend,Frost Cloaked Spider
+33687261,DLC2ExpSpiderFrostJumpingFriend,Jumping Frost Spider
+33687265,DLC2ExpSpiderFrostCloaking,Frost Cloaked Spider
+33687768,DLC2LvlRieklingThirskMelee,
+33687900,DLC2ExpSpiderShockCloaking,Shock Cloaked Spider
+33687901,DLC2ExpSpiderShockCloakingFriend,Shock Cloaked Spider
+33687902,DLC2ExpSpiderShockJumpingFriend,Jumping Shock Spider
+33688109,DLC2RR03GratianSkeleton,Gratian Caerellius
+33688135,DLC2RR03MilliusSkeleton,Millius
+33689537,DLC2WE05Wizard,Wizard
+33691451,DLC2EncNetchTest,Netch
+33701755,DLC2MiraakDragon,Sahrotaar
+33701898,DLC2dunHaknirShoal_LvlBanditBossMaleNord,Pirate Captain
+33701899,DLC2dunHaknirShoal_LvlBanditMissileFemaleDarkElfCommoner,Pirate
+33701947,DLC2EncBoar01,Bristleback
+33703953,DLC2dunKarstaagSummon,
+33704016,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256,
+33704161,DLC2AcolyteDukaan,Dukaan
+33704168,DLC2AcolyteZahkriisos,Zahkriisos
+33704169,DLC2AcolyteAhzidal,Ahzidal
+33705464,DLC2RRFavor03AshSpawn,
+33707133,DLC2NB01CorpseFall,
+33708075,DLC2RRGjalundSaltSageSolstheim,
+33708164,DLC2SV02LvlThalmorMelee1H,
+33708165,DLC2SV02LvlThalmorMissile,
+33708167,DLC2SV02LvlThalmorMissileAggro1024,
+33708168,DLC2SV02LvlThalmorMelee1HAggro1024,
+33708191,DLC2lvlMQ05Dragon,
+33708772,DLC2EncMudcrabSolstheim,Solstheim Mudcrab
+33709592,DLC2LvlMountedRiekling,
+33709593,DLC2LvlMountedRieklingBoss,
+33709978,DLC2LvlBoar,
+33710240,DLC2KagrumezLvlDwarvenBallistaFight1,
+33710486,DLC2dunHorkerIslandEncHorker,Lord Tusk
+33710963,DLC2SV01EncSkeletonNecro01Melee1HAllowWander,Corrupted Shade
+33711289,DLC2dunHorkerIslandTreasCorpseBanditDarkElfMale,Saden
+33711530,dlc2DBAncientDragonborn,Ancient Dragonborn
+33711537,dlc2SpectralDragonSummon,Spectral Dragon
+33711663,DLC2KagrumezBanditBoss,
+33711671,DLC2KagrumezLvlDwarvenSphereFight3,Tempered Sphere
+33711672,DLC2KagrumezLvlDwarvenSphereFight2,Tempered Sphere
+33712908,DLC2dunBrodirGroveBanditBoss,
+33712964,AudioTemplateBigNetch,AudioTemplateMammoth
+33713864,DLC2LvlRieklingMeleeAmbush,
+33713869,DLC2LvlRieklingMissileAmbush,
+33714445,DLC2WaterStoneSailor1,Hjalfar
+33714536,DLC2NB01CorpseFall2,Castor the Puzzlemaker's Corpse
+33714627,DLC2LvlMoragTongMelee1H,Morag Tong Assassin
+33714628,DLC2LvlMoragTongMissile,Morag Tong Assassin
+33715326,DLC2ExpSpiderGlowing,Glowing Spider
+33715330,DLC2ExpSpiderPackmuleCUT,Pack Spider
+33715349,DLC2ExpSpiderGlowingFriend,Glowing Spider
+33715354,DLC2ExpSpiderOilFriend,Oil Spider
+33715360,DLC2ExpSpiderPackmuleFriendCUT,Pack Spider
+33715458,DLC2KagrumezLvlSpiderAmbushFight1,
+33715480,DLC2KagrumezLvlDwarvenSpiderFight2,
+33715484,DLC2KagrumezLvlSpiderAmbushFight2,
+33715488,DLC2KagrumezLvlDwarvenCenturionFight3,
+33715495,DLC2KagrumezLvlDwarvenSpiderFight3,
+33716204,DLC2dunKolbjornMiner_DarkElfM04,Miner
+33716206,DLC2dunKolbjornMiner_Bradyn,Bradyn
+33716207,DLC2dunKolbjornMiner_Mireli,Mireli
+33716216,DLC2dunKolbjornMiner_DarkElfF01,Miner
+33716217,DLC2dunKolbjornMiner_DarkElfF02,Miner
+33716218,DLC2dunKolbjornMiner_DarkElfM01,Miner
+33716219,DLC2dunKolbjornMiner_DarkElfM02,Miner
+33716220,DLC2dunKolbjornMiner_GuardM01,Kolbjorn Guard
+33716221,DLC2dunKolbjornMiner_DarkElfF03,Miner
+33716222,DLC2dunKolbjornMiner_DarkElfF04,Miner
+33716223,DLC2dunKolbjornMiner_DarkElfM03,Miner
+33716227,DLC2dunKolbjornMiner_GuardM02,Kolbjorn Guard
+33716228,DLC2dunKolbjornMiner_GuardM03,Kolbjorn Guard
+33716229,DLC2dunKolbjornMiner_GuardM04,Kolbjorn Guard
+33716231,DLC2dunKolbjornGuard,
+33716265,DLC2WaterStoneSailor2,Benkum
+33716267,DLC2WaterStoneSailor3,Liesl
+33716269,DLC2WaterStoneSailor4,Palevius Lex
+33716757,DLC2WE06Madman,Madman
+33716930,LvlDraugrMissileFemaleHoldPosition256,
+33716931,LvlDraugrAmbushBerserkerRushMaleNoFurniture,
+33716933,LvlDraugrAmbushMelee1HDefenderRushMaleNoFurniture,
+33716934,LvlDraugrAmbushMissileRushFemaleNoFurniture,
+33716935,LvlDraugrAmbushWarlockRushNoFurniture,
+33717826,DLC2Niyya,Niyya
+33718854,DLC2dunKarstaagIceWraith,Ice Wraith
+33719659,DLC2EncSeeker02Mirror,
+33719678,DLC2EncNetchBull,Bull Netch
+33719679,DLC2EncNetchCalf,Netch Calf
+33719747,DLC2EbonyWarrior,Ebony Warrior
+33720343,DLC2LvlDraugrMissileFemaleHoldPositionPatrol,
+33720344,DLC2LvlDraugrMelee1HMalePatrolWeap,
+33720345,DLC2LvlDraugrMelee2HBerserkerMalePatrolWeap,
+33720691,DLC2dunTempleofMiraakCultist01,
+33720692,DLC2dunTempleofMiraakCultist02,
+33721983,DLC2EncSeeker01,Seeker
+33721986,DLC2EncSeeker01Mirror,
+33721987,DLC2EncSeeker03,High Seeker
+33721990,DLC2EncSeeker03Mirror,
+33721992,DLC2LvlSeeker,
+33721993,DLC2EncAshHopperExtra,
+33723043,DLC2RR02DeadGuard,
+33724091,DLC2dunInstrumentNPC,
+33724094,DLC2dunHighpointAshGuardian,
+948824,LvlDraugrAmbushMelee1HDefenderMaleNoFurniture,
+33724179,DLC2LvlRieklingMissile_HoldPositionLinkCustom02512UntilReleased,
+33724180,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256UntilReleased,
+33724220,DLC2LvlRieklingMelee_AmbushNoFurniture,
+33724226,DLC2LvlRieklingMissile_HoldPositionLinkCustom02128UntilReleased,
+33724230,DLC2LvlRieklingMissileAmbush_HoldPositionLinkCustom02256UntilReleased,
+33724239,DLC2LvlRieklingMissile_AmbushNoFurniture,
+33724297,DLC2LvlBoar_AmbushNoFurniture,
+33727352,DLC2dunBookDungeon03Mannequin01,
+33727353,DLC2dunBookDungeon03Mannequin02,
+33727354,DLC2dunBookDungeon03Mannequin03,
+33728254,DLC2EncDraugrHulkingM00,Hulking Draugr
+33728970,DLC2LvlLurkerAmbush,
+33729840,DLC2RREsmondTyne,Esmond Tyne
+33730585,TestDwarvenBallista,Dwarven Ballista Test
+33730794,DLC2LvlLurker,
+33731121,DLC2LvlRieklingMeleeAmbushBarrel,
+33731126,DLC2BjornolfrCorpse,Bjornolfr
+33733391,DLC2LvlRieklingMissileAmbushBarrel,
+33733931,DLC2dunNchardakWorkshopEndCenturion,
+33734459,DLC2DragonSkeleton,Dragon
+33735147,DLC2SiltStriderMerchant,Revus Sarvani
+33735686,DLC2RR01DeadGuard,
+33736842,DLC2EncDragon06Frost,Serpentine Dragon
+33754253,DLC2MQ02Seeker,
+33754270,DLC2MaximianRemains,Maximian Axius
+33754321,DLC2EncCultist03Template,Cultist
+33754322,DLC2EncCultist00Template,Cultist
+33754323,DLC2EncCultist04Template,Cultist Adept
+33754324,DLC2EncCultist05Template,Ascendant Cultist
+33754325,DLC2EncCultist06Template,Master Cultist
+33754326,DLC2EncCultist07Template,Arch Cultist
+33754334,DLC2SummonSeekerHigh,High Seeker
+33754918,DLC2EncAshHopperAmbush,
+33756743,DLC2TempleWorkerBandit01,
+33756744,DLC2TempleWorkerBandit02,
+33756756,DLC2TempleWorkerRiekling01,
+33756757,DLC2TempleWorkerRiekling02,
+33756768,DLC2TempleWorkerBandit03,
+33756769,DLC2TempleWorkerBandit04,
+33756773,DLC2TempleWorkerRiekling03,
+33757253,DLC2EncIceWraith,Ice Wraith
+33757282,DLC2MerchMerchant,Falas Selvayn
+33758370,DLC2TestRiekling,
+33758373,DLC2MQ02MiraakDragon,
+33758612,DLC2KagrumezDwarvenSpiderPet,Steadfast Dwarven Spider
+33758613,DLC2KagrumezDwarvenSpherePet,Steadfast Dwarven Sphere
+33759921,DLC2EncWerebear,Werebear
+33759923,DLC2SummonWerebear,Werebear
+33759925,DLC2EncAshSpawn2H01,
+33759926,DLC2EncAshSpawn2H02,
+33759927,DLC2EncAshSpawn2H03,
+33759932,DLC2LvlAshSpawnMelee2H,
+33759934,DLC2LvlAshSpawnMeleeAny,
+33759935,DLC2EncAshSpawnMagic01,
+33759936,DLC2EncAshSpawnMagic02,
+33759937,DLC2EncAshSpawnMagic03,
+33760766,DLC2dunHaknirShoal_LvlBanditBossMaleDarkElf,Reaver Lord
+33760768,DLC2dunHaknirShoal_LvlBanditMissileWoodElfF,Reaver
+33761357,DLC2EncBoarWild,
+33762543,DLC2dunFahlbtharzExplorerCorpse01,Ulyn
+33763920,DLC2EncDwarvenBallista01,Dwarven Ballista
+33763921,DLC2EncDwarvenBallista02,Dwarven Ballista Guardian
+33763922,DLC2EncDwarvenBallista03,Dwarven Ballista Master
+33763924,DLC2LvlDwarvenBallista,
+33763925,DLC2LvlDwarvenBallistaAmbush,
+33764955,AudioTemplateAshGhoul,AudioTemplateAshGhoul
+33765064,DLC2EncSeeker01NoScript,
+33765065,DLC2EncSeeker02NoScript,
+33765066,DLC2EncSeeker03NoScript,
+33765601,DLC2dunKolbjorn_LvlDraugrMissileFemaleHoldPosition256,
+33765603,DLC2dunKolbjorn_LvlDraugrMissileMaleHoldPosition256,
+33766369,DLC2LvlDwarvenBallistaAmbush_HoldPositionLinkCustom02256,
+33766665,DLC2RRGuardPatrolBulwark,
+33766669,DLC2RRGuardPatrolBulwark02,
+33766673,DLC2RRGuardTunnel,
+33767460,DLC2WB01Torkild,Torkild
+33770149,DLC2dunBook3EncSeeker02,
+33770321,DLC2LvlMountedRieklingBossNoRespawn,Mounted Riekling
+33770322,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256_NoRespawn,
+33770330,DLC2dunKarstaagIceWraithSummoned,Ice Wraith
+33770366,DLC2dunNchardakExteriorMissileGuard,
+33770781,DLC2KagrumezLvlDwarvenBallistaFight3,
+33771449,DLC2EncCultist03NordM,
+33771450,DLC2EncCultist03DarkElfF,
+33771451,DLC2EncCultist03DarkElfM,
+33771453,DLC2EncCultist04DarkElfF,
+33771454,DLC2EncCultist04DarkElfM,
+33771455,DLC2EncCultist04NordM,
+33771456,DLC2EncCultist05DarkElfF,
+33771457,DLC2EncCultist05DarkElfM,
+33771458,DLC2EncCultist05NordM,
+33771459,DLC2EncCultist06DarkElfF,
+33771460,DLC2EncCultist06DarkElfM,
+33771461,DLC2EncCultist06NordM,
+33771462,DLC2EncCultist07DarkElfF,
+33771463,DLC2EncCultist07DarkElfM,
+33771464,DLC2EncCultist07NordM,
+33771465,DLC2EncCultist04DarkElfFSummoner,
+33771466,DLC2EncCultist04TemplateSummoner,
+33771467,DLC2EncCultist05TemplateSummoner,
+33771468,DLC2EncCultist06TemplateSummoner,
+33771469,DLC2EncCultist07TemplateSummoner,
+33771470,DLC2EncCultist04DarkElfMSummoner,
+33771471,DLC2EncCultist04NordMSummoner,
+33771472,DLC2EncCultist05DarkElfFSummoner,
+33771473,DLC2EncCultist05DarkElfMSummoner,
+33771482,AudioTemplateSeeker,AudioTemplateSeeker
+33772383,DLC2LvlBanditMeleeTankAggro1024,
+33772384,DLC2LvlBanditMissileAggro1024,
+33772414,DLC2dunUshaTreasCorpse,Usha
+33772510,DLC2EncThirskRiekling01Melee,
+33772511,DLC2EncThirskRiekling01Missile,
+33772512,DLC2EncThirskRiekling02Melee,
+33772513,DLC2EncThirskRiekling02Missile,
+33772514,DLC2EncThirskRiekling03Melee,
+33772515,DLC2EncThirskRiekling03Missile,
+33772661,DLC2LvlCultistNonHostile,
+33773132,DLC2LvlCultistSummoner,
+33773136,DLC2EncCultist05NordMSummoner,
+33773137,DLC2EncCultist06DarkElfFSummoner,
+33773138,DLC2EncCultist06DarkElfMSummoner,
+33773139,DLC2EncCultist06NordMSummoner,
+33773140,DLC2EncCultist07DarkElfFSummoner,
+33773141,DLC2EncCultist07DarkElfMSummoner,
+33773142,DLC2EncCultist07NordMSummoner,
+33773343,DLC2KagrumezCorpse,Raleth Eldri
+33775198,DLC2LvlAshSpawnAmbushMagic,
+33775199,DLC2LvlAshSpawnAmbushMelee1H,
+33775200,DLC2LvlAshSpawnAmbushMelee2H,
+33775201,DLC2LvlAshSpawnAmbushMeleeAny,
+33775214,DLC2EncSprigganBurntAmbush,
+33775918,DLC2EncDragon06Fire,Serpentine Dragon
+33775923,DLC2EncDragon06FrostNoScript,Serpentine Dragon
+33775924,DLC2EncDragon06FireNoScript,Serpentine Dragon
+33775926,DLC2lvlDragon,
+33775936,DLC2EncDraugrHulkingM01,
+33775937,DLC2EncDraugrHulkingM02,
+33775938,DLC2EncDraugrHulkingM03,
+33775939,DLC2EncDraugrHulkingM04,
+33775940,DLC2EncDraugrHulkingM05,
+33775941,DLC2EncDraugrHulkingM06,
+33777139,DLC2EncCultist03DarkElfMSummoner,
+33777140,DLC2EncCultist03DarkElfFSummoner,
+33777142,DLC2LvlCultistNonHostileSummoner,
+33777585,DLC2dunAltarOfThrondTreasCorpse,Sacrifice
+33778156,DLC2dunAltarOfThrondIsobel,Isobel
+33778157,DLC2dunAltarOfThrondEttiene,Ettiene
+33778158,DLC2dunAltarOfThrondFallaise,Fallaise
+33780925,DLC2LvlBanditMelee1HDarkElfMCynical,
+33780927,DLC2LvlBanditMelee1HDarkElfMCommoner,
+33780946,DLC2KagrumezLvlBanditWizard_FemaleDarkElf,
+33781007,DLC2LvlBanditMissileHoldPositionCurrentLoc256,
+33781008,DLC2LvlBanditMelee1HGuard,
+33781490,DLC2RRLygrleidWindhelm,Lygrleid
+33781492,DLC2RRSogrlafWindhelm,Sogrlaf
+33781493,DLC2RRLygrleidSolstheim,Lygrleid
+33781494,DLC2RRSogrlafSolstheim,Sogrlaf
+33781717,DLC2dunHaknirShoal_LvlBanditWizard,Pirate Mage
+33781723,DLC2dunHakinrsShoal_TreasureHunter01,Treasure Hunter
+33781724,DLC2dunHakinrsShoal_TreasureHunter02,Treasure Hunter
+33783779,DLC2dunHaknirGarukWindrime,Garuk Windrime
+33783781,DLC2dunHaknirThalinEbonhand,Thalin Ebonhand
+33783796,DLC2dunHaknir_LvlBanditGhostMelee1HFemale,Haknir's Crew
+33783797,DLC2dunHaknir_LvlBanditGhostMelee1HMale,Haknir's Crew
+33783798,DLC2dunHaknir_LvlBanditGhostMelee2HFemale,Haknir's Crew
+33783799,DLC2dunHaknir_LvlBanditGhostMelee2HMale,Haknir's Crew
+33783800,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerFemale,Haknir's Crew
+33783801,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerMale,Haknir's Crew
+33783802,DLC2dunHaknir_LvlBanditGhostMeleeTankMale,Haknir's Crew
+33783803,DLC2dunHaknir_LvlBanditGhostMeleeMissileFemale,Haknir's Crew
+33783804,DLC2dunHaknir_LvlBanditGhostMeleeMissileMale,Haknir's Crew
+33783805,DLC2dunHaknir_LvlBanditGhostWizardFemale,Haknir's Crew
+33783806,DLC2dunHaknir_LvlBanditGhostWizardMale,Haknir's Crew
+33783807,DLC2dunHaknir_LvlBanditGhostMeleeTankFemale,Haknir's Crew
+33783809,DLC2dunHaknir_LvlBanditGhostMelee1HFemale_Weak,Haknir's Crew
+33783810,DLC2dunHaknir_LvlBanditGhostMelee1HMale_Weak,Haknir's Crew
+33783811,DLC2dunHaknir_LvlBanditGhostMelee2HFemale_Weak,Haknir's Crew
+33783812,DLC2dunHaknir_LvlBanditGhostMelee2HMale_Weak,Haknir's Crew
+33783813,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerFemale_Weak,Haknir's Crew
+33783814,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerMale_Weak,Haknir's Crew
+33783815,DLC2dunHaknir_LvlBanditGhostMeleeMissileFemale_Weak,Haknir's Crew
+33783816,DLC2dunHaknir_LvlBanditGhostMeleeMissileMale_Weak,Haknir's Crew
+33783817,DLC2dunHaknir_LvlBanditGhostMeleeTankFemale_Weak,Haknir's Crew
+33783818,DLC2dunHaknir_LvlBanditGhostMeleeTankMale_Weak,Haknir's Crew
+33783819,DLC2dunHaknir_LvlBanditGhostWizardFemale_Weak,Haknir's Crew
+33783820,DLC2dunHaknir_LvlBanditGhostWizardMale_Weak,Haknir's Crew
+33784172,DLC2DamphallMine01Boss,Reaver Lord
+33785184,DLC2RRTeldrynSero,Teldryn Sero
+33785995,DLC2HrodulfCorpse,Hrodulf
+33786216,DLC2Sirkjorg,Sirkjorg
+33786221,DLC2Herkja,Herkja
+33786549,DLC2LvlRieklingThirskMissile,
+33786893,DLC2RieklingRescuer,
+33787539,DLC2LvlRieklingThirskPillarBuilder,
+33787850,DLC2LvlSeekerInvCombat,
+33788478,DLC2WE12BanditBoss,
+33789729,DLC2dunHaknirShoal_LvlBanditWizardMaleDarkElfCynical,
+33789730,DLC2WE13dunHaknirShoal_LvlBanditMissileFemaleDarkElfCommoner,Pirate
+33789731,DLC2WE13dunHaknirShoal_LvlBanditWizardMaleDarkElfCynical,
+33789929,AudioTemplateBabyNetch,AudioTemplateMammoth
+33790588,DLC2WE15Hunter,
+33790827,DLC2MQ06MiraakDragon,Sahrotaar
+33791248,DLC2RRMinerEvul,Evul Seloth
+33791252,DLC2RRMinerNaris,Naris Mavani
+33791254,DLC2RRMinerMeden,Meden Maren
+33791256,DLC2RRMinerTolenos,Tolenos Omoren
+33791282,DLC2TreasCorpseBanditMagicDarkElfFemale01,
+33791283,DLC2TreasCorpseBanditMagicDarkElfMale01,
+33791284,DLC2TreasCorpseBanditMelee1HDarkElfMale01,
+33791285,DLC2TreasCorpseBanditMelee1HDarkElfFemale01,
+33791286,DLC2TreasCorpseBanditMissileDarkElfMale01,
+33791287,DLC2TreasCorpseBanditMissileDarkElfFemale01,
+33791288,DLC2TreasCorpseBanditMagicDarkElfFemale02,
+33791289,DLC2TreasCorpseBanditMagicDarkElfFemale03,
+33791290,DLC2TreasCorpseBanditMagicDarkElfMale02,
+33791291,DLC2TreasCorpseBanditMagicDarkElfMale03,
+33791292,DLC2TreasCorpseBanditMagicDarkElfMale04,
+33791293,DLC2TreasCorpseBanditMelee1HDarkElfFemale02,
+33791294,DLC2TreasCorpseBanditMelee1HDarkElfFemale03,
+33791295,DLC2TreasCorpseBanditMelee1HDarkElfMale02,
+33791296,DLC2TreasCorpseBanditMelee1HDarkElfMale03,
+33791297,DLC2TreasCorpseBanditMelee1HDarkElfMale04,
+33791298,DLC2TreasCorpseBanditMissileDarkElfFemale02,
+33791299,DLC2TreasCorpseBanditMissileDarkElfFemale03,
+33791300,DLC2TreasCorpseBanditMissileDarkElfMale02,
+33791301,DLC2TreasCorpseBanditMissileDarkElfMale03,
+33791302,DLC2TreasCorpseBanditMissileDarkElfMale04,
+33791959,DLC2SprigganPrisoner,Spriggan
+33791962,DLC2SprigganBurntPrisoner,Burnt Spriggan
+33792496,DLC2RieklingCampBanditCorpse,
+33792681,LvlDraugrAmbushMelee1HDefenderMaleNoFurnitureNoShouts,
+33792682,LvlDraugrMissileFemaleHoldPosition256NoShouts,
+33793064,DLC2dunKolbjorn_LvlDraugrMelee1HDefenderFemaleWeak,
+33793065,DLC2dunKolbjorn_LvlDraugrMissileMaleHoldPosition512Weak,
+33793151,DLC2DummyFreaVoiceTypeNPC,Do Not Delete Me - needed for export to work
+33794497,DLC2LvlAnimalMountainSnowPredator,
+33794498,DLC2LvlAnimalForestPredator,
+33794499,DLC2LvlAnimalMountainSnowPrey,
+33794500,DLC2LvlAnimalForestPrey,
+33795023,AudioTemplateBristleback,AudioTemplateBristleback
+80815,LarsBattleBorn,Lars Battle-Born
+647290,MQ306DragonA,
+647291,MQ306DragonB,
+647292,MQ306DragonC,
+33797440,DLC2dunFahlbtharzExplorerCorpse02,Eydis
+33797477,AudioTemplateSprigganBurnt,AudioTemplateSprigganBurnt
+33799436,DLC2DetectLifeBoxActor,
+33799569,DLC2LvlCultistPillarGuard,
+33801049,AudioTemplateAshGuardian,AudioTemplateAshGuardian
+33802790,DLC2PillarWorkerBandit01,
+33802791,DLC2PillarWorkerBandit02,
+33802792,DLC2PillarWorkerBandit03,
+33802833,DLC2PillarRRGuardA,
+33802834,DLC2PillarRRGuardB,
+33802835,DLC2PillarRRGuardC,
+33803171,DLC2EncRiekling04Melee,Riekling Warrior
+33803172,DLC2EncRiekling04Missile,
+33803980,DLC2TT2IldariRemenant,
+79455,Dravynea,Dravynea the Stoneweaver
+33804261,DLC2EncMountedRiekling01,Riekling Rider
+33804262,DLC2EncMountedRiekling02,Riekling Courser
+33804263,DLC2EncMountedRiekling03A,Riekling Charger
+33804264,DLC2EncMountedRiekling03B,
+33804265,DLC2EncMountedRiekling03C,
+33804266,DLC2EncMountedRiekling03D,
+33804267,DLC2EncMountedRiekling03E,
+33804831,DLC2WE07EncTribalWerebearA,Werebear
+33804832,DLC2WE07EncTribalWerebearB,Werebear
+33804833,DLC2WE07EncTribalWerebearC,Werebear
+33805017,DLC2EncTribalWerebearB,Werebear
+33805018,DLC2EncTribalWerebearC,Werebear
+33805234,DLC2LvlSeekerInvCombat_MQ06End,
+33805681,DLC2LvlRieklingThirskOutsideMelee,
+33805682,DLC2LvlRieklingThirskOutsideMissile,
+33805704,AudioTemplateRiekling,AudioTemplateRiekling
+33805705,AudioTemplateRieklingQuiet,AudioTemplateRieklingQuiet
+33805749,DLC2lvlDragon_MQ06,
+33805751,DLC2EncDragon01FireNoScript_MQ06,
+33805752,DLC2EncDragon01FrostNoScript_MQ06,
+33805753,DLC2EncDragon02FireNoScript_MQ06,
+33805754,DLC2EncDragon02FrostNoScript_MQ06,
+33805755,DLC2EncDragon03FrostNoScript_MQ06,
+33805756,DLDC2EncDragon03FrostNoScript_MQ06,
+33805757,DLC2EncDragon04FireNoScript_MQ06,
+33805758,DLC2EncDragon04FrostNoScript_MQ06,
+33805759,DLC2EncDragon05FireNoScript_MQ06,
+33805760,DLC2EncDragon05FrostNoScript_MQ06,
+33805761,DLC2EncDragon03FireNoScript_MQ06,
+124429,EncBandit04TemplateMelee,Bandit Highwayman
+236817,EncBandit04Melee1HNordM,
+253536,EncBandit04Melee2HNordM,
+253561,EncBandit04Melee2HBerserkNordM,
+33676252,DLC2SummonAshGuardianNeloth,Ash Guardian
+33677968,AudioTemplateWerebear,AudioTemplateWerebear
