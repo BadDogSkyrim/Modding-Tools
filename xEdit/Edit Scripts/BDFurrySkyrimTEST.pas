@@ -8,13 +8,12 @@
     - YASGear.esp (BDFurryGear)
 
 }
-unit FurrySkyrimTEST;
+unit BDFurrySkyrimTEST;
 
 interface
-
 implementation
-
-uses FurrySkyrim, FurrySkyrim_Preferences, FurrySkyrimTools, BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses BDFurrySkyrim, BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrySkyrimTools,
+    BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
     TEST_FILE_NAME = 'TEST.esp';
@@ -359,8 +358,8 @@ begin
     Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands') = 0, 
         Format('%s has hands bit set', [EditorID(arma)]));
         
-    arma := FindAsset(nil, 'ARMA', 'YA_BladesHelmetAA_DOG');
-    i := GetElementNativeValues(arma, 'Record Header\Form Version');
+    arma := FindAsset(nil, 'ARMA', 'YA_BladesHelmetAA_LYK');
+    i := Integer(GetElementNativeValues(arma, 'Record Header\Form Version'));
     Assert(i = 44, Format('Form version %d=44', [i]));
     AddMessage(Format('%s bodypart flags: $%s', [
         Name(arma), IntToHex(GetElementNativeValues(arma, 'BOD2\First Person Flags'), 8)]));

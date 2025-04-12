@@ -1,6 +1,6 @@
 {
 }
-unit FurrySkyrimTools;
+unit BDFurrySkyrimTools;
 
 interface
 implementation

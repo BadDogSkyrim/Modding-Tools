@@ -1,10 +1,10 @@
 {
 }
-unit FurrySkyrim_Preferences;
+unit BDFurrySkyrim_Preferences;
 
 interface
 implementation
-uses FurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 
 Procedure SetPreferences;
