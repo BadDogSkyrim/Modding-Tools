@@ -11,8 +11,12 @@ const
     SHOW_OPTIONS_DIALOG = False;
     PATCH_FILE_NAME = 'YANPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
+    FURRIFY_ARMOR = TRUE;         
+    FURRIFY_NPCS = FALSE;
     SHOW_HAIR_ASSIGNMENT = TRUE;
     MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
+    LOG_ARMOR = 20;
+    LOG_NPCS = 0;
 
     IS_NONE = 0;
     IS_FURRIFIABLE = 1;
@@ -50,8 +54,8 @@ begin
     vanillaRace := WinningOverride(FindAsset(Nil, 'RACE', vanillaRaceName));
     // LoadRaceTints(vanillaRace);
 
-    LogD(Format('Found race %s in file %s', [Name(vanillaRace), GetFileName(GetFile(vanillaRace))]));
-    LogD('Overriding in ' + GetFileName(targetFile));
+    if LOGGING then LogD(Format('Found race %s in file %s', [Name(vanillaRace), GetFileName(GetFile(vanillaRace))]));
+    if LOGGING then LogD('Overriding in ' + GetFileName(targetFile));
     AddRecursiveMaster(targetFile, GetFile(vanillaRace));
     AddRecursiveMaster(targetFile, GetFile(furryRace));
     
@@ -141,6 +145,11 @@ begin
 
     if ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit') 
     then curNPClabels.Add('BOLD');
+
+    // TODO: If wearing outfit with 'ClothingRich' keyword, add NOBLE
+    // TODO: If wearing outfit with 'ClothingPoor [KYWD:000A865C]' keyword, add MESSY
+    // TODO: If complexion is older, add OLD
+    // TODO: If race is Elder, add OLD
 end;
 
 
@@ -607,8 +616,6 @@ begin
 end;
 
 
-
-
 {==================================================================
 Show all hair assignments.
 }
@@ -688,7 +695,7 @@ begin
     CollectArmor;
 
     for i := 0 to furrifiableArmors.count-1 do begin
-        FurrifyArmorRecord(i);
+        FurrifyArmorRecord(ObjectToElement(furrifiableArmors.objects[i]));
     end;
 end;
 
@@ -738,13 +745,15 @@ begin
     processedNPCcount := 0;
     result := 0;
     if LOGGING then LogExitT('Initialize');
+    LOGLEVEL := LOG_NPCS;
+    LOGGING := (LOG_NPCS > 0);
 end;
 
 function Process(entity: IwbMainRecord): integer;
 var
     win: IwbMainRecord;
 begin
-    if USE_SELECTION and (Signature(entity) = 'NPC_') then begin
+    if FURRIFY_NPCS and USE_SELECTION and (Signature(entity) = 'NPC_') then begin
         processedNPCcount := processedNPCcount + 1;
         FurrifyNPC(entity);
     end;
@@ -756,13 +765,15 @@ function Finalize: integer;
 begin
     if LOGGING then LogEntry(1, 'Finalize');
 
-    if not USE_SELECTION then begin
+    if FURRIFY_NPCS and (not USE_SELECTION) then begin
         FurrifyAllNPCs;
     end;
 
-    FurrifyArmor;
+    LOGLEVEL := LOG_ARMOR;
+    LOGGING := (LOG_ARMOR > 0);
+    if FURRIFY_ARMOR then FurrifyArmor;
 
-    if SHOW_HAIR_ASSIGNMENT then ShowHair;
+    if FURRIFY_NPCS and SHOW_HAIR_ASSIGNMENT then ShowHair;
 
     PreferencesFree;
     hairAssignments.Free;

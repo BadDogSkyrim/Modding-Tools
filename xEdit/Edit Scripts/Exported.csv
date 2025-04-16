@@ -1,714 +1,767 @@
-Record,EDID,FULL
-33637447,DLC2ExpSpiderPoisonJumping,Jumping Poisonous Spider
-33637498,DLC2ExpSpiderFireJumping,Jumping Flame Spider
-33637515,DLC2ExpSpiderPoisonJumpingFriend,Jumping Poisonous Spider
-33637520,DLC2ExpSpiderTemplate,Imbued Spider
-33637521,DLC2ExpSpiderFireJumpingFriend,Jumping Flame Spider
-33637524,TestDLC2Lurker,Lurker
-33637829,DLC2ExpSpiderAlbino,Albino Spider
-33648154,DLC2ExpSpiderZombieFriend,
-33648756,DLC2ExpSpiderAlbinoFriend,Albino Spider
-33648759,DLC2ExpSpiderFireCloaking,Flame Cloaked Spider
-33650490,DLC2Neloth,Neloth
-33650491,DLC2Ildari,Ildari Sarothril
-33650551,DLC2Talvas,Talvas Fathryon
-33650552,DLC2Elynea,Elynea Mothren
-33650553,DLC2Drovas,Drovas Relvi
-33650556,DLC2Varona,Varona Nelas
-33650557,DLC2Ulves,Ulves Romoran
-33650614,DLC2SummonAshGuardian,
-33650996,DLC2Frea,Frea
-33650997,DLC2Storn,Storn Crag-Strider
-33650998,DLC2MiraakMQ01,Miraak
-33651000,DLC2MiraakMQ02,
-33651039,DLC2ExpSpiderZombieLvlBanditMelee1H,
-33651143,DLC2dunKolbjornRalis,Ralis Sedarys
-33651153,DLC2EncMountedRiekling,Mounted Riekling
-33651234,testjeffbDragon,Dragon
-33652551,DLC2EncRiekling01Melee,Riekling
-33652605,DLC2Miraak,Miraak
-33652609,DLC2MiraakMQ04,
-33652615,DLC2MQ05Dragon,Krosulhah
-33653368,DLC2RRCresciusCaerellius,Crescius Caerellius
-33653372,DLC2RRAphiaVelothi,Aphia Velothi
-33653374,DLC2RRLlerilMorvayn,Lleril Morvayn
-33653376,DLC2RRAdrilArano,Adril Arano
-33653378,DLC2RRCindiriArano,Cindiri Arano
-33653380,DLC2RRVendilSeverin,Vendil Severin
-33653382,DLC2RRTilisuSeverin,Tilisu Severin
-33653384,DLC2RRMirriSeverin,Mirri Severin
-33653386,DLC2RRElderOthreloth,Elder Othreloth
-33653388,DLC2RRGaldrusHlervu,Galdrus Hlervu
-33653390,DLC2RRGloverMallory,Glover Mallory
-33653392,DLC2RRGeldisSadri,Geldis Sadri
-33653394,DLC2RRFethisAlor,Fethis Alor
-33653396,DLC2RRDreylaAlor,Dreyla Alor
-33653407,DLC2RRGarynIenth,Garyn Ienth
-33653409,DLC2RRMiloreIenth,Milore Ienth
-33653420,DLC2RRModynVeleth,Captain Veleth
-33653422,DLC2RRGjalundSaltSageWindhelm,Gjalund Salt-Sage
-33653548,TestMeleeAndMissile,Test Guardian
-33653831,DravyneaDUPLICATE001,Dravynea the Stoneweaver
-33656211,DLC2dunGyldenhulAdventurer,Adventurer
-33656283,DLC2dunGyldenhulHaknirSkeleton,Haknir Death-Brand
-33656596,DLC2RRRirnsLlervu,Rirns Llervu
-33656597,DLC2RRBralsaDrel,Bralsa Drel
-33656729,DLC2SVOslaf,Oslaf
-33656732,DLC2SVFinna,Finna
-33656741,DLC2SVDeor,Deor Woodcutter
-33656745,DLC2SVMorwen,Morwen
-33656750,DLC2SVWulfWildblood,Wulf Wild-Blood
-33656757,DLC2SVBaldorIronShaper,Baldor Iron-Shaper
-33656761,DLC2SVYrsa,Yrsa
-33656765,DLC2SVEdla,Edla
-33656769,DLC2SVNikulas,Nikulas
-33656773,DLC2SVFanariStrongVoice,Fanari Strong-Voice
-33656776,DLC2SVTharstan,Tharstan
-33656778,DLC2SVAeta,Aeta
-33657452,DLC2ExpSpiderAlbinoEMPTY,Albino Spider
-33658153,DLC2ExpSpiderFireCloakingFriend,Flame Cloaked Spider
-33658262,DLC2MogrulThugTT1b,Slitter
-33658266,DLC2Mogrul,Mogrul
-33658287,DLC2RRGuardTemplate,Redoran Guard
-33658288,DLC2RRGuardMorvaynManorInterior,
-33658289,DLC2RRGuardMorvaynManorExterior,
-33658290,DLC2RRGuardTempleExterior,
-33658291,DLC2RRGuardGateExterior,
-33658292,DLC2RRGuardMarketExterior,
-33658293,DLC2RRGuardPatrol,
-33658294,DLC2RRGuardJail,
-33658295,DLC2RRGuardBarracks,
-33658391,DLC2DetectionTarget,Detection Target
-33658469,DLC2dunKarstaag,Karstaag
-33659600,DLC2EncAshHopperTest,Ash Hopper
-33661811,DLC2dunHaknir,Haknir Death-Brand
-33662216,DLC2ThirskRieklingChief,Riekling Chief
-33662225,DLC2Bujold,Bujold the Intrepid
-33662229,DLC2Hilund,Hilund
-33662232,DLC2Kuvar,Kuvar
-33662234,DLC2Elmus,Elmus
-33662236,DLC2Halbarn,Halbarn Iron-Fur
-33662308,DLC2GeneralCarius,General Falx Carius
-33662312,DLC2RR01AttackingAshSpawn,Ash Spawn
-33663532,DLC2LvlBanditBoss,Reaver Lord
-33663533,DLC2LvlBanditMelee1H,
-33663534,DLC2LvlBanditMissile,
-33663535,DLC2LvlBanditWizard,
-33663663,DLC2encAshGuardian,Ash Guardian
-33663666,DLC2TTF1AshGuardian,
-33665960,DLC2LvlBanditMissileHoldPositionLinkCustom02256,
-33665962,DLC2LvlBanditMeleeTank,
-33665988,DLC2LvlBanditWizardHoldPositionLinkCustom02512,
-33666491,DLC2dunNchardakBanditBoss01,
-33666614,DLC2EncAshSpawn1H01,Ash Spawn
-33666617,DLC2EncAshSpawn1H02,Ash Spawn Skirmisher
-33666618,DLC2EncAshSpawn1H03,Ash Spawn Immolator
-33666621,DLC2LvlAshSpawnMelee1H,
-33666622,DLC2EncHorkerYoungling,Horker Youngling
-33666623,DLC2EncSprigganBurnt,Burnt Spriggan
-33666624,DLC2EncLurker01,Lurker
-33666625,DLC2EncLurker02,Lurker Guardian
-33666626,DLC2EncLurker03,Lurker Sentinel
-33666629,DLC2EncLurker04,Lurker Vindicator
-33666633,DLC2EncNetchBetty,Betty Netch
-33666638,DLC2EncRiekling02Melee,Riekling Scout
-33666639,DLC2EncRiekling03Melee,Riekling Hunter
-33666640,DLC2EncRiekling01Missile,
-33666641,DLC2EncRiekling02Missile,
-33666642,DLC2EncRiekling03Missile,
-33666645,DLC2LvlRieklingMissile,
-33666646,DLC2LvlRieklingMelee,
-33666647,DLC2EncAshHopper,Ash Hopper
-33669229,DLC2LvlAshSpawnMagic,
-33671731,DLC2ExpSpiderZombieLvlBanditMissile,
-33671846,DLC2ServosRendas,Servos Rendas
-33671848,DLC2MerilarRendas,Merilar Rendas
-33671853,DLC2ExpSpiderPoisonCloaking,Poisonous Cloaked Spider
-33671854,DLC2ExpSpiderPoisonCloakingFriend,Poisonous Cloaked Spider
-33671893,DLC2SV01DragonPriestBoss,Vahlok the Jailor
-33671894,DLC2FrostGiant01,Frost Giant
-33671923,DLC2SV02Ancarion,Ancarion
-33672092,DLC2dunNchardakLvlDwarvenSphereAmbushHoldPositionLinkCustom02384,
-33672696,DLC2SummonAshSpawn01,Ash Spawn
-33672704,DLC2LvlCultist,
-33674478,DLC2dunNchardakCenturionBoss,
-33675130,DLC2dunNorthshoreLandingCrabBoss,Old Salty
-33675653,DLC2Hrothmund,Hrothmund
-33675774,DLC2ExpSpiderOil,Oil Spider
-33676228,DLC2dunKolbjornMiner,
-33676391,DLC2dunFrostmoonMajni,Majni
-33676474,DLC2EncSeeker02,Seeker Aspirant
-33677217,DLC2SummonTrollFrost,Frost Troll
-33677292,DLC2ExpSpiderFrostJumping,Jumping Frost Spider
-33677293,DLC2ExpSpiderShockJumping,Jumping Shock Spider
-33677692,DLC2EncTribalWerebearA,Werebear
-33679364,DLC2EncBandit00Template,Reaver
-33679365,DLC2EncBandit01MagicDarkElf01M,
-33679366,DLC2EncBandit01MagicDarkElf01F,
-33679367,DLC2EncBandit01TemplateMagic,
-33679368,DLC2EncBandit01TemplateMelee,
-33679369,DLC2EncBandit01MagicDarkElf03F,
-33679370,DLC2EncBandit01MagicDarkElf03M,
-33679371,DLC2EncBandit01MagicDarkElf04M,
-33679372,DLC2EncBandit01MagicDarkElf02F,
-33679373,DLC2EncBandit01MagicDarkElf02M,
-33679374,DLC2EncBandit01Melee1HDarkElf02F,
-33679375,DLC2EncBandit01Melee1HDarkElf01M,
-33679376,DLC2EncBandit01Melee1HDarkElf04M,
-33679377,DLC2EncBandit01Melee1HDarkElf03F,
-33679378,DLC2EncBandit01Melee1HDarkElf03M,
-33679379,DLC2EncBandit01Melee1HDarkElf01F,
-33679380,DLC2EncBandit01Melee1HDarkElf02M,
-33679381,DLC2EncBandit01TemplateMissile,
-33679382,DLC2EncBandit01MissileDarkElf03F,
-33679383,DLC2EncBandit01MissileDarkElf03M,
-33679384,DLC2EncBandit01MissileDarkElf04M,
-33679385,DLC2EncBandit01MissileDarkElf01F,
-33679386,DLC2EncBandit01MissileDarkElf01M,
-33679387,DLC2EncBandit01MissileDarkElf02F,
-33679388,DLC2EncBandit01MissileDarkElf02M,
-33679389,DLC2EncBandit02TemplateMagic,Reaver Outlaw
-33679390,DLC2EncBandit02TemplateMelee,Reaver Outlaw
-33679391,DLC2EncBandit02TemplateMissile,Reaver Outlaw
-33679392,DLC2EncBandit02MagicDarkELf04M,
-33679393,DLC2EncBandit02MagicDarkElf03F,
-33679394,DLC2EncBandit02MagicDarkElf03M,
-33679395,DLC2EncBandit02MagicDarkElf01F,
-33679396,DLC2EncBandit02MagicDarkElf01M,
-33679397,DLC2EncBandit02MagicDarkElf02F,
-33679398,DLC2EncBandit02MagicDarkElf02M,
-33679399,DLC2EncBandit02Melee1HDarkElf01F,
-33679400,DLC2EncBandit02Melee1HDarkElf01M,
-33679401,DLC2EncBandit02Melee1HDarkElf02F,
-33679402,DLC2EncBandit02Melee1HDarkElf02M,
-33679403,DLC2EncBandit02Melee1HDarkElf04M,
-33679404,DLC2EncBandit02Melee1HDarkElf03F,
-33679405,DLC2EncBandit02Melee1HDarkElf03M,
-33679406,DLC2EncBandit02MissileDarkElf01F,
-33679407,DLC2EncBandit02MissileDarkElf02F,
-33679408,DLC2EncBandit02MissileDarkElf01M,
-33679409,DLC2EncBandit02MissileDarkElf02M,
-33679410,DLC2EncBandit03TemplateMagic,Reaver Thug
-33679411,DLC2EncBandit03TemplateMelee,Reaver Thug
-33679412,DLC2EncBandit03TemplateMissile,Reaver Thug
-33679413,DLC2EncBandit04TemplateMagic,Reaver Highwayman
-33679414,DLC2EncBandit04TemplateMelee,Reaver Highwayman
-33679415,DLC2EncBandit04TemplateMissile,Reaver Highwayman
-33679416,DLC2EncBandit05TemplateMagic,Reaver Plunderer
-33679417,DLC2EncBandit05TemplateMelee,Reaver Plunderer
-33679418,DLC2EncBandit05TemplateMissile,Reaver Plunderer
-33679419,DLC2EncBandit06TemplateMagic,Reaver Marauder
-33679420,DLC2EncBandit06TemplateMelee,Reaver Marauder
-33679421,DLC2EncBandit06TemplateMissile,Reaver Marauder
-33679422,DLC2EncBandit03MagicDarkELl04M,
-33679423,DLC2EncBandit03MagicDarkElf03F,
-33679424,DLC2EncBandit03MagicDarkElf03M,
-33679425,DLC2EncBandit03MagicDarkElf01F,
-33679426,DLC2EncBandit03MagicDarkElf01M,
-33679427,DLC2EncBandit03MagicDarkElf02F,
-33679428,DLC2EncBandit03MagicDarkElf02M,
-33679429,DLC2EncBandit03Melee1HDarkElf01F,
-33679430,DLC2EncBandit03Melee1HDarkElf01M,
-33679431,DLC2EncBandit03Melee1HDarkElf02F,
-33679432,DLC2EncBandit03Melee1HDarkElf02M,
-33679433,DLC2EncBandit03Melee1HDarkElf04M,
-33679434,DLC2EncBandit03Melee1HDarkElf03F,
-33679435,DLC2EncBandit03Melee1HDarkElf03M,
-33679436,DLC2EncBandit03MissileDarkElf01F,
-33679437,DLC2EncBandit03MissileDarkElf01M,
-33679438,DLC2EncBandit03MissileDarkElf02F,
-33679439,DLC2EncBandit03MissileDarkElf02M,
-33679440,DLC2EncBandit03MissileDarkElf04M,
-33679441,DLC2EncBandit03MissileDarkElf03M,
-33679442,DLC2EncBandit03MissileDarkELf03F,
-33679443,DLC2EncBandit04MagicDarkElf04M,
-33679444,DLC2EncBandit04MagicDarkElf03F,
-33679445,DLC2EncBandit04MagicDarkElf03M,
-33679446,DLC2EncBandit04MagicDarkElf01F,
-33679447,DLC2EncBandit04MagicDarkElf01M,
-33679448,DLC2EncBandit04MagicDarkElf02F,
-33679449,DLC2EncBandit04MagicDarkElf02M,
-33679450,DLC2EncBandit04Melee1HDarkElf01F,
-33679451,DLC2EncBandit04Melee1HDarkElf01M,
-33679452,DLC2EncBandit04Melee1HDarkElf02F,
-33679453,DLC2EncBandit04Melee1HDarkElf02M,
-33679454,DLC2EncBandit04Melee1HDarkElf04M,
-33679455,DLC2EncBandit04Melee1HDarkElf03F,
-33679456,DLC2EncBandit04Melee1HDarkElf03M,
-33679457,DLC2EncBandit04MissileDarkElf01F,
-33679458,DLC2EncBandit04MissileDarkElf01M,
-33679459,DLC2EncBandit04MissileDarkElf02F,
-33679460,DLC2EncBandit04MissileDarkElf02M,
-33679461,DLC2EncBandit04MissileDarkElf04M,
-33679462,DLC2EncBandit05MagicDarkElf04M,
-33679463,DLC2EncBandit05MagicDarkElf03F,
-33679464,DLC2EncBandit05MagicDarkElf03M,
-33679465,DLC2EncBandit05MagicDarkElf01F,
-33679466,DLC2EncBandit05MagicDarkElf01M,
-33679467,DLC2EncBandit05MagicDarkElf02F,
-33679468,DLC2EncBandit05MagicDarkElf02M,
-33679469,DLC2EncBandit05Melee1HDarkElf01F,
-33679470,DLC2EncBandit05Melee1HDarkElf01M,
-33679471,DLC2EncBandit05Melee1HDarkElf02F,
-33679472,DLC2EncBandit05Melee1HDarkElf02M,
-33679473,DLC2EncBandit05Melee1HDarkElf04M,
-33679474,DLC2EncBandit05Melee1HDarkElf03F,
-33679475,DLC2EncBandit05Melee1HDarkElf03M,
-33679476,DLC2EncBandit04MissileDarkElf03F,
-33679477,DLC2EncBandit04MissileDarkElf03M,
-33679478,DLC2EncBandit05MissileDarkElf01F,
-33679479,DLC2EncBandit02MissileDarkElf04M,
-33679480,DLC2EncBandit02MissileDarkElf03F,
-33679481,DLC2EncBandit02MissileDarkElf03M,
-33679482,DLC2EncBandit05MissileDarkElf01M,
-33679483,DLC2EncBandit05MissileDarkElf02F,
-33679484,DLC2EncBandit05MissileDarkElf02M,
-33679485,DLC2EncBandit05MissileDarkElf04M,
-33679487,DLC2EncBandit05MissileDarkElf03F,
-33679488,DLC2EncBandit05MissileDarkElf03M,
-33679489,DLC2EncBandit06MagicDarkElf04M,
-33679490,DLC2EncBandit06MagicDarkElf03F,
-33679491,DLC2EncBandit06MagicDarkElf03M,
-33679492,DLC2EncBandit06MagicDarkElf01F,
-33679493,DLC2EncBandit06MagicDarkElf01M,
-33679494,DLC2EncBandit06MagicDarkElf02F,
-33679495,DLC2EncBandit06MagicDarkElf02M,
-33679496,DLC2EncBandit06Melee1HDarkElf01F,
-33679497,DLC2EncBandit06Melee1HDarkElf01M,
-33679498,DLC2EncBandit06Melee1HDarkElf02F,
-33679499,DLC2EncBandit06Melee1HDarkElf02M,
-33679500,DLC2EncBandit06Melee1HDarkElf04M,
-33679501,DLC2EncBandit06Melee1HDarkElf03F,
-33679502,DLC2EncBandit06Melee1HDarkElf03M,
-33679503,DLC2EncBandit06MissileDarkElf01F,
-33679504,DLC2EncBandit06MissileDarkElf01M,
-33679505,DLC2EncBandit06MissileDarkElf02F,
-33679506,DLC2EncBandit06MissileDarkElf02M,
-33679507,DLC2EncBandit06MissileDarkElf04M,
-33679508,DLC2EncBandit06MissileDarkElf03F,
-33679509,DLC2EncBandit06MissileDarkELf03M,
-33679531,DLC2EncBandit02Boss,
-33679534,DLC2EncBandit03Boss,
-33679537,DLC2EncBandit04Boss,
-33679538,DLC2EncBandit05Boss,
-33679539,DLC2EncBandit06Boss,
-33681073,DLC2DremoraMerchant,Dremora Merchant
-33681097,DLC2SummonSeeker,Seeker
-33681267,DLC2TameDragonVoice,
-33681785,AudioTemplateAshHopper,AudioTemplateAshHopper
-33681801,DLC2MH02Bilgemuck,Bilgemuck
-33683832,DLC2EncHunterNordF1,
-33683833,DLC2EncHunterNordM1,
-33683834,DLC2EncHunterNordF2,
-33683835,DLC2EncHunterNordM2,
-33683836,DLC2EncHunterNordM3,
-33683838,DLC2LvlHunter,
-33683839,DLC2EncHunterNordM4,
-33683856,dlc2FireWyrmCreated,Fire Wyrm
-33683864,DLC2MiraakTest,
-33683907,DLC2dunFrostmoonAkar,Akar
-33683908,DLC2dunFrostmoonHjordis,Hjordis
-33683909,DLC2dunFrostmoonRakel,Rakel
-33684376,DLC2MiraakMQ06,Miraak
-33684987,AudioTemplateLurker,AudioTemplate Lurker
-33685280,DLC2DremoraButler,Dremora Butler
-33685306,DLC2HermaeusMoraVoice,Hermaeus Mora
-33685721,DLC2MiraakSoulSteal,
-33687260,DLC2ExpSpiderFrostCloakingFriend,Frost Cloaked Spider
-33687261,DLC2ExpSpiderFrostJumpingFriend,Jumping Frost Spider
-33687265,DLC2ExpSpiderFrostCloaking,Frost Cloaked Spider
-33687768,DLC2LvlRieklingThirskMelee,
-33687900,DLC2ExpSpiderShockCloaking,Shock Cloaked Spider
-33687901,DLC2ExpSpiderShockCloakingFriend,Shock Cloaked Spider
-33687902,DLC2ExpSpiderShockJumpingFriend,Jumping Shock Spider
-33688109,DLC2RR03GratianSkeleton,Gratian Caerellius
-33688135,DLC2RR03MilliusSkeleton,Millius
-33689537,DLC2WE05Wizard,Wizard
-33691451,DLC2EncNetchTest,Netch
-33701755,DLC2MiraakDragon,Sahrotaar
-33701898,DLC2dunHaknirShoal_LvlBanditBossMaleNord,Pirate Captain
-33701899,DLC2dunHaknirShoal_LvlBanditMissileFemaleDarkElfCommoner,Pirate
-33701947,DLC2EncBoar01,Bristleback
-33703953,DLC2dunKarstaagSummon,
-33704016,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256,
-33704161,DLC2AcolyteDukaan,Dukaan
-33704168,DLC2AcolyteZahkriisos,Zahkriisos
-33704169,DLC2AcolyteAhzidal,Ahzidal
-33705464,DLC2RRFavor03AshSpawn,
-33707133,DLC2NB01CorpseFall,
-33708075,DLC2RRGjalundSaltSageSolstheim,
-33708164,DLC2SV02LvlThalmorMelee1H,
-33708165,DLC2SV02LvlThalmorMissile,
-33708167,DLC2SV02LvlThalmorMissileAggro1024,
-33708168,DLC2SV02LvlThalmorMelee1HAggro1024,
-33708191,DLC2lvlMQ05Dragon,
-33708772,DLC2EncMudcrabSolstheim,Solstheim Mudcrab
-33709592,DLC2LvlMountedRiekling,
-33709593,DLC2LvlMountedRieklingBoss,
-33709978,DLC2LvlBoar,
-33710240,DLC2KagrumezLvlDwarvenBallistaFight1,
-33710486,DLC2dunHorkerIslandEncHorker,Lord Tusk
-33710963,DLC2SV01EncSkeletonNecro01Melee1HAllowWander,Corrupted Shade
-33711289,DLC2dunHorkerIslandTreasCorpseBanditDarkElfMale,Saden
-33711530,dlc2DBAncientDragonborn,Ancient Dragonborn
-33711537,dlc2SpectralDragonSummon,Spectral Dragon
-33711663,DLC2KagrumezBanditBoss,
-33711671,DLC2KagrumezLvlDwarvenSphereFight3,Tempered Sphere
-33711672,DLC2KagrumezLvlDwarvenSphereFight2,Tempered Sphere
-33712908,DLC2dunBrodirGroveBanditBoss,
-33712964,AudioTemplateBigNetch,AudioTemplateMammoth
-33713864,DLC2LvlRieklingMeleeAmbush,
-33713869,DLC2LvlRieklingMissileAmbush,
-33714445,DLC2WaterStoneSailor1,Hjalfar
-33714536,DLC2NB01CorpseFall2,Castor the Puzzlemaker's Corpse
-33714627,DLC2LvlMoragTongMelee1H,Morag Tong Assassin
-33714628,DLC2LvlMoragTongMissile,Morag Tong Assassin
-33715326,DLC2ExpSpiderGlowing,Glowing Spider
-33715330,DLC2ExpSpiderPackmuleCUT,Pack Spider
-33715349,DLC2ExpSpiderGlowingFriend,Glowing Spider
-33715354,DLC2ExpSpiderOilFriend,Oil Spider
-33715360,DLC2ExpSpiderPackmuleFriendCUT,Pack Spider
-33715458,DLC2KagrumezLvlSpiderAmbushFight1,
-33715480,DLC2KagrumezLvlDwarvenSpiderFight2,
-33715484,DLC2KagrumezLvlSpiderAmbushFight2,
-33715488,DLC2KagrumezLvlDwarvenCenturionFight3,
-33715495,DLC2KagrumezLvlDwarvenSpiderFight3,
-33716204,DLC2dunKolbjornMiner_DarkElfM04,Miner
-33716206,DLC2dunKolbjornMiner_Bradyn,Bradyn
-33716207,DLC2dunKolbjornMiner_Mireli,Mireli
-33716216,DLC2dunKolbjornMiner_DarkElfF01,Miner
-33716217,DLC2dunKolbjornMiner_DarkElfF02,Miner
-33716218,DLC2dunKolbjornMiner_DarkElfM01,Miner
-33716219,DLC2dunKolbjornMiner_DarkElfM02,Miner
-33716220,DLC2dunKolbjornMiner_GuardM01,Kolbjorn Guard
-33716221,DLC2dunKolbjornMiner_DarkElfF03,Miner
-33716222,DLC2dunKolbjornMiner_DarkElfF04,Miner
-33716223,DLC2dunKolbjornMiner_DarkElfM03,Miner
-33716227,DLC2dunKolbjornMiner_GuardM02,Kolbjorn Guard
-33716228,DLC2dunKolbjornMiner_GuardM03,Kolbjorn Guard
-33716229,DLC2dunKolbjornMiner_GuardM04,Kolbjorn Guard
-33716231,DLC2dunKolbjornGuard,
-33716265,DLC2WaterStoneSailor2,Benkum
-33716267,DLC2WaterStoneSailor3,Liesl
-33716269,DLC2WaterStoneSailor4,Palevius Lex
-33716757,DLC2WE06Madman,Madman
-33716930,LvlDraugrMissileFemaleHoldPosition256,
-33716931,LvlDraugrAmbushBerserkerRushMaleNoFurniture,
-33716933,LvlDraugrAmbushMelee1HDefenderRushMaleNoFurniture,
-33716934,LvlDraugrAmbushMissileRushFemaleNoFurniture,
-33716935,LvlDraugrAmbushWarlockRushNoFurniture,
-33717826,DLC2Niyya,Niyya
-33718854,DLC2dunKarstaagIceWraith,Ice Wraith
-33719659,DLC2EncSeeker02Mirror,
-33719678,DLC2EncNetchBull,Bull Netch
-33719679,DLC2EncNetchCalf,Netch Calf
-33719747,DLC2EbonyWarrior,Ebony Warrior
-33720343,DLC2LvlDraugrMissileFemaleHoldPositionPatrol,
-33720344,DLC2LvlDraugrMelee1HMalePatrolWeap,
-33720345,DLC2LvlDraugrMelee2HBerserkerMalePatrolWeap,
-33720691,DLC2dunTempleofMiraakCultist01,
-33720692,DLC2dunTempleofMiraakCultist02,
-33721983,DLC2EncSeeker01,Seeker
-33721986,DLC2EncSeeker01Mirror,
-33721987,DLC2EncSeeker03,High Seeker
-33721990,DLC2EncSeeker03Mirror,
-33721992,DLC2LvlSeeker,
-33721993,DLC2EncAshHopperExtra,
-33723043,DLC2RR02DeadGuard,
-33724091,DLC2dunInstrumentNPC,
-33724094,DLC2dunHighpointAshGuardian,
-948824,LvlDraugrAmbushMelee1HDefenderMaleNoFurniture,
-33724179,DLC2LvlRieklingMissile_HoldPositionLinkCustom02512UntilReleased,
-33724180,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256UntilReleased,
-33724220,DLC2LvlRieklingMelee_AmbushNoFurniture,
-33724226,DLC2LvlRieklingMissile_HoldPositionLinkCustom02128UntilReleased,
-33724230,DLC2LvlRieklingMissileAmbush_HoldPositionLinkCustom02256UntilReleased,
-33724239,DLC2LvlRieklingMissile_AmbushNoFurniture,
-33724297,DLC2LvlBoar_AmbushNoFurniture,
-33727352,DLC2dunBookDungeon03Mannequin01,
-33727353,DLC2dunBookDungeon03Mannequin02,
-33727354,DLC2dunBookDungeon03Mannequin03,
-33728254,DLC2EncDraugrHulkingM00,Hulking Draugr
-33728970,DLC2LvlLurkerAmbush,
-33729840,DLC2RREsmondTyne,Esmond Tyne
-33730585,TestDwarvenBallista,Dwarven Ballista Test
-33730794,DLC2LvlLurker,
-33731121,DLC2LvlRieklingMeleeAmbushBarrel,
-33731126,DLC2BjornolfrCorpse,Bjornolfr
-33733391,DLC2LvlRieklingMissileAmbushBarrel,
-33733931,DLC2dunNchardakWorkshopEndCenturion,
-33734459,DLC2DragonSkeleton,Dragon
-33735147,DLC2SiltStriderMerchant,Revus Sarvani
-33735686,DLC2RR01DeadGuard,
-33736842,DLC2EncDragon06Frost,Serpentine Dragon
-33754253,DLC2MQ02Seeker,
-33754270,DLC2MaximianRemains,Maximian Axius
-33754321,DLC2EncCultist03Template,Cultist
-33754322,DLC2EncCultist00Template,Cultist
-33754323,DLC2EncCultist04Template,Cultist Adept
-33754324,DLC2EncCultist05Template,Ascendant Cultist
-33754325,DLC2EncCultist06Template,Master Cultist
-33754326,DLC2EncCultist07Template,Arch Cultist
-33754334,DLC2SummonSeekerHigh,High Seeker
-33754918,DLC2EncAshHopperAmbush,
-33756743,DLC2TempleWorkerBandit01,
-33756744,DLC2TempleWorkerBandit02,
-33756756,DLC2TempleWorkerRiekling01,
-33756757,DLC2TempleWorkerRiekling02,
-33756768,DLC2TempleWorkerBandit03,
-33756769,DLC2TempleWorkerBandit04,
-33756773,DLC2TempleWorkerRiekling03,
-33757253,DLC2EncIceWraith,Ice Wraith
-33757282,DLC2MerchMerchant,Falas Selvayn
-33758370,DLC2TestRiekling,
-33758373,DLC2MQ02MiraakDragon,
-33758612,DLC2KagrumezDwarvenSpiderPet,Steadfast Dwarven Spider
-33758613,DLC2KagrumezDwarvenSpherePet,Steadfast Dwarven Sphere
-33759921,DLC2EncWerebear,Werebear
-33759923,DLC2SummonWerebear,Werebear
-33759925,DLC2EncAshSpawn2H01,
-33759926,DLC2EncAshSpawn2H02,
-33759927,DLC2EncAshSpawn2H03,
-33759932,DLC2LvlAshSpawnMelee2H,
-33759934,DLC2LvlAshSpawnMeleeAny,
-33759935,DLC2EncAshSpawnMagic01,
-33759936,DLC2EncAshSpawnMagic02,
-33759937,DLC2EncAshSpawnMagic03,
-33760766,DLC2dunHaknirShoal_LvlBanditBossMaleDarkElf,Reaver Lord
-33760768,DLC2dunHaknirShoal_LvlBanditMissileWoodElfF,Reaver
-33761357,DLC2EncBoarWild,
-33762543,DLC2dunFahlbtharzExplorerCorpse01,Ulyn
-33763920,DLC2EncDwarvenBallista01,Dwarven Ballista
-33763921,DLC2EncDwarvenBallista02,Dwarven Ballista Guardian
-33763922,DLC2EncDwarvenBallista03,Dwarven Ballista Master
-33763924,DLC2LvlDwarvenBallista,
-33763925,DLC2LvlDwarvenBallistaAmbush,
-33764955,AudioTemplateAshGhoul,AudioTemplateAshGhoul
-33765064,DLC2EncSeeker01NoScript,
-33765065,DLC2EncSeeker02NoScript,
-33765066,DLC2EncSeeker03NoScript,
-33765601,DLC2dunKolbjorn_LvlDraugrMissileFemaleHoldPosition256,
-33765603,DLC2dunKolbjorn_LvlDraugrMissileMaleHoldPosition256,
-33766369,DLC2LvlDwarvenBallistaAmbush_HoldPositionLinkCustom02256,
-33766665,DLC2RRGuardPatrolBulwark,
-33766669,DLC2RRGuardPatrolBulwark02,
-33766673,DLC2RRGuardTunnel,
-33767460,DLC2WB01Torkild,Torkild
-33770149,DLC2dunBook3EncSeeker02,
-33770321,DLC2LvlMountedRieklingBossNoRespawn,Mounted Riekling
-33770322,DLC2LvlRieklingMissile_HoldPositionLinkCustom02256_NoRespawn,
-33770330,DLC2dunKarstaagIceWraithSummoned,Ice Wraith
-33770366,DLC2dunNchardakExteriorMissileGuard,
-33770781,DLC2KagrumezLvlDwarvenBallistaFight3,
-33771449,DLC2EncCultist03NordM,
-33771450,DLC2EncCultist03DarkElfF,
-33771451,DLC2EncCultist03DarkElfM,
-33771453,DLC2EncCultist04DarkElfF,
-33771454,DLC2EncCultist04DarkElfM,
-33771455,DLC2EncCultist04NordM,
-33771456,DLC2EncCultist05DarkElfF,
-33771457,DLC2EncCultist05DarkElfM,
-33771458,DLC2EncCultist05NordM,
-33771459,DLC2EncCultist06DarkElfF,
-33771460,DLC2EncCultist06DarkElfM,
-33771461,DLC2EncCultist06NordM,
-33771462,DLC2EncCultist07DarkElfF,
-33771463,DLC2EncCultist07DarkElfM,
-33771464,DLC2EncCultist07NordM,
-33771465,DLC2EncCultist04DarkElfFSummoner,
-33771466,DLC2EncCultist04TemplateSummoner,
-33771467,DLC2EncCultist05TemplateSummoner,
-33771468,DLC2EncCultist06TemplateSummoner,
-33771469,DLC2EncCultist07TemplateSummoner,
-33771470,DLC2EncCultist04DarkElfMSummoner,
-33771471,DLC2EncCultist04NordMSummoner,
-33771472,DLC2EncCultist05DarkElfFSummoner,
-33771473,DLC2EncCultist05DarkElfMSummoner,
-33771482,AudioTemplateSeeker,AudioTemplateSeeker
-33772383,DLC2LvlBanditMeleeTankAggro1024,
-33772384,DLC2LvlBanditMissileAggro1024,
-33772414,DLC2dunUshaTreasCorpse,Usha
-33772510,DLC2EncThirskRiekling01Melee,
-33772511,DLC2EncThirskRiekling01Missile,
-33772512,DLC2EncThirskRiekling02Melee,
-33772513,DLC2EncThirskRiekling02Missile,
-33772514,DLC2EncThirskRiekling03Melee,
-33772515,DLC2EncThirskRiekling03Missile,
-33772661,DLC2LvlCultistNonHostile,
-33773132,DLC2LvlCultistSummoner,
-33773136,DLC2EncCultist05NordMSummoner,
-33773137,DLC2EncCultist06DarkElfFSummoner,
-33773138,DLC2EncCultist06DarkElfMSummoner,
-33773139,DLC2EncCultist06NordMSummoner,
-33773140,DLC2EncCultist07DarkElfFSummoner,
-33773141,DLC2EncCultist07DarkElfMSummoner,
-33773142,DLC2EncCultist07NordMSummoner,
-33773343,DLC2KagrumezCorpse,Raleth Eldri
-33775198,DLC2LvlAshSpawnAmbushMagic,
-33775199,DLC2LvlAshSpawnAmbushMelee1H,
-33775200,DLC2LvlAshSpawnAmbushMelee2H,
-33775201,DLC2LvlAshSpawnAmbushMeleeAny,
-33775214,DLC2EncSprigganBurntAmbush,
-33775918,DLC2EncDragon06Fire,Serpentine Dragon
-33775923,DLC2EncDragon06FrostNoScript,Serpentine Dragon
-33775924,DLC2EncDragon06FireNoScript,Serpentine Dragon
-33775926,DLC2lvlDragon,
-33775936,DLC2EncDraugrHulkingM01,
-33775937,DLC2EncDraugrHulkingM02,
-33775938,DLC2EncDraugrHulkingM03,
-33775939,DLC2EncDraugrHulkingM04,
-33775940,DLC2EncDraugrHulkingM05,
-33775941,DLC2EncDraugrHulkingM06,
-33777139,DLC2EncCultist03DarkElfMSummoner,
-33777140,DLC2EncCultist03DarkElfFSummoner,
-33777142,DLC2LvlCultistNonHostileSummoner,
-33777585,DLC2dunAltarOfThrondTreasCorpse,Sacrifice
-33778156,DLC2dunAltarOfThrondIsobel,Isobel
-33778157,DLC2dunAltarOfThrondEttiene,Ettiene
-33778158,DLC2dunAltarOfThrondFallaise,Fallaise
-33780925,DLC2LvlBanditMelee1HDarkElfMCynical,
-33780927,DLC2LvlBanditMelee1HDarkElfMCommoner,
-33780946,DLC2KagrumezLvlBanditWizard_FemaleDarkElf,
-33781007,DLC2LvlBanditMissileHoldPositionCurrentLoc256,
-33781008,DLC2LvlBanditMelee1HGuard,
-33781490,DLC2RRLygrleidWindhelm,Lygrleid
-33781492,DLC2RRSogrlafWindhelm,Sogrlaf
-33781493,DLC2RRLygrleidSolstheim,Lygrleid
-33781494,DLC2RRSogrlafSolstheim,Sogrlaf
-33781717,DLC2dunHaknirShoal_LvlBanditWizard,Pirate Mage
-33781723,DLC2dunHakinrsShoal_TreasureHunter01,Treasure Hunter
-33781724,DLC2dunHakinrsShoal_TreasureHunter02,Treasure Hunter
-33783779,DLC2dunHaknirGarukWindrime,Garuk Windrime
-33783781,DLC2dunHaknirThalinEbonhand,Thalin Ebonhand
-33783796,DLC2dunHaknir_LvlBanditGhostMelee1HFemale,Haknir's Crew
-33783797,DLC2dunHaknir_LvlBanditGhostMelee1HMale,Haknir's Crew
-33783798,DLC2dunHaknir_LvlBanditGhostMelee2HFemale,Haknir's Crew
-33783799,DLC2dunHaknir_LvlBanditGhostMelee2HMale,Haknir's Crew
-33783800,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerFemale,Haknir's Crew
-33783801,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerMale,Haknir's Crew
-33783802,DLC2dunHaknir_LvlBanditGhostMeleeTankMale,Haknir's Crew
-33783803,DLC2dunHaknir_LvlBanditGhostMeleeMissileFemale,Haknir's Crew
-33783804,DLC2dunHaknir_LvlBanditGhostMeleeMissileMale,Haknir's Crew
-33783805,DLC2dunHaknir_LvlBanditGhostWizardFemale,Haknir's Crew
-33783806,DLC2dunHaknir_LvlBanditGhostWizardMale,Haknir's Crew
-33783807,DLC2dunHaknir_LvlBanditGhostMeleeTankFemale,Haknir's Crew
-33783809,DLC2dunHaknir_LvlBanditGhostMelee1HFemale_Weak,Haknir's Crew
-33783810,DLC2dunHaknir_LvlBanditGhostMelee1HMale_Weak,Haknir's Crew
-33783811,DLC2dunHaknir_LvlBanditGhostMelee2HFemale_Weak,Haknir's Crew
-33783812,DLC2dunHaknir_LvlBanditGhostMelee2HMale_Weak,Haknir's Crew
-33783813,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerFemale_Weak,Haknir's Crew
-33783814,DLC2dunHaknir_LvlBanditGhostMeleeBerserkerMale_Weak,Haknir's Crew
-33783815,DLC2dunHaknir_LvlBanditGhostMeleeMissileFemale_Weak,Haknir's Crew
-33783816,DLC2dunHaknir_LvlBanditGhostMeleeMissileMale_Weak,Haknir's Crew
-33783817,DLC2dunHaknir_LvlBanditGhostMeleeTankFemale_Weak,Haknir's Crew
-33783818,DLC2dunHaknir_LvlBanditGhostMeleeTankMale_Weak,Haknir's Crew
-33783819,DLC2dunHaknir_LvlBanditGhostWizardFemale_Weak,Haknir's Crew
-33783820,DLC2dunHaknir_LvlBanditGhostWizardMale_Weak,Haknir's Crew
-33784172,DLC2DamphallMine01Boss,Reaver Lord
-33785184,DLC2RRTeldrynSero,Teldryn Sero
-33785995,DLC2HrodulfCorpse,Hrodulf
-33786216,DLC2Sirkjorg,Sirkjorg
-33786221,DLC2Herkja,Herkja
-33786549,DLC2LvlRieklingThirskMissile,
-33786893,DLC2RieklingRescuer,
-33787539,DLC2LvlRieklingThirskPillarBuilder,
-33787850,DLC2LvlSeekerInvCombat,
-33788478,DLC2WE12BanditBoss,
-33789729,DLC2dunHaknirShoal_LvlBanditWizardMaleDarkElfCynical,
-33789730,DLC2WE13dunHaknirShoal_LvlBanditMissileFemaleDarkElfCommoner,Pirate
-33789731,DLC2WE13dunHaknirShoal_LvlBanditWizardMaleDarkElfCynical,
-33789929,AudioTemplateBabyNetch,AudioTemplateMammoth
-33790588,DLC2WE15Hunter,
-33790827,DLC2MQ06MiraakDragon,Sahrotaar
-33791248,DLC2RRMinerEvul,Evul Seloth
-33791252,DLC2RRMinerNaris,Naris Mavani
-33791254,DLC2RRMinerMeden,Meden Maren
-33791256,DLC2RRMinerTolenos,Tolenos Omoren
-33791282,DLC2TreasCorpseBanditMagicDarkElfFemale01,
-33791283,DLC2TreasCorpseBanditMagicDarkElfMale01,
-33791284,DLC2TreasCorpseBanditMelee1HDarkElfMale01,
-33791285,DLC2TreasCorpseBanditMelee1HDarkElfFemale01,
-33791286,DLC2TreasCorpseBanditMissileDarkElfMale01,
-33791287,DLC2TreasCorpseBanditMissileDarkElfFemale01,
-33791288,DLC2TreasCorpseBanditMagicDarkElfFemale02,
-33791289,DLC2TreasCorpseBanditMagicDarkElfFemale03,
-33791290,DLC2TreasCorpseBanditMagicDarkElfMale02,
-33791291,DLC2TreasCorpseBanditMagicDarkElfMale03,
-33791292,DLC2TreasCorpseBanditMagicDarkElfMale04,
-33791293,DLC2TreasCorpseBanditMelee1HDarkElfFemale02,
-33791294,DLC2TreasCorpseBanditMelee1HDarkElfFemale03,
-33791295,DLC2TreasCorpseBanditMelee1HDarkElfMale02,
-33791296,DLC2TreasCorpseBanditMelee1HDarkElfMale03,
-33791297,DLC2TreasCorpseBanditMelee1HDarkElfMale04,
-33791298,DLC2TreasCorpseBanditMissileDarkElfFemale02,
-33791299,DLC2TreasCorpseBanditMissileDarkElfFemale03,
-33791300,DLC2TreasCorpseBanditMissileDarkElfMale02,
-33791301,DLC2TreasCorpseBanditMissileDarkElfMale03,
-33791302,DLC2TreasCorpseBanditMissileDarkElfMale04,
-33791959,DLC2SprigganPrisoner,Spriggan
-33791962,DLC2SprigganBurntPrisoner,Burnt Spriggan
-33792496,DLC2RieklingCampBanditCorpse,
-33792681,LvlDraugrAmbushMelee1HDefenderMaleNoFurnitureNoShouts,
-33792682,LvlDraugrMissileFemaleHoldPosition256NoShouts,
-33793064,DLC2dunKolbjorn_LvlDraugrMelee1HDefenderFemaleWeak,
-33793065,DLC2dunKolbjorn_LvlDraugrMissileMaleHoldPosition512Weak,
-33793151,DLC2DummyFreaVoiceTypeNPC,Do Not Delete Me - needed for export to work
-33794497,DLC2LvlAnimalMountainSnowPredator,
-33794498,DLC2LvlAnimalForestPredator,
-33794499,DLC2LvlAnimalMountainSnowPrey,
-33794500,DLC2LvlAnimalForestPrey,
-33795023,AudioTemplateBristleback,AudioTemplateBristleback
-80815,LarsBattleBorn,Lars Battle-Born
-647290,MQ306DragonA,
-647291,MQ306DragonB,
-647292,MQ306DragonC,
-33797440,DLC2dunFahlbtharzExplorerCorpse02,Eydis
-33797477,AudioTemplateSprigganBurnt,AudioTemplateSprigganBurnt
-33799436,DLC2DetectLifeBoxActor,
-33799569,DLC2LvlCultistPillarGuard,
-33801049,AudioTemplateAshGuardian,AudioTemplateAshGuardian
-33802790,DLC2PillarWorkerBandit01,
-33802791,DLC2PillarWorkerBandit02,
-33802792,DLC2PillarWorkerBandit03,
-33802833,DLC2PillarRRGuardA,
-33802834,DLC2PillarRRGuardB,
-33802835,DLC2PillarRRGuardC,
-33803171,DLC2EncRiekling04Melee,Riekling Warrior
-33803172,DLC2EncRiekling04Missile,
-33803980,DLC2TT2IldariRemenant,
-79455,Dravynea,Dravynea the Stoneweaver
-33804261,DLC2EncMountedRiekling01,Riekling Rider
-33804262,DLC2EncMountedRiekling02,Riekling Courser
-33804263,DLC2EncMountedRiekling03A,Riekling Charger
-33804264,DLC2EncMountedRiekling03B,
-33804265,DLC2EncMountedRiekling03C,
-33804266,DLC2EncMountedRiekling03D,
-33804267,DLC2EncMountedRiekling03E,
-33804831,DLC2WE07EncTribalWerebearA,Werebear
-33804832,DLC2WE07EncTribalWerebearB,Werebear
-33804833,DLC2WE07EncTribalWerebearC,Werebear
-33805017,DLC2EncTribalWerebearB,Werebear
-33805018,DLC2EncTribalWerebearC,Werebear
-33805234,DLC2LvlSeekerInvCombat_MQ06End,
-33805681,DLC2LvlRieklingThirskOutsideMelee,
-33805682,DLC2LvlRieklingThirskOutsideMissile,
-33805704,AudioTemplateRiekling,AudioTemplateRiekling
-33805705,AudioTemplateRieklingQuiet,AudioTemplateRieklingQuiet
-33805749,DLC2lvlDragon_MQ06,
-33805751,DLC2EncDragon01FireNoScript_MQ06,
-33805752,DLC2EncDragon01FrostNoScript_MQ06,
-33805753,DLC2EncDragon02FireNoScript_MQ06,
-33805754,DLC2EncDragon02FrostNoScript_MQ06,
-33805755,DLC2EncDragon03FrostNoScript_MQ06,
-33805756,DLDC2EncDragon03FrostNoScript_MQ06,
-33805757,DLC2EncDragon04FireNoScript_MQ06,
-33805758,DLC2EncDragon04FrostNoScript_MQ06,
-33805759,DLC2EncDragon05FireNoScript_MQ06,
-33805760,DLC2EncDragon05FrostNoScript_MQ06,
-33805761,DLC2EncDragon03FireNoScript_MQ06,
-124429,EncBandit04TemplateMelee,Bandit Highwayman
-236817,EncBandit04Melee1HNordM,
-253536,EncBandit04Melee2HNordM,
-253561,EncBandit04Melee2HBerserkNordM,
-33676252,DLC2SummonAshGuardianNeloth,Ash Guardian
-33677968,AudioTemplateWerebear,AudioTemplateWerebear
+Record,EDID,Male Biped Model\MOD2,Female Biped Model\MOD3
+1113316,BoneCrownKhajiitAA,Armor\BoneCrown\BoneCrownKhajiit_M.nif,Armor\BoneCrown\BoneCrownKhajiit_F.nif
+1113315,BoneCrownArgonianAA,Armor\BoneCrown\BoneCrownArgonian_M.nif,Armor\BoneCrown\BoneCrownArgonian_F.nif
+1111460,NakedWolfFireAA,Actors\Canine\Character Assets Wolf\wolfFire.nif,
+1106884,DragonBossAA,Actors\Dragon\DragonTundra.nif,
+1106651,MageApprenticeBootsVariant1AA,Clothes\MageApprentice\MageApprenticeBoots_1.nif,Clothes\MageApprentice\MageApprenticeBootsF_1.nif
+1106637,MageJourneymanBootsVariant1AA,Clothes\Archmage\M\ArchmageBootsM_1.nif,Clothes\Archmage\F\ArchmageBootsF_1.nif
+1106125,PenitusHelmetKhaAA,Armor\Imperial\M\HelmetLightKhajiit.nif,Armor\Imperial\F\HelmetLightKhajiit.nif
+1106124,PenitusHelmettArgonianAA,Armor\Imperial\M\HelmetLightArgonian.nif,Armor\Imperial\F\HelmetLightArgonian.nif
+1103521,MageApprenticeHood_OrcVariant2AA,Clothes\MageApprentice\MageApprenticeHood_Orc_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Orc_1.nif
+1103520,MageApprenticeHood_OrcVariant1AA,Clothes\MageApprentice\MageApprenticeHood_Orc_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Orc_1.nif
+1103519,MageApprenticeHood_ArgKhajVariant2AA,Clothes\MageApprentice\MageApprenticeHood_Arg_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Arg_1.nif
+1103518,MageApprenticeHood_ArgKhajVariant1AA,Clothes\MageApprentice\MageApprenticeHood_Arg_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Arg_1.nif
+1103517,MageApprenticeHoodvariant2AA,Clothes\MageApprentice\MageApprenticeHood_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_1.nif
+1103516,MageApprenticeHoodvariant1AA,Clothes\MageApprentice\MageApprenticeHood_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_1.nif
+1103515,MageJourneymanRobesVariant1AA,Clothes\MageJourneyman\MageJourneymanRobes_1.nif,Clothes\MageJourneyman\MageJourneymanRobesF_1.nif
+1103514,MageApprenticeRobesVariant2AA,Clothes\MageApprentice\MageApprenticeRobes_1.nif,Clothes\MageApprentice\MageApprenticeRobesF_1.nif
+1103504,MageApprenticeRobesVariant1AA,Clothes\MageApprentice\MageApprenticeRobes_1.nif,Clothes\MageApprentice\MageApprenticeRobesF_1.nif
+1101806,MonkHoodColorRed_ArgAA,Clothes\Monk\MonkHood_Arg_1.nif,Clothes\Monk\MonkHood_F_Arg_1.nif
+1101805,MonkHoodColorGreen_ArgAA,Clothes\Monk\MonkHood_Arg_1.nif,Clothes\Monk\MonkHood_F_Arg_1.nif
+1101801,MonkRobesColorGreenAA,Clothes\Monk\MonkRobes_1.nif,Clothes\Monk\MonkRobes_F_1.nif
+1101800,MonkHoodColorGreenAA,Clothes\Monk\MonkHood_1.nif,Clothes\Monk\MonkHood_F_1.nif
+1101799,MonkRobesColorRedAA,Clothes\Monk\MonkRobes_1.nif,Clothes\Monk\MonkRobes_F_1.nif
+1101798,MonkHoodColorRedAA,Clothes\Monk\MonkHood_1.nif,Clothes\Monk\MonkHood_F_1.nif
+1101797,MonkHoodColorGrey_ArgAA,Clothes\Monk\MonkHood_Arg_1.nif,Clothes\Monk\MonkHood_F_Arg_1.nif
+1101795,MonkHoodColorBrown_ArgAA,Clothes\Monk\MonkHood_Arg_1.nif,Clothes\Monk\MonkHood_F_Arg_1.nif
+1101794,MonkRobesColorGreyAA,Clothes\Monk\MonkRobes_1.nif,Clothes\Monk\MonkRobes_F_1.nif
+1101793,MonkHoodColorGreyAA,Clothes\Monk\MonkHood_1.nif,Clothes\Monk\MonkHood_F_1.nif
+1101792,MonkHoodColorBrownAA,Clothes\Monk\MonkHood_1.nif,Clothes\Monk\MonkHood_F_1.nif
+1101791,MonkRobesColorBrownAA,Clothes\Monk\MonkRobes_1.nif,Clothes\Monk\MonkRobes_F_1.nif
+1099263,SteelGlovesKhaAA,Armor\Steel\GauntletsKha_1.nif,Armor\Steel\F\1stPersonGauntletsKha_1.nif
+1099262,SteelGlovesArgAA,Armor\Steel\GauntletsArg_1.nif,Armor\Steel\F\1stPersonGauntletsArg_1.nif
+1099224,ChefHatKhaAA,Clothes\Chef\M\ChefHatKha_1.nif,Clothes\Chef\M\ChefHatKha_1.nif
+1099223,ChefHatArgAA,Clothes\Chef\M\ChefHatArg_1.nif,Clothes\Chef\M\ChefHatArg_1.nif
+1099222,DBHoodKhaAA,Clothes\RobeDarkBrotherhood\DBHoodKha_1.nif,Clothes\RobeDarkBrotherhood\DBHoodKha_1.nif
+1099221,DBGlovesArgAA,Clothes\RobeDarkBrotherhood\1stPersonDBGlovesArg_1.nif,Clothes\RobeDarkBrotherhood\Female\DBGlovesArg_1.nif
+1099220,DBGlovesKhaAA,Clothes\RobeDarkBrotherhood\1stPersonDBGlovesKha_1.nif,Clothes\RobeDarkBrotherhood\Female\DBGlovesArg_1.nif
+1098206,FXAtronachStormAA,Actors\AtronachStorm\Character Assets\FXAtronachStormSkinLightning.nif,
+1097498,MournerHatKha01AA,Clothes\FarmClothes01\HatKhaM.nif,Clothes\FarmClothes01\HatKhaF.nif
+1097497,MournerHatArg01AA,Clothes\FarmClothes01\HatArgM.nif,Clothes\FarmClothes01\HatArgF.nif
+1094398,dunWaywardPassGhostCuirassAA,Armor\NordPlate\NordCuirassM_1.nif,Armor\NordPlate\NordCuirassF_1.nif
+1094396,dummyHelmetAA,Effects\FXEmptyExplosionArt.nif,Effects\FXEmptyObject.nif
+1094358,NakedDwarvenSpiderFXAA,Actors\DwarvenSpider\Character Assets\DwarvenSpiderCenturionSkinedSteam.nif,
+1089018,Dragon_Odahviing_BloodTailFXAA,Actors\Dragon\Character Assets\Dragon_Oh_BloodTail.nif,
+1089017,Dragon_Odahviing_BloodHeadFXAA,Actors\Dragon\Character Assets\Dragon_Oh_BloodyHead.nif,
+1089012,Dragon_Green_BloodWingRFXAA,Actors\Dragon\Character Assets\Dragon_Swamp_BloodWingR.nif,
+1089011,Dragon_Green_BloodWingLFXAA,Actors\Dragon\Character Assets\Dragon_Swamp_BloodWingL.nif,
+1089010,Dragon_Green_BloodTailFXAA,Actors\Dragon\Character Assets\Dragon_Swamp_BloodTail.nif,
+1089009,Dragon_Green_BloodHeadFXAA,Actors\Dragon\Character Assets\Dragon_Swamp_BloodyHead.nif,
+1089004,Dragon_Tundra_BloodWingRFXAA,Actors\Dragon\Character Assets\Dragon_Bronze_BloodWingR.nif,
+1089003,Dragon_Tundra_BloodWingLFXAA,Actors\Dragon\Character Assets\Dragon_Bronze_BloodWingL.nif,
+1089002,Dragon_Tundra_BloodTailFXAA,Actors\Dragon\Character Assets\Dragon_Bronze_BloodTail.nif,
+1089001,Dragon_Tundra_BloodHeadFXAA,Actors\Dragon\Character Assets\Dragon_Bronze_BloodyHead.nif,
+1088997,Dragon_Snow_BloodTailFXAA,Actors\Dragon\Character Assets\Dragon_Ice_BloodTail.nif,
+1088996,Dragon_Snow_BloodWingLFXAA,Actors\Dragon\Character Assets\Dragon_Ice_BloodWingL.nif,
+1088995,Dragon_Snow_BloodWingRFXAA,Actors\Dragon\Character Assets\Dragon_Ice_BloodWingR.nif,
+1088993,Dragon_Snow_BloodHeadFXAA,Actors\Dragon\Character Assets\Dragon_Ice_BloodyHead.nif,
+1088991,Dragon_Parthurnax_BloodHeadFXAA,Actors\Dragon\Character Assets\Dragon_Parth_BloodyHead.nif,
+1088623,SteelPlateHelmetOrcAA,Armor\Steel\Helmet_1.nif,Armor\Steel\Helmet_1.nif
+1088622,GlassHelmetOrcAA,Armor\Glass\M\Helmet_1.nif,Armor\Glass\F\Helmet_1.nif
+1088621,ElvenHelmetOrcAA,Armor\Elven\M\HelmetOrc_1.nif,Armor\Elven\F\Helmet_1.nif
+1088620,SteelHelmetOrcAA,Armor\Steel\HelmetLight_1.nif,Armor\Steel\HelmetLight_1.nif
+1088571,HorseSaddleShadowmereAA,Actors\Horse\Character Assets\ImperialSaddle.nif,
+1087670,ArchmageHood_KhaAA,Clothes\Archmage\M\ArchmageHoodM_Kha_1.nif,Clothes\Archmage\F\ArchmageHoodF_Kha_1.nif
+1087489,DBHoodArgAA,Clothes\RobeDarkBrotherhood\DBHoodArg_1.nif,Clothes\RobeDarkBrotherhood\DBHoodArg_1.nif
+1086609,AlduinFireMouthAA,Actors\Dragon\Character Assets\AlduinMouthFireSkin.nif,
+1085722,MerchantHat_Arg_AA,Clothes\MerchantClothes\Hat_Arg_M.nif,Clothes\MerchantClothes\Hat_Arg_F.nif
+1085721,MerchantHat_Kha_AA,Clothes\MerchantClothes\Hat_Kha_M.nif,Clothes\MerchantClothes\Hat_Kha_F.nif
+1084960,BladesHelmetKhajiitAA,Armor\Blades\BladesHelmetsKhajiit_1.nif,Armor\Blades\BladesHelmetsKhajiit_1.nif
+1084959,BladesHelmetArgonianAA,Armor\Blades\BladesHelmetsArgonian_1.nif,Armor\Blades\BladesHelmetsArgonian_1.nif
+1081734,CompanionsHelmetORCAA,Armor\Wolf\HatMO_1.nif,Armor\Wolf\HatMO_1.nif
+1081733,FullLeatherHelmetOrcAA,Armor\Studded\Male\helmetMO_1.nif,Armor\Studded\Female\helmet_1.nif
+1078800,NakedBodyManakin,Actors\Manekin\Manekin.nif,
+1078798,NakedHandsManakin,Actors\Manekin\ManekinHands.nif,
+1078797,NakedFeetManakin,Actors\Manekin\Manekin_Feet.nif,
+1078764,YngolHelmet_KhaAA,Armor\YngolsHelm\YngolsHelm_KhaM.nif,Armor\YngolsHelm\YngolsHelm_KhaF.nif
+1078763,YngolHelmet_ArgAA,Armor\YngolsHelm\YngolsHelm_ArgM.nif,Armor\YngolsHelm\YngolsHelm_ArgF.nif
+1078762,DraugrHelmetOrcAA,Armor\Draugr\DraugrHelmOrcM_1.nif,Armor\Draugr\DraugrHelmOrcF.nif
+1078761,DragonscaleHelmetOrcAA,Armor\Dragonscale\DragonscaleHelmetOrcM_1.nif,Armor\Dragonscale\DragonscaleHelmetOrcF.nif
+1078760,DragonplateHelmetOrcAA,Armor\Dragonbone\DragonboneHelmetOrcM_1.nif,Armor\Dragonbone\DragonboneHelmetOrcF_1.nif
+1077523,MageApprenticeHood_OrcAA,Clothes\MageApprentice\MageApprenticeHood_Orc_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Orc_1.nif
+1077522,ArchmageHood_OrcAA,Clothes\Archmage\M\ArchmageHoodM_Orc_1.nif,Clothes\Archmage\F\ArchmageHoodF_Orc_1.nif
+1077447,GreybeardHatKhaAA,Clothes\GraybeardRobe\GreybeardHatBeast_1.nif,Clothes\GraybeardRobe\GreybeardHatBeast_1.nif
+1077446,GreybeardHatArgAA,Clothes\GraybeardRobe\GreybeardHatBeast_1.nif,Clothes\GraybeardRobe\GreybeardHatBeast_1.nif
+1077348,FarmHatKha03AA,Clothes\FarmClothes03\FarmerHat03KhaM.nif,Clothes\FarmClothes03\FarmerHat03KhaF.nif
+1077347,FarmHatArg03AA,Clothes\FarmClothes03\FarmerHat03ArgM.nif,Clothes\FarmClothes03\FarmerHat03ArgF.nif
+1077346,Farm02HatKhaAA,Clothes\FarmClothes02\M\HatKha_1.nif,Clothes\FarmClothes02\F\HatKhaF_1.nif
+1077345,Farm02HatArgAA,Clothes\FarmClothes02\M\HatArg_1.nif,Clothes\FarmClothes02\F\HatArgF_1.nif
+1077344,FarmHatKha01AA,Clothes\FarmClothes01\HatKhaM.nif,Clothes\FarmClothes01\HatKhaF.nif
+1077343,FarmHatArg01AA,Clothes\FarmClothes01\HatArgM.nif,Clothes\FarmClothes01\HatArgF.nif
+1076919,ElvenHelmetKhaAA,Armor\Elven\M\HelmetKha_1.nif,Armor\Elven\F\HelmetKhaF_1.nif
+1076918,ElvenHelmetArgAA,Armor\Elven\M\HelmetArg_1.nif,Armor\Elven\F\HelmetArgF_1.nif
+1076917,GlassHelmetKhaAA,Armor\Glass\M\HelmetKha_1.nif,Armor\Glass\M\HelmetKha_1.nif
+1076916,GlassHelmetArgAA,Armor\Glass\M\HelmetArg_1.nif,Armor\Glass\M\HelmetArg_1.nif
+1076915,SteelPlateHelmetKhaAA,Armor\Steel\Helmet_Kha_1.nif,Armor\Steel\Helmet_Kha_1.nif
+1076914,SteelPlateHelmetArgAA,Armor\Steel\Helmet_Arg_1.nif,Armor\Steel\Helmet_Arg_1.nif
+1076913,SteelHelmetKhaAA,Armor\Steel\HelmetLight_Kha_1.nif,Armor\Steel\HelmetLight_Kha_1.nif
+1076912,SteelHelmetArgAA,Armor\Steel\HelmetLight_Arg_1.nif,Armor\Steel\HelmetLight_Arg_1.nif
+1076825,DBArmorHelmetKhaAA,Armor\DBArmor\DBArmorHood_Kha_1.nif,Armor\DBArmor\DBArmorHood_Kha_1.nif
+1076824,DBArmorHelmetArgAA,Armor\DBArmor\DBArmorHood_Arg_1.nif,Armor\DBArmor\DBArmorHood_Arg_1.nif
+1075928,RedguardClothesHatKhaAA,Clothes\Redguard\RedguardHoodMKha_1.nif,Clothes\Redguard\RedguardHoodFKha_1.nif
+1075927,RedguardClothesHatArgAA,Clothes\Redguard\RedguardHoodMArg_1.nif,Clothes\Redguard\RedguardHoodFArg_1.nif
+1074065,WoundArivanyaAA,Clothes\Wounds\WoundsArivanya_1.nif,Clothes\Wounds\WoundsArivanya_1.nif
+1074063,WoundSusannaAA,Clothes\Wounds\WoundSusanna_1.nif,Clothes\Wounds\WoundSusanna_1.nif
+1071438,BanditCuirass3AA,Armor\Bandit\Body3M_1.nif,Armor\Bandit\Body3F_1.nif
+1071436,BanditCuirass2AA,Armor\Bandit\Body2M_1.nif,Armor\Bandit\Body2F_1.nif
+1071434,BanditCuirass1AA,Armor\Bandit\Body1M_1.nif,Armor\Bandit\Body1F_1.nif
+1068866,NakedWhiteStagAA,Actors\Deer\Character Assets\ReinDeer_Skin.nif,Actors\Deer\Character Assets\ReinDeer_Skin.nif
+1068497,dunTargeOfTheBloodedAA,Weapons\SpikedShield\SpikedShield.nif,Weapons\SpikedShield\SpikedShield.nif
+1063234,PrisonerCuffsAA,Clothes\Prisoner\PrisonerCuffs_1.nif,Clothes\Prisoner\PrisonerCuffsF_1.nif
+1063033,ImperialGlovesLightKhajiitAA,Armor\Imperial\M\GauntletsLightBeast_1.nif,Armor\Imperial\F\GauntletsLightBeast_1.nif
+1063032,ImperialGlovesLightArgonianAA,Armor\Imperial\M\GauntletsLightBeast_1.nif,Armor\Imperial\F\GauntletsLightBeast_1.nif
+1063031,ImperialGlovesKhajiitAA,Armor\Imperial\M\GauntletsHeavyBeast_1.nif,Armor\Imperial\F\GauntletsHeavyBeast_1.nif
+1063030,ImperialGlovesArgonianAA,Armor\Imperial\M\GauntletsHeavyBeast_1.nif,Armor\Imperial\F\GauntletsHeavyBeast_1.nif
+1063029,HideBracersKhajiitAA,Armor\Hide\M\GauntletsLightBeast_1.nif,Armor\Hide\F\GauntletsLightBeast_1.nif
+1063028,HideBracersArgonianAA,Armor\Hide\M\GauntletsLightBeast_1.nif,Armor\Hide\F\GauntletsLightBeast_1.nif
+1063027,HideBracers01KhajiitAA,Armor\Hide\M\GauntletsHeavyBeast_1.nif,Armor\Hide\F\GauntletsHeavyBeast_1.nif
+1063026,HideBracers01ArgonianAA,Armor\Hide\M\GauntletsHeavyBeast_1.nif,Armor\Hide\F\GauntletsHeavyBeast_1.nif
+1060200,MonkHood_KhaAA,Clothes\Monk\MonkVariantHood_Kha_1.nif,Clothes\Monk\MonkVariantHood_KhaF_1.nif
+1060198,MageHood_KhaAA,Clothes\Monk\MonkVariantHood_Kha_1.nif,Clothes\Monk\MonkVariantHood_KhaF_1.nif
+1021551,GagAA,Clothes\Gag\Gag.nif,Clothes\Gag\Gag.nif
+1020015,FXDwarvenSphereCenturionAA,Actors\DwarvenSphereCenturion\Character Assets\FXSteamSphereSkin.nif,
+1020012,FXDwarvenSteamCenturionAA,Actors\DwarvenSteamCenturion\Character Assets\FXSteamCenturionFogSkin.nif,
+1020001,NakedDogMG07AA,Actors\Dog\Character Assets\MG07dog.nif,
+1017620,FineClothes02VariantAA,Clothes\FineClothes02\OutfitM_1.nif,Clothes\FineClothes02\OutfitF_1.nif
+1017618,FineClothesVariant01AA,Clothes\FineClothes01\OutfitM_1.nif,Clothes\FineClothes01\OutfitF_1.nif
+1014931,NakedDragonFarOhdaviingAA,Actors\Dragon\Character Assets\Farskin_Tundra.nif,
+1014928,NakedDragonFarForestAA,Actors\Dragon\Character Assets\Farskin_Tundra.nif,
+1012439,NecromancerHood_ArgAA,Clothes\Necromancer\NecromancerHood_Arg_1.nif,Clothes\Necromancer\NecromancerHood_F_Arg_1.nif
+1012438,WarlockHood_ArgAA,Clothes\Warlock\WarlockHood_Arg_1.nif,Clothes\Warlock\WarlockHood_F_Arg_1.nif
+1012437,ArchmageHood_ArgAA,Clothes\Archmage\M\ArchmageHoodM_Arg_1.nif,Clothes\Archmage\F\ArchmageHoodF_Arg_1.nif
+1012436,MageHood_ArgAA,Clothes\Monk\MonkVariantHood_Arg_1.nif,Clothes\Monk\MonkVariantHoodF_Arg_1.nif
+1012435,MonkHood_ArgAA,Clothes\Monk\MonkHood_Arg_1.nif,Clothes\Monk\MonkHood_F_Arg_1.nif
+1012434,MageApprenticeHood_ArgKhajAA,Clothes\MageApprentice\MageApprenticeHood_Arg_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_Arg_1.nif
+1012190,ElderScrollHandAttachAA,Clutter\ElderScroll\1stPersonElderScrollHandAttach.nif,Clutter\ElderScroll\1stPersonElderScrollHandAttach.nif
+1012186,DraugrMagic01AA,,Actors\Draugr\Character Assets\DraugrMagicFemale01.nif
+1010120,NakedDragonHiderAA,Actors\Dragon\Character Assets\DragonSkinHider.nif,
+1007617,FXWerewolfTransitionSkinAA,Effects\FXWerewolfTransitionSkin.nif,
+1003530,MythicDawnHood_ArgAA,Clothes\RobeMythicDawn\MDHood_Arg_1.nif,Clothes\RobeMythicDawn\MDHood_F_Arg_1.nif
+1003472,NakedDwarvenSpiderNOEYEAA,Actors\DwarvenSpider\Character Assets\DwarvenSpiderNoEye.nif,
+1000659,ThalmorHood_KhajiitAA,Clothes\Thalmor\ThalmorHoodM_Khaj_1.nif,Clothes\Thalmor\ThalmorHoodF_Khaj_1.nif
+1000658,ThalmorHood_ArgAA,Clothes\Thalmor\ThalmorHoodM_Arg_1.nif,Clothes\Thalmor\ThalmorHoodF_Arg_1.nif
+1000657,PsiijicHood_KhajAA,Clothes\Psiijic\PsiijicHoodM_Khaj_1.nif,Clothes\Psiijic\PsiijicHoodF_Khaj_1.nif
+1000656,PsiijicHood_ArgAA,Clothes\Psiijic\PsiijicHoodM_Arg_1.nif,Clothes\Psiijic\PsiijicHoodF_Arg_1.nif
+1000655,BeggarHat01_KhajAA,Clothes\BeggarClothes\hatm_Khaj_1.nif,Clothes\BeggarClothes\hatf_Khaj_1.nif
+1000654,BeggarHat01_ArgAA,Clothes\BeggarClothes\hatm_Arg_1.nif,Clothes\BeggarClothes\hatf_Arg_1.nif
+1000652,ThievesGuildVariantHelmet_ArgAA,Armor\ThievesGuild\M\HoodVariant_Arg_1.nif,Armor\ThievesGuild\F\HoodVariant01_Arg_1.nif
+1000650,ThievesGuildVariant02Helmet_ArgAA,Armor\ThievesGuild\M\HoodAlternate_Arg_1.nif,Armor\ThievesGuild\F\HoodVariant02_Arg_1.nif
+1000648,ThievesGuildLeaderHelmet_ArgAA,Armor\ThievesGuild\M\HoodLeader_Arg_1.nif,Armor\ThievesGuild\F\HoodLeader_Arg_1.nif
+1000646,ThievesGuildHelmet_ArgAA,Armor\ThievesGuild\M\Hat_Arg_1.nif,Armor\ThievesGuild\F\Hat_Arg_1.nif
+1000645,ForswornHelmet_ArgAA,Clothes\ForswornArmor\ForswornHelmet_Arg_1.nif,Clothes\ForswornArmor\ForswornHelmetF_Arg_1.nif
+1000643,ForswornHelmet_KhajAA,Clothes\ForswornArmor\ForswornHelmet_Khaj_1.nif,Clothes\ForswornArmor\ForswornHelmetF_Khaj_1.nif
+997634,NakedSprigganMatronAA,Actors\Spriggan\Character Assets\sprigganMatron.nif,
+988117,JesterHatArgAA,Clothes\Jester\JesterHatMK_1.nif,Clothes\Jester\JesterHatFA_1.nif
+988116,JesterHatKhaAA,Clothes\Jester\JesterHatMK_1.nif,Clothes\Jester\JesterHatFK_1.nif
+988115,SonsHattArgAA,Armor\Sons of Talos\HatMA_1.nif,Armor\Sons of Talos\HatMA_1.nif
+988114,SonsHattKhajAA,Armor\Sons of Talos\HatMK_1.nif,Armor\Sons of Talos\HatMK_1.nif
+988113,CompanionsHelmetArgAA,Armor\Wolf\HatMA_1.nif,Armor\Wolf\HatMA_1.nif
+988112,CompanionsHelmetKAA,Armor\Wolf\HatMK_1.nif,Armor\Wolf\HatMK_1.nif
+988111,BanditHelmetAAA,Armor\Bandit\HatMA_1.nif,Armor\Bandit\HatFK_1.nif
+988110,BanditHelmetKAA,Armor\Bandit\HatMK_1.nif,Armor\Bandit\HatFK_1.nif
+988109,OrcishHelmetArgonianAA,Armor\Orcish\HelmetMA_1.nif,Armor\Orcish\HelmetFA.nif
+988108,OrcishHelmetKhajiitAA,Armor\Orcish\HelmetMK_1.nif,Armor\Orcish\HelmetFK.nif
+988107,FullLeatherHelmetArgonianAA,Armor\Studded\Male\helmetAM_1.nif,Armor\Studded\Male\helmetAM_1.nif
+988106,FullLeatherHelmetKhajiitAA,Armor\Studded\Male\helmetKM_1.nif,Armor\Studded\Male\helmetKM_1.nif
+987525,NakedWispShade,Actors\Wisp\Character Assets\Wisp.nif,
+984952,UderfrykteAA,Actors\Troll\Character Assets\Uderfrykte2.nif,
+968880,SprigganShieldAA,Actors\Spriggan\Character Assets\shield.nif,
+966193,NakedSkeletonNecroPriestAA,Actors\DragonPriest\Character Assets\SkeletonNecroPriest.nif,
+965642,DragonOhdaviingAA,Actors\Dragon\DragonOhdaviing.nif,
+964731,NakedSkeletonNecroStormCloakAA,Actors\Draugr\Character Assets\SkeletonNecroStormCloakSkin.nif,Actors\Draugr\Character Assets\SkeletonNecroStormCloakSkin.nif
+964723,NakedSkeletonNecroImperialAA,Actors\Draugr\Character Assets\SkeletonNecroImperialSkin.nif,Actors\Draugr\Character Assets\SkeletonNecroImperialSkin.nif
+964721,NakedSkeletonNecroBodyAA,Actors\Draugr\Character Assets\SkeletonNecroSkin.nif,Actors\Draugr\Character Assets\SkeletonNecroSkin.nif
+963157,StormcloakHelmSolitudeAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+963152,StormcloakCuirassSolitudeAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+961866,YarlTorso03_var1AA,Clothes\YarlClothes03\OutfitM_var1_1.nif,Clothes\YarlClothes03\OutfitF_var1_1.nif
+951513,YarlTorso01_var2AA,Clothes\YarlClothes\M\Torso_var2_1.nif,Clothes\YarlClothes\F\Torso_var2_1.nif
+951493,YarlTorso01_var1AA,Clothes\YarlClothes\M\Torso_var1_1.nif,Clothes\YarlClothes\F\Torso_var1_1.nif
+951488,YarlGloves01AA,Clothes\YarlClothes\M\Gloves_1.nif,Clothes\YarlClothes\F\Gloves_1.nif
+950443,ChildrenShoesAA,Clothes\ChildrenClothes\M\Shoes_1.nif,Clothes\ChildrenClothes\F\Shoes_1.nif
+950441,ChildrenTorsoV01AA,Clothes\ChildrenClothes\M\Torso01_1.nif,Clothes\ChildrenClothes\F\Torso01_1.nif
+947984,DragonAlduinUnderskinAA,Actors\Dragon\Character Assets\AlduinUnderskin.nif,
+947098,VaerminaRobesAA,Clothes\Monk\VaerminaRobes_1.nif,Clothes\Monk\VaerminaRobesF_1.nif
+936669,NordPlateHelmetAA,Armor\NordPlate\NordHelmM_1.nif,Armor\NordPlate\NordHelmF_1.nif
+936667,NordPlateGlovesAA,Armor\NordPlate\NordGauntletsM_1.nif,Armor\NordPlate\NordGauntletsF_1.nif
+936665,NordPlateBootsAA,Armor\NordPlate\NordBootsM_1.nif,Armor\NordPlate\NordBootsF_1.nif
+936663,NordPlateCuirassAA,Armor\NordPlate\NordCuirassM_1.nif,Armor\NordPlate\NordCuirassF_1.nif
+934359,ShieldofYsgramorAA,Armor\ShieldofYsgramor\ShieldofYsgramor.nif,Armor\ShieldofYsgramor\ShieldofYsgramor.nif
+934073,NakedMudcrabLarge1AA,Actors\Mudcrab\Character Assets\MCrab3.nif,
+934072,NakedMudcrabMedium1AA,Actors\Mudcrab\Character Assets\MCrab2.nif,
+933901,EbonyShieldAA,Weapons\Ebony\EbonyShield.nif,Weapons\Ebony\EbonyShield.nif
+931294,ThievesGuildVariant02HelmetAA,Armor\ThievesGuild\M\HoodAlternate_1.nif,Armor\ThievesGuild\F\HoodVariant02_1.nif
+931285,ThievesGuildKarliahHelmetAA,Armor\ThievesGuild\M\Hat_1.nif,Armor\ThievesGuild\F\KarliahHood_1.nif
+931284,ThievesGuildKarliahGlovesAA,Armor\ThievesGuild\M\Bracers_1.nif,Armor\ThievesGuild\F\GlovesKarliah_1.nif
+931283,ThievesGuildKarliahCuirassAA,Armor\ThievesGuild\M\Torso_1.nif,Armor\ThievesGuild\F\TorsoKarliah_1.nif
+931282,ThievesGuildKarliahBootsAA,Armor\ThievesGuild\M\Boots_1.nif,Armor\ThievesGuild\F\ShoesKarliah_1.nif
+931281,ThievesGuildVariantBootsAA,Armor\ThievesGuild\M\BootsVariant_1.nif,Armor\ThievesGuild\F\BootsVariantGeneric_1.nif
+931280,ThievesGuildVariantGlovesAA,Armor\ThievesGuild\M\BracerVariant_1.nif,Armor\ThievesGuild\F\BracersVariant_1.nif
+931279,ThievesGuildVariantCuirassAA,Armor\ThievesGuild\M\TorsoVariant_1.nif,Armor\ThievesGuild\F\TorsoVariantGeneric_1.nif
+931278,ThievesGuildVariantHelmetAA,Armor\ThievesGuild\M\HoodVariant_1.nif,Armor\ThievesGuild\F\HoodVariant01_1.nif
+931277,ThievesGuildLeaderCuirassAA,Armor\ThievesGuild\M\TorsoLeader_1.nif,Armor\ThievesGuild\F\TorsoLeader_1.nif
+931276,ThievesGuildLeaderHelmetAA,Armor\ThievesGuild\M\HoodLeader_1.nif,Armor\ThievesGuild\F\HoodLeader_1.nif
+931275,ThievesGuildLeaderGlovesAA,Armor\ThievesGuild\M\BracerLeader_1.nif,Armor\ThievesGuild\F\BracersLeader_1.nif
+931274,ThievesGuildLeaderBootsAA,Armor\ThievesGuild\M\BootLeader_1.nif,Armor\ThievesGuild\F\BootLeader_1.nif
+931271,BladesShieldAA,Weapons\Blades\BladesShield.nif,Weapons\Blades\BladesShield.nif
+921043,RedguardClothesDBBootsAA,Clothes\Redguard\RedguardBoots_1.nif,Clothes\Redguard\RedguardBootsF_1.nif
+921041,RedguardClothesDBHatAA,Clothes\Redguard\RedguardHood_1.nif,Clothes\Redguard\RedguardHoodF_1.nif
+921039,RedguardClothesDBOutfitAA,Clothes\Redguard\RedguardOutfit_1.nif,Clothes\Redguard\RedguardOutfitf_1.nif
+898511,DecapitatedNeckAA,Actors\Character\Character Assets\DecapitatedNeck_1.nif,Actors\Character\Character Assets\DecapitatedNeckFemale_1.nif
+898032,DragonscaleHelmetKhajiitAA,Armor\Dragonscale\DragonscaleHelmKhajiitM.nif,Armor\Dragonscale\DragonscaleHelmKhajiitM.nif
+898031,DraugrHelmetKhajiitAA,Armor\Draugr\DraugrHelmKhajiitM.nif,Armor\Draugr\DraugrHelmKhajiitF.nif
+898030,DragonplateHelmetKhajiitAA,Armor\Dragonbone\HelmKhajiitM.nif,Armor\Dragonbone\HelmKhajiitF.nif
+898029,DraugrHelmetArgonianAA,Armor\Draugr\DraugrHelmArgonianM.nif,Armor\Draugr\DraugrHelmArgonianM.nif
+898028,DragonplateHelmetArgonianAA,Armor\Dragonbone\HelmArgonianM.nif,Armor\Dragonbone\HelmArgonianM.nif
+898027,DragonscaleHelmetArgonianAA,Armor\Dragonscale\DragonscaleHelmArgonianM.nif,Armor\Dragonscale\DragonscaleHelmArgonianM.nif
+894799,BoneCrownAA,Armor\BoneCrown\BoneCrownM.nif,Armor\BoneCrown\BoneCrownF.nif
+888148,ForswornGauntletsAA,Clothes\ForswornArmor\1stPersonForswornGauntlets_1.nif,Clothes\ForswornArmor\1stPersonForswornGauntletsF_1.nif
+888145,ForswornHelmetAA,Clothes\ForswornArmor\ForswornHelmet_1.nif,Clothes\ForswornArmor\ForswornHelmetF_1.nif
+888143,ForswornArmorAA,Clothes\ForswornArmor\ForswornArmor_1.nif,Clothes\ForswornArmor\ForswornArmorF_1.nif
+888141,ForswornBootsAA,Clothes\ForswornArmor\ForswornBoots_1.nif,Clothes\ForswornArmor\ForswornBootsF_1.nif
+868009,PenitusHelmettAA,Armor\Imperial\M\HelmetLight.nif,
+868008,PenitusGlovesAA,Armor\Imperial\M\GauntletsLight_1.nif,Armor\Imperial\F\GauntletsLight_1.nif
+868006,PenitusBootsAA,Armor\Imperial\M\BootsLight_1.nif,Armor\Imperial\F\BootsLight_1.nif
+867999,PenitusCuirasstAA,Armor\GeneralTulius\GeneralTuliusM_1.nif,Armor\GeneralTulius\GeneralTuliusF_1.nif
+862825,MageRobesAA,Clothes\Monk\MonkVariantOutfit_1.nif,Clothes\Monk\MonkVariantOutfitF_1.nif
+862824,MageHoodAA,Clothes\Monk\MonkVariantHood_1.nif,Clothes\Monk\MonkVariantHoodF_1.nif
+862273,DBArmorAA,Armor\DBArmor\DBArmorTorso_1.nif,Armor\DBArmor\DBArmorTorso_F_1.nif
+862272,DBArmorHelmetAA,Armor\DBArmor\DBArmorHoodMaskLess_1.nif,Armor\DBArmor\DBArmorHood_F_1.nif
+862271,DBArmorGlovesAA,Armor\DBArmor\DBArmorGauntlets_1.nif,Armor\DBArmor\DBArmorGauntlets_F_1.nif
+862270,DBArmorBootsAA,Armor\DBArmor\DBArmorBoots_1.nif,Armor\DBArmor\DBArmorBoots_F_1.nif
+862269,ClavicusVileMaskAA,Clothes\ClavicusVileMask\ClavicusVileMask_1.nif,Clothes\ClavicusVileMask\ClavicusVileMask_1.nif
+858400,WenchBootsAA,Clothes\Redguard\RedguardBoots_1.nif,Clothes\Wench\WenchOutfitBootsF_1.nif
+858398,WenchOutfitAA,Clothes\Wench\WenchOutfitM_1.nif,Clothes\Wench\WenchOutfitF_1.nif
+857509,DragonBloodWingRFXAA,Actors\Dragon\Character Assets\DragonBloodWingR.nif,
+857508,DragonBloodWingLFXAA,Actors\Dragon\Character Assets\DragonBloodWingL.nif,
+857507,DragonBloodTailFXAA,Actors\Dragon\Character Assets\DragonBloodTail.nif,
+850111,MDRobesAA,Clothes\RobeMythicDawn\MDRobe_1.nif,Clothes\RobeMythicDawn\MDRobe_F_1.nif
+850110,MDHoodAA,Clothes\RobeMythicDawn\MDHood_1.nif,Clothes\RobeMythicDawn\MDHood_F_1.nif
+850109,MDGlovesAA,Clothes\RobeMythicDawn\MDGloves_F_1.nif,Clothes\RobeDarkBrotherhood\Female\DBGloves_1.nif
+850108,MDBootsAA,Clothes\RobeMythicDawn\MDShoes_1.nif,Clothes\RobeMythicDawn\MDShoes_F_1.nif
+850095,ExecutionerRobesAA,Clothes\Executioner\Body_1.nif,Clothes\RobeDarkBrotherhood\Female\DBTorso_1.nif
+850094,ExecutionerHoodAA,Clothes\Executioner\Hood_1.nif,Clothes\RobeDarkBrotherhood\Female\DBHood_1.nif
+850093,ExecutionerGlovesAA,Clothes\Executioner\Gloves_1.nif,Clothes\ForswornArmor\1stPersonForswornGauntletsF_1.nif
+850092,ExecutionerBootsAA,Clothes\Executioner\Boots_1.nif,Clothes\RobeDarkBrotherhood\Female\DBBoots_1.nif
+850090,DBGlovesAA,Clothes\RobeDarkBrotherhood\DBGloves_1.nif,Clothes\RobeDarkBrotherhood\Female\DBGloves_1.nif
+850084,DBRobesAA,Clothes\RobeDarkBrotherhood\DBTorso_1.nif,Clothes\RobeDarkBrotherhood\Female\DBTorso_1.nif
+850083,DBHoodAA,Clothes\RobeDarkBrotherhood\DBHood_1.nif,Clothes\RobeDarkBrotherhood\Female\DBHood_1.nif
+850082,DBBootsAA,Clothes\RobeDarkBrotherhood\DBBoots_1.nif,Clothes\RobeDarkBrotherhood\Female\DBBoots_1.nif
+850074,NakedReinDeerAA,Actors\Deer\Character Assets\ReinDeer_Skin.nif,Actors\Deer\Character Assets\ReinDeer_Skin.nif
+847491,Fine02Hat01AA,Clothes\FineClothes02\HatM_1.nif,Clothes\FineClothes02\HatF_1.nif
+847489,FineBoots02AA,Clothes\FineClothes02\BootsM_1.nif,Clothes\FineClothes01\BootsF_1.nif
+847487,FineClothes02Torso01AA,Clothes\FineClothes02\OutfitM_1.nif,Clothes\FineClothes02\OutfitF_1.nif
+847485,WolfGlovesAA,Armor\Wolf\GlovesM_1.nif,Armor\Wolf\GlovesM_1.nif
+847483,WolfBootsAA,Armor\Wolf\BootsM_1.nif,Armor\Wolf\BootsM_1.nif
+847481,YarlHat03AA,Clothes\YarlClothes03\HatM_1.nif,Clothes\YarlClothes03\HatF_1.nif
+847479,YarlShoes03AA,Clothes\YarlClothes03\BootsM_1.nif,Clothes\YarlClothes03\BootsM_1.nif
+847477,YarlTorso03AA,Clothes\YarlClothes03\OutfitM_1.nif,Clothes\YarlClothes03\OutfitF_1.nif
+847475,JesterGlovesAA,Clothes\Jester\JesterGlovesM_1.nif,Clothes\Jester\JesterGlovesF_1.nif
+847473,JesterHat01AA,Clothes\Jester\JesterHatM_1.nif,Clothes\Jester\JesterHatF_1.nif
+847471,JesterBoots01AA,Clothes\Jester\JesterBootsM_1.nif,Clothes\Jester\JesterBootsF_1.nif
+847469,JesterTorso01AA,Clothes\Jester\JesterM_1.nif,Clothes\Jester\JesterF_1.nif
+843143,NakedTorsoWerewolfBeast,Actors\WerewolfBeast\Character Assets\MaleBodyWereWolf_1.NIF,Actors\WerewolfBeast\Character Assets\MaleBodyWereWolf_1.NIF
+837706,NakedDragonFarTundraAA,Actors\Dragon\Character Assets\Farskin_Tundra.nif,
+837705,NakedDragonFarSnowAA,Actors\Dragon\Character Assets\Farskin_Snow.nif,
+837703,ArkayAmuletAA,Armor\AmuletsandRings\Arkay\ArkayAmulet_1.nif,Armor\AmuletsandRings\Arkay\ArkayAmuletF_1.nif
+837701,TalosAmuletAA,Armor\AmuletsandRings\Talos\TalosAmulet_1.nif,Armor\AmuletsandRings\Talos\TalosAmuletF_1.nif
+837699,StendarAmuletAA,Armor\AmuletsandRings\Stendarr\StendarrAmulet_1.nif,Armor\AmuletsandRings\Stendarr\StendarrAmuletF_1.nif
+837697,AncientNordAmuletAA,Armor\AmuletsandRings\AncientNord\AncientNordAmulet_1.nif,Armor\AmuletsandRings\AncientNord\AncientNordAmuletF_1.nif
+831350,DragonBloodHeadFXAA,Actors\Dragon\Character Assets\DragonBloodyHead.nif,
+830996,WolfCuirassAA,Armor\Wolf\BodyM_1.nif,Armor\Wolf\BodyF_1.nif
+821532,NecromancerAmuletAA,Armor\AmuletsandRings\Necromancer\Necromancer_1.nif,Armor\AmuletsandRings\Necromancer\NecromancerF_1.nif
+821530,MaraAmuletAA,Armor\AmuletsandRings\Mara\MaraAmulet_1.nif,Armor\AmuletsandRings\Mara\MaraAmuletF_1.nif
+821528,KynarethAmuletAA,Armor\AmuletsandRings\Kynareth\KynarethAmulet_1.nif,Armor\AmuletsandRings\Kynareth\KynarethAmuletF_1.nif
+821526,JulianosAmuletAA,Armor\AmuletsandRings\Julianos\JulianosAmulet_1.nif,Armor\AmuletsandRings\Elder Council\ElderCouncil_AmuletF_1.nif
+821524,DibellaAmuletAA,Armor\AmuletsandRings\Dibella\DibellaAmulet_1.nif,Armor\AmuletsandRings\Dibella\DibellaAmuletF_1.nif
+821522,ElderCouncilAmuletAA,Armor\AmuletsandRings\Elder Council\ElderCouncil_Amulet_1.nif,Armor\AmuletsandRings\Elder Council\ElderCouncil_AmuletF_1.nif
+821520,AkatoshAmuletAA,Armor\AmuletsandRings\Akatosh\AkatoshAmulet_1.nif,Armor\AmuletsandRings\Akatosh\AkatoshAmuletF_1.nif
+818364,SheogorathBootsAA,Clothes\Sheogorath\SheogorathBoots.nif,Clothes\Sheogorath\SheogorathBoots.nif
+818362,SheogorathOutfitAA,Clothes\Sheogorath\SheogorathOutfit.nif,Clothes\Sheogorath\SheogorathOutfit.nif
+810261,WarlockRobesAA,Clothes\Warlock\WarlockRobes_1.nif,Clothes\Warlock\WarlockRobes_F_1.nif
+810260,WarlockHoodAA,Clothes\Warlock\WarlockHood_1.nif,Clothes\Warlock\WarlockHood_F_1.nif
+810259,WarlockBootsAA,Clothes\Warlock\WarlockBoots_1.nif,Clothes\Warlock\WarlockBoots_F_1.nif
+809628,ChaurusSpitSkinAA,Actors\Chaurus\Character Assets\ChauurusSpitSkin.nif,Actors\Chaurus\Character Assets\ChauurusSpitSkin.nif
+802526,NakedSkeeverWhiteAA,Actors\Skeever\Character Assets\Skeever.nif,
+801263,NakedCowPaintedAA,Actors\Cow\Character Assets\HighlandCow.nif,
+800493,NecromancerRobesAA,Clothes\Necromancer\NecromancerRobes_1.nif,Clothes\Necromancer\NecromancerRobes_F_1.nif
+800492,NecromancerHoodAA,Clothes\Necromancer\NecromancerHood_1.nif,Clothes\Necromancer\NecromancerHood_F_1.nif
+800491,NecromancerBootsAA,Clothes\Necromancer\NecromancerBoots_1.nif,Clothes\Necromancer\NecromancerBoots_F_1.nif
+795500,HorseHarnessAA,Actors\Horse\Character Assets\Harness.nif,
+787194,NakedWolfBlackAA,Actors\Canine\Character Assets Wolf\wolfblack.nif,
+787191,NakedWolfSummonAA,Actors\Canine\Character Assets Wolf\wolfRed.nif,
+786792,TsunBootsAA,Armor\Tsun\TsunBoots_1.nif,Armor\ThievesGuild\F\Boots_1.nif
+786791,TsunCuirassAA,Armor\Tsun\TsunCuirass_1.nif,Armor\ThievesGuild\F\Torso_1.nif
+779369,ImperialHelmetMediumKhajiitAA,Armor\Imperial\M\HelmetMediumKhajiit.nif,Armor\Imperial\F\HelmetMediumKhajiit.nif
+779368,ImperialHelmetMediumArgonianAA,Armor\Imperial\M\HelmetMediumArgonian.nif,Armor\Imperial\F\HelmetMediumArgonian.nif
+779367,ImperialHelmetLightKhajiitAA,Armor\Imperial\M\HelmetLightKhajiit.nif,Armor\Imperial\F\HelmetLightKhajiit.nif
+779366,ImperialHelmetLightArgonianAA,Armor\Imperial\M\HelmetLightArgonian.nif,Armor\Imperial\F\HelmetLightArgonian.nif
+779365,ImperialHelmetKhajiitAA,Armor\Imperial\M\HelmetKhajiit.nif,Armor\Imperial\F\HelmetKhajiit.nif
+779364,ImperialHelmetArgonianAA,Armor\Imperial\M\HelmetArgonian.nif,Armor\Imperial\F\HelmetArgonian.nif
+779363,HideHelmetKhajiitAA,Armor\Hide\M\HelmetLightKhajiit.nif,Armor\Hide\F\HelmetLightKhajiit.nif
+779362,HideHelmetArgonianAA,Armor\Hide\M\HelmetLightArgonian.nif,Armor\Hide\F\HelmetLightArgonian.nif
+779361,HideHelmet01KhajiitAA,Armor\Hide\M\HelmetHeavyKhajiit.nif,Armor\Hide\F\HelmetHeavyKhajiit.nif
+779360,HideHelmet01ArgonianAA,Armor\Hide\M\HelmetHeavyArgonian.nif,Armor\Hide\F\HelmetHeavyArgonian.nif
+765188,MonkRobesAA,Clothes\Monk\MonkRobes_1.nif,Clothes\Monk\MonkRobes_F_1.nif
+765187,MonkHoodAA,Clothes\Monk\MonkHood_1.nif,Clothes\Monk\MonkHood_F_1.nif
+765186,MonkBootsAA,Clothes\Monk\MonkBoots_1.nif,Clothes\Monk\MonkBoots_F_1.nif
+764929,IronHelmetKhajiitAADEMO,Armor\Iron\DEMOHelmetKhajiit.nif,Armor\Iron\F\Helmet.nif
+764928,IronHelmetArgonianAADEMO,Armor\Iron\DEMOHelmetArgonian.nif,Armor\Iron\F\Helmet.nif
+764927,IronHelmetKhajiitAA,Armor\Iron\Male\HelmetKhajiit.nif,Armor\Iron\F\HelmetKhajiit.nif
+764926,IronHelmetArgonianAA,Armor\Iron\Male\HelmetArgonian.nif,Armor\Iron\F\HelmetArgonian.nif
+763207,NakedMudcrab1AA,Actors\Mudcrab\Character Assets\MCrab1.nif,
+760876,DragonParthurnaxAA,Actors\Dragon\Character Assets\Parthurnax.nif,
+755766,IronHelmetAADEMO,Armor\Iron\DEMOHelmet.nif,Armor\Iron\F\Helmet.nif
+754638,FalmerGlovesAA,Armor\Falmer\FalmerGauntletsM_1.nif,Armor\Falmer\FalmerGauntletsF_1.nif
+754636,FalmerBootsAA,Armor\Falmer\FalmerBootsM_1.nif,Armor\Falmer\FalmerBootsF_1.nif
+754634,FalmerCuirassAA,Armor\Falmer\FalmerArmorM_1.nif,Armor\Falmer\FalmerArmorF_1.nif
+752057,NakedTailKhajiit,Actors\Character\Character Assets\MaleTailKhajiit.nif,Actors\Character\Character Assets\FemaleTailKhajiit.nif
+752025,NakedSkeletonBodyAA,Actors\Draugr\Character Assets\DraugrSkeleton.nif,Actors\Draugr\Character Assets\DraugrSkeleton.nif
+749469,NakedMagicAnomalyAA,Actors\IceWraith\Character Assets\MagicAnomaly.nif,
+727384,DragonAlduinAA,Actors\Dragon\Character Assets\Alduin.nif,
+726116,MythicDawnBootsAA,Clothes\RobeMythicDawn\MDShoes_1.nif,Clothes\RobeMythicDawn\MDShoes_F_1.nif
+726108,MythicDawnGlovesAA,Clothes\RobeMythicDawn\MDGloves_1.nif,Clothes\RobeMythicDawn\MDGloves_F_1.nif
+726105,MythicDawnHoodAA,Clothes\RobeMythicDawn\MDHood_1.nif,Clothes\RobeMythicDawn\MDHood_F_1.nif
+726099,MythicDawnRobesAA,Clothes\RobeMythicDawn\MDRobe_1.nif,Clothes\RobeMythicDawn\MDRobe_F_1.nif
+719745,DaedricShieldAA,Armor\Daedric\DaedricShield.nif,Armor\Daedric\DaedricShield.nif
+718390,NakedGlenmorilWitchdecapAA,Actors\Hagraven\Character Assets\Hagravenheadless.nif,
+710047,StormcloakCuirassSleevesAA,Armor\StormCloaks\CuirassSLEEVED_1.nif,Armor\StormCloaks\CuirassFSLEEVES_1.nif
+692635,NakedChickenAA,Actors\Ambient\Chicken\Character Assets\Chicken.nif,
+688211,NakedCaveTrollAA,Actors\Troll\Character Assets\BlackTroll.nif,
+683390,StormCloakBootsAA,Armor\StormCloaks\BootsM_1.nif,
+683388,StormCloakGlovesAA,Armor\StormCloaks\GlovesM_1.nif,Armor\StormCloaks\GlovesF_1.nif
+683386,StormcloakCuirassAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+683384,StormcloakHelm,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+668939,NakedGlenmorilWitchAA,Actors\Hagraven\Character Assets\Hagraven.nif,
+625589,DaedricGlovesAA,Armor\Daedric\DaedricGauntlets_1.nif,Armor\Daedric\DaedricGlovesF_1.nif
+625588,DaedricBootsAA,Armor\Daedric\DaedricBoots_1.nif,Armor\Daedric\DaedricBootsF_1.nif
+625587,DaedricCuirassAA,Armor\Daedric\DaedricCuirass_1.nif,Armor\Daedric\DaedricTorsoF_1.nif
+625586,DaedricHelmetAA,Armor\Daedric\DaedricHelmet_1.nif,Armor\Daedric\DaedricHelmetF_1.nif
+621120,NakedTorsoAfflicted,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+621119,NakedHandsAfflicted,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+621118,NakedFeetAfflicted,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+619128,ElvenlShieldAA,Armor\Elven\ElvenShield.nif,
+619076,NakedHagravenAA,Actors\Hagraven\Character Assets\Hagraven.nif,
+614668,ImperialHelmetCWAA,Armor\Imperial\HelmetFullFace_1.nif,
+604767,DrarvenSpiderSkinnedSteamAA,Actors\DwarvenSpider\Character Assets\DwarvenSpiderCenturionSkinedSteam.nif,Actors\DwarvenSpider\Character Assets\DwarvenSpiderCenturionSkinedSteam.nif
+601640,NakedSprigganAA,Actors\Spriggan\Character Assets\spriggan.nif,
+601533,FocusingGlovesAA,Armor\FocusingGloves\FocusingGlovesM_1.nif,Armor\FocusingGloves\FocusingGlovesF_1.nif
+595747,GoldAmuletSapphireAA,Armor\AmuletsandRings\GoldAmuletSapphire_1.nif,Armor\AmuletsandRings\GoldAmuletSapphireF_1.nif
+595746,GoldAmuletAA,Armor\AmuletsandRings\GoldAmulet_1.nif,Armor\AmuletsandRings\GoldAmuletF_1.nif
+595745,GoldAmuletDiamondAA,Armor\AmuletsandRings\GoldAmuletDiamond_1.nif,Armor\AmuletsandRings\GoldAmuletDiamondF_1.nif
+595744,GoldAmuletRubyAA,Armor\AmuletsandRings\GoldAmuletRuby_1.nif,Armor\AmuletsandRings\GoldAmuletRubyF_1.nif
+595743,GoldAmuletGemsAA,Armor\AmuletsandRings\GoldAmuletGems_1.nif,Armor\AmuletsandRings\GoldAmuletGemsF_1.nif
+595742,SilverAmuletEmeraldAA,Armor\AmuletsandRings\SilverAmuletEmerald_1.nif,Armor\AmuletsandRings\SilverAmuletEmeraldF_1.nif
+595741,SilverAmuletSapphireAA,Armor\AmuletsandRings\SilverAmuletSapphire_1.nif,Armor\AmuletsandRings\SilverAmuletSapphireF_1.nif
+595740,SilverAmuletGemsAA,Armor\AmuletsandRings\SilverAmuletGems_1.nif,Armor\AmuletsandRings\SilverAmuletGemsF_1.nif
+595738,SilverAmuletAA,Armor\AmuletsandRings\SilverAmulet_1.nif,Armor\AmuletsandRings\SilverAmuletF_1.nif
+586140,PrisonerRagsAA,Clothes\Prisoner\PrisonerRags_1.nif,Clothes\Prisoner\PrisonerClothes_F_1.nif
+583746,RingSilverRubyAA,Armor\AmuletsandRings\SilverRingRuby_1.nif,
+583745,RingSilverGarnetAA,Armor\AmuletsandRings\SilverRingGarnet_1.nif,
+583744,RingSilverAmethystAA,Armor\AmuletsandRings\SilverRingAmethyst_1.nif,
+583743,RingSilverAA,Armor\AmuletsandRings\SilverRing_1.nif,
+583742,RingGoldSappireAA,Armor\AmuletsandRings\GoldRingSapphire_1.nif,
+583741,RingGoldEmeraldAA,Armor\AmuletsandRings\GoldRingEmerald_1.nif,
+583740,RingGoldDiamondAA,Armor\AmuletsandRings\GoldRingDiamond_1.nif,
+583739,RingGoldAA,Armor\AmuletsandRings\GoldRing_1.nif,
+580671,GeneralTulliusCoatAA,Armor\GeneralTulius\GeneralTuliusM_1.nif,Armor\GeneralTulius\GeneralTuliusF_1.nif
+576108,NakedHorkerAA,Actors\Horker\Character Assets\Horker.nif,
+562850,ElvenCuirassLightAA,Armor\Elven\M\CuirassLight_1.nif,Armor\Elven\F\Cuirasslight_1.nif
+562844,ElvenHelmetAA,Armor\Elven\M\Helmet_1.nif,Armor\Elven\F\Helmet_1.nif
+562843,ElvenGlovesAA,Armor\Elven\M\Gauntlets_0.nif,Armor\Elven\F\Gauntlets_0.nif
+562842,ElvenCuirassAA,Armor\Elven\M\Cuirass_1.nif,Armor\Elven\F\Cuirass_1.nif
+562841,ElvenBootsAA,Armor\Elven\M\Boots_0.nif,Armor\Elven\F\Boots_1.nif
+559449,WeddingWreathAA,Clothes\WeddingDress\HatF_1.nif,Clothes\WeddingDress\HatF_1.nif
+559447,WeddingSandals01AA,Clothes\FineClothes01\WeddingBootsM_1.nif,Clothes\WeddingDress\SandalsF_1.nif
+559445,WeddingDressTorso01AA,Clothes\FineClothes01\WeddingOutfitM_1.nif,Clothes\WeddingDress\OutfitF_1.nif
+559443,NocturnalHat01AA,Clothes\Nocturnal\HatF_1.nif,Clothes\Nocturnal\HatF_1.nif
+559441,NocturnalTorsoAA,Clothes\Nocturnal\OutfitF_1.nif,Clothes\Nocturnal\OutfitF_1.nif
+554339,DragonForestAA,Actors\Dragon\DragonForest.nif,
+554335,DragonTundraAA,Actors\Dragon\DragonTundra.nif,
+553646,NakedDwarvenSpiderAA,Actors\DwarvenSpider\Character Assets\DwarvenSpiderCenturion.nif,
+552769,NakedWitchlight,Actors\Witchlight\Character Assets\Witchlight.nif,
+551316,FineClothesTorso01AA,Clothes\FineClothes01\OutfitM_1.nif,Clothes\FineClothes01\OutfitF_1.nif
+551314,FineBoots01AA,Clothes\FineClothes01\BootsM_1.nif,Clothes\FineClothes01\BootsF_1.nif
+551311,YarlGlove02AA,Clothes\YarlClothes02\GlovesM_1.nif,Clothes\YarlClothes02\GlovesF_1.nif
+551309,YarlShoes02AA,Clothes\YarlClothes02\BootsM_1.nif,Clothes\YarlClothes02\BootsF_1.nif
+551307,YarlTorso02AA,Clothes\YarlClothes02\OutfitM_1.nif,Clothes\YarlClothes02\OutfitF_1.nif
+551300,SonsHattAA,Armor\Sons of Talos\HatM_1.nif,Armor\Sons of Talos\HatF_1.nif
+551298,SonsGlovesAA,Armor\Sons of Talos\GlovesM_1.nif,Armor\Sons of Talos\GlovesF_1.nif
+551296,SonsBootsAA,Armor\Sons of Talos\BootsM_1.nif,Armor\Sons of Talos\BootsF_1.nif
+551295,SonsCuirassAA,Armor\Sons of Talos\OutfitM_1.nif,Armor\Sons of Talos\OutfitF_1.nif
+551194,NakedAtronachFlameAA,Actors\AtronachFlame\Character Assets\AtronachFlame.nif,
+551163,NakedBearAA,Actors\Bear\Character Assets\bear.NIF,
+550929,DragonAA,Actors\Dragon\Character Assets\Dragon.nif,
+550156,NakedHorseBlacknWhiteAA,Actors\Horse\Character Assets\Horse.nif,
+550155,NakedHorseBlackAA,Actors\Horse\Character Assets\Horse.nif,
+550154,NakedHorseGreyAA,Actors\Horse\Character Assets\Horse.nif,
+550153,NakedHorsePalominoAA,Actors\Horse\Character Assets\Horse.nif,
+550146,NakedHorseShadowmereAA,Actors\Horse\Character Assets\Shadowmere.nif,
+546823,DragonSnowAA,Actors\Dragon\DragonSnow.nif,
+546373,EbonyMailCuirassAA,Armor\EbonyMail\Cuirass_1.nif,Armor\EbonyMail\CuirassF_1.nif
+534965,NakedFoxArcticAA,Actors\Wolf\FoxArctic.nif,
+534962,NakedFoxAA,Actors\Wolf\Fox.nif,
+531365,NakedTorsoKhajiit,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+531364,NakedHandsKhajiit,Actors\Character\Character Assets\MaleHandsArgonian_1.nif,Actors\Character\Character Assets\FemaleHandsArgonian_1.nif
+531363,NakedFeetKhajiit,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+525976,MinerBoots,Clothes\MinerClothes\MinerBoots_m.nif,Clothes\MinerClothes\MinerBoots_m.nif
+525974,MinerClothes,Clothes\MinerClothes\MinerClothesm_1.nif,Clothes\MinerClothes\MinerClothesf_1.nif
+524523,NakedDwarvenSteamCenturionAA,Actors\DwarvenSteamCenturion\Character Assets\SteamCenturion.nif,
+519805,DragonPriestMaskBronzeAA,Actors\DragonPriest\Character Assets\MaskBronze.nif,
+519804,DragonPriestMaskCorondrumAA,Actors\DragonPriest\Character Assets\MaskCorondrum.nif,
+519757,DragonPriestMaskEbonyAA,Actors\DragonPriest\Character Assets\MaskEbony.nif,
+519621,DragonPriestMaskOrichalumAA,Actors\DragonPriest\Character Assets\MaskGreenstone.nif,
+519606,DragonPriestMaskMarbleAA,Actors\DragonPriest\Character Assets\MaskMarble.nif,
+519595,DragonPriestMaskMoonstoneAA,Actors\DragonPriest\Character Assets\MaskMoonstone.nif,
+519506,DragonPriestMaskIronAA,Actors\DragonPriest\Character Assets\MaskIron.nif,
+519365,DragonPriestMaskSteelAA,Actors\DragonPriest\Character Assets\MaskSteel.nif,
+519334,DragonPriestMaskWoodAA,Actors\DragonPriest\Character Assets\MaskWood.nif,
+518892,NakedHandsAstrid,,Actors\Character\Character Assets\FemaleHands_1.nif
+518862,NakedFeetAstrid,,Actors\Character\Character Assets\FemaleFeet_1.nif
+518847,NakedBodyAstrid,,Actors\Character\Character Assets\FemaleBodyAstrid_1.nif
+516114,MageCommonRobesAA,Clothes\MageJourneyman\MageJourneymanRobes_1.nif,Clothes\MageJourneyman\MageJourneymanRobesF_1.nif
+511270,ArchmageHoodAA,Clothes\Archmage\M\ArchmageHoodM_1.nif,Clothes\Archmage\F\ArchmageHoodF_1.nif
+511269,ArchmageBootsAA,Clothes\Archmage\M\ArchmageBootsM_1.nif,Clothes\Archmage\F\ArchmageBootsF_1.nif
+511268,ArchmageRobesAA,Clothes\Archmage\M\ArchmageRobesM_1.nif,Clothes\Archmage\F\ArchmageRobesF_1.nif
+506904,RedguardClothesBootsAA,Clothes\Redguard\RedguardBoots_1.nif,Clothes\Redguard\RedguardBootsF_1.nif
+506903,RedguardClothesOutfitAA,Clothes\Redguard\RedguardOutfit_1.nif,Clothes\Redguard\RedguardOutfitf_1.nif
+506902,RedguardClothesHatAA,Clothes\Redguard\RedguardHood_1.nif,Clothes\Redguard\RedguardHoodF_1.nif
+506168,DwarvenSphereBowDummyObjectAA,Weapons\Dwarven\DwarvenSphereBowDummyObject.nif,Weapons\Dwarven\DwarvenSphereBowDummyObject.nif
+498659,DA09MeridiaBallofLightAA,Clothes\Monk\FXMonkVariant2.nif,Clothes\Monk\FXMonkVariant2.nif
+494357,TalismanofTreacheryAA,Armor\AmuletsandRings\TalismanofTreachery\TalismanofTreachery_1.nif,Armor\AmuletsandRings\TalismanofTreachery\TalismanofTreacheryF_1.nif
+493388,NakedDwarvenSphereCenturionAA,Actors\DwarvenSphereCenturion\Character Assets\SphereCenturion.nif,
+459435,ZenitharAmuletAA,Armor\AmuletsandRings\Zenithar\ZenitharAmulet_1.nif,Armor\AmuletsandRings\Zenithar\ZenitharAmuletF_1.nif
+458566,MerchantVariantAA,Clothes\MerchantClothes\outfitm_1.nif,Clothes\MerchantClothes\torsof_1.nif
+458564,MinerClothesVariantAA,Clothes\MinerClothes\MinerClothesm_1.nif,Clothes\MinerClothes\MinerClothesf_1.nif
+458561,BarKeeperVariantAA,Clothes\BarKeeper\M\Torso_1.nif,Clothes\BarKeeper\F\Torso_1.nif
+458546,BlackSmithVariantAA,Clothes\BlackSmith\M\Torso_1.nif,Clothes\BlackSmith\F\Torso_1.nif
+457800,NakedGoatDomesticAA,Actors\Goat\Character Assets\GoatwithBell.nif,
+457762,SaviorsHideCuirassAA,Armor\Savior'sHide\BodyM_1.nif,Armor\Savior'sHide\BodyF_1.nif
+457036,DragonplateCuirassAA,Armor\Dragonbone\DragonboneArmorM_1.nif,Armor\Dragonbone\DragonboneArmorF_1.nif
+457035,DragonplateBootsAA,Armor\Dragonbone\DragonboneBoots_1.nif,Armor\Dragonbone\DragonboneBootsF_1.nif
+457033,DragonplateGauntletsAA,Armor\Dragonbone\DragonboneGauntlets_1.nif,Armor\Dragonbone\DragonboneGauntletsF_1.nif
+457032,DragonplateHelmetAA,Armor\Dragonbone\DragonboneHelmet2_1.nif,Armor\Dragonbone\DragonboneHelmetF_1.nif
+455581,BanditHelmetAA,Armor\Bandit\HatM_1.nif,Armor\Bandit\HatF_1.nif
+455577,BanditGlovesAA,Armor\Bandit\GlovesM_1.nif,Armor\Bandit\GlovesF_1.nif
+455572,BanditBootsAA,Armor\Bandit\BootsM_1.nif,Armor\Bandit\BootsF_1.nif
+455570,BanditCuirassAA,Armor\Bandit\BodyM_1.nif,Armor\Bandit\BodyF_1.nif
+455289,NakedGoatAA,Actors\Goat\Character Assets\Goat.nif,
+449690,NakedHareAA,Actors\Ambient\Hare\Character Assets\Rabbit.nif,
+448813,ChildTorso01AA,Clothes\ChildrenClothes\M\Torso01_1.nif,Clothes\ChildrenClothes\F\Torso01_1.nif
+443900,NakedTorsoChild,Actors\Character\Character Assets\ChildBody.nif,Actors\Character\Character Assets\ChildBody.nif
+443899,NakedHandsChild,Actors\Character\Character Assets\ChildHands.nif,Actors\Character\Character Assets\ChildHands.nif
+443898,NakedFeetChild,Actors\Character\Character Assets\ChildFeet.nif,Actors\Character\Character Assets\ChildFeet.nif
+442839,FarmerVariant04AA,Clothes\FarmClothes04\robem_1.nif,Clothes\FarmClothes04\robef_1.nif
+442838,Farmer03VariantAA,Clothes\FarmClothes03\farmerrobe_1.nif,Clothes\FarmClothes03\farmerrobef_1.nif
+442836,Farm02VariantAA,Clothes\FarmClothes02\M\Torso_1.nif,Clothes\FarmClothes02\F\Dress_1.nif
+442812,Farm02TorsoVariantAA,Clothes\FarmClothes02\M\Torso_1.nif,Clothes\FarmClothes02\F\Dress_1.nif
+439571,RingofHircineAA,Armor\AmuletsandRings\ringofhircine.nif,Armor\AmuletsandRings\ringofhircine.nif
+439569,RingofKhajitAA,Armor\AmuletsandRings\ringofkhajit.nif,Armor\AmuletsandRings\ringofkhajit.nif
+439568,RingofNamiraAA,Armor\AmuletsandRings\ringofnamiraright.nif,Armor\AmuletsandRings\ringofnamiraright.nif
+439402,MageApprenticeHoodAA,Clothes\MageApprentice\MageApprenticeHood_1.nif,Clothes\MageApprentice\MageApprenticeHoodF_1.nif
+439401,MageApprenticeBootsAA,Clothes\MageApprentice\MageApprenticeBoots_1.nif,Clothes\MageApprentice\MageApprenticeBootsF_1.nif
+439400,MageApprenticeAA,Clothes\MageApprentice\MageApprenticeRobes_1.nif,Clothes\MageApprentice\MageApprenticeRobesF_1.nif
+433378,NakedTailArgonian,Actors\Character\Character Assets\MaleTailArgonian.nif,Actors\Character\Character Assets\FemaleTailArgonian.nif
+428061,NakedAtronachStorm,Actors\AtronachStorm\Character Assets\AtronachStorm.nif,
+425184,NakedFeetOld,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+425182,NakedHandsOld,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+425181,NakedTorsoOld,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+416702,ThalmorRobesAA,Clothes\Thalmor\ThalmorRobesM_1.nif,Clothes\Thalmor\ThalmorRobesF_1.nif
+416693,ThalmorHoodAA,Clothes\Thalmor\ThalmorHoodM_1.nif,Clothes\Thalmor\ThalmorHoodF_1.nif
+416690,ThalmorGlovesAA,Clothes\Thalmor\ThalmorGlovesM_1.nif,Clothes\Thalmor\ThalmorGlovesF_1.nif
+416682,ThalmorBootsAA,Clothes\Thalmor\ThalmorBootsM_1.nif,Clothes\Thalmor\ThalmorBootsF.nif
+416668,PsiijicGlovesAA,Clothes\Psiijic\PsiijicGlovesM_1.nif,Clothes\Psiijic\PsiijicGlovesF_1.nif
+416666,PsiijicBootsAA,Clothes\Psiijic\PsiijicBootsM.nif,Clothes\Psiijic\PsiijicBootsF.nif
+416664,PsiijicHoodAA,Clothes\Psiijic\PsiijicHoodM_1.nif,Clothes\Psiijic\PsiijicHoodF_1.nif
+416659,PsiijicRobesAA,Clothes\Psiijic\PsiijicRobesM_1.nif,Clothes\Psiijic\PsiijicRobesF_1.nif
+411306,MournerHatAA,Clothes\FarmClothes01\hatm.nif,Clothes\FarmClothes01\hatf.nif
+411302,MournerClothesAA,Clothes\FarmClothes01\torsom_1.nif,Clothes\FarmClothes01\torsof_1.nif
+402188,UlfricBootsAA,Clothes\YarlClothes02\UlfricBoots_1.nif,Clothes\YarlClothes02\BootsF_1.nif
+402183,UlfricGauntletsAA,Clothes\YarlClothes02\GlovesM_1.nif,Clothes\YarlClothes02\GlovesF_1.nif
+402178,UlfricTorso0AA,Clothes\YarlClothes02\Ulfric_1.nif,Clothes\YarlClothes02\OutfitF_1.nif
+400597,DragonPriestHelmUltraAA,Armor\DragonPriestHelms\Dragonhelm_Ultra_1.nif,Armor\DragonPriestHelms\Dragonhelm_UltraF_1.nif
+400584,DragonPriestHelmSteelAA,Armor\DragonPriestHelms\Dragonhelm_Steel_1.nif,Armor\DragonPriestHelms\Dragonhelm_SteelF_1.nif
+400582,DragonPriestHelmWoodAA,Armor\DragonPriestHelms\Dragonhelm_Wood_1.nif,Armor\DragonPriestHelms\Dragonhelm_WoodF_1.nif
+400575,DragonPriestHelmMarbleAA,Armor\DragonPriestHelms\Dragonhelm_Marble_1.nif,Armor\DragonPriestHelms\Dragonhelm_MarbleF_1.nif
+400574,DragonPriestHelmIronAA,Armor\DragonPriestHelms\Dragonhelm_Iron_1.nif,Armor\DragonPriestHelms\Dragonhelm_IronF_1.nif
+400573,DragonPriestHelmOrichalumAA,Armor\DragonPriestHelms\Dragonhelm_Greenstone_1.nif,Armor\DragonPriestHelms\Dragonhelm_GreenstoneF_1.nif
+400557,DragonPriestHelmBronzeAA,Armor\DragonPriestHelms\Dragonhelm_Bronze_1.nif,Armor\DragonPriestHelms\Dragonhelm_BronzeF_1.nif
+400552,DragonPriestHelmCorondrumAA,Armor\DragonPriestHelms\Dragonhelm_Corondrum_1.nif,Armor\DragonPriestHelms\Dragonhelm_CorondrumF_1.nif
+400548,DragonPriestHelmEbonyAA,Armor\DragonPriestHelms\Dragonhelm_Ebony_1.nif,Armor\DragonPriestHelms\Dragonhelm_EbonyF_1.nif
+400522,DragonPriestHelmMoonstoneAA,Armor\DragonPriestHelms\Dragonhelm_Moonstone_1.nif,Armor\DragonPriestHelms\Dragonhelm_MoonstoneF_1.nif
+400521,YngolHelmetAA,Armor\YngolsHelm\YngolsHelm_1.nif,Armor\YngolsHelm\YngolsHelmF_1.nif
+396710,AtronachFlameDeadAA,Actors\AtronachFlame\Character Assets\AtronachFlameDead.nif,
+395158,HorseSaddleAA,Actors\Horse\Character Assets\Saddle.nif,
+390120,ThievesGuildHelmetAA,Armor\ThievesGuild\M\Hat_1.nif,Armor\ThievesGuild\F\Hat_1.nif
+390119,ThievesGuildGlovesAA,Armor\ThievesGuild\M\Bracers_1.nif,Armor\ThievesGuild\F\Bracers_1.nif
+390118,ThievesGuildCuirassAA,Armor\ThievesGuild\M\Torso_1.nif,Armor\ThievesGuild\F\Torso_1.nif
+390117,ThievesGuildBootsAA,Armor\ThievesGuild\M\Boots_1.nif,Armor\ThievesGuild\F\Boots_1.nif
+389758,DragonPriestSkinFXMistAA,Actors\DragonPriest\Character Assets\Dragon_PriestSkinFX_mist.nif,
+387483,IceWraithSmokeFinsAA,Actors\IceWraith\Character Assets\IceWraithSmokeFins.nif,
+387448,NakedDeerAA,Actors\Deer\Character Assets\Elk_MaleSkin.nif,Actors\Deer\Character Assets\Elk_FemaleSkin.nif
+383876,NightingaleHelmetAA,Armor\Nightingale\M\Cowl_1.nif,Armor\Nightingale\F\Cowl_1.nif
+383875,NightingaleGlovesAA,Armor\Nightingale\M\Gauntlets_1.nif,Armor\Nightingale\F\Gauntlets_1.nif
+383874,NightingaleCuirassAA,Armor\Nightingale\M\Torso_1.nif,Armor\Nightingale\F\Torso_1.nif
+383873,NightingaleBootsAA,Armor\Nightingale\M\Boots_1.nif,Armor\Nightingale\F\Boots_1.nif
+383871,YarlShoes01AA,Clothes\YarlClothes\M\Boots_1.nif,Clothes\YarlClothes\F\Boots_1.nif
+383866,YarlTorso01AA,Clothes\YarlClothes\M\Torso_1.nif,Clothes\YarlClothes\F\Torso_1.nif
+380941,BriarHeartEmptyAA,Armor\BriarHeart\BriarHeartEmpty_1.nif,
+380940,BriarHeartAA,Armor\BriarHeart\BriarHeart_1.nif,
+376939,FalmerShieldAA,Armor\Falmer\FalmerShield.nif,
+374437,BarKeeperShoes01AA,Clothes\BarKeeper\M\Shoe_1.nif,Clothes\BarKeeper\F\Shoes_1.nif
+374436,BarKeeperTorso01AA,Clothes\BarKeeper\M\Torso_1.nif,Clothes\BarKeeper\F\Torso_1.nif
+374435,BlackSmithShoes01AA,Clothes\BlackSmith\M\Shoes_1.nif,Clothes\BlackSmith\F\Shoes_1.nif
+374434,BlackSmithTorso01AA,Clothes\BlackSmith\M\Torso_1.nif,Clothes\BlackSmith\F\Torso_1.nif
+374429,EbonyBootsAA,Armor\Ebony\M\Boots_1.nif,Armor\Ebony\F\Boots_1.nif
+374428,EbonyCuirassAA,Armor\Ebony\M\Cuirass_1.nif,Armor\Ebony\F\Cuirass_1.nif
+374427,EbonyGlovesAA,Armor\Ebony\M\Gauntlets_1.nif,Armor\Ebony\F\Gauntlets_1.nif
+374426,EbonyHelmetAA,Armor\Ebony\M\Helmet_1.nif,Armor\Ebony\F\Helmet_1.nif
+373480,NakedAtronachFrost,Actors\AtronachFrost\Character Assets\AtronachFrost.nif,
+371659,DBHoodMaskLessAA,Clothes\RobeDarkBrotherhood\DBHoodMaskLess_1.nif,Clothes\RobeDarkBrotherhood\Female\DBHoodMaskLess_1.nif
+371658,DBArmorHelmetMaskLessAA,Armor\DBArmor\DBArmorHoodMaskLess_1.nif,Armor\DBArmor\DBArmorHoodFMaskLess_1.nif
+371650,DBArmorShortSleeveAA,Armor\DBArmor\DBArmorSleeveLess_1.nif,Armor\DBArmor\DBArmorTorso_F_1.nif
+371647,ExecutionHoodKhajiitDBAA,Clothes\ExecutionHood\ExecutionHoodKhajiitDB_1.nif,Clothes\ExecutionHood\ExecutionHoodKhajiitFDB_1.nif
+371175,ExecutionHoodKhajiitAA,Clothes\ExecutionHood\ExecutionHoodKhajiit_1.nif,Clothes\ExecutionHood\ExecutionHoodKhajiitF_1.nif
+371174,ExecutionHoodArgonianDBAA,Clothes\ExecutionHood\ExecutionHoodArgonianDB_1.nif,Clothes\ExecutionHood\ExecutionHoodArgonianFDB_1.nif
+371173,ExecutionHoodArgonianAA,Clothes\ExecutionHood\ExecutionHoodArgonian_1.nif,Clothes\ExecutionHood\ExecutionHoodArgonianF_1.nif
+371170,ExecutionHoodDBAA,Clothes\ExecutionHood\ExecutionHoodDB_1.nif,Clothes\ExecutionHood\ExecutionHoodDBF_1.nif
+371166,ExecutionHoodAA,Clothes\ExecutionHood\ExecutionHood_1.nif,Clothes\ExecutionHood\ExecutionHoodF_1.nif
+368821,DragonFireMouthAA,Magic\MAGDragonMouthFireSkin.nif,
+368245,DragonscaleHelmet,Armor\Dragonscale\DragonscaleHelmetM_1.nif,Armor\Dragonscale\DragonscaleHelmetF.nif
+368244,DragonscaleCuirass,Armor\Dragonscale\DragonscaleArmorM_1.nif,Armor\Dragonscale\DragonscaleArmorF_1.nif
+368243,DragonscaleBoots,Armor\Dragonscale\DragonscaleBootsM_1.nif,Armor\Dragonscale\DragonscaleBootsF_1.nif
+368242,DragonscaleGloves,Armor\Dragonscale\DragonscaleGlovesM_1.nif,Armor\Dragonscale\DragonscaleGlovesF_1.nif
+365138,NakedMammothBrandedAA,Actors\Mammoth\Character Assets\MammothBranded.nif,
+365137,NakedMammothWildAA,Actors\Mammoth\Character Assets\MammothWild.nif,
+364075,NakedChaurusAA,Actors\Chaurus\Character Assets\ChauurusSkin.nif,
+342263,NakedIceWraith,Actors\IceWraith\Character Assets\IceWraith.nif,
+331579,FalmerHelmetAA01,Actors\Falmer\Character Assets\Helmet01.nif,
+331577,NakedFalmerAA06,Actors\Falmer\Character Assets\Falmer06.nif,
+331575,NakedFalmerAA05,Actors\Falmer\Character Assets\Falmer05.nif,
+331573,NakedFalmerAA04,Actors\Falmer\Character Assets\Falmer04.nif,
+331571,NakedFalmerAA03,Actors\Falmer\Character Assets\Falmer03.nif,
+331569,NakedFalmerAA02,Actors\Falmer\Character Assets\Falmer02.nif,
+331567,NakedFalmerAA01,Actors\Falmer\Character Assets\Falmer01.nif,
+323585,ArmBandagesAA,Clothes\Bandages\ArmBandages_1.nif,Clothes\Bandages\ArmBandagesF_1.nif
+323583,HeadBandagesAA,Clothes\Bandages\HeadBandagesM_1.nif,Clothes\Bandages\HeadBandagesF_1.nif
+321669,NakedWolfAA,Actors\Canine\Character Assets Wolf\wolf.nif,
+321411,NakedCowAA,Actors\Cow\Character Assets\HighlandCow.nif,
+321391,NakedFeetArgonian,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+321390,NakedTorsoArgonian,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+321389,NakedHandsArgonian,Actors\Character\Character Assets\MaleHandsArgonian_1.nif,Actors\Character\Character Assets\FemaleHandsArgonian_1.nif
+312271,CompanionsHelmetAA,Armor\Wolf\HatM_1.nif,Armor\Wolf\HatM_1.nif
+312270,FalmerHelmetKhajiitAA,Armor\Falmer\FalmerHelmetK_1.nif,Armor\Falmer\FalmerHelmetK_1.nif
+312269,FalmerHelmetArgnonianAA,Armor\Falmer\FalmerHelmetB_1.nif,Armor\Falmer\FalmerHelmetB_1.nif
+312266,FalmerHelmetAA,Armor\Falmer\FalmerHelmetM_1.nif,Armor\Falmer\FalmerHelmetF_1.nif
+307914,NakedDogAA,Actors\Canine\Character Assets Dog\dog.nif,
+307856,BladesHelmetAA,Armor\Blades\BladesHelmet.nif,Armor\Blades\BladesHelmetF.nif
+307854,BladesGlovesAA,Armor\Blades\BladesGauntlets_1.nif,Armor\Blades\BladesGauntletsF_0.nif
+307852,BladesCuirassAA,Armor\Blades\BladesArmor_1.nif,Armor\Blades\BladesArmorF_0.nif
+307849,BladesBootsAA,Armor\Blades\BladesBoots_1.nif,Armor\Blades\BladesBootsF_0.nif
+298455,GlassShieldAA,Armor\Glass\GlassShield.nif,
+298386,NakedGiantBodyAA02,Actors\Giant\Character Assets\Giant02.nif,
+298385,NakedGiantBodyAA01,Actors\Giant\Character Assets\Giant01.nif,
+298383,NakedGiantBodyAA,Actors\Giant\Character Assets\Giant.nif,
+297997,NakedFrostbiteSpiderColdAA,Actors\FrostbiteSpider\Character Assets\FrostbiteSpiderCold.nif,Actors\FrostbiteSpider\Character Assets\FrostbiteSpiderCold.nif
+292001,DecapitatedNeckKhajiitAA,Actors\Character\Character Assets\DecapitatedNeckMaleKhajiit_1.nif,Actors\Character\Character Assets\DecapitatedNeckFemaleKhajiit_1.nif
+292000,DecapitatedNeckArgonianAA,Actors\Character\Character Assets\DecapitatedNeckMaleArgonian_1.nif,Actors\Character\Character Assets\DecapitatedNeckFemaleArgonian_1.nif
+291994,DecapitatedHeadKhajiitAA,Actors\Character\Character Assets\DecapitatedHeadMaleKhajiit_1.nif,Actors\Character\Character Assets\DecapitatedHeadFemaleKhajiit_1.nif
+291993,DecapitatedHeadArgonianAA,Actors\Character\Character Assets\DecapitatedHeadMaleArgonian_1.nif,Actors\Character\Character Assets\DecapitatedHeadFemaleArgonian_1.nif
+290870,DecapitatedHeadAA,Actors\Character\Character Assets\DecapitatedHeadGoreHumanoidMale_1.nif,Actors\Character\Character Assets\DecapitatedHeadGoreHumanoidFemale_1.nif
+290338,DwarvenShieldAA,Armor\Dwarven\1stPersonDwarvenShield.nif,Armor\Dwarven\DwarvenShield.nif
+288707,ChildTorso03AA,Clothes\ChildrenClothes\M\Torso03_1.nif,Clothes\ChildrenClothes\F\Torso03_1.nif
+288705,ChildTorso02AA,Clothes\ChildrenClothes\M\Torso02_1.nif,Clothes\ChildrenClothes\F\Torso02_1.nif
+278673,AtronachFrostShieldAA,Actors\AtronachFrost\Character Assets\shield.nif,
+271655,NakedWisp,Actors\Wisp\Character Assets\Wisp.nif,
+270906,MerchantHatAA,Clothes\MerchantClothes\hatm.nif,Clothes\MerchantClothes\Hat_F.nif
+270905,MerchantBootsAA,Clothes\MerchantClothes\bootsm_1.nif,Clothes\MerchantClothes\bootsf_1.nif
+270904,MerchantTorsoAA,Clothes\MerchantClothes\outfitm_1.nif,Clothes\MerchantClothes\torsof_1.nif
+267137,GlassHelmetAA,Armor\Glass\M\Helmet_1.nif,Armor\Glass\F\Helmet_1.nif
+267136,GlassGlovesAA,Armor\Glass\M\Gauntlets_1.nif,Armor\Glass\F\Gauntlets_1.nif
+267135,GlassCuirassAA,Armor\Glass\M\Cuirass_1.nif,Armor\Glass\F\Cuirass_1.nif
+267134,GlassBootsAA,Armor\Glass\M\Boots_1.nif,Armor\Glass\F\Boots_1.nif
+264968,NakedSlaughterfishAA,Actors\Slaughterfish\Character Assets\SlaughterFish.nif,
+264621,HorseSaddleImperialAA,Actors\Horse\Character Assets\ImperialSaddle.nif,
+263984,NakedDragonFarAA,Actors\Dragon\Character Assets\Farskin.nif,
+260116,DragonUnderskinAA,Actors\Dragon\Character Assets\Underskin.nif,
+260095,DwarvenHelmet,Armor\Dwarven\DwarvenHelmet_1.nif,Armor\Dwarven\DwarvenHelmetF_1.nif
+260094,DwarvenCuirass,Armor\Dwarven\DwarvenArmor_1.nif,Armor\Dwarven\DwarvenArmorF_1.nif
+260093,DwarvenGloves,Armor\Dwarven\1stPersonDwarvenGauntlets_1.nif,Armor\Dwarven\1stPersonDwarvenGauntletsF_1.nif
+260092,DwarvenBoots,Armor\Dwarven\DwarvenBoots_1.nif,Armor\Dwarven\DwarvenBootsF_1.nif
+250543,NakedTorsoWoodElf,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+250542,NakedHandsWoodElf,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+250541,NakedFeetWoodElf,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+248325,PrisonerShoesAA,Clothes\Prisoner\PrisonerShoes_1.nif,Clothes\Prisoner\PrisonerShoes_F_1.nif
+248323,PrisonerClothesAA,Clothes\Prisoner\PrisonerClothes_1.nif,Clothes\Prisoner\PrisonerClothes_F_1.nif
+243114,NakedDragonPriestAA,Actors\DragonPriest\Character Assets\Dragon_Priest.nif,
+237954,DraugrMaleBeard02AA,Actors\Draugr\Character Assets\Beard02.nif,
+237953,DraugrMaleBeard01AA,Actors\Draugr\Character Assets\Beard01.nif,
+237952,DraugrHair02AA,Actors\Draugr\Character Assets\Hair02.nif,Actors\Draugr\Character Assets\HairF02.nif
+237951,DraugrHair01AA,Actors\Draugr\Character Assets\Hair01.nif,Actors\Draugr\Character Assets\HairF01.nif
+232043,NakedTorsoHighElf,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+232042,NakedHandsHighElf,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+232041,NakedFeetHighElf,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+224935,NakedHorseAA,Actors\Horse\Character Assets\Horse.nif,
+223361,DragonscaleShieldAA,Armor\Dragonscale\DragonscaleShield.nif,
+222061,NakedFrostbiteSpiderAA,Actors\FrostbiteSpider\Character Assets\FrostbiteSpider.nif,
+221596,FullLeatherHelmetAA,Armor\Studded\Male\helmet_1.nif,Armor\Studded\Female\helmet_1.nif
+221595,FullLeatherBootsAA,Armor\Studded\Male\boots_1.nif,Armor\Studded\Female\boots_1.nif
+221594,FullLeatherGlovesAA,Armor\Studded\Male\gloves_1.nif,Armor\Studded\Female\gloves_1.nif
+221593,FullLeatherCuirassAA,Armor\Studded\Male\body_1.nif,Armor\Studded\Female\body_1.nif
+221592,OrcishHelmetAA,Armor\Orcish\HelmetM.nif,Armor\Orcish\HelmetF.nif
+221591,OrcishGlovesAA,Armor\Orcish\gauntletsm_1.nif,Armor\Orcish\gauntletsf_1.nif
+221590,OrcishBootsAA,Armor\Orcish\bootsm_1.nif,Armor\Orcish\bootsf_1.nif
+221589,OrcishCuirassAA,Armor\Orcish\cuirassM_1.nif,Armor\Orcish\CuirassF_1.nif
+221050,GreybeardHat01AA,Clothes\GraybeardRobe\GreybeardHat_1.nif,Clothes\GraybeardRobe\GreybeardHatF_1.nif
+221049,GreybeardBoots01AA,Clothes\GraybeardRobe\GreybeardBoots_1.nif,Clothes\GraybeardRobe\GreybeardBootsF_1.nif
+221048,GreybeardRobe01AA,Clothes\GraybeardRobe\GreybeardRobe_1.nif,Clothes\GraybeardRobe\GreybeardrobeF_1.nif
+218320,NakedSnowTrollAA,Actors\Troll\Character Assets\Troll.nif,
+214317,FarmerBoots04AA,Clothes\FarmClothes04\bootsm_1.nif,Clothes\FarmClothes04\bootsf_1.nif
+214316,FarmerTorso04AA,Clothes\FarmClothes04\robem_1.nif,Clothes\FarmClothes04\robef_1.nif
+209083,Farm03Hat01AA,Clothes\FarmClothes03\farmerhatm.nif,Clothes\FarmClothes03\farmerhatf.nif
+209079,FarmerExtras03AA,Clothes\FarmClothes03\farmer03mextras_1.nif,Clothes\FarmClothes03\farmerrobefplus_1.nif
+209077,Farm01Hat01AA,Clothes\FarmClothes01\hatm.nif,Clothes\FarmClothes01\hatf.nif
+186203,dunGauldurAmuletAA,Armor\AmuletsandRings\AncientNord\BrokenAmuletAssembled_0.nif,Armor\AmuletsandRings\AncientNord\BrokenAmuletAssembledF_0.nif
+186196,dunGauldurAmuletFragmentSaarthalAA,Armor\AmuletsandRings\AncientNord\BrokenAmuletBottom_0.nif,Armor\AmuletsandRings\AncientNord\BrokenAmuletBottomF_0.nif
+186192,dunGauldurAmuletFragmentGeirmundAA,Armor\AmuletsandRings\AncientNord\BrokenAmuletMiddle_0.nif,Armor\AmuletsandRings\AncientNord\BrokenAmuletMiddleF_0.nif
+186189,dunGauldurAmuletFragmentFolgunthurAA,Armor\AmuletsandRings\AncientNord\BrokenAmuletTop_0.nif,Armor\AmuletsandRings\AncientNord\BrokenAmuletTopF_0.nif
+180607,NakedFrostbiteSpiderGiantColdAA,Actors\FrostbiteSpider\Character Assets\FrostbiteSpiderCold.nif,Actors\FrostbiteSpider\Character Assets\FrostbiteSpiderCold.nif
+180606,NakedFrostbiteSpiderGiantAA,Actors\FrostbiteSpider\Character Assets\FrostbiteSpider.nif,
+169770,OrcishShieldAA,Armor\Orcish\OrcishShield.nif,Armor\Orcish\OrcishShield.nif
+163306,DraugrGlovesAA,Armor\Draugr\DraugrGauntletsMale_1.nif,Armor\Draugr\DraugrGauntletsFemale_1.nif
+163301,DraugrHelmetAA,Armor\Draugr\DraugrHelmetMale_1.nif,Armor\Draugr\DraugrHelmetFemale_1.nif
+163300,DraugrBootsAA,Armor\Draugr\DraugrBootsMale_1.nif,Armor\Draugr\DraugrBootsFemale_1.nif
+157200,SpellbreakerShieldAA,Armor\Spellbreaker\Spellbreaker.nif,
+156098,FarmerTorso03AA,Clothes\FarmClothes03\farmerrobe_1.nif,Clothes\FarmClothes03\farmerrobef_1.nif
+156095,FarmerGloves03AA,Clothes\FarmClothes03\farmerglovesm_1.nif,Clothes\FarmClothes03\farmerglovesf_1.nif
+156094,FarmerBoots03AA,Clothes\FarmClothes03\farmerbootsm_1.nif,Clothes\FarmClothes03\farmershoesf_1.nif
+154997,SpiderSpitaa,Magic\MAGSpiderMouthWetSkin.nif,Magic\MAGSpiderMouthWetSkin.nif
+149435,IronCuirassPlateAA,Armor\Iron\Male\CuirassHeavy_1.nif,Armor\Iron\F\CuirassHeavy_1.nif
+141668,SteelShieldAA,Armor\Steel\Shield.nif,
+136736,StormcloakHelmRiftenAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136734,StormcloakHelmDawnstarAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136732,StormcloakHelmWinterholdAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136730,StormcloakHelmHjaalmarchAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136726,StormcloakHelmFalkreathAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136724,StormcloakHelmWhiterunAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136707,StormcloakHelmMarkarthAA,Armor\StormCloaks\HelmM_1.nif,Armor\StormCloaks\HelmetF_1.nif
+136483,StormcloakCuirassDawnstarAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136481,StormcloakCuirassWinterholdAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136479,StormcloakCuirassHjaalmarchAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136477,StormcloakCuirassFalkreathAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136459,StormcloakCuirassWhiterunAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136458,StormcloakCuirassMarkarthAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136454,StormcloakCuirassRiftenAA,Armor\StormCloaks\CuirassM_1.nif,Armor\StormCloaks\CuirassF_1.nif
+136437,StormCloakShieldDawnstarAA,Armor\StormCloaks\shield.nif,
+136435,StormCloakShieldSolitudeAA,Armor\StormCloaks\shield.nif,
+136432,StormCloakShieldWinterholdAA,Armor\StormCloaks\shield.nif,
+136430,StormCloakShieldHjaalmarchAA,Armor\StormCloaks\shield.nif,
+136428,StormCloakShieldFalkreathAA,Armor\StormCloaks\shield.nif,
+136426,StormCloakShieldWindhelmAA,Armor\StormCloaks\shield.nif,
+136414,StormCloakShieldWhiterunAA,Armor\StormCloaks\shield.nif,
+136410,StormCloakShieldMarkarthAA,Armor\StormCloaks\shield.nif,
+136278,StormCloakShieldAA,Armor\StormCloaks\shield.nif,
+135993,DragonplateShieldAA,Armor\Dragonbone\DragonboneShield.nif,
+134692,NakedFalmerAA,Actors\Falmer\Character Assets\Falmer_Male.nif,
+134139,NakedSabreCatSnowyAA,Actors\SabreCat\Character Assets\SabreCatSnow.nif,
+133545,Farm02Hat01AA,Clothes\FarmClothes02\M\Hat_1.nif,Clothes\FarmClothes02\F\Hat_1.nif
+133540,Farmer02Boots01AA,Clothes\FarmClothes02\M\Shoes_1.nif,Clothes\FarmClothes02\F\Shoes_1.nif
+133539,Farm02Torso01AA,Clothes\FarmClothes02\M\Torso_1.nif,Clothes\FarmClothes02\F\Dress_1.nif
+130499,NakedDraugrBodyAA07,Actors\Draugr\Character Assets\DraugrMale07.nif,Actors\Draugr\Character Assets\HevArmorF_2.nif
+130498,NakedDraugrBodyAA06,Actors\Draugr\Character Assets\DraugrMale06.nif,Actors\Draugr\Character Assets\HevArmorF_1.nif
+130497,NakedDraugrBodyAA05,Actors\Draugr\Character Assets\DraugrMale05.nif,Actors\Draugr\Character Assets\HevArmorF_1.nif
+130496,NakedDraugrBodyAA04,Actors\Draugr\Character Assets\DraugrMale04.nif,Actors\Draugr\Character Assets\MidArmorF.nif
+130495,NakedDraugrBodyAA03,Actors\Draugr\Character Assets\DraugrMale03.nif,Actors\Draugr\Character Assets\MidArmorF.nif
+130494,NakedDraugrBodyAA02,Actors\Draugr\Character Assets\DraugrMale02.nif,Actors\Draugr\Character Assets\LightArmorF.nif
+130493,NakedDraugrBodyAA01,Actors\Draugr\Character Assets\DraugrMale01.nif,Actors\Draugr\Character Assets\LightArmorF.nif
+130421,DraugrHelmet03AA,Actors\Draugr\Character Assets\Helmet03.nif,
+130417,DraugrHelmet02AA,Actors\Draugr\Character Assets\Helmet02.nif,Actors\Draugr\Character Assets\HelmetF02.nif
+130415,DraugrHelmet01AA,Actors\Draugr\Character Assets\Helmet01.nif,Actors\Draugr\Character Assets\HelmetF01.nif
+127224,NakedSkeeverAA,Actors\Skeever\Character Assets\Skeever.nif,
+127085,IronShieldHeavyAA,Armor\Iron\ShieldHeavy.nif,
+118570,RingAA,Armor\AmuletsandRings\GoldRing_1.nif,
+118567,AmuletAA,Armor\AmuletsandRings\SilverAmulet_1.nif,Armor\AmuletsandRings\SilverAmuletF_1.nif
+115046,HideShieldAA,Armor\Hide\HideShield.nif,
+114201,FarmerBoots01AA,Clothes\FarmClothes01\bootsm_1.nif,Clothes\FarmClothes01\shoesf_1.nif
+114200,FarmerTorso01AA,Clothes\FarmClothes01\torsom_1.nif,Clothes\FarmClothes01\torsof_1.nif
+111518,HideHelmet01AA,Armor\Hide\M\HelmetHeavy.nif,Armor\Hide\F\HelmetHeavy.nif
+111517,HideHelmetAA,Armor\Hide\M\HelmetLight.nif,Armor\Hide\F\HelmetLight.nif
+111516,HideBracers01AA,Armor\Hide\M\GauntletsHeavy_1.nif,Armor\Hide\F\GauntletsHeavy_1.nif
+111515,HideBracersAA,Armor\Hide\M\GauntletsLight_1.nif,Armor\Hide\F\GauntletsLight_1.nif
+111514,HideCuirass03AA,Armor\Hide\M\CuirassHeavyChieftain_1.nif,Armor\Hide\F\CuirassHeavyChieftain_1.nif
+111513,HideCuirass02AA,Armor\Hide\M\CuirassHeavy_1.nif,Armor\Hide\F\CuirassHeavy_1.nif
+111512,HideCuirass01AA,Armor\Hide\M\CuirassMedium_1.nif,Armor\Hide\F\CuirassMedium_1.nif
+111511,HideCuirassAA,Armor\Hide\M\CuirassLight_1.nif,Armor\Hide\F\CuirassLight_1.nif
+111510,HideBoots01AA,Armor\Hide\M\BootsHeavy_1.nif,Armor\Hide\F\BootsHeavy_1.nif
+111509,HideBootsAA,Armor\Hide\M\BootsLight_1.nif,Armor\Hide\F\BootsLight_1.nif
+103309,NakedFeetDarkElf,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+103308,NakedHandsDarkElf,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+103302,NakedTorsoDarkElf,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif
+100362,ChefHatAA,Clothes\Chef\M\ChefHat_1.nif,Clothes\Chef\F\ChefHat_1.nif
+100361,ChefShoes01AA,Clothes\BarKeeper\M\Shoe_1.nif,Clothes\BarKeeper\F\Shoes_1.nif
+100354,ChefTorso01AA,Clothes\Chef\M\Chef_1.nif,Clothes\Chef\F\Chef_1.nif
+100352,NakedBearCaveAA,Actors\Bear\Character Assets\bear.NIF,
+100351,NakedBearWhiteAA,Actors\Bear\Character Assets\bear.NIF,
+99209,DraugrCuirassAA,Armor\Draugr\DraugrArmorMale_1.nif,Armor\Draugr\DraugrArmorFemale_1.nif
+98707,NakedSabreCatAA,Actors\SabreCat\Character Assets\SabreCat.nif,
+96690,SteelPlateHelmetAA,Armor\Steel\Helmet_1.nif,Armor\Steel\Helmet_1.nif
+96689,SteelPlateCuirassAA,Armor\Steel\Cuirass_1.nif,Armor\Steel\F\Cuirass_1.nif
+96688,SteelHelmetAA,Armor\Steel\HelmetLight_1.nif,Armor\Steel\F\HelmetLight_1.nif
+96687,SteelGlovesAA,Armor\Steel\Gauntlets_1.nif,Armor\Steel\F\Gauntlets_1.nif
+96686,SteelCuirassAA,Armor\Steel\CuirassLight_1.nif,Armor\Steel\F\CuirassLight_1.nif
+96685,SteelBootsAA,Armor\Steel\Boots_1.nif,Armor\Steel\F\Boots_1.nif
+92081,Circlet10ArgonianAA,Armor\Circlets\CircletArgonianM10.nif,Armor\Circlets\CircletArgonianF10.nif
+92080,Circlet09ArgonianAA,Armor\Circlets\CircletArgonianM9.nif,Armor\Circlets\CircletArgonianF9.nif
+92079,Circlet08ArgonianAA,Armor\Circlets\CircletArgonianM8.nif,Armor\Circlets\CircletArgonianF8.nif
+92078,Circlet07ArgonianAA,Armor\Circlets\CircletArgonianM7.nif,Armor\Circlets\CircletArgonianF7.nif
+92077,Circlet06ArgonianAA,Armor\Circlets\CircletArgonianM6.nif,Armor\Circlets\CircletArgonianF6.nif
+92057,Circlet05ArgonianAA,Armor\Circlets\CircletArgonianM5.nif,Armor\Circlets\CircletArgonianF5.nif
+92056,Circlet04ArgonianAA,Armor\Circlets\CircletArgonianM4.nif,Armor\Circlets\CircletArgonianF4.nif
+92055,Circlet03ArgonianAA,Armor\Circlets\CircletArgonianM3.nif,Armor\Circlets\CircletArgonianF3.nif
+92054,Circlet10khajiitAA,Armor\Circlets\CircletKhaajitM10.nif,Armor\Circlets\CircletKhaajitF10.nif
+92048,Circlet09khajiitAA,Armor\Circlets\CircletKhaajitM9.nif,Armor\Circlets\CircletKhaajitF9.nif
+92047,Circlet08khajiitAA,Armor\Circlets\CircletKhaajitM8.nif,Armor\Circlets\CircletKhaajitF8.nif
+92045,Circlet07khajiitAA,Armor\Circlets\CircletKhaajitM7.nif,Armor\Circlets\CircletKhaajitF7.nif
+92042,Circlet06khajiitAA,Armor\Circlets\CircletKhaajitM6.nif,Armor\Circlets\CircletKhaajitF6.nif
+92035,Circlet05khajiitAA,Armor\Circlets\CircletKhaajitM5.nif,Armor\Circlets\CircletKhaajitF5.nif
+92027,Circlet04khajiitAA,Armor\Circlets\CircletKhaajitM4.nif,Armor\Circlets\CircletKhaajitF4.nif
+92019,Circlet03khajiitAA,Armor\Circlets\CircletKhaajitM3.nif,Armor\Circlets\CircletKhaajitF3.nif
+92008,Circlet02khajiitAA,Armor\Circlets\CircletKhaajitM2.nif,Armor\Circlets\CircletKhaajitF2.nif
+92003,Circlet02ArgonianAA,Armor\Circlets\CircletArgonianM2.nif,Armor\Circlets\CircletArgonianF2.nif
+92000,Circlet01ArgonianAA,Armor\Circlets\CircletArgonianM1.nif,Armor\Circlets\CircletArgonianF1.nif
+91991,Circlet01khajiitAA,Armor\Circlets\CircletKhaajitM1.nif,Armor\Circlets\CircletKhaajitF1.nif
+91928,Circlet10AA,Armor\Circlets\CircletM10.nif,Armor\Circlets\CircletF10.nif
+91910,Circlet09AA,Armor\Circlets\CircletM9.nif,Armor\Circlets\CircletF9.nif
+91908,Circlet08AA,Armor\Circlets\CircletM8.nif,Armor\Circlets\CircletF8.nif
+91905,Circlet07AA,Armor\Circlets\CircletM7.nif,Armor\Circlets\CircletF7.nif
+91904,Circlet06AA,Armor\Circlets\CircletM6.nif,Armor\Circlets\CircletF6.nif
+91895,Circlet05AA,Armor\Circlets\CircletM5.nif,Armor\Circlets\CircletF5.nif
+91888,Circlet04AA,Armor\Circlets\CircletM4.nif,Armor\Circlets\CircletF4.nif
+91887,Circlet03AA,Armor\Circlets\CircletM3.nif,Armor\Circlets\CircletF3.nif
+91871,Circlet02AA,Armor\Circlets\CircletM2.nif,Armor\Circlets\CircletF2.nif
+91861,Circlet01AA,Armor\Circlets\CircletM1.nif,Armor\Circlets\CircletF1.nif
+87317,EmperorClothesAA,Clothes\Emperor\EmperorOutfitM_1.nif,Clothes\YarlClothes\F\Torso_1.nif
+81622,ImperialHelmetLightAA,Armor\Imperial\M\HelmetLight.nif,Armor\Imperial\F\HelmetLight.nif
+81621,ImperialHelmetMediumAA,Armor\Imperial\M\HelmetMedium.nif,Armor\Imperial\F\HelmetMedium.nif
+81620,ImperialGlovesLightAA,Armor\Imperial\M\GauntletsLight_1.nif,Armor\Imperial\F\GauntletsLight_1.nif
+81619,ImperialCuirassLightAA,Armor\Imperial\M\CuirassLight_1.nif,Armor\Imperial\F\CuirassLight_1.nif
+81618,ImperialCuirassMediumAA,Armor\Imperial\M\CuirassMedium_1.nif,Armor\Imperial\F\CuirassMedium_1.nif
+81617,ImperialBootsLightAA,Armor\Imperial\M\BootsLight_1.nif,Armor\Imperial\F\BootsLight_1.nif
+80561,ImperialShieldTrooperAA,Armor\Imperial\ImperialShieldTrooper.nif,
+79571,ImperialBootsAA,Armor\Imperial\M\BootsHeavy_1.nif,Armor\Imperial\F\BootsHeavy_1.nif
+79570,ImperialCuirassAA,Armor\Imperial\M\CuirassHeavy_1.nif,Armor\Imperial\F\CuirassHeavy_1.nif
+79569,ImperialGlovesAA,Armor\Imperial\M\GauntletsHeavy_1.nif,Armor\Imperial\F\GauntletsHeavy_1.nif
+79568,ImperialHelmetAA,Armor\Imperial\M\Helmet.nif,Armor\Imperial\F\Helmet.nif
+79289,ImperialShieldAA,Armor\Imperial\ImperialShield.nif,
+78083,BeggarHat01AA,Clothes\BeggarClothes\hatm_0.nif,Clothes\BeggarClothes\hatf_0.nif
+78082,BeggarBoots01AA,Clothes\BeggarClothes\bootsm_0.nif,Clothes\BeggarClothes\bootsf_0.nif
+78081,BeggarTorso01AA,Clothes\BeggarClothes\torsom_0.nif,Clothes\BeggarClothes\torsof_1.nif
+77496,IronShieldAA,Armor\Iron\Shield.nif,
+77490,NakedDragonAA,Actors\Dragon\Character Assets\Dragon.nif,
+77388,IronHelmetAA,Armor\Iron\Male\Helmet.nif,Armor\Iron\F\Helmet.nif
+77386,IronBootsAA,Armor\Iron\Male\Boots_1.nif,Armor\Iron\F\Boots_1.nif
+77384,IronCuirassAA,Armor\Iron\Male\CuirassLight_1.nif,Armor\Iron\F\CuirassLight_1.nif
+77383,IronGlovesAA,Armor\Iron\Male\Gauntlets_1.nif,Armor\Iron\F\Gauntlets_1.nif
+3456,NakedDraugrBodyAA,Actors\Draugr\Character Assets\DraugrMale.nif,Actors\Draugr\Character Assets\DraugrFemale.NIF
+3438,NakedFeet,Actors\Character\Character Assets\MaleFeet_1.nif,Actors\Character\Character Assets\FemaleFeet_1.nif
+3436,NakedHands,Actors\Character\Character Assets\MaleHands_1.nif,Actors\Character\Character Assets\FemaleHands_1.nif
+3431,NakedTorso,Actors\Character\Character Assets\MaleBody_1.NIF,Actors\Character\Character Assets\FemaleBody_1.nif

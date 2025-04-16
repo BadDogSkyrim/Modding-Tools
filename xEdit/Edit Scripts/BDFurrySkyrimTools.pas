@@ -134,6 +134,9 @@ var
     // Races associated with furrifiable addons. Key: addon name, value: TStringList of races.
     addonRaces: TStringList;
 
+    // Quick reference for vanilla plugins.
+    vanillaPlugins: TStringList;
+
     // Information about the NPC being furrified. Global variables because we can't 
     // pass structures in procedure calls.
     curNPC: IwbMainRecord;
@@ -148,10 +151,11 @@ var
 
     indexList: TStringList;
     defaultRace: IwbMainRecord;
+    firstModIndex: integer; // Index of the first mod following the vanilla plugins.
 
 
 Procedure PreferencesInit;
-var j, k: integer;
+var i, j, k: integer;
 begin
     if LOGGING then LogEntry(20, 'PreferencesInit');
     raceAssignments := TStringList.Create;
@@ -261,6 +265,19 @@ begin
     allAddons.Duplicates := dupIgnore;
     allAddons.Sorted := true;
 
+    vanillaPlugins := TStringList.Create;
+    vanillaPlugins.Add('Skyrim.esm');
+    vanillaPlugins.Add('Update.esm');
+    vanillaPlugins.Add('Dawnguard.esm');
+    vanillaPlugins.Add('HearthFires.esm');
+    vanillaPlugins.Add('Dragonborn.esm');
+    for i := 0 to FileCount-1 do begin
+        if vanillaPlugins.IndexOf(GetFileName(FileByIndex(i))) < 0 then begin
+            firstModIndex := i;
+            break;
+        end;
+    end;
+            
     defaultRace := FindAsset(FileByIndex(0), 'RACE', 'DefaultRace');
 
     if LOGGING then LogExitT('PreferencesInit');
@@ -310,7 +327,8 @@ begin
     tintFileTypes.Free;
     furrifiableArmors.free;
     allAddons.free;
-    indexList.Free;
+    if Assigned(indexList) then indexList.Free;
+    vanillaPlugins.free;
 
     for i := 0 to addonRaces.count-1 do 
         addonRaces.objects[i].free;
@@ -644,7 +662,7 @@ begin
                 Warn(Format('Race %s not found, race %s may have trouble wearing armor', [
                     defaultArmorRace, vanillaRaceName]))
             else begin
-                furryRaces.AddObject(defaultArmorRace, armorRace);
+                // furryRaces.AddObject(defaultArmorRace, armorRace);
                 armorRaces.add(furryRaceName + '=' + defaultArmorRace);
             End;
         end;

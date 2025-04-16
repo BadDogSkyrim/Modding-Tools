@@ -389,7 +389,7 @@ var
     i: integer;
     r: IwbMainRecord;
 begin
-    LogEntry3(21, 'FindAsset', GetFileName(f), recordType, name);
+    if LOGGING then LogEntry3(21, 'FindAsset', GetFileName(f), recordType, name);
     Result := Nil;
 
     if not Assigned(f) then begin
@@ -404,24 +404,24 @@ begin
     end
     else
         Result := MainRecordByEditorID(GroupBySignature(f, recordType), name);
-    LogExitT1('FindAsset', PathName(result));
+    if LOGGING then LogExitT1('FindAsset', PathName(result));
 end;
 
 
 //=======================================================================
 // Return the bodypart flags, honoring the form version.
-Function GetBodypartFlags(arma: IwbMainRecord): integer;
+Function GetBodypartFlags(arma: IwbMainRecord): Int64;
 var fv: integer;
 begin
-    // ==Could look at the form version to decide. Simpler to use offsets. Maybe more robust?==
-    // fv := GetElementNativeValues(arma, 'Record Header\Form Version');
-    // if fv >= 44 then begin
-    //     result := GetElementNativeValues(arma, 'BOD2\First Person Flags');
-    // end
-    // else begin
-    //     result := GetElementNativeValues(arma, 'BODT\First Person Flags');
-    // end;
-    result := GetElementNativeValues(arma, '[2]\[0]');
+    fv := GetElementNativeValues(arma, 'Record Header\Form Version');
+    if fv >= 44 then begin
+        result := GetElementNativeValues(arma, 'BOD2\First Person Flags');
+    end
+    else begin
+        result := GetElementNativeValues(arma, 'BODT\First Person Flags');
+    end;
+    // // This does not work for form version 43. DOes work for 40 & 44.
+    // result := GetElementNativeValues(arma, '[2]\[0]');
 end;
 
 //=======================================================================

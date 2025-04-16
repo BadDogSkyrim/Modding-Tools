@@ -12,8 +12,8 @@ implementation
 uses xEditAPI, Classes, StrUtils;
 
 const
-    oldString = 'BDLyk';
-    newString = 'BDCan';
+    oldString = 'SOS_Addon_BDAnthroLykaiosTx_';
+    newString = 'BDTxtLykMaleAnthro';
     targetPath = 'EDID';
     doIt = True;
 

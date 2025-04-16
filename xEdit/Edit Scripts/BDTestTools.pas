@@ -16,9 +16,9 @@ begin
         AddMessage('OK: ' + msg)
     else
     begin
-        AddMessage('XXXXXX Error: ' + msg);
+        // AddMessage('XXXXXX Error: ' + msg);
         testErrorCount := testErrorCount + 1;
-        Raise Exception.Create('Assert fail');
+        Raise Exception.Create('XXXXXX Assert fail: ' + msg);
     end;
 end;
 
@@ -26,6 +26,13 @@ end;
 procedure AssertInt(actual, expected: integer; msg: string);
 begin
     Assert(actual = expected, Format(msg + ': %d = %d', 
+        [integer(actual), integer(expected)]));
+end;
+
+
+procedure AssertLT(actual, expected: integer; msg: string);
+begin
+    Assert(actual < expected, Format(msg + ': %d < %d', 
         [integer(actual), integer(expected)]));
 end;
 

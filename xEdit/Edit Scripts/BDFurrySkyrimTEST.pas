@@ -130,32 +130,69 @@ var
     e, aa, old: IwbElement;
     i: integer;
 begin
-    AddMessage('============ CHECKING ARMOR ===============');
+    AddMessage(#13#10#13#10 + '============ CHECKING ARMOR ===============');
 
-    Assert(allAddons.IndexOf('BladesHelmetAA') >= 0, 'BladesHelmetAA in allAddons');
+    { The stormcloak helmet has special variants for cats and dogs. Cat and Canine mods
+    provide special versions keyed to their races. The furrifier has to merge them.} 
+    AddMessage(#13#10#13#10 + '==Stormcloak helmet=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorStormcloakHelmetFull'));
+    e := FurrifyArmorRecord(old);
+    AssertInList(ElementByPath(e, 'Armature'), 'BDStormcloakHelm_DOG');
+    AssertInList(ElementByPath(e, 'Armature'), 'BDStormcloakHelm_CAT');
+    AssertInList(ElementByPath(e, 'Armature'), 'StormcloakHelm');
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_DOG');
+    AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_CAT');
+    AssertInList(ElementByPath(aa, 'Additional Races'), 'WoodElfRace');
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'StormcloakHelm');
+    AssertNotInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
 
-    AddMessage('// Armor is properly furrified');
-    i := furrifiableArmors.IndexOf('ArmorBladesHelmet');
-    old := ObjectToElement(furrifiableArmors.objects[i]);
-    FurrifyArmorRecord(i);
+    { Daedric helmet gets an additional survival keyword. }
+    AddMessage(#13#10#13#10 + '==Daedric helmet=='); 
+    old := WinningOverride(FindAsset(nil, 'ARMO', 'ArmorDaedricHelmet'));
+    FurrifyArmorRecord(old);
     e := WinningOverride(old);
-    assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ArmorBladesHelmet override file');
-    AssertInList(ElementByName(e, 'Armature'), 'YA_BladesHelmetAA_DOG');
-    aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('YA_BladesHelmetAA_DOG')]);
-    AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
+    assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ArmorDaedricHelmet override file');
+    AssertInList(ElementByName(e, 'Armature'), 'YA_DaedricHelmetAA_DOG');
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YA_DaedricHelmetAA_DOG');
+    AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
 
-    AddMessage('// Check case where the khajiit race matches and the armor covers body as well as head.');
-    i := furrifiableArmors.IndexOf('ClothesMGRobesArchmage1Hooded');
-    old := ObjectToElement(furrifiableArmors.objects[i]);
-    FurrifyArmorRecord(i);
-    e := FindAsset(nil, 'ARMO', 'ClothesMGRobesArchmage1Hooded');
-    assert(targetFileIndex > GetLoadOrder(GetFile(e)), 'ClothesMGRobesArchmage1Hooded not overridden');
+    { Archmage 'hood' covers body and head--body addon must not be lost. No special addon
+    for dogs--depends on RDF to pick the khajiit addon. }
+    AddMessage(#13#10#13#10 + '==Archmage hood=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMGRobesArchmage1Hooded'));
+    e := FurrifyArmorRecord(old);
+    AssertLT(GetLoadOrder(GetFile(e)), GetLoadOrder(targetFile), 'ClothesMGRobesArchmage1Hooded not overridden');
     AssertInList(ElementByName(e, 'Armature'), 'ArchmageHood_KhaAA');
-    aa := ObjectToElement(allAddons.objects[allAddons.IndexOf('ArchmageHood_KhaAA')]);
-    AssertInList(ElementByName(aa, 'Additional Races'), 'NordRace');
+    aa := WinningOverride(FindAsset(nil, 'ARMA', 'ArchmageHood_KhaAA'));
+    AssertLT(GetLoadOrder(GetFile(aa)), targetFileIndex, 'ArchmageHood_KhaAA not overridden');
 
-    // Check what if furry ARMA already on ARMO from a prior furrification
+    { Jarl clothes get 'warm' keyword from Update and 'SOS_Revealing' from Skimpy. Make
+    sure both are on the winning override. }
+    AddMessage(#13#10#13#10 + '==ClothesJarl=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesJarl'));
+    e := FurrifyArmorRecord(old);
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'SOS_Revealing');
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ClothingRich');
 
+    { Bone crown has ArmorMaterialDaedric in Skyrim but ArmorMaterialDragonplate in
+    USSEEP. 
+    TODO: Figure out how remove the Daedric keyword, rather than just merging the list. }
+    AddMessage(#13#10#13#10 + '==ArmorBoneCrown=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorBoneCrown'));
+    e := FurrifyArmorRecord(old);
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDragonplate');
+    //AssertNotInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDaedric');
+
+    { Even clothes that don't get furrified should have their keywords merged. }
+    AddMessage(#13#10#13#10 + '==ClothesEmperor=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesEmperor'));
+    e := FurrifyArmorRecord(old);
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'SOS_Revealing');
+    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ClothingRich');
 end;
 
 
@@ -180,7 +217,7 @@ var
     xf: TTransform;
     fo4: IwbFile;
     ffo: IwbFile;
-    e, arma, armo, hr: IwbMainRecord;
+    a0, a1, a2, e, arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
     listofints: TStringList;
     dynlist: array of Integer;
@@ -300,22 +337,35 @@ begin
     end;
 
     // HighestOverrideOrSelf index use
-    // Check behavior when there is an override
-    fo4 := FileByIndex(0);
-    armo := FindAsset(fo4, 'ARMO', 'ArmorFalmerBoots');
-    AddMessage(Format('ArmorFalmerBoots HighestOverrideOrSelf[0] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(armo, 0)))]));
-    AddMessage(Format('ArmorFalmerBoots HighestOverrideOrSelf[1] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(armo, 1)))]));
-    AddMessage(Format('ArmorFalmerBoots HighestOverrideOrSelf[100] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(armo, 100)))]));
-    AddMessage(Format('ArmorFalmerBoots WinningOverride = %s', [GetFileName(GetFile(WinningOverride(armo)))]));
-    AddMessage(Format('ArmorFalmerBoots IsWinningOverride = %s', [BoolToStr(IsWinningOverride(armo))]));
+    // Check behavior when there are overrides.
+    armo := FindAsset(FileByIndex(0), 'ARMO', 'ArmorFalmerBoots');
+    // HighestOverrideOrSelf returns the indexed override.
+    a0 := HighestOverrideOrSelf(armo, 0);
+    Assert(GetFileName(GetFile(a0)) = 'Skyrim.esm', 'Base record in Skyrim.esm');
+    a1 := HighestOverrideOrSelf(armo, 1);
+    Assert(GetFileName(GetFile(a1)) = 'Update.esm', 'First override in Update.esm');
+    a2 := HighestOverrideOrSelf(armo, 100);
+    AssertStr(GetFileName(GetFile(a2)), 'unofficial skyrim special edition patch.esp', 'HighestOverrideOrSelf will return winning override with a large integer');
+    AssertStr(GetFileName(GetFile(WinningOverride(armo))), 'unofficial skyrim special edition patch.esp', 
+        'WinningOverride returns highest override');
+    Assert(not IsWinningOverride(armo), 'Skrim.esm/ArmorFalmerBoots is not winning override');
     Assert(not HasNoOverride(armo), 'ArmorFalmerBoots has an override');
+    AssertInt(OverrideCount(armo), 3, Format('%s has correct overrides', [PathName(armo)]));
+    AssertInt(OverrideCount(a1), 0, Format(
+        'OverrideCount does NOT work correctly when given an overriding record. %s has one override, but returns 0', 
+        [PathName(a1)]));
+    AssertInt(OverrideCount(a2), 0, Format('%s has no overrides', [PathName(a2)]));
+
     // Check behavior when no override
-    hr := FindAsset(fo4, 'RACE', 'ChaurusRace');
-    AddMessage(Format('ChaurusRace HighestOverrideOrSelf[0] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(hr, 0)))]));
-    AddMessage(Format('ChaurusRace HighestOverrideOrSelf[1] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(hr, 1)))]));
-    AddMessage(Format('ChaurusRace HighestOverrideOrSelf[100] = %s', [GetFileName(GetFile(HighestOverrideOrSelf(hr, 100)))]));
-    AddMessage(Format('ChaurusRace WinningOverride = %s', [GetFileName(GetFile(WinningOverride(hr)))]));
-    AddMessage(Format('ChaurusRace IsWinningOverride = %s', [BoolToStr(IsWinningOverride(armo))]));
+    hr := FindAsset(FileByIndex(0), 'RACE', 'ChaurusRace');
+    // HighestOverrideOrSelf returns the record itself if no override exists, no matter what the index.
+    Assert(GetFileName(GetFile(HighestOverrideOrSelf(hr, 0))) = 'Skyrim.esm', 'ChaurusRace highest override is Skyrim.esm');
+    Assert(GetFileName(GetFile(HighestOverrideOrSelf(hr, 100))) = 'Skyrim.esm', 'ChaurusRace highest override is Skyrim.esm');
+    // WinningOverride returns the record itself if no override exists.
+    Assert(GetFileName(GetFile(WinningOverride(hr))) = 'Skyrim.esm', 'ChaurusRace winning override is Skyrim.esm');
+    // IsWinningOverride returns TRUE if there are no overrides.
+    Assert(IsWinningOverride(hr), 'IsWinningOverride shows that Skyrim.esm/ChaurusRace is winning override');
+    // Our own HasNoOverride function correctly returns TRUE if there are no overrides.
     Assert(HasNoOverride(hr), 'ChaurusRace has no override');
 
     AddMessage('Version number checking');
@@ -338,7 +388,7 @@ begin
     AddMessage('---Reading bodypart flags---');
     arma := FindAsset(FileByIndex(0), 'ARMA', 'DraugrGlovesAA');
     i := GetElementNativeValues(arma, 'Record Header\Form Version');
-    Assert(i = 40, Format('Form version %d=40', [i]));
+    AssertInt(i, 40, 'Form version');
     AddMessage(Format('%s bodypart flags: $%s', [
         Name(arma), IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8)]));
     Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\31 - Hair') = 0, 
@@ -360,7 +410,7 @@ begin
         
     arma := FindAsset(nil, 'ARMA', 'YA_BladesHelmetAA_LYK');
     i := Integer(GetElementNativeValues(arma, 'Record Header\Form Version'));
-    Assert(i = 44, Format('Form version %d=44', [i]));
+    AssertInt(i, 44, 'Form version');
     AddMessage(Format('%s bodypart flags: $%s', [
         Name(arma), IntToHex(GetElementNativeValues(arma, 'BOD2\First Person Flags'), 8)]));
     Assert(GetElementNativeValues(arma, 'BOD2\First Person Flags\31 - Hair') <> 0, 
@@ -371,6 +421,32 @@ begin
         Format('%s has hair bit set', [EditorID(arma)]));
     Assert((GetBodypartFlags(arma) and BP_HANDS) = 0, 
         Format('%s has hair bit clear', [EditorID(arma)]));
+
+    arma := WinningOverride(FindAsset(nil, 'ARMA', 'DragonplateGauntletsAA'));
+    i := Integer(GetElementNativeValues(arma, 'Record Header\Form Version'));
+    AssertInt(i, 43, 'Form version');
+    AddMessage(Format('%s bodypart flags: $%s', [
+        Name(arma), IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8)]));
+    AssertInt(GetElementNativeValues(arma, 'BODT\First Person Flags\31 - Hair'), 0, 
+        'hair bit clear');
+    AssertInt(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands') and 1, 1, 
+        'hands bit set');
+    AssertInt((GetBodypartFlags(arma) and BP_HAIR), 0, 'hair bit clear');
+    AssertInt((GetBodypartFlags(arma) and BP_HANDS), BP_HANDS, 'hands bit set');
+
+    arma := FindAsset(nil, 'ARMA', 'ElderScrollHandAttachAA3rdP');
+    i := Integer(GetElementNativeValues(arma, 'Record Header\Form Version'));
+    AssertInt(i, 43, 'Form version');
+    AddMessage(Format('%s bodypart flags: $%s', [
+        Name(arma), IntToHex(GetElementNativeValues(arma, 'BODT\First Person Flags'), 8)]));
+    AssertInt(GetElementNativeValues(arma, 'BODT\First Person Flags\31 - Hair'), 0, 
+        'hair bit clear');
+    AssertInt(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands'), 0, 
+        'hands bit clear');
+    i := Integer(GetBodypartFlags(arma));
+    AddMessage('assignment worked');
+    AssertInt((GetBodypartFlags(arma) and BP_HAIR), 0, 'hair bit clear');
+    AssertInt((GetBodypartFlags(arma) and BP_HANDS), 0, 'hands bit clear');
     end;
 
 
@@ -405,7 +481,7 @@ begin
     targetFileIndex := FindFile(TEST_FILE_NAME);
     if targetFileIndex < 0 then begin
         targetFile := AddNewFileName(TEST_FILE_NAME);
-        targetFileIndex := FileCount-1;
+        targetFileIndex := GetLoadOrder(targetFile);
         LogT('Creating file ' + GetFileName(targetFile));
     end
     else 
@@ -420,11 +496,11 @@ begin
     FurrifyAllRaces;
     // ShowRaceTints;
     FurrifyHeadpartLists;
-    LOGGING := True;
     // ShowHeadparts;
     CollectArmor;
     ShowArmor;
 
+    LOGGING := True;
     //TestNPCs;
     TestArmor;
 
