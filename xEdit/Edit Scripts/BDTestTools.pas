@@ -37,6 +37,13 @@ begin
 end;
 
 
+procedure AssertGT(actual, expected: integer; msg: string);
+begin
+    Assert(actual > expected, Format(msg + ': %d > %d', 
+        [integer(actual), integer(expected)]));
+end;
+
+
 procedure AssertFloat(actual, expected: float; msg: string);
 begin
     Assert(abs(actual - expected) < 0.01, 

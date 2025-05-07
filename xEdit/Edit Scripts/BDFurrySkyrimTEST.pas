@@ -1,7 +1,5 @@
 {
 
-	Hotkey: Ctrl+Alt+T
-
     Load:
     - BDCanines.esp
     - CatRaces.esp

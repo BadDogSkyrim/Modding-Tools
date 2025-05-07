@@ -12,10 +12,11 @@ implementation
 uses xEditAPI, Classes, StrUtils;
 
 const
-    oldString = 'SOS_Addon_BDAnthroLykaiosTx_';
-    newString = 'BDTxtLykMaleAnthro';
-    targetPath = 'EDID';
-    doIt = True;
+    oldString = 'YAS\Feline\Tail';
+    newString = 'YAS\Pred\Tail';
+    targetPath = 'Male Biped Model\MOD2';
+    secondPath = 'Tint Layer\Texture\TINT';
+    doIt = TRUE;
 
 
 //=========================================================================
@@ -24,7 +25,7 @@ function Initialize: integer;
 begin
     AddMessage(#13#10);
     AddMessage('----------------------------------------------------------');
-    AddMessage('------------------------BD Renamer------------------------');
+    AddMessage('--------------------BD String Substitution----------------');
     AddMessage('----------------------------------------------------------');
     AddMessage('');  
 end;
@@ -43,14 +44,31 @@ end;
 // process selected records
 function Process(e: IwbMainRecord): integer;
 var t1, t2: string;
+    tp, tp2: IwbElement;
     i: integer;
 begin
-    t1 := GetElementEditValues(e, targetpath);
-    i := Pos(oldString, t1);
-    if i > 0 then begin
-        t2 := ReplaceSubstring(t1, oldString, newString);
-        AddMessage(t1 + '  ->  ' + t2);
-        if doIt then SetElementEditValues(e, targetPath, t2);
+    tp := ElementByPath(e, targetPath);
+    //AddMessage(Format('Processing %s count [%s]', [PathName(tp), IntToStr(ElementCount(tp))]));
+    if ElementCount(tp) = 0 then begin
+        t1 := GetEditValue(tp);
+        i := Pos(oldString, t1);
+        if i > 0 then begin
+            t2 := ReplaceSubstring(t1, oldString, newString);
+            AddMessage(t1 + '  ->  ' + t2);
+            if doIt then SetElementEditValues(e, targetPath, t2);
+        end;
+    end
+    else begin
+        for i := 0 to ElementCount(tp) - 1 do begin
+            tp2 := ElementByPath(ElementByIndex(tp, i), secondPath);
+            //AddMessage(Format('Processing %s', [PathName(tp2)]));
+            t1 := GetEditValue(tp2);
+            if Pos(oldString, t1) > 0 then begin
+                t2 := ReplaceSubstring(t1, oldString, newString);
+                AddMessage(t1 + '  ->  ' + t2);
+                if doIt then SetEditValue(tp2, t2);
+            end;
+        end;
     end;
 end;
 

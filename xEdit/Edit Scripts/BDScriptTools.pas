@@ -122,9 +122,9 @@ end;
 // of xEdit.
 Function LeveledListEntryRef(e: IwbElement): IwbElement;
 begin
-    result := ElementByPath(e, 'LVLO\NPC');
+    result := ElementByPath(e, 'LVLO - Base Data\NPC');
     if not Assigned(result) 
-    then result := ElementByPath(e, 'LVLO\Reference');
+    then result := ElementByPath(e, 'LVLO - Base Data\Reference');
 end;
 
 

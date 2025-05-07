@@ -10,6 +10,9 @@ interface
 implementation
 uses BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
+const
+    UNOFFICIAL_PATCH ='unofficial skyrim special edition patch.esp';
+
 var
     // Global variables to handle creating a furrified armor that merges prior overrides.
     // MergeArmor* functions use these.
@@ -441,14 +444,22 @@ Iterate through the armor overrides, starting with the highest override.
 }
 function MergeArmorNextOverride: boolean;
 begin
-    result := (maIter >= 0);
-    if maIter < 0 then maOverride := maMaster
-    else maOverride := OverrideByIndex(maMaster, maIter);
+    if SameText(GetFileName(maOverride), UNOFFICIAL_PATCH) then begin
+        // Assume the unofficial patch has properly dealt with everything below it.
+        maIter := -1;
+        maIndex := 0;
+        result := false;
+    end
+    else begin 
+        result := (maIter >= 0);
+        if maIter < 0 then maOverride := maMaster
+        else maOverride := OverrideByIndex(maMaster, maIter);
 
-    if LOGGING then LogD(Format('Next override is [%d] %s', [maIter, PathName(maOverride)]));
+        if LOGGING then LogD(Format('Next override is [%d] %s', [maIter, PathName(maOverride)]));
 
-    maIndex := maIter;
-    maIter := maIter - 1;
+        maIndex := maIter;
+        maIter := maIter - 1;
+    end;
 end;
 
 

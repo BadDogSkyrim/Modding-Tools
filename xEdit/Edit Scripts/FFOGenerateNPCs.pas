@@ -98,7 +98,6 @@ end;
 // Add the NPC to the given leveled list.
 Procedure AddNPCtoLevelList(npc: IwbMainRecord; ll: IwbMainRecord);
 var
-    el: IwbElement;
     entry: IwbElement;
     lle: IwbContainer;
     lvlo: IwbElement;
@@ -112,8 +111,11 @@ begin
     SetNativeValue(
         LeveledListEntryRef(entry), 
         LoadOrderFormIDtoFileFormID(GetFile(npc), GetLoadOrderFormID(npc)));
-    SetNativeValue(ElementByPath(el, 'Level'), 1);
-    SetNativeValue(ElementByPath(el, 'Count'), 1);
+        // LVLN \ Leveled List Entries \ Leveled List Entry \ LVLO - Base Data \ Level
+    if LOGGING then LogD(Format('Base entry is %s', [PathName(entry)]));
+    if LOGGING then LogD(Format('Setting level 1 on %s', [PathName(ElementByPath(entry, 'LVLO - Base Data\Level'))]));
+    SetNativeValue(ElementByPath(entry, 'LVLO - Base Data\Level'), 1);
+    SetNativeValue(ElementByPath(entry, 'LVLO - Base Data\Count'), 1);
     if LOGGING then LogExitT('AddNPCtoLevelList');
 end;
 
@@ -501,6 +503,17 @@ begin
     // badTemplates.Free;
 end;
 
+procedure MoreOptionsNPC(targetFile: IwbFile; npc: IwbMainRecord);
+begin
+    if EditorID(npc) = 'Loot_CorpseSettlerMale' then
+        ForceLLTemplate(targetFile, npc, leveledList[CLASS_SETTLER, MALE])
+    else if EditorID(npc) = 'Loot_CorpseSettlerFemale' then
+        ForceLLTemplate(targetFile, npc, leveledList[CLASS_SETTLER, FEMALE])
+    else
+        SetGenericTraits(patchFile, npc);
+end;
+
+
 Procedure GenerateFurryNPCs(patchFile: IwbFile);
 var
     i: integer;
@@ -551,12 +564,7 @@ begin
     allNPCs := GroupBySignature(patchFile, 'NPC_');
     for i := 0 to ElementCount(allNPCs)-1 do begin
         npc := ElementByIndex(allNPCs, i);
-        if EditorID(npc) = 'Loot_CorpseSettlerMale' then
-            ForceLLTemplate(targetFile, npc, leveledList[CLASS_SETTLER, MALE])
-        else if EditorID(npc) = 'Loot_CorpseSettlerFemale' then
-            ForceLLTemplate(targetFile, npc, leveledList[CLASS_SETTLER, FEMALE])
-        else
-            SetGenericTraits(patchFile, npc);
+        MoreOptionsNPC(patchFile, npc);
     end;
 
     ShutdownNPCGenerator;
