@@ -357,6 +357,7 @@ begin
         and ('RECampRJ03_Moss' <> EditorID(npc))
         and ('MQ203MemoryE_Kelloggtest' <> EditorID(npc))
         and ('POIMR01Loot_CorpseSettlerMale' <> EditorID(npc))
+        and ('DLC04_PackScenes_IntroSceneActor_Male' <> EditorID(npc))
         ;
     // if ContainsText(EditorID(npc), 'Deacon') then result := false
     // else if ContainsText(EditorID(npc), 'Kellogg') then result := false

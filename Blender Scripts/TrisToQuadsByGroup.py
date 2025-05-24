@@ -5,7 +5,7 @@ import bpy
 obj = bpy.context.object
 
 for g in obj.vertex_groups:
-    if g.name.startswith('FO4 Seg'):
+    if g.name.startswith('FO4 Seg') or g.name.startswith('SBP_'):
         bpy.ops.mesh.select_all(action='DESELECT')
         obj.vertex_groups.active = g
         bpy.ops.object.vertex_group_select()

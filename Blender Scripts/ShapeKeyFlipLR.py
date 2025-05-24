@@ -11,4 +11,7 @@ for name in keyblocks.keys():
         keyblocks[name].name = name[:-2] + ".R"
     elif name[-2:] == '.R':
         keyblocks[name].name = name[:-2] + ".L"
+for name in keyblocks.keys():
+    if name[-4:] == '.001':
+        keyblocks[name].name = name[:-4]
 print('done')
