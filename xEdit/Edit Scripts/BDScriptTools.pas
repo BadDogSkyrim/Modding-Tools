@@ -151,6 +151,56 @@ begin
     if LOGGING then LogExitT1('ElementListContains', BoolToStr(Result));
 end;
 
+{=======================================================================
+Find an elemeent in a compound list by the value of one of its parts.
+Return the list element.
+}
+function FindElementInCompoundList(
+    e: IwbElement; pathToList: string; pathToValue: string; 
+    testValue: string): IwbElement;
+var
+    elist: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    val: string;
+    found: boolean;
+begin
+    elist := ElementByPath(e, pathToList);
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        ele := ElementByIndex(elist, i);
+        val := GetElementEditValues(ele, pathToValue);
+        if val = testValue then begin
+            found := true;
+            break;
+        end;
+    end;
+    if found then result := ele else result := nil;
+end;
+
+
+function FindValueInCompoundList(e: IwbElement; pathToList: string; pathToValue: string; 
+    testValue: string): integer;
+var
+    elist: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    val: string;
+    found: boolean;
+begin
+    elist := ElementByPath(e, pathToList);
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        ele := ElementByIndex(elist, i);
+        val := GetElementEditValues(ele, pathToValue);
+        if val = testValue then begin
+            found := true;
+            break;
+        end;
+    end;
+    if found then result := i else result := -1;
+end;
+
 
 //=======================================================================
 // Assign the target element, which holds a reference to another

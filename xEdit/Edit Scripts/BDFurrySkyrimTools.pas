@@ -7,7 +7,8 @@ implementation
 uses BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    TINT_CHEEK = 0;
+    TINT_SKIN_TONE = 0;
+    // Fur layers
     TINT_CHEEK_LOWER = 1;
     TINT_CHIN = 2;
     TINT_EYE_LOWER = 3;
@@ -18,28 +19,31 @@ const
     TINT_LIP = 8;
     TINT_NECK = 9;
     TINT_NOSE = 10;
-    TINT_SKIN_TONE = 11;
+    TINT_CHEEK = 11;
     TINT_MUZZLE = 12;
-    TINT_MASK = 13;
-    TINT_BROW = 14;
-    TINT_EAR = 15;
-    TINT_BLACKBLOOD = 16;
-    TINT_BOTHIAH = 17;
-    TINT_FREKLES = 18;
-    TINT_NORD = 19;
-    TINT_DARKELF = 20;
-    TINT_IMPERIAL = 21;
-    TINT_ORC = 22;
-    TINT_REDGUARD = 23;
-    TINT_WOODELF = 24;
-    TINT_HAND = 25;
-    TINT_SKULL = 26;
-    TINT_PAINT = 27;
-    TINT_DIRT = 28;
-    TINT_COUNT = 29;
+    TINT_STRIPES = 13;
+    TINT_MASK = 14;
+    TINT_BROW = 15;
+    TINT_EAR = 16;
+    // Decoration layers
+    TINT_BLACKBLOOD = 17;
+    TINT_BOTHIAH = 18;
+    TINT_FORSWORN = 19;
+    TINT_FREKLES = 20;
+    TINT_NORD = 21;
+    TINT_DARKELF = 22;
+    TINT_IMPERIAL = 23;
+    TINT_ORC = 24;
+    TINT_REDGUARD = 25;
+    TINT_WOODELF = 26;
+    TINT_HAND = 27;
+    TINT_SKULL = 28;
+    TINT_PAINT = 29;
+    TINT_DIRT = 30;
+    TINT_COUNT = 31;
 
     // "Special" tint layers are only assigned if the NPC has them.
-    TINT_SPECIAL_LO = 16;
+    TINT_SPECIAL_LO = 17;
 
     SEX_MALEADULT = 0;
     SEX_FEMADULT = 1;
@@ -50,6 +54,8 @@ const
     AGE_MASK = 2;
     SEX_MALE = 0;
     SEX_FEM = 1;
+    SEX_LO = 0;
+    SEX_HI = 0;
 
     SPECIALTYPE_BLACKBLOOD = 0;
     SPECIALTYPE_BOTHIAH = 1;
@@ -77,8 +83,12 @@ var
     // List of furry race names; values are the vanilla IWbMainRecord they furrify.
     furryRaces: TStringList;
 
+    // List of factions that force their owner's race: factionName = RaceName
+    factionRaces: TStringList;
+
     // Name/value list of furry race classes. Values are the race's class. Only furry
     // races with defind classes are in the list.
+    // NOT CURRENTLY USED.
     furryRaceClass: TStringList;
 
     // Default armor races: key is furry race name, value is vanilla race record. When an
@@ -113,10 +123,14 @@ var
     // Paths to male/female tint layers.
     tintMaskPaths: TStringList;
 
-    // Index into tint asset layers. 
-    // tintAssets[sex].objects[racename].objects[TINI] 1:1 with tint asset layers.
-    tintAssets: array[0..3 {SEX_COUNT}] of TStringList;
+    // // Index into tint asset layers. 
+    // // tintAssets[sex].objects[racename].objects[TINI] 1:1 with tint asset layers.
 
+    tintAssets: array[0..3 {SEX_COUNT}] of TStringList {[racename] -> TStringList:RaceTintDefinitions};
+    // TStringList:RaceTintDefinitions : [ClassName] -> TStringList:TintLayers
+    // TStringList:TintLayers : [*] -> IwbElement:TintLayer
+    //      ['REQ'] : exists if this class is required
+    tintClassRequired: TStringList; // [classname] = '1' if required, '0' if not.
     tintlayerNames: TStringList;
 
     // Index of tint layer file names to mask types.
@@ -137,17 +151,21 @@ var
     // Quick reference for vanilla plugins.
     vanillaPlugins: TStringList;
 
+    npcForcedRace: TStringList;
+
     // Information about the NPC being furrified. Global variables because we can't 
     // pass structures in procedure calls.
     curNPC: IwbMainRecord;
     curNPCoriginal: IwbMainRecord;
     curNPCrace: IwbMainRecord;
+    curNPCAssignedRace: IwbMainRecord;
     curNPCFurryRace: IwbMainRecord;
     curNPCsex: integer;
     // curNPCTintLayerOptions: IwbMainRecord;
     curNPClabels: TStringList;
     curNPCalias: string;
     curNPCHash: string;
+    curNPCTintLayers: TStringList;
 
     indexList: TStringList;
     defaultRace: IwbMainRecord;
@@ -165,6 +183,10 @@ begin
     furryRaces := TStringList.Create;
     furryRaces.Duplicates := dupIgnore;
     furryRaces.Sorted := true;
+
+    factionRaces := TStringList.Create;
+    factionRaces.Duplicates := dupIgnore;
+    factionRaces.Sorted := true;
 
     furryRaceClass := TStringList.Create;
     furryRaceClass.Duplicates := dupIgnore;
@@ -214,11 +236,13 @@ begin
     tintlayerNames.Add('Nose');
     tintlayerNames.Add('Skin Tone');
     tintlayerNames.Add('Muzzle');
+    tintlayerNames.Add('Stripes');
     tintlayerNames.Add('Mask');
     tintlayerNames.Add('Brow');
     tintlayerNames.Add('Ear');
     tintlayerNames.Add('BlackBlood');
     tintlayerNames.Add('Bothiah');
+    tintlayerNames.Add('Forsworn');
     tintlayerNames.Add('Frekles');
     tintlayerNames.Add('Nord Paint');
     tintlayerNames.Add('Dark Elf Paint');
@@ -232,6 +256,7 @@ begin
     tintlayerNames.Add('Dirt');
 
     tintFileTypes := TStringList.Create;
+    tintClassRequired := TStringList.Create;
 
     for k := 0 to SEX_COUNT-1 do begin
         tintAssets[k] := TStringList.Create;
@@ -265,6 +290,10 @@ begin
     allAddons.Duplicates := dupIgnore;
     allAddons.Sorted := true;
 
+    npcForcedRace := TStringList.Create;
+    npcForcedRace.Duplicates := dupIgnore;
+    npcForcedRace.Sorted := true;
+
     vanillaPlugins := TStringList.Create;
     vanillaPlugins.Add('Skyrim.esm');
     vanillaPlugins.Add('Update.esm');
@@ -284,11 +313,12 @@ begin
 end;
 
 Procedure PreferencesFree;
-var i, tintIdx, sexIdx, typeIdx, m: Cardinal;
+var i, j, tintIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     if LOGGING then LogEntry(20, 'PreferencesFree');
     raceAssignments.Free;
     furryRaces.Free;
+    factionRaces.Free;
     furryRaceClass.Free;
     armorRaces.Free;
     vanillaRaces.free;
@@ -316,7 +346,17 @@ begin
     NPCaliases.Free;
 
     for sexIdx := 0 to SEX_COUNT-1 do begin
-        for i := 0 to tintAssets[sexIdx].count-1 do begin
+        for i := 0 to tintAssets[sexIdx].count-1 do begin // all sexes
+            for j := 0 to tintAssets[sexIdx].objects[i].count-1 do begin // all races
+                for tintIdx := 0 to tintAssets[sexIdx].objects[i].objects[j].count-1 do begin // all classes
+                    if LOGGING then LogD(Format('Freeing %d tints for class %s', [
+                        tintAssets[sexIdx].objects[i].objects[j].count,
+                        tintAssets[sexIdx].objects[i].strings[j]
+                    ]));
+                    // tintAssets[sexIdx].objects[i].objects[j].objects[tintIdx].Free;
+                end;
+                tintAssets[sexIdx].objects[i].objects[j].Free;
+            end;
             tintAssets[sexIdx].objects[i].Free;
         end;
         tintAssets[sexIdx].Free;
@@ -325,14 +365,19 @@ begin
     tintlayerNames.Free;
     tintMaskPaths.Free;
     tintFileTypes.Free;
+    tintClassRequired.Free;
     furrifiableArmors.free;
     allAddons.free;
+    npcForcedRace.free;
     if Assigned(indexList) then indexList.Free;
     vanillaPlugins.free;
 
     for i := 0 to addonRaces.count-1 do 
         addonRaces.objects[i].free;
     addonRaces.free;
+
+    if Assigned(curNPCTintLayers) then curNPCTintLayers.Free;
+
     if LOGGING then LogExitT('PreferencesFree');
 end;
 
@@ -452,6 +497,26 @@ begin
 end;
 
 
+{===============================================================================
+Record a tint layer class for a furry race.
+TODO: Might need to separate tint layer types by race in the future.
+}
+procedure SetTintLayerClass(racename, filename: string; classname: string);
+begin
+    tintFileTypes.Add(filename + '=' + classname);
+end;
+
+
+{===============================================================================
+Record a tint layer class for a furry race.
+TODO: Might need to separate tint layer types by race in the future.
+}
+procedure SetTintLayerRequired(classname: string; isRequired: boolean);
+begin
+    tintClassRequired.Add(classname + '=' + IfThen(isRequired, '1', '0'));
+end;
+
+
 {====================================================================
 Preload skin tint info for a race.
 }
@@ -461,35 +526,53 @@ var
     layerIdx: integer;
     layername: string;
     layerindex: string;
-    racetintmasks: IwbElement;
+    raceTintAssets: IwbElement;
     required: string;
     sexIdx: integer;
     specialIdx: Integer;
     t: IwbElement;
     tintfile: string;
-    raceTints: TStringList;
+    raceTints: TStringList {RaceTintDefinitions};
+    classLayers: TStringList; // List of tint layers for this class.
+    classname: string;
+    cIndex: integer;
 begin
     if LOGGING then LogEntry1(15, 'LoadRaceTints', Name(theRace));
 
-    for sexIdx := SEX_MALEADULT to SEX_FEMADULT do begin
+    for sexIdx := SEX_LO to SEX_HI do begin
         r := tintAssets[sexIdx].IndexOf(EditorID(theRace));
+        if LOGGING then LogT(Format('Race %s index %d', [Name(theRace), Integer(r)]));
 
         // If we don't already have the tint assets for this race, load them now.
         if r < 0 then begin
             raceTints := TStringList.Create;
-
-            racetintmasks := ElementByPath(theRace, tintMaskPaths.strings[sexIdx]);
-            for j := 0 to ElementCount(racetintmasks)-1 do begin
-                t := ElementByIndex(racetintmasks, j);
-                layerindex := GetElementEditValues(t, 'Tint Layer\Texture\TINI - Index');
-                layername := GetElementEditValues(t, 'Tint Layer\Texture\TINP - Mask Type');
-                tintfile := ExtractFilename(GetElementEditValues(t, 'Tint Layer\Texture\TINT'));
-
-                raceTints.Add(layerindex);
-            end;
-
             tintAssets[sexIdx].AddObject(EditorID(theRace), raceTints);
-        end;
+            r := tintAssets[sexIdx].IndexOf(EditorID(theRace));
+
+            raceTintAssets := ElementByPath(theRace, tintMaskPaths.strings[sexIdx]);
+            if LOGGING then LogT(Format('Loading %d race assets %s', [
+                Integer(ElementCount(raceTintAssets)),
+                PathName(raceTintAssets)
+            ]));
+            for j := 0 to ElementCount(raceTintAssets)-1 do begin
+                t := ElementByIndex(raceTintAssets, j);
+                classname := GetLayerClass(t);
+
+                cIndex := tintAssets[sexIdx].objects[r].IndexOf(classname);
+                if cIndex < 0 then begin 
+                    classLayers := TStringList.Create;
+                    tintAssets[sexIdx].objects[r].AddObject(classname, classLayers);
+                    cIndex := tintAssets[sexIdx].objects[r].IndexOf(classname);
+                end;
+
+                // Add this tint layer to the class layers.
+                tintAssets[sexIdx].objects[r].objects[cIndex].AddObject(
+                    GetElementEditValues(t, 'Tint Layer\Texture\TINI - Index'),
+                    TObject(t));
+            end;
+        end
+        else
+            if LOGGING then LogT(Format('Race %s is already loaded', [Name(theRace)]));
     end;
 
     if LOGGING then LogExitT('LoadRaceTints');
@@ -500,16 +583,6 @@ function TintLayerToStr(tint: integer): string;
 begin
     if (tint >= 0) and (tint < tintlayerNames.Count) then result := tintlayerNames[tint]
     else result := 'UNKNOWN TINT ' + IntToStr(tint);
-end;
-
-
-{===============================================================================
-Record a tint layer type for a furry race.
-TODO: Might need to separate tint layer types by race in the future.
-}
-procedure SetTintLayerType(racename, filename: string; masktype: integer);
-begin
-    tintFileTypes.AddObject(filename, masktype);
 end;
 
 
@@ -539,6 +612,7 @@ begin
             if ContainsText(fn, 'Frekles') then result := TINT_FREKLES
             else if ContainsText(fn, 'BlackBlood') then result := TINT_BLACKBLOOD
             else if ContainsText(fn, 'Bothiah') then result := TINT_BOTHIAH
+            else if ContainsText(fn, 'Forsworn') then result := TINT_FORSWORN
             else if ContainsText(fn, 'Mask') then result := TINT_MASK
             else if ContainsText(fn, 'Muzzle') then result := TINT_MUZZLE
             else if ContainsText(fn, 'NordWarPaint') then result := TINT_NORD
@@ -555,8 +629,48 @@ end;
 
 
 {================================================================================
-Determine whether the original version of NPC currently being furrified had a layer with
-the given layer name.
+Return the class of the given tint layer. This is the mask name unless it's a special layer--
+one of the special paints or a dirt layer used for extra patterns.
+}
+function GetLayerClass(tintAsset: IwbElement): string;
+var
+    fp, fn, mn: string;
+    fni, i: integer;
+begin
+    if LOGGING then LogEntry1(10, 'GetLayerClass', PathName(tintAsset));
+    result := '';
+    fp := GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINT');
+    fn := fp; // ExtractFileName(fp);
+
+    // If the file name is in the tintFileTypes list, return the predefined class.
+    result := tintFileTypes.values[fn];
+    if result = '' then begin
+        mn := GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP');
+        if LOGGING then LogD(Format('Layer mask name "%s", file "%s"', [mn, fn]));
+        if (mn <> '') and (mn <> 'Dirt') and (mn <> 'Paint') then
+            result := mn
+        else begin
+            if ContainsText(fn, 'Frekles') then result := 'Frekles'
+            else if ContainsText(fn, 'BlackBlood') then result := 'WarpaintBlackblood'
+            else if ContainsText(fn, 'Bothiah') then result := 'WarpaintBothiah'
+            else if ContainsText(fn, 'Forsworn') then result := 'WarpaintForsworn'
+            else if ContainsText(fn, 'Muzzle') then result := 'Muzzle'
+            else if ContainsText(fn, 'NordWarPaint') then result := 'WarpaintNord'
+            else if ContainsText(fn, 'DarkElfWarPaint') then result := 'WarpaintDarkElf'
+            else if ContainsText(fn, 'ImperialWarPaint') then result := 'WarpaintImperial'
+            else if ContainsText(fn, 'OrcWarPaint') then result := 'WarpaintOrc'
+            else if ContainsText(fn, 'RedguardWarPaint') then result := 'WarpaintRedguard'
+            else if ContainsText(fn, 'WoodElfWarPaint') then result := 'WarpaintWoodElf'
+            else result := mn;
+        end;
+    end;
+    if LOGGING then LogExitT1('GetLayerClass', result);
+end;
+
+
+{================================================================================
+Determine whether the original version of NPC currently being furrified had an active
+layer with the given layer ID.
 }
 function CurNPCHasTintLayer(layerID: integer): Boolean;
 var
@@ -595,10 +709,11 @@ begin
                         result := (maskTypeID = layerID);
                     end;
                 end;
-                If LOGGING then LogD(Format('Tint Layer Match Index:%s TINI:%s TINP:%s = %s', [
+                If LOGGING then LogD(Format('Tint Layer Match Index:%s TINI:%s TINP:%s TINV:%s = %s', [
                     IntToStr(tintAssets[curNPCsex].objects[rti].IndexOf(tintLayerTINI)), 
                     tintLayerTINI, 
                     TintLayerToStr(maskTypeID), 
+                    FloatToStr(tintLayerTINV),
                     BoolToStr(result)]));
             end;
             if result then break;
@@ -607,22 +722,51 @@ begin
     if LOGGING then LogExitT1('CurNPCHasTintLayer', BoolToStr(Result));
 end;
 
+
 procedure ShowRaceTints;
 var
-    r, s, l, t: Cardinal;
+    raceIndex, sexIndex, layerIndex, classIndex: Cardinal;
+    tintLayers: TStringList;
+    tl: IwbElement;
 begin
+    AddMessage('==Race Tint Class Assignments==');
+    for raceIndex := 0 to tintFileTypes.Count-1 do begin
+        AddMessage('|   ' + tintFileTypes.names[raceIndex] + ' = ' + tintFileTypes.values[tintFileTypes.names[raceIndex]]);
+    end;
+
     AddMessage('==Race Tint Layers==');
-    for s := 0 to SEX_COUNT-1 do begin
-        AddMessage('|   ' + SexToStr(s));
-        for r := 0 to tintAssets[s].count-1 do begin
-            AddMessage('|   |   ' + tintAssets[s].strings[r]);
-            for t := 0 to tintAssets[s].objects[r].count-1 do begin
-                AddMessage('|   |   |   ' + tintAssets[s].objects[r].strings[t] + ' = ' 
-                    + IntToStr(t));
+    for sexIndex := SEX_LO to SEX_HI do begin
+        AddMessage('|   ' + SexToStr(sexIndex));
+        for raceIndex := 0 to tintAssets[sexIndex].count-1 do begin
+            AddMessage('|   |   ' + tintAssets[sexIndex].strings[raceIndex]); // Race
+            for classIndex := 0 to tintAssets[sexIndex].objects[raceIndex].count-1 do begin
+                AddMessage('|   |   |   ' 
+                    + tintAssets[sexIndex].objects[raceIndex].strings[classIndex]); // Tint Layer Class
+                tintlayers := tintAssets[sexIndex].objects[raceIndex].objects[classIndex];
+                for layerIndex := 0 to tintLayers.count-1 do begin
+                    tl := ObjectToElement(tintLayers.objects[layerIndex]); 
+                    AddMessage('|   |   |   |   '
+                        + tintLayers.strings[layerIndex] 
+                        + ' = ' + GetElementEditValues(tl, 'Tint Layer\Texture\TINT')
+                        + ' @ ' + Path(tl)
+                        ); // Tint Layer
+                end;
             end;
         end;
     end;
     AddMessage('--Race Tint Layers--');
+end;
+
+
+Procedure SetFactionRace(factionName, activeRaceName: String);
+begin
+    factionRaces.Add(factionName + '=' + activeRaceName);
+end;
+
+
+Procedure SetTattooRace(tattooName, activeRaceName: String);
+begin
+    // TBD
 end;
 
 
@@ -667,7 +811,38 @@ begin
             End;
         end;
     end; 
+
     if LOGGING then LogExitT1('SetRace', EditorID(furryRace));
+end;
+
+
+{========================================================================
+Assign a pseudorace (Reachmen or Skaal) to a furry race.
+}
+Procedure SetPseudoRace(pseudoRaceName, pseudoRaceUsername, vanillaRaceName, furryRaceName, raceClass, armorRace: string);
+var
+    vanillaRace: IwbMainRecord;
+    pseudoRace: IwbMainRecord;
+begin
+    // Pseudorace is copied from the master vanilla race.
+    vanillaRace := FindAsset(Nil, 'RACE', vanillaRaceName);
+    if Assigned(vanillaRace) then begin
+        AddRecursiveMaster(targetFile, Getfile(vanillaRace));
+        pseudoRace := wbCopyElementToFile(vanillaRace, targetFile, True, True);
+        if Assigned(pseudoRace) then begin
+            SetEditorID(pseudoRace, pseudoRaceName);
+            Add(pseudoRace, 'FULL', TRUE);
+            SetElementEditValues(pseudoRace, 'FULL', pseudoRaceUsername);
+                SetRace(pseudoRaceName, furryRaceName, raceClass, armorRace);
+        end
+        else
+            Raise Exception.Create(Format(
+                'Race %s could not be created for vanilla race %s in file %s', 
+                [pseudoRaceName, vanillaRaceName, GetFileName(targetFile)]));
+    end
+    else 
+        Raise Exception.Create(Format('Race %s not found, %s will not be assigned', [
+            vanillaRaceName, pseudoRaceName]));
 end;
 
 
@@ -1004,6 +1179,58 @@ begin
 end;
 
 
+{=========================================================================
+Set an NPC to a particular race or pseudorace.
+}
+procedure SetNPCRace(npcName, raceName: string);
+var
+    i: integer;
+begin
+    if LOGGING then LogEntry2(10, 'SetNPCRace', npcName, raceName);
+    i := vanillaRaces.IndexOf(raceName);
+    if i < 0 then
+        Warn(Format('Race %s not found, will not be assigned to %s', [raceName, npcName]))
+    else begin
+        npcForcedRace.addObject(npcName, vanillaRaces.objects[i]);
+        if LOGGING then LogT(Format('Assigned race %s to NPC %s', [raceName, npcName]));
+    end;
+    if LOGGING then LogExitT('SetNPCRace');
+end;
+
+
+{==================================================================
+Determine whether an NPC has the "Reachman" race.
+
+In the base game, reachmen are  Bretons. We allow them to be assigned a different
+look, without actually changing their race as the game sees it.
+}
+function IsReachman(npc: IwbMainRecord): Boolean;
+begin
+    if (NPCAssignedRace(npc) = 'ReachmanRace') then result := True
+    else if EditorID(LinksTo(ElementByPath(npc, 'RNAM'))) <> 'BretonRace' then result := False 
+    else if HasFaction(npc, 'ForswornFaction') then result := True
+    else if HasFaction(npc, 'MS01TreasuryHouseForsworn') then result := True
+    else if HasFaction(npc, 'DruadachRedoubtFaction') then result := True
+    else if HasForswornTattoo(npc) then result :- True
+    else result := False;
+end;
+
+
+{==================================================================
+Determine whether an NPC has the "Reachman" race.
+
+In the base game, reachmen are  Bretons. We allow them to be assigned a different
+look, without actually changing their race as the game sees it.
+}
+function IsSkaal(npc: IwbMainRecord): Boolean;
+begin
+    if (NPCAssignedRace(npc) = 'SkaalRace') then result := True
+    else if EditorID(LinksTo(ElementByPath(npc, 'RNAM'))) <> 'NordRace' then result := False
+    else if HasRaceFaction(npc, 'ReachmanRace') then result := True 
+    else result := False;
+end;
+
+
 {============================================================================
 Some NPCs have multiple NPC records. This makes sure all records look the same.
 }
@@ -1036,28 +1263,90 @@ end;
 
 
 {============================================================================
-Load up the cur* global variables with info from the current NPC.
+Return any NPC race change.
+}
+function GetNpcRaceChange(npc: IwbMainRecord): IwbMainRecord;
+var
+    npcFactionList: IwbElement;
+    fn: string;
+    i, j, k: integer;
+begin
+    if LOGGING then LogEntry1(10, 'GetNpcRaceChange', Name(npc));
+    result := nil;
+    i := npcForcedRace.IndexOf(EditorID(npc));
+    if i >= 0 then
+        result := ObjectToElement(npcForcedRace.objects[i])
+    else begin
+        npcFactionList := ElementByPath(npc, 'Factions');
+        for i := 0 to ElementCount(npcfactionList)-1 do begin
+            fn := EditorID(LinksTo(ElementByPath(ElementByIndex(npcFactionList, i), 'Faction')));
+            j := factionRaces.IndexOfName(fn);
+            LogD(Format('Faction %s has index %d', [fn, j]));
+            if j >= 0 then begin
+            if LOGGING then LogD(Format('Faction %s -> race %s', [
+                    fn, factionRaces.ValueFromIndex[j]]));
+                k := vanillaRaces.IndexOf(factionRaces.ValueFromIndex[j]);
+                result := ObjectToElement(vanillaRaces.objects[k]);
+            end;
+        end;
+    end;
+    if LOGGING then LogExitT1('GetNpcRaceChange', Name(result));
+end;
+
+
+{============================================================================
+Load up the curNPC* global variables with info from the current NPC.
 }
 procedure LoadNPC(npc, originalNPC: IwbMainRecord);
 var 
-    raceIdx, sexIdx, presetsIdx: integer;
+    i, raceIdx, sexIdx, presetsIdx: integer;
+    tintList: IwbElement;
+    tintLayer: IwbElement;
 begin
     if LOGGING then LogEntry1(10, 'LoadNPC', Name(npc));
     curNPC := npc;
     curNPCoriginal := originalNPC;
+
     curNPCrace := LinksTo(ElementByPath(npc, 'RNAM'));
-    curNPCFurryRace := ObjectToElement(raceAssignments.objects[raceAssignments.IndexOf(EditorID(curNPCrace))]);
-    if LOGGING then begin
-        LogT('Race is ' + EditorID(curNPCrace));
-        LogT('FUrry Race is ' + EditorID(curNPCFurryrace));
-        LogT('Sex is ' + GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female'));
-        LogT('Age is ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
+    curNPCAssignedRace := GetNpcRaceChange(npc);
+    if Assigned(curNPCAssignedRace) then 
+        curNPCFurryRace := curNPCAssignedRace
+    else 
+        curNPCFurryRace := ObjectToElement(raceAssignments.objects[
+            raceAssignments.IndexOf(EditorID(curNPCrace))]);
+    
+    if Assigned(curNPCTintLayers) then curNPCTintLayers.Free;
+    curNPCTintLayers := TStringList.Create;
+    curNPCTintLayers.Duplicates := dupIgnore;
+    curNPCTintLayers.Sorted := true;
+    tintList := ElementByPath(npc, 'Tint Layers');
+    if LOGGING then LogD(Format('Loading %d tint Layers', [Integer(ElementCount(tintList))]));
+    for i := 0 to ElementCount(tintList)-1 do begin
+        tintLayer := ElementByIndex(tintList, i);
+        if GetElementNativeValues(tintLayer, 'TINV') > 0.01 then begin
+            // Only add visible tint layers
+            curNPCTintLayers.Add(
+                GetElementEditValues(tintLayer, 'TINI'));
+            if LOGGING then LogD(Format('Found tint layer %s', [
+                GetElementEditValues(tintLayer, 'TINI')]));
+        end;
     end;
+
     curNPCsex := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
         SEX_FEMADULT, SEX_MALEADULT) 
         + IfThen(GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child') = '1', 2, 0);
     curNPCalias := Unalias(Name(npc));
     curNPCHash := curNPCalias + GetElementEditValues(npc, 'Record Header\Data Size');
+
+    if LOGGING then begin
+        LogT('Race is ' + EditorID(curNPCrace));
+        LogT('Assigned Race is ' + Name(curNPCAssignedRace));
+        LogT('Furry Race is ' + EditorID(curNPCFurryrace));
+        LogT('Sex is ' + GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female'));
+        LogT('Age is ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
+        LogT('Tint Layers: ' + curNPCTintLayers.CommaText);
+    end;
+    
     if LOGGING then LogExitT1('LoadNPC', Format('%s %s', [Name(curNPCrace), SexToStr(curNPCsex)]));
 end;
 

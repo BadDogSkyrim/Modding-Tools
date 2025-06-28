@@ -1,9 +1,6 @@
 {
 
-    Load:
-    - BDCanines.esp
-    - CatRaces.esp
-    - YASGear.esp (BDFurryGear)
+  Hotkey: Ctrl+Alt+T
 
 }
 unit BDFurrySkyrimTEST;
@@ -46,7 +43,7 @@ begin
                     ElementByPath(npcFurryRace, tintMaskPaths[npcSex]),
                     tintAssets[npcSex].objects[rti].IndexOf(tintLayerTINI));
                 maskType := GetLayerID(raceTintLayer);
-                if LOGGING then LogD(Format('Have race tint layer %s - %s', [TintLayerToStr(maskType), PathName(raceTintLayer)]));
+                if LOGGING then LogD(Format('Have race tint layer %s: %s', [TintLayerToStr(maskType), PathName(raceTintLayer)]));
                 if maskType = layerType then result := result + 1;
             end;
         end;
@@ -56,19 +53,54 @@ end;
 
 procedure TestNPCs;
 var 
-    e, aa, old: IwbElement;
+    e, aa, old, r: IwbElement;
     i: integer;
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
-    //Aliases work
-    AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
-    AssertStr('AstridXXX', Unalias('AstridXXX'), 'Non-alias works');
+    // REACHMEN
+    // Konoi skin tone layer index = 1
+    r := FindAsset(Nil, 'RACE', 'YASKonoiRace');
+    AssertValueListTest(r, 'Head Data\Male Head Data\Tint Masks', 
+        'Tint Layer\Texture\TINP', 'Skin Tone', TRUE); 
+    e := FindElementInCompoundList(r, 'Head Data\Male Head Data\Tint Masks', 
+        'Tint Layer\Texture\TINP', 'Skin Tone');
+    AddMessage('Found skin tone layer: ' + PathName(e));
+    AssertStr(GetElementEditValues(e, 'Tint Layer\Texture\TINI'),
+        '1', 
+        'Konoi skin tone layer');
 
+    // Reachmen are set to a new Reachmen race 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncForsworn01Melee1HBretonM01');
+    e := FurrifyNPC(old);
+    AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
+        'EncForsworn01Melee1HBretonM01 is now Reachman');
+    AssertNpcTintLayersExist(e);
+
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Ainethach');
+    e := FurrifyNPC(old);
+    AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
+        'Ainethach is now Reachman');
+    AssertNpcTintLayersExist(e);
+
+    // BRETONS
+    old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
+    e := FurrifyNPC(old);
+    // Breton Skin tone layer index = 2
+    AssertValueListTest(e, 'Tint Layers', 'TINI', '1', FALSE);
+    AssertValueListTest(e, 'Tint Layers', 'TINI', '2', TRUE); 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
+    e := FurrifyNPC(old);
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
+    e := FurrifyNPC(old);
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit03MagicBretonM');
+    e := FurrifyNPC(old);
+
+    // NORDS
     // Nord race should be lykaios race
     e := FindAsset(targetFile, 'RACE', 'NordRace');
     old := FindAsset(FileByIndex(0), 'RACE', 'NordRace');
-    AssertStr(EditorID(LinksTo(ElementByPath(e, 'WNAM'))), 'BDLykSkin',
+    AssertStr(EditorID(LinksTo(ElementByPath(e, 'WNAM'))), 'YASLykaiosSkin',
         'Nord skin is now lykaios');
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'KhajiitRace',
         'Nord armor race is now Khajiit');
@@ -76,10 +108,12 @@ begin
     AddMessage(GetFileName(GetFile(e)) + ' race has headpart 0: ' + GetElementEditValues(e, 'Head Data\Male Head Data\Head Parts\[0]\HEAD'));
     AssertInCompoundList(ElementByPath(e, 'Head Data\Male Head Data\Head Parts'), 
         'HEAD',
-        'BDLykMaleHead');
+        'YASLykaiosMaleHead');
 
     // Nord NPC is properly furrified
     // CorpsePrisoner doesn't have negative tint indices.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01Melee1HNordM');
+    e := FurrifyNPC(old);
     old := FindAsset(FileByIndex(0), 'NPC_', 'CorpsePrisonerNordMale');
     e := FurrifyNPC(old);
 
@@ -90,7 +124,7 @@ begin
     LoadNPC(e, old);
     AssertInt(NPCTintLayerCount(e, TINT_DIRT), 0, 'Angvid has no dirt');
     AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Angvid has no paint');
-    AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '75');
+    AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '1');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
     Assert(Assigned(old), 'Have BalgruuftheGreater');
@@ -103,23 +137,59 @@ begin
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), 'BDCanMaleEyesBlue');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesBlue');
     AssertInt(NPCTintLayerCount(e, TINT_DIRT), 1, 'BolgeirBearclaw has dirt');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), 'BDCanMaleEyesDarkGray');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesAmber');
 
-    old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
-    e := FurrifyNPC(old);
-    AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
+    //Aliases work
+    AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
+    AssertStr('AstridXXX', Unalias('AstridXXX'), 'Non-alias works');
 
-    // This pit fan has invalid tint layers (looks like they changed her to a woman
-    // without fixing the tint layers). It just has to not crash.
-    old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
-    e := FurrifyNPC(old);
-    AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
+    // FEMALES TBS
+    // old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
+    // e := FurrifyNPC(old);
+    // AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
 
+    // // This pit fan has invalid tint layers (looks like they changed her to a woman
+    // // without fixing the tint layers). It just has to not crash.
+    // old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
+    // e := FurrifyNPC(old);
+    // AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
+
+end;
+
+
+procedure TestRaces;
+var
+    kr, ch: integer;
+begin
+    AddMessage(#13#10#13#10 + '============ CHECKING RACES ===============');
+
+    AddMessage(Format('Race 0: %s', [tintAssets[SEX_MALEADULT].strings[0]]));
+    AddMessage(Format('--has %d classes', [tintAssets[SEX_MALEADULT].objects[0].Count]));
+    AddMessage(Format('--class 0: %s', [tintAssets[SEX_MALEADULT].objects[0].strings[0]]));
+    AddMessage(Format('--class 0 has %d tints', [tintAssets[SEX_MALEADULT].objects[0].objects[0].count]));
+    AddMessage(Format('--class 0 tint 0 path: %s', [PathName(ObjectToElement(
+        tintAssets[SEX_MALEADULT].objects[0].objects[0].objects[0]))]));
+
+    kr := tintAssets[SEX_MALEADULT].IndexOf('YASKettuRace');
+    Assert(kr > 0, 'Have kettu race tints');
+
+    ch := tintAssets[SEX_MALEADULT].objects[kr].indexOf('KettuCheek');
+    Assert(ch > 0, 'Have kettu cheek tint class');
+
+    Assert(tintAssets[SEX_MALEADULT].objects[kr].objects[ch].count >= 3, 
+        'Have at least three kettu cheek tint layers');
+    
+    AddMessage('Count = ' + IntToStr(tintAssets[SEX_MALEADULT].objects[kr].objects[ch].count));
+    AddMessage('Key 0 = ' + tintAssets[SEX_MALEADULT].objects[kr].objects[ch].strings[0]);
+    AddMessage('Value 0 = ' + PathName(ObjectToElement(tintAssets[SEX_MALEADULT].objects[kr].objects[ch].Objects[0])));
+    Assert(ContainsText(PathName(ObjectToElement(tintAssets[SEX_MALEADULT].objects[kr].objects[ch].Objects[0])),
+        'Tint Masks'),
+        'Class tint path 0 contains Tint Masks');
 end;
 
 
@@ -343,12 +413,13 @@ begin
     a1 := HighestOverrideOrSelf(armo, 1);
     Assert(GetFileName(GetFile(a1)) = 'Update.esm', 'First override in Update.esm');
     a2 := HighestOverrideOrSelf(armo, 100);
-    AssertStr(GetFileName(GetFile(a2)), 'unofficial skyrim special edition patch.esp', 'HighestOverrideOrSelf will return winning override with a large integer');
-    AssertStr(GetFileName(GetFile(WinningOverride(armo))), 'unofficial skyrim special edition patch.esp', 
+    AssertStr(GetFileName(GetFile(a2)), 'Dawnguard.esm', 
+        'HighestOverrideOrSelf will return winning override with a large integer');
+    AssertStr(GetFileName(GetFile(WinningOverride(armo))), 'Dawnguard.esm', 
         'WinningOverride returns highest override');
     Assert(not IsWinningOverride(armo), 'Skrim.esm/ArmorFalmerBoots is not winning override');
     Assert(not HasNoOverride(armo), 'ArmorFalmerBoots has an override');
-    AssertInt(OverrideCount(armo), 3, Format('%s has correct overrides', [PathName(armo)]));
+    AssertInt(OverrideCount(armo), 2, Format('%s has correct overrides', [PathName(armo)]));
     AssertInt(OverrideCount(a1), 0, Format(
         'OverrideCount does NOT work correctly when given an overriding record. %s has one override, but returns 0', 
         [PathName(a1)]));
@@ -406,7 +477,8 @@ begin
     Assert(GetElementNativeValues(arma, 'BODT\First Person Flags\33 - Hands') = 0, 
         Format('%s has hands bit set', [EditorID(arma)]));
         
-    arma := FindAsset(nil, 'ARMA', 'YA_BladesHelmetAA_LYK');
+    // Thieves guild hood in Update.esm has form version 44. Make sure we can read it.
+    arma := FindAsset(FileByIndex(2), 'ARMA', 'ThievesGuildHelmetAA');
     i := Integer(GetElementNativeValues(arma, 'Record Header\Form Version'));
     AssertInt(i, 44, 'Form version');
     AddMessage(Format('%s bodypart flags: $%s', [
@@ -488,19 +560,21 @@ begin
 
     TestSystemFunc;
 
-    LOGGING := False;
+    LOGGING := TRUE;
     SetPreferences;
     // ShowRaceAssignments;
     FurrifyAllRaces;
-    // ShowRaceTints;
+    ShowRaceTints;
+    TestRaces;
+
     FurrifyHeadpartLists;
     // ShowHeadparts;
-    CollectArmor;
-    ShowArmor;
+    // CollectArmor;
+    // ShowArmor;
 
     LOGGING := True;
-    //TestNPCs;
-    TestArmor;
+    TestNPCs;
+    // TestArmor;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen((testErrorCount > 0), 

@@ -12,10 +12,10 @@ implementation
 uses xEditAPI, Classes, StrUtils;
 
 const
-    oldString = 'YAS\Feline\Tail';
-    newString = 'YAS\Pred\Tail';
-    targetPath = 'Male Biped Model\MOD2';
-    secondPath = 'Tint Layer\Texture\TINT';
+    oldString = 'YAS\Konoi\Earrings\Kon';
+    newString = 'YAS\Xeba\Earrings\Xeba';
+    targetPath = 'Parts';
+    secondPath = 'NAM1';
     doIt = TRUE;
 
 

@@ -167,8 +167,8 @@ end;
 
 
 //=======================================================================
-// Check to ensure the given IwbContainer does not contain the record referenced by editor ID.
-// Also ensures all elements of the list are valid.
+// Check to ensure the given IwbContainer does not contain the record referenced by
+// editor ID. Also ensures all elements of the list are valid.
 Procedure AssertNotInList(elist: IwbContainer; target: string);
 var
     i: integer;
@@ -183,6 +183,72 @@ begin
     end;
     if target <> '' then
         Assert(not found, Format('Did not find target element %s in %s', [target, PathName(elist)]));
+end;
+
+//=======================================================================
+// Check to ensure whether the given value is/is not in the given list.
+Procedure AssertValueListTest(e: IwbElement; pathToList: string; pathToValue: string; 
+    testValue: string; shouldBeInList: boolean);
+var
+    elist: IwbElement;
+    i: integer;
+    ele: IwbElement;
+    val: string;
+    found: boolean;
+begin
+    elist := ElementByPath(e, pathToList);
+    found := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        ele := ElementByIndex(elist, i);
+        val := GetElementEditValues(ele, pathToValue);
+        AddMessage(Format('Checking value "%s" in %s', [val, FullPath(ele)]));
+        if val = testValue then begin
+            found := true;
+            break;
+        end;
+    end;
+    if shouldBeInList then
+        Assert(found, Format('Value "%s" found in %s', [testValue, FullPath(elist)]))
+    else
+        Assert(not found, Format('Value "%s" not found in %s', [testValue, FullPath(elist)]));
+end;
+
+
+{
+    // Assert that all of an NPC's tint layers exist in the NPC's race.
+}
+procedure AssertNpcTintLayersExist(npc: IwbMainRecord);
+var
+    npcRace: IwbMainRecord;
+    npcTints, raceTints: IwbElement;
+    i, j: integer;
+    npcTintIndex, raceTintIndex: integer;
+    found: boolean;
+    p: string;
+begin
+    npcRace := LinksTo(ElementByPath(npc, 'RNAM'));
+    Assert(Assigned(npcRace), 'NPC has assigned race');
+    p := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
+        'Head Data\Feale Head Data\Tint Masks', 
+        'Head Data\Male Head Data\Tint Masks'); 
+    npcTints := ElementByPath(npc, 'Tint Layers');
+    raceTints := ElementByPath(npcRace, p);
+    Assert(Assigned(npcTints), 'NPC has Face Tinting Layers');
+    Assert(Assigned(raceTints), 'Race has Face Tinting Layers');
+    for i := 0 to ElementCount(npcTints)-1 do begin
+        npcTintIndex := GetElementNativeValues(
+            ElementByIndex(npcTints, i), 'TINI');
+        found := false;
+        for j := 0 to ElementCount(raceTints)-1 do begin
+            raceTintIndex := GetElementNativeValues(
+                ElementByIndex(raceTints, j), 'Tint Layer\Texture\TINI');
+            if npcTintIndex = raceTintIndex then begin
+                found := true;
+                break;
+            end;
+        end;
+        Assert(found, Format('%s tint layer index %d exists in race', [Name(npc), npcTintIndex]));
+    end;
 end;
 
 

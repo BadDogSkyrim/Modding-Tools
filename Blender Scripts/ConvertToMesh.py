@@ -41,6 +41,8 @@ try:
 except:
     allkeys = []
 
+print(f"Found {len(allkeys)} shape keys in the base object.")
+
 for i, skn in enumerate(allkeys):
     # Set the shape key on the base object.
     ObjectSelect([objbase])

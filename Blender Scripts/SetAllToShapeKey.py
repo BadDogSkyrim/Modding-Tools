@@ -10,5 +10,8 @@ print(f"Setting to key {keyname}")
 
 for obj in bpy.context.scene.objects:
     if not obj.hide_get():
-        if obj.data and obj.type == 'MESH' and keyname in obj.data.shape_keys.key_blocks:
-            obj.active_shape_key_index = obj.data.shape_keys.key_blocks.find(keyname)
+        if obj.data and obj.type == 'MESH': 
+            if keyname in obj.data.shape_keys.key_blocks:
+                obj.active_shape_key_index = obj.data.shape_keys.key_blocks.find(keyname)
+            else:
+                obj.active_shape_key_index = 0
