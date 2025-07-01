@@ -371,24 +371,22 @@ end;
 
 
 {==================================================================
-Create a skin tone layer from the given preset.
+Create a NPC tint layer from the given preset.
 }
 procedure SetNPCTintLayer(const npc: IwbMainRecord; const skintonePreset: IwbElement);
 var
     color: IwbMainRecord;
     sktLayer: IwbElement;
     tintAsset: IwbContainer;
-    tintLayerID: integer;
     tinv: single;
     cnam: IwbElement;
     qnam: IwbElement;
     i: integer;
     c: integer;
 begin
-    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), FullPath(skintonePreset));
+    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), PathName(skintonePreset));
 
     tintAsset := GetContainer(GetContainer(skintonePreset));
-    tintLayerID := GetLayerID(tintAsset);
     if not ElementExists(npc, 'Tint Layers') then begin
         Add(npc, 'Tint Layers', True);
         sktLayer := ElementByIndex(ElementByPath(npc, 'Tint Layers'), 0);
@@ -453,7 +451,7 @@ var
     lo, hi: integer;
 begin
     if LOGGING then LogEntry3(10, 'ChooseFurryTintLayer', 
-        Name(npc), Pathname(presetList), IfThen(skipfirst, 'SKIPFIRST', 'USEFIRST'));
+        Name(npc), PathName(presetList), IfThen(skipfirst, 'SKIPFIRST', 'USEFIRST'));
     
     lo := 0;
     hi := ElementCount(presetList)-1;
@@ -496,19 +494,35 @@ var
     classIndex: integer;
     tintAssetIndex: integer;
     thisTintAsset: IwbElement;
+    classname: string;
 begin
     if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
 
-    // Assign skin tone layer
+    // Assign fur tint layers 
     raceIndex := tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace));
-    classIndex := tintAssets[curNPCsex].objects[raceIndex].IndexOf('Skin Tone');
-    tintList := tintAssets[curNPCsex].objects[raceIndex].objects[classIndex];
+    for classIndex := 0 to tintAssets[curNPCsex].objects[raceIndex].Count-1 do begin
+        classname := tintAssets[curNPCsex].objects[raceIndex].strings[classIndex];
+        if decorationLayers.indexOf(classname) >= 0 then begin
+            // Tint layer is decoration layer
+        end
+        else begin
+            if LOGGING then LogD(Format('Considering fur layer %s for %s', [
+                tintAssets[curNPCsex].objects[raceIndex].strings[classIndex], 
+                EditorID(curNPCFurryRace)]));
 
-    tintAssetIndex := Hash(curNPCalias, 1234, tintList.Count);
-    thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
-    ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
-
-    exit;
+            // Choose one of the fur class, e.g. one muzzle tint
+            tintList := tintAssets[curNPCsex].objects[raceIndex].objects[classIndex];
+            tintAssetIndex := Hash(curNPCalias, 518, tintList.Count);
+            thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
+            if LOGGING then LogD(Format('Assigning tint layer (%s) [%s] > %s', [
+                tintAssets[curNPCsex].strings[raceIndex],
+                GetElementEditValues(thisTintAsset, 'Tint Layer\Texture\TINT'),
+                PathName(thisTintAsset)]));
+            ChooseFurryTintLayer(curNPC, 
+                ElementByPath(thisTintAsset, 'Presets'), 
+                (classname <> 'Skin Tone'));
+        end;
+    end;
 
     // XXXXXXXXXX
     // optLayers := TStringList.Create;

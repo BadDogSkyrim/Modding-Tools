@@ -248,6 +248,8 @@ begin
         SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower01.dds', 'KettuCheek');
         SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower02.dds', 'KettuCheek');
         SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower03.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\Muzzle01.dds', 'Muzzle');
+        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\Muzzle02.dds', 'Muzzle');
     end;
 
     begin // KONOI

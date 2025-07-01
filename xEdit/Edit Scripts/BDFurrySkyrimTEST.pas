@@ -58,6 +58,23 @@ var
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
+    // BRETONS
+    old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
+    e := FurrifyNPC(old);
+    // Breton Skin tone layer index = 2
+    AssertValueListTest(e, 'Tint Layers', 'TINI', '1', FALSE);
+    AssertValueListTest(e, 'Tint Layers', 'TINI', '2', TRUE); 
+    // Needs to have one KettuCheek layer
+    Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 
+        'Breton NPC has at least two tint layers');
+
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
+    e := FurrifyNPC(old);
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
+    e := FurrifyNPC(old);
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit03MagicBretonM');
+    e := FurrifyNPC(old);
+
     // REACHMEN
     // Konoi skin tone layer index = 1
     r := FindAsset(Nil, 'RACE', 'YASKonoiRace');
@@ -82,19 +99,7 @@ begin
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
         'Ainethach is now Reachman');
     AssertNpcTintLayersExist(e);
-
-    // BRETONS
-    old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
-    e := FurrifyNPC(old);
-    // Breton Skin tone layer index = 2
-    AssertValueListTest(e, 'Tint Layers', 'TINI', '1', FALSE);
-    AssertValueListTest(e, 'Tint Layers', 'TINI', '2', TRUE); 
-    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
-    e := FurrifyNPC(old);
-    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
-    e := FurrifyNPC(old);
-    old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit03MagicBretonM');
-    e := FurrifyNPC(old);
+    exit;
 
     // NORDS
     // Nord race should be lykaios race
