@@ -12,34 +12,34 @@ begin
     DefineFurryRaces;
 
     BEGIN // ============ NORD ============
-        // SetRace('NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
-        // SetRace('NordRaceVampire', 'YASLykaiosRaceVampire', 'DOG', 'KhajiitRace');
-        // SetRace('DLC1NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
-        // SetRace('NordRaceAstrid', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceVampire', 'YASLykaiosRaceVampire', 'DOG', 'KhajiitRace');
+        SetRace('DLC1NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceAstrid', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
     END;
 
     BEGIN // =========== ELDER  ===========
-        // SetRace('ElderRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('ElderRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== IMPERIAL ============
-        // SetRace('ImperialRace', 'YASVaalsarkRace', 'DOG', 'KhajiitRace');
-        // SetRace('ImperialRaceVampire', 'YASVaalsarkRace', 'DOG', 'KhajiitRace');
+        SetRace('ImperialRace', 'YASVaalsarkRace', 'DOG', 'KhajiitRace');
+        SetRace('ImperialRaceVampire', 'YASVaalsarkRace', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== BRETON  ===========
         SetRace('BretonRace', 'YASKettuRace', 'DOG', 'KhajiitRace');
-        // SetRace('BretonRaceVampire', 'YASKettuRaceVampire', 'DOG', 'KhajiitRace');
+        SetRace('BretonRaceVampire', 'YASKettuRaceVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== REDGUARD ============
-        // SetRace('RedguardRace', 'YASKygarraRace', 'DOG', 'KhajiitRace');
+        SetRace('RedguardRace', 'YASKygarraRace', 'DOG', 'KhajiitRace');
         // SetRace('RedguardRaceVampire', 'YASKygarraRaceVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== REACHMAN ============
         SetPseudoRace('YASReachmanRace', 'Reachmen', 'BretonRace', 'YASKonoiRace', 'DOG', 'KhajiitRace');
-        // SetPseudoRace('YASReachmanRaceVampire', 'Reachmen', 'BretonRaceVampire', 'YASKonoiRaceVampire', 'DOG', 'KhajiitRace');
+        SetPseudoRace('YASReachmanRaceVampire', 'Reachmen', 'BretonRaceVampire', 'YASKonoiRaceVampire', 'DOG', 'KhajiitRace');
         SetFactionRace('ForswornFaction', 'YASReachmanRace');
         SetFactionRace('MS01TreasuryHouseForsworn', 'YASReachmanRace');
         SetFactionRace('DruadachRedoubtFaction', 'YASReachmanRace');
@@ -47,9 +47,9 @@ begin
     end;
 
     BEGIN // ========== SKAAL ============
-        // SetPseudoRace('YASSkaalRace', 'Skaal', 'NordRace', 'YASXebaRace', 'DOG', 'KhajiitRace');
-        // SetPseudoRace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASXebaRaceVampire', 'DOG', 'KhajiitRace');
-        // SetFactionRace('DLC2SkaalVillageCitizenFaction', 'YASSkaalRace');
+        SetPseudoRace('YASSkaalRace', 'Skaal', 'NordRace', 'YASXebaRace', 'DOG', 'KhajiitRace');
+        SetPseudoRace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASXebaRaceVampire', 'DOG', 'KhajiitRace');
+        SetFactionRace('DLC2SkaalVillageCitizenFaction', 'YASSkaalRace');
     end;
 
     { ================================== ARGONIAN ================================ }

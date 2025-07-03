@@ -54,6 +54,7 @@ const
     AGE_MASK = 2;
     SEX_MALE = 0;
     SEX_FEM = 1;
+    SEX_CHILD = 2;
     SEX_LO = 0;
     SEX_HI = 0;
 
@@ -130,7 +131,7 @@ var
     // Indexed by sex, race, and tint layer class -> list of race tint layer assets
     tintAssets: array[0..3 {SEX_COUNT}] of TStringList {[racename] -> TStringList:RaceTintDefinitions};
     // tintAssetClasses gives the tint class of each tint asset in a race.
-    // [sex, race, TINI] -> class name
+    // [sex, race] -> TINI=class name
     tintAssetClasses: array[0..3 {SEX_COUNT}] of TStringList;
 
     tintClassRequired: TStringList; // [classname] = '1' if required, '0' if not.
@@ -227,20 +228,21 @@ begin
     decorationLayers := TStringList.Create;
     decorationLayers.Duplicates := dupIgnore;
     decorationLayers.Sorted := true;
+    decorationLayers.Add('Dirt');
+    decorationLayers.Add('Frekles');
+    decorationLayers.Add('Paint');
     decorationLayers.Add('WarpaintBlackblood');
     decorationLayers.Add('WarpaintBothiah');
-    decorationLayers.Add('WarpaintForsworn');
-    decorationLayers.Add('Frekles');
-    decorationLayers.Add('WarpaintNord'); 
+    decorationLayers.Add('WarpaintBreton');
     decorationLayers.Add('WarpaintDarkElf');
+    decorationLayers.Add('WarpaintForsworn');
+    decorationLayers.Add('WarpaintHand');
     decorationLayers.Add('WarpaintImperial');
+    decorationLayers.Add('WarpaintNord'); 
     decorationLayers.Add('WarpaintOrc');
     decorationLayers.Add('WarpaintRedguard');
-    decorationLayers.Add('WarpaintWoodElf');
-    decorationLayers.Add('WarpaintHand');
     decorationLayers.Add('WarpaintSkull');
-    decorationLayers.Add('Paint');
-    decorationLayers.Add('Dirt');
+    decorationLayers.Add('WarpaintWoodElf');
 
     // OBSOLETE
     tintlayerNames := TStringList.Create;
@@ -338,6 +340,8 @@ begin
             
     defaultRace := FindAsset(FileByIndex(0), 'RACE', 'DefaultRace');
 
+    curNPClabels := nil;
+    curNPCTintLayers := nil;
     if LOGGING then LogExitT('PreferencesInit');
 end;
 
@@ -400,7 +404,8 @@ begin
                 //     //     tintAssetClasses[sexIdx].objects[i].strings[j]
                 //     // ]));
                 // end;
-                tintAssetClasses[sexIdx].objects[i].objects[j].Free;
+                if Assigned(tintAssetClasses[sexIdx].objects[i].objects[j]) then
+                    tintAssetClasses[sexIdx].objects[i].objects[j].Free;
             end;
             tintAssetClasses[sexIdx].objects[i].Free;
         end;
@@ -422,7 +427,8 @@ begin
         addonRaces.objects[i].free;
     addonRaces.free;
 
-    if Assigned(curNPCTintLayers) then curNPCTintLayers.Free;
+    if Assigned(curNPCTintLayers) then curNPCTintLayers.Free();
+    if Assigned(curNPClabels) then curNPClabels.Free();
 
     if LOGGING then LogExitT('PreferencesFree');
 end;
@@ -460,6 +466,16 @@ begin
     else if s = 'Eyebrows' then result := HP_EYEBROWS
     else if s = 'Facial Hair' then result := HP_FACIALHAIR
     else result := HP_UNKNOWN;
+end;
+
+
+function GetNPCSex(npc: IwbMainRecord): integer;
+begin
+    result := IfThen(
+        GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
+            SEX_FEMADULT, SEX_MALEADULT) 
+        + IfThen(GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child') = '1', 
+            SEX_CHILD, 0);
 end;
 
 
@@ -597,6 +613,8 @@ begin
             r := tintAssets[sexIdx].IndexOf(EditorID(theRace));
 
             layerList := TStringList.Create;
+            layerList.Duplicates := dupIgnore;
+            layerList.Sorted := True;
             tintAssetClasses[sexIdx].AddObject(EditorID(theRace), layerList);
             rc := tintAssets[sexIdx].IndexOf(EditorID(theRace));
 
@@ -621,9 +639,9 @@ begin
                     TObject(tintAsset));
 
                 // Add to tintAssetClasses
-                tintAssetClasses[sexIdx].objects[rc].AddObject(
-                    GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINI'),
-                    TObject(GetLayerClass(tintAsset))
+                tintAssetClasses[sexIdx].objects[rc].Add(
+                    GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINI')
+                    + '=' + GetLayerClass(tintAsset)
                 );
             end;
         end
@@ -644,22 +662,25 @@ end;
 
 function GetLayerClassByTINI(racename: string; sex: integer; tini: string): string;
 var
-    r, a: integer;
+    r: integer;
 begin
+    if LOGGING then LogEntry3(15, 'GetLayerClassByTINI', racename, SexToStr(sex), tini);
     result := '';
     r := tintAssetClasses[sex].IndexOf(racename);
     if r >= 0 then begin
-        a := tintAssetClasses[sex].objects[r].IndexOf(tini);
-        if a >= 0 then begin
-            result := String(tintAssetClasses[sex].objects[r].objects[a])
+        result := tintAssetClasses[sex].objects[r].values[tini];
+        if result <> '' then begin
+            if LOGGING then LogD(Format('Found tint asset [%s][%s][%s] = %s', [
+                racename, SexToStr(sex), tini, result]))
         end
-        else
+        else 
             Warn(Format('No known tint asset layer %s for race/sex %s/%s', [
                 tini, racename, SexToStr(sex)
             ]));
     end
-    else
+    else 
         Warn(Format('No known race %s/%s', [racename, SexToStr(sex)]));
+    if LOGGING then LogExitT1('GetLayerClassByTINI', result);
 end;
 
 
@@ -733,6 +754,7 @@ begin
             else if ContainsText(fn, 'Forsworn') then result := 'WarpaintForsworn'
             else if ContainsText(fn, 'Muzzle') then result := 'Muzzle'
             else if ContainsText(fn, 'NordWarPaint') then result := 'WarpaintNord'
+            else if ContainsText(fn, 'BretonWarPaint') then result := 'WarpaintBreton'
             else if ContainsText(fn, 'DarkElfWarPaint') then result := 'WarpaintDarkElf'
             else if ContainsText(fn, 'ImperialWarPaint') then result := 'WarpaintImperial'
             else if ContainsText(fn, 'OrcWarPaint') then result := 'WarpaintOrc'
@@ -803,6 +825,7 @@ end;
 procedure ShowRaceTints;
 var
     raceIndex, sexIndex, layerIndex, classIndex, tiniIndex: Cardinal;
+    n: string;
     tintLayers: TStringList;
     tl: IwbElement;
 begin
@@ -817,11 +840,9 @@ begin
         for raceIndex := 0 to tintAssetClasses[sexIndex].count-1 do begin
             AddMessage('|   |   ' + tintAssetClasses[sexIndex].strings[raceIndex]); // Race
             for tiniIndex := 0 to tintAssetClasses[sexIndex].objects[raceIndex].count-1 do begin
+                n := tintAssetClasses[sexIndex].objects[raceIndex].names[tiniIndex];
                 AddMessage('|   |   |   ' 
-                    + tintAssetClasses[sexIndex].objects[raceIndex].strings[tiniIndex]
-                    + ' = '
-                    + String(tintAssetClasses[sexIndex].objects[raceIndex].objects[tiniIndex])
-                ); 
+                    + n + ' = ' + tintAssetClasses[sexIndex].objects[raceIndex].values[n]); 
             end;
         end;
     end;
@@ -1354,6 +1375,30 @@ begin
 end;
 
 
+{=======================================================================
+Find an elemeent in a compound list by the value of one of its parts.
+Return the list element.
+}
+function NPCHasFaction(npc: iwbMainRecord; factionName: string): boolean;
+var
+    i: integer;
+    ele: IwbElement;
+    elist: IwbElement;
+    val: string;
+begin
+    elist := ElementByPath(npc, 'Factions');
+    result := false;
+    for i := 0 to ElementCount(elist)-1 do begin
+        ele := ElementByIndex(elist, i);
+        val := EditorID(LinksTo(ElementByPath(ele, 'Faction')));
+        if val = factionName then begin
+            result := true;
+            break;
+        end;
+    end;
+end;
+
+
 {============================================================================
 Return any NPC race change.
 }
@@ -1386,6 +1431,78 @@ begin
 end;
 
 
+{==================================================================
+Add the given label to the curNPClabels IF it does not conflict with any existing labels.
+}
+procedure CurNPCAddLabel(newLabel: string);
+var i: integer;
+begin
+    for i := 0 to curNPClabels.Count-1 do begin
+        if LabelsConflict(newLabel, curNPClabels[i]) then
+            exit;
+    end;
+    curNPClabels.Add(newLabel);
+end;
+
+
+{==================================================================
+Add any labels that describe the current NPC--but don't add labels that conflict with
+labels already there.
+}
+procedure CurNPCLoadLabels;
+var
+    voice: string;
+    outfit: string;
+begin
+    try
+        if Assigned(curNPClabels) then curNPClabels.Free();
+    except
+        on E: Exception do
+            AddMessage('DEBUG: Exception freeing curNPClabels');
+    end;
+
+    curNPClabels := TStringList.Create();
+    curNPClabels.Duplicates := dupIgnore;
+    curNPClabels.Sorted := True;
+
+    voice := GetElementEditValues(curNPC, 'VTCK');
+    outfit := GetElementEditValues(curNPC, 'DOFT');
+
+    if ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
+        or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')
+    then CurNPCAddLabel('NOBLE');
+
+    if ContainsStr(voice, 'Young') 
+    then curNPClabels.Add('YOUNG');
+
+    if ContainsStr(voice, 'Old') or (EditorID(curNPCrace) = 'ElderRace')
+    then curNPClabels.Add('OLD');
+
+    if ContainsStr(voice, 'Forsworn')
+    then curNPClabels.Add('FEATHERS');
+
+    if ContainsStr(voice, 'Commander') or ContainsStr(voice, 'Soldier') or ContainsStr(voice, 'Guard')
+        or ContainsStr(outfit, 'PenitusOculatus')
+    then curNPClabels.Add('MILITARY');
+
+    if ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') 
+        or ContainsStr(outfit, 'Bandit') or ContainsStr(outfit, 'MinerClothes')
+        // or CurNPCHasTintLayer('Dirt')
+    then curNPClabels.Add('MESSY');
+
+    if ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College') 
+        or NPCHasFaction(curNPC, 'VigilantOfStendarrFaction')
+    then curNPClabels.Add('NEAT');
+
+    if ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit') 
+    then curNPClabels.Add('BOLD');
+
+    // TODO: If wearing outfit with 'ClothingRich' keyword, add NOBLE
+    // TODO: If wearing outfit with 'ClothingPoor [KYWD:000A865C]' keyword, add MESSY
+    // TODO: If complexion is older, add OLD
+end;
+
+
 {============================================================================
 Load up the curNPC* global variables with info from the current NPC.
 }
@@ -1414,7 +1531,7 @@ begin
     curNPCTintLayers := TStringList.Create;
     curNPCTintLayers.Duplicates := dupIgnore;
     curNPCTintLayers.Sorted := true;
-    tintList := ElementByPath(npc, 'Tint Layers');
+    tintList := ElementByPath(originalNPC, 'Tint Layers');
     if LOGGING then LogD(Format('Loading %d tint Layers', [Integer(ElementCount(tintList))]));
     for i := 0 to ElementCount(tintList)-1 do begin
         tintLayer := ElementByIndex(tintList, i);
@@ -1422,26 +1539,28 @@ begin
         // Add visible tint layers
         if GetElementNativeValues(tintLayer, 'TINV') > 0.01 then begin
             tini := GetElementEditValues(tintLayer, 'TINI');
-            tclass := GetLayerClassByTINI(tini);
-            curNPCTintLayers.Add(tclass);
-            if LOGGING then LogD(Format('Found tint layer %s, class %s', [
-                tini, tclass]));
+            tclass := GetLayerClassByTINI(EditorID(curNPCrace), curNPCsex, tini);
+            if decorationLayers.IndexOf(tclass) >= 0 then begin
+                curNPCTintLayers.Add(tclass);
+                if LOGGING then LogD(Format('Found tint layer %s, class %s', [
+                    tini, tclass]));
+            end;
         end;
     end;
 
-    curNPCsex := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
-        SEX_FEMADULT, SEX_MALEADULT) 
-        + IfThen(GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child') = '1', 2, 0);
+    curNPCsex := GetNPCSex(npc); 
     curNPCalias := Unalias(Name(npc));
     curNPCHash := curNPCalias + GetElementEditValues(npc, 'Record Header\Data Size');
+    CurNPCLoadLabels;
 
     if LOGGING then begin
         LogT('Race is ' + EditorID(curNPCrace));
         LogT('Assigned Race is ' + Name(curNPCAssignedRace));
         LogT('Furry Race is ' + EditorID(curNPCFurryrace));
-        LogT('Sex is ' + GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female'));
+        LogT('Sex is ' + SexToStr(curNPCSex));
         LogT('Age is ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
-        LogT('Tint Layers: ' + curNPCTintLayers.CommaText);
+        LogT('Decoration Layers: ' + curNPCTintLayers.CommaText);
+        LogT(Format('Labels: (%d) %s', [curNPClabels.count, curNPClabels.CommaText]));
     end;
     
     if LOGGING then LogExitT1('LoadNPC', Format('%s %s', [Name(curNPCrace), SexToStr(curNPCsex)]));

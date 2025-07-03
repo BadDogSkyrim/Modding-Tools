@@ -82,7 +82,7 @@ begin
         ref := LinksTo(npcref);
         Assert(Assigned(ref), Format('List element target %s at [%d] assigned', 
             [FullPath(elist), i]));
-        if (target <> '') and (EditorID(ref) = target) then found := true;
+        if (target <> '') and ContainsText(EditorID(ref), target) then found := true;
     end;
     if target <> '' then
         Assert(found, Format('Found target element %s in %s', [target, FullPath(elist)]));
@@ -229,7 +229,7 @@ begin
     npcRace := LinksTo(ElementByPath(npc, 'RNAM'));
     Assert(Assigned(npcRace), 'NPC has assigned race');
     p := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
-        'Head Data\Feale Head Data\Tint Masks', 
+        'Head Data\Female Head Data\Tint Masks', 
         'Head Data\Male Head Data\Tint Masks'); 
     npcTints := ElementByPath(npc, 'Tint Layers');
     raceTints := ElementByPath(npcRace, p);
@@ -249,6 +249,56 @@ begin
         end;
         Assert(found, Format('%s tint layer index %d exists in race', [Name(npc), npcTintIndex]));
     end;
+end;
+
+
+{
+Test whether the NPC has a tint layer with a tint file name containing the match string.
+}
+procedure AssertNPCHasTintTest(npc: IwbMainRecord; tintMatch: string; testVal: boolean);
+var
+    fn: string;
+    found: boolean;
+    i, j: integer;
+    npcRace: IwbMainRecord;
+    npcTintIndex, raceTintIndex: integer;
+    npcTints, raceTints: IwbElement;
+    p: string;
+begin
+    npcRace := LinksTo(ElementByPath(npc, 'RNAM'));
+    Assert(Assigned(npcRace), 'NPC has assigned race');
+    p := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
+        'Head Data\Female Head Data\Tint Masks', 
+        'Head Data\Male Head Data\Tint Masks'); 
+    npcTints := ElementByPath(npc, 'Tint Layers');
+    raceTints := ElementByPath(npcRace, p);
+    Assert(Assigned(npcTints), 'NPC has Face Tinting Layers');
+    Assert(Assigned(raceTints), 'Race has Face Tinting Layers');
+    found := false;
+    for i := 0 to ElementCount(npcTints)-1 do begin
+        npcTintIndex := GetElementNativeValues(
+            ElementByIndex(npcTints, i), 'TINI');
+        for j := 0 to ElementCount(raceTints)-1 do begin
+            raceTintIndex := GetElementNativeValues(
+                ElementByIndex(raceTints, j), 'Tint Layer\Texture\TINI');
+            if npcTintIndex = raceTintIndex then begin
+                fn := GetElementEditValues(
+                    ElementByIndex(raceTints, j), 'Tint Layer\Texture\TINT');
+                if ContainsText(fn, tintMatch) then found := True;
+            end;
+        end;
+    end;
+    Assert(found=testVal, Format('%s %s "%s" tint layer', [
+        Name(npc), ifthen(testVal, 'has', 'does not have'), tintMatch]));
+end;
+
+
+{
+Assert that the NPC has a tint layer with a tint file name containing the match string.
+}
+procedure AssertNPCHasTint(npc: IwbMainRecord; tintMatch: string);
+begin
+    AssertNPCHasTintTest(npc, tintMatch, True);
 end;
 
 

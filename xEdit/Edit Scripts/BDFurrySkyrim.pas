@@ -100,66 +100,6 @@ end;
 
 
 {==================================================================
-Add the given label to the curNPClabels IF it does not conflict with any existing labels.
-}
-procedure CurNPCAddLabel(newLabel: string);
-var i: integer;
-begin
-    for i := 0 to curNPClabels.Count-1 do begin
-        if LabelsConflict(newLabel, curNPClabels[i]) then
-            exit;
-    end;
-    curNPClabels.Add(newLabel);
-end;
-
-
-{==================================================================
-Add any labels that describe the current NPC--but don't add labels that conflict with
-labels already there.
-}
-procedure CurNPCLoadLabels;
-var
-    voice: string;
-    outfit: string;
-begin
-    voice := GetElementEditValues(curNPC, 'VTCK');
-    outfit := GetElementEditValues(curNPC, 'DOFT');
-
-    if ContainsStr(voice, 'Emperor') or ContainsStr(voice, 'Ulfric') 
-        or ContainsStr(outfit, 'Jarl') or ContainsStr(outfit, 'FineClothes')
-    then CurNPCAddLabel('NOBLE');
-
-    if ContainsStr(voice, 'Young') 
-    then curNPClabels.Add('YOUNG');
-
-    if ContainsStr(voice, 'Old') 
-    then curNPClabels.Add('OLD');
-
-    if ContainsStr(voice, 'Forsworn')
-    then curNPClabels.Add('FEATHERS');
-
-    if ContainsStr(voice, 'Commander') or ContainsStr(voice, 'Soldier') or ContainsStr(voice, 'Guard')
-        or ContainsStr(outfit, 'PenitusOculatus')
-    then curNPClabels.Add('MILITARY');
-
-    if ContainsStr(outfit, 'Farmer') or ContainsStr(outfit, 'Forsworn') or ContainsStr(outfit, 'Bandit')
-        // or CurNPCHasTintLayer('Dirt')
-    then curNPClabels.Add('MESSY');
-
-    if ContainsStr(outfit, 'Tavern') or ContainsStr(outfit, 'College')
-    then curNPClabels.Add('NEAT');
-
-    if ContainsStr(outfit, 'Warlock') or ContainsStr(outfit, 'Bandit') 
-    then curNPClabels.Add('BOLD');
-
-    // TODO: If wearing outfit with 'ClothingRich' keyword, add NOBLE
-    // TODO: If wearing outfit with 'ClothingPoor [KYWD:000A865C]' keyword, add MESSY
-    // TODO: If complexion is older, add OLD
-    // TODO: If race is Elder, add OLD
-end;
-
-
-{==================================================================
 Determine whether the headpart given by index has any labels that conflict with the current NPC.
 }
 function HeadpartHasExcludedLabels(hpIdx: integer): boolean;
@@ -489,23 +429,22 @@ race.
 }
 Procedure CurNPCChooseFurryTints;
 var
-    tintList: TStringList;
-    raceIndex: integer;
     classIndex: integer;
-    tintAssetIndex: integer;
-    thisTintAsset: IwbElement;
     classname: string;
+    i: integer;
+    raceIndex: integer;
+    thisTintAsset: IwbElement;
+    tintAssetIndex: integer;
+    tintList: TStringList;
 begin
     if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
 
-    // Assign fur tint layers 
+    // Walk through the race's fur tint layers and assign one of each class.
     raceIndex := tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace));
     for classIndex := 0 to tintAssets[curNPCsex].objects[raceIndex].Count-1 do begin
         classname := tintAssets[curNPCsex].objects[raceIndex].strings[classIndex];
-        if decorationLayers.indexOf(classname) >= 0 then begin
-            // Tint layer is decoration layer
-        end
-        else begin
+
+        if decorationLayers.indexOf(classname) < 0 then begin
             if LOGGING then LogD(Format('Considering fur layer %s for %s', [
                 tintAssets[curNPCsex].objects[raceIndex].strings[classIndex], 
                 EditorID(curNPCFurryRace)]));
@@ -524,71 +463,25 @@ begin
         end;
     end;
 
-    // XXXXXXXXXX
-    // optLayers := TStringList.Create;
-    // appliedLayers := TStringList.Create;
+    // Walk through the NPC's tint classes and re-apply any decoration layers.
+    for i := 0 to curNPCTintLayers.count-1 do begin
+        classname := curNPCTintLayers.strings[i];
+        classIndex := tintAssets[curNPCsex].objects[raceIndex].indexOf(classname);
+        if classIndex < 0 then 
+            Warn(Format('Cound not find tint layer class %s on race %s', [
+                classname, EditorID(curNPCfurryRace)
+            ]))
+        else begin
+            if LOGGING then LogD(Format('Adding decoration tint layer %s', [classname]));
+            tintList := tintAssets[curNPCsex].objects[raceIndex].objects[classIndex];
+            tintAssetIndex := Hash(curNPCalias, 536, tintList.Count);
+            thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
+            ChooseFurryTintLayer(curNPC, 
+                ElementByPath(thisTintAsset, 'Presets'), 
+                TRUE);
+        end;
+    end;
 
-    // // Go through tint layers of the furry race in "random" order so we pick up different
-    // // layers for different NPCs.
-    // tintMasks := ElementByPath(curNPCFurryRace, tintMaskPaths[curNPCsex]);
-    // RandomizeIndexList(curNPCAlias, 5345, ElementCount(tintMasks));
-
-    // for t := 0 to indexList.Count-1 do begin
-    //     thisTintAsset := ElementByIndex(tintMasks, Integer(indexList.objects[t]));
-    //     layerID := GetLayerID(thisTintAsset);
-    //     if (layerID >= 0) then begin
-    //         layername := tintlayerNames[layerID];
-    //         if RaceTintIsRequired(thisTintAsset) then begin
-    //             // Some furry races depend on the skin tone layer having a color to look
-    //             // good. Others have built-in color and the skin tone just changes the
-    //             // shade. If the former, all the tint layers should have non-zero alphas;
-    //             // if the latter it's fine for the first layer to have a 0 alpha as most
-    //             // vanilla races do.
-    //             ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
-    //             if LOGGING then LogD(Format('Applied layer of type %s', [layername]));
-    //             appliedLayers.Add(layername);
-    //         end
-    //         else begin
-    //             if appliedLayers.IndexOf(layername) < 0 then begin
-    //                 // Special layers only applied if original has them.
-    //                 tintNPC := False;
-    //                 tintOK := (layerID < TINT_SPECIAL_LO);
-    //                 if not tintOK then tintNPC := CurNPCHasTintlayer(layerID);
-    //                 if tintOK or tintNPC then begin
-    //                     optLayers.AddObject(layername, ElementByPath(thisTintAsset, 'Presets'));
-    //                     appliedLayers.Add(layername);
-    //                     if LOGGING then LogD(Format('Added optional layer %s at %d', [layername, Integer(indexList.objects[t])]))
-    //                 end;
-    //             end
-    //             else 
-    //                 if LOGGING then LogD(Format('Skipping optional layer %s, already applied', [layername]));
-    //         end;
-    //     end
-    //     else Warn('Unknown tint layer: ' + PathName(thisTintAsset));
-    // end;
-
-    // // Assign up to MAX_TINT_LAYERS optional layers
-    // i := Hash(curNPCalias, 487, MAX_TINT_LAYERS);
-    // while (optLayers.count > 0) do begin
-        
-    //     h := Hash(curNPCalias, 0879, optLayers.count);
-    //     thisLayer := optLayers.strings[h];
-    //     thisLayerID := tintlayerNames.IndexOf(thisLayer); 
-
-    //     if LOGGING then LogD(Format('Considering layer %s (%d) for %s', 
-    //         [thisLayer, thisLayerID, Name(curNPC)]));
-    //     if (thisLayerID >= TINT_SPECIAL_LO) or (i > 0) then begin
-    //         ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), True);
-    //         if LOGGING then LogD(Format('Applied layer of type %s, %d/%d remaining', [thisLayer, optLayers.count, i]));
-    //     end;
-    //     optLayers.Delete(h);
-
-    //     // Only non-special layers count against the tint layer maximum.
-    //     if thisLayerID < TINT_SPECIAL_LO then i := i - 1;
-    // end;
-
-    // optLayers.Free;
-    // appliedLayers.Free;
     if LOGGING then LogExitT('CurNPCChooseFurryTints');
 end;
 
@@ -709,17 +602,10 @@ begin
         if Assigned(curNPCAssignedRace) then 
             AssignElementRef(ElementByPath(furryNPC, 'RNAM'), curNPCAssignedRace);
 
-        curNPClabels := TStringList.Create;
-        curNPClabels.Duplicates := dupIgnore;
-        curNPClabels.Sorted := True;
-        CurNPCLoadLabels;
-
         // Clean out existing character customization
         Remove(ElementByPath(furryNPC, 'Head Parts'));
         CurNPCFurrifyHeadparts(npc);
         CurNPCChooseFurryTints;
-
-        curNPClabels.Free;
 
         result := furryNPC;
     end;
@@ -750,7 +636,10 @@ begin
                     [GetFileName(FileByIndex(f)), 100*processedNPCcount/ElementCount(npcList)]) + '%');
 
             npc := ElementByIndex(npcList, n);
-            if IsWinningOverride(npc) then begin
+            if IsWinningOverride(npc) 
+                and (((GetNPCSex(npc) = SEX_MALEADULT) and FURRIFY_NPCS_MALE)
+                    or ((GetNPCSex(npc) = SEX_FEMADULT) and FURRIFY_NPCS_FEM))
+            then begin
                 // Only furrify the winning override. We'll get to it unless it's in
                 // FFO or later, in which case it doesn't need furrification.
                 FurrifyNPC(npc);

@@ -58,6 +58,9 @@ var
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncVigilantOfStendarr05NordM03');
+    Assert(NPCHasFaction(old, 'VigilantOfStendarrFaction'), 'Found VigilantOfStendarrFaction faction');
+
     // BRETONS
     old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
     e := FurrifyNPC(old);
@@ -67,9 +70,14 @@ begin
     // Needs to have one KettuCheek layer
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 
         'Breton NPC has at least two tint layers');
+    AssertNPCHasTint(e, 'Cheek');
+    AssertNPCHasTint(e, 'Muzzle');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
     e := FurrifyNPC(old);
+    AssertNPCHasTint(e, 'Cheek');
+    AssertNPCHasTint(e, 'Muzzle');
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
     e := FurrifyNPC(old);
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit03MagicBretonM');
@@ -93,13 +101,15 @@ begin
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
         'EncForsworn01Melee1HBretonM01 is now Reachman');
     AssertNpcTintLayersExist(e);
+    AssertNPCHasTint(e, 'Muzzle');
+    AssertNPCHasTint(e, 'Dirt');
+    // AssertNPCHasTint(e, 'ForswornTattoo'); //-- TODO
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Ainethach');
     e := FurrifyNPC(old);
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
         'Ainethach is now Reachman');
     AssertNpcTintLayersExist(e);
-    exit;
 
     // NORDS
     // Nord race should be lykaios race
@@ -122,14 +132,21 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'CorpsePrisonerNordMale');
     e := FurrifyNPC(old);
 
+    // EncVigilantOfStendarr05NordM03 is NEAT. 
+    // New Angvid has Skin Tone layer, no null layers.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncVigilantOfStendarr05NordM03');
+    e := FurrifyNPC(old);
+    AssertNpcTintLayersExist(e);
+    AssertNPCHasTintTest(e, 'Dirt', True);
+    Assert(curNPClabels.indexof('NEAT') >= 0, 'EncVigilantOfStendarr05NordM03 is NEAT');
+
     // Angvid has Dirt but no Paint. 
     // New Angvid has Skin Tone layer, no null layers.
     old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
     e := FurrifyNPC(old);
-    LoadNPC(e, old);
-    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 0, 'Angvid has no dirt');
-    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Angvid has no paint');
-    AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '1');
+    AssertNpcTintLayersExist(e);
+    AssertNPCHasTintTest(e, 'Dirt', False);
+    AssertNPCHasTintTest(e, 'Paint', False);
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
     Assert(Assigned(old), 'Have BalgruuftheGreater');
@@ -138,16 +155,17 @@ begin
     AssertNotInList(ElementByPath(e, 'Head Parts'), 'HumanBeard35');
     AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least two tint layers');
-    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Balgruuf has no paint');
+    AssertNPCHasTintTest(e, 'Paint', False);
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesBlue');
-    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 1, 'BolgeirBearclaw has dirt');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyes');
+    AssertNPCHasTintTest(e, 'Paint', False);
+    AssertNPCHasTintTest(e, 'Dirt', True);
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesAmber');
+    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyes');
 
     //Aliases work
     AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
