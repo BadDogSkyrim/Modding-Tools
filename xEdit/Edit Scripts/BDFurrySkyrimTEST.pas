@@ -7,11 +7,14 @@ unit BDFurrySkyrimTEST;
 
 interface
 implementation
-uses BDFurrySkyrim, BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrySkyrimTools,
-    BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
+uses BDFurrySkyrim, BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrifySchlongs,
+    BDFurrySkyrimTools, BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils;
 
 const
     TEST_FILE_NAME = 'TEST.esp';
+    TEST_NPCS = TRUE;
+    TEST_ARMOR = True;
+    TEST_SCHLONGS = True;
 
 
 function NPCTintLayerCount(npc: IwbMainRecord; layerType: integer): integer;
@@ -51,6 +54,26 @@ begin
     if LOGGING then LogExitT1('NPCTintLayerCount', IntToStr(result));
 end;
 
+procedure TestSchlongs;
+var 
+    e: IwbMainRecord;
+    flst: IwbMainRecord;
+begin
+    AddMessage(#13#10#13#10 + '============ CHECKING SCHLONGS ===============');
+    
+    FurrifyAllSchlongs;
+
+    e := FindAsset(targetFile, 'GLOB', 'YASDogSheathMale_ProbLykaios_NordRace');
+    Assert(Assigned(e), 'Have new global for Nord sheath probability');
+    AssertFloat(GetElementNativeValues(e, 'FLTV'), 1.0, 'Nord sheath probability is 1.0');
+
+    flst := FindAsset(targetFile, 'FLST', 'YASDogSheathMale_CompatibleRaces');
+    Assert(Assigned(flst), 'Have override for YASDogSheathMale_CompatibleRaces');
+    AssertGT(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 
+        0,
+        'NordRace added to YASDogSheathMale_CompatibleRaces');
+end;
+
 procedure TestNPCs;
 var 
     e, aa, old, r: IwbElement;
@@ -59,18 +82,24 @@ begin
     AddMessage('============ CHECKING NPCS ===============');
 
     // REACHMEN
-    // Konoi skin tone layer index = 1
-    r := FindAsset(Nil, 'RACE', 'YASKonoiRace');
+    // Konoi male skin tone layer index = 302
+    r := FindAsset(Nil, 'RACE', 'YASReachmanRace');
     AssertValueListTest(r, 'Head Data\Male Head Data\Tint Masks', 
-        'Tint Layer\Texture\TINP', 'Skin Tone', TRUE); 
+        'Tint Layer\TINP', 'Skin Tone', TRUE); 
     e := FindElementInCompoundList(r, 'Head Data\Male Head Data\Tint Masks', 
-        'Tint Layer\Texture\TINP', 'Skin Tone');
+        'Tint Layer\TINP', 'Skin Tone');
     AddMessage('Found skin tone layer: ' + PathName(e));
-    AssertStr(GetElementEditValues(e, 'Tint Layer\Texture\TINI'),
-        '1', 
+    AssertStr(GetElementEditValues(e, 'Tint Layer\TINI'),
+        '302', 
         'Konoi skin tone layer');
+    AssertStr(GetElementEditValues(e, 'Tint Layer\TINT'),
+        'YAS\Kygarra\Male\Tints\KygarraSkinTone.dds', 
+        'Konoi skin tone file');
 
     // Reachmen are set to a new Reachmen race 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'EncVigilantOfStendarr05RedguardF');
+    e := FurrifyNPC(old);
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncForsworn01Melee1HBretonM01');
     e := FurrifyNPC(old);
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
@@ -87,8 +116,9 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
     e := FurrifyNPC(old);
     // Breton Skin tone layer index = 2
-    AssertValueListTest(e, 'Tint Layers', 'TINI', '1', FALSE);
-    AssertValueListTest(e, 'Tint Layers', 'TINI', '2', TRUE); 
+    AssertInt(ActorHasTint(e, 'Actors\Character\Character Assets\TintMasks\SkinTone.dds'), 
+        0, 'Original skin tone not found');
+    AssertInt(ActorHasTint(e, 'YAS\Kettu\Male\tints\SkinTone.dds'), 1, 'Furry skin tone found');
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
     e := FurrifyNPC(old);
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
@@ -117,14 +147,11 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'CorpsePrisonerNordMale');
     e := FurrifyNPC(old);
 
-    // Angvid has Dirt but no Paint. 
     // New Angvid has Skin Tone layer, no null layers.
     old := FindAsset(FileByIndex(0), 'NPC_', 'Angvid');
     e := FurrifyNPC(old);
-    LoadNPC(e, old);
-    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 0, 'Angvid has no dirt');
-    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Angvid has no paint');
-    AssertInCompoundList(ElementByName(e, 'Tint Layers'), 'TINI', '1');
+    AssertInt(ActorHasTint(e, 'dirt'), 0, 'Angvid has no dirt tint');
+    AssertInt(ActorHasTint(e, 'paint'), 0, 'Angvid has no paint tint');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BalgruuftheGreater');
     Assert(Assigned(old), 'Have BalgruuftheGreater');
@@ -133,16 +160,24 @@ begin
     AssertNotInList(ElementByPath(e, 'Head Parts'), 'HumanBeard35');
     AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least two tint layers');
-    AssertInt(NPCTintLayerCount(e, TINT_PAINT), 0, 'Balgruuf has no paint');
+    AssertInt(ActorHasTint(e, 'paint'), 0, 'BalgruuftheGreater has no paint tint');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);
     AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesBlue');
-    AssertInt(NPCTintLayerCount(e, TINT_DIRT), 1, 'BolgeirBearclaw has dirt');
+    AssertInt(ActorHasTint(e, 'SkinTone'), 1, 'BolgeirBearclaw has one skin tone tint');
+    AssertInt(ActorHasTint(e, 'dirt'), 1, 'BolgeirBearclaw has dirt tint');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
     e := FurrifyNPC(old);
-    AssertInList(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyesAmber');
+    AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'YASDayPredMaleEyes'), 1,
+        'AcolyteJenssen has one set of eyes');
+
+    old := FindAsset(FileByIndex(0), 'NPC_', 'dunFellglow_TreasCorpseVampire01');
+    e := FurrifyNPC(old);
+    r := WinningOverride(LinksTo(ElementByPath(e, 'RNAM')));
+    AssertInt(ElementListNameCount(ElementByPath(r, 'Head Data\Male Head Data\Head Parts'), 'Child'), 0,
+        'Vampire has no child parts');
 
     //Aliases work
     AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
@@ -196,24 +231,48 @@ end;
 procedure TestArmor;
 var 
     e, aa, old: IwbElement;
+    addons: IwbContainer;
     i: integer;
 begin
     AddMessage(#13#10#13#10 + '============ CHECKING ARMOR ===============');
+    FurrifyArmorsInit;
+
+    { Hoods just use the khajiit version, so make sure furrified races are removed from
+    the human addons. } 
+    AddMessage(#13#10#13#10 + '==Hood=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesCollegeHood'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHoodAA'));
 
     { The stormcloak helmet has special variants for cats and dogs. Cat and Canine mods
     provide special versions keyed to their races. The furrifier has to merge them.} 
     AddMessage(#13#10#13#10 + '==Stormcloak helmet=='); 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorStormcloakHelmetFull'));
     e := FurrifyArmorRecord(old);
-    AssertInList(ElementByPath(e, 'Armature'), 'BDStormcloakHelm_DOG');
-    AssertInList(ElementByPath(e, 'Armature'), 'BDStormcloakHelm_CAT');
-    AssertInList(ElementByPath(e, 'Armature'), 'StormcloakHelm');
-    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_DOG');
+    addons := ElementByPath(e, 'Armature');
+    // All three addons are in the list
+    AssertInt(ElementListNameCount(addons, 'YASStormcloakHelm_DOG'), 1, 'Dog addon present');
+    AssertInt(ElementListNameCount(addons, 'BDStormcloakHelm_CAT'), 1, 'Cat addon present');
+    AssertInt(ElementListNameCount(addons, 'YASStormcloakHelm'), 1, 'Vanilla addon present');
+    // Dog (and cat) have to come before the vanilla.
+    AssertGT(
+        ElementListNameIndex(addons, 'StormcloakHelm'),
+        ElementListNameIndex(addons, 'YASStormcloakHelm_DOG'),
+        'Dog addon before vanilla');
+    AssertGT(
+        ElementListNameIndex(addons, 'StormcloakHelm'),
+        ElementListNameIndex(addons, 'BDStormcloakHelm_CAT'),
+        'Cat addon before vanilla');
+
+    // Dog & cat addons have been extended with furrified races
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YASStormcloakHelm_DOG');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
     aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_CAT');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'WoodElfRace');
-    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'StormcloakHelm');
-    AssertNotInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
+    // Furrified races removed from vanilla addon.
+    aa := WinningOverride(FindAsset(Nil, 'ARMA', 'StormcloakHelm'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0, 
+        'NordRace removed from vanilla StormcloakHelm ' + PathName(aa));
 
     { Daedric helmet gets an additional survival keyword. }
     AddMessage(#13#10#13#10 + '==Daedric helmet=='); 
@@ -221,9 +280,9 @@ begin
     FurrifyArmorRecord(old);
     e := WinningOverride(old);
     assertstr(GetFileName(targetFile), GetFileName(GetFile(e)), 'ArmorDaedricHelmet override file');
-    AssertInList(ElementByName(e, 'Armature'), 'YA_DaedricHelmetAA_DOG');
+    AssertInList(ElementByName(e, 'Armature'), 'YASDaedricHelmetAA_DOG');
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
-    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YA_DaedricHelmetAA_DOG');
+    aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YASDaedricHelmetAA_DOG');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
 
     { Archmage 'hood' covers body and head--body addon must not be lost. No special addon
@@ -241,18 +300,22 @@ begin
     AddMessage(#13#10#13#10 + '==ClothesJarl=='); 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesJarl'));
     e := FurrifyArmorRecord(old);
+    aa := WinningOverride(LinksTo(ElementByIndex(ElementByPath(e, 'Armature'), 0)));
+    AssertGT(ElementListNameIndex(ElementByPath(aa, 'Additional Races'), 'NordRace'), -1, 
+        Format('NordRace still in in %s addon', [EditorID(aa)]));
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'SOS_Revealing');
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ClothingRich');
 
-    { Bone crown has ArmorMaterialDaedric in Skyrim but ArmorMaterialDragonplate in
-    USSEEP. 
-    TODO: Figure out how remove the Daedric keyword, rather than just merging the list. }
-    AddMessage(#13#10#13#10 + '==ArmorBoneCrown=='); 
-    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorBoneCrown'));
-    e := FurrifyArmorRecord(old);
-    AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDragonplate');
-    //AssertNotInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDaedric');
+    // *** not testing with USLEEP ***
+    // { Bone crown has ArmorMaterialDaedric in Skyrim but ArmorMaterialDragonplate in
+    // USSEEP. 
+    // TODO: Figure out how remove the Daedric keyword, rather than just merging the list. }
+    // AddMessage(#13#10#13#10 + '==ArmorBoneCrown=='); 
+    // old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorBoneCrown'));
+    // e := FurrifyArmorRecord(old);
+    // AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDragonplate');
+    // //AssertNotInList(ElementByPath(e, 'Keywords\KWDA'), 'ArmorMaterialDaedric');
 
     { Even clothes that don't get furrified should have their keywords merged. }
     AddMessage(#13#10#13#10 + '==ClothesEmperor=='); 
@@ -261,6 +324,15 @@ begin
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'Survival_ArmorWarm');
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'SOS_Revealing');
     AssertInList(ElementByPath(e, 'Keywords\KWDA'), 'ClothingRich');
+
+    AddMessage(#13#10#13#10 + '==ArmorDraugrHelmet=='); 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ArmorDraugrHelmet'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(Nil, 'ARMA', 'DraugrHelmetAA'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0, 
+        Format('NordRace removed from %s addon', [EditorID(aa)]));
+
+    FurrifyArmorsFinish;
 end;
 
 
@@ -274,21 +346,29 @@ end;
 
 Procedure TestSystemFunc;
 var
-    sl1, slsub, sl2: TStringList;
     a: string;
-    b: string;
-    i: integer;
-    teti: string;
-    tend: float;
-    sk: TSkinTintLayer;
-    t, t2: TDateTime;
-    xf: TTransform;
-    fo4: IwbFile;
-    ffo: IwbFile;
-    a0, a1, a2, e, arma, armo, hr: IwbMainRecord;
+    a0, a1, a2, arma, armo, hr: IwbMainRecord;
     alpha: array[0..2] of string;
-    listofints: TStringList;
+    b: string;
     dynlist: array of Integer;
+    e: IwbMainRecord;
+    ffo: IwbFile;
+    fo4: IwbFile;
+    i: integer;
+    listofints: TStringList;
+    sk: TSkinTintLayer;
+    sl1, slsub, sl2: TStringList;
+    t, t2: TDateTime;
+    tend: float;
+    teti: string;
+    xf: TTransform;
+    p: IwbElement;
+    pc: IwbElement;
+    tintAsset, tintAssetList: IwbElement;
+    tintLayer: IwbElement;
+    tintPresetlist: IwbElement;
+    tintPreset: IwbElement;
+    tintMaskList: IwbElement;
 begin
     // // Cannot use dynamic lists--the following does not compile.
     // SetLength(dynlist, 5);
@@ -303,6 +383,7 @@ begin
     // Can read the data size like any other field
     AddMessage('Data size: ' + IntToStr(GetElementEditValues(e, 'Record Header\Data Size')));
 
+    // 
     AddMessage('--');
     RandomizeIndexList('alpha', 1234, 5);
     for i := 0 to indexList.Count-1 do AddMessage(Format('Index [%s] %s - %d', [
@@ -413,13 +494,13 @@ begin
     a1 := HighestOverrideOrSelf(armo, 1);
     Assert(GetFileName(GetFile(a1)) = 'Update.esm', 'First override in Update.esm');
     a2 := HighestOverrideOrSelf(armo, 100);
-    AssertStr(GetFileName(GetFile(a2)), 'Dawnguard.esm', 
+    AssertStr(GetFileName(GetFile(a2)), 'unofficial skyrim special edition patch.esp', 
         'HighestOverrideOrSelf will return winning override with a large integer');
-    AssertStr(GetFileName(GetFile(WinningOverride(armo))), 'Dawnguard.esm', 
+    AssertStr(GetFileName(GetFile(WinningOverride(armo))), 'unofficial skyrim special edition patch.esp', 
         'WinningOverride returns highest override');
     Assert(not IsWinningOverride(armo), 'Skrim.esm/ArmorFalmerBoots is not winning override');
     Assert(not HasNoOverride(armo), 'ArmorFalmerBoots has an override');
-    AssertInt(OverrideCount(armo), 2, Format('%s has correct overrides', [PathName(armo)]));
+    AssertGT(OverrideCount(armo), 1, Format('%s has correct overrides', [PathName(armo)]));
     AssertInt(OverrideCount(a1), 0, Format(
         'OverrideCount does NOT work correctly when given an overriding record. %s has one override, but returns 0', 
         [PathName(a1)]));
@@ -517,13 +598,41 @@ begin
     AddMessage('assignment worked');
     AssertInt((GetBodypartFlags(arma) and BP_HAIR), 0, 'hair bit clear');
     AssertInt((GetBodypartFlags(arma) and BP_HANDS), 0, 'hands bit clear');
-    end;
+
+    // xEdit keeps fucking with paths. Testing to see we can still read them.
+    AddMessage('Pathname tests');
+    e := FindAsset(FileByIndex(0), 'RACE', 'NordRace');
+    tintMaskList := ElementByPath(e, 'Head Data\Male Head Data\Tint Masks');
+    Assert(Assigned(tintMaskList), 'Can find tint mask list: ' + PathName(tintMaskList));
+    AddMessage('Tint mask [0]: ' + PathName(ElementByIndex(tintMaskList, 0)));
+    AddMessage('Tint mask [1]: ' + PathName(ElementByIndex(tintMaskList, 1)));
+
+    tintAsset := ElementByIndex(tintMaskList, 1);
+
+    tintLayer := ElementByPath(tintAsset, 'Tint Layer');
+    Assert(Assigned(tintLayer), 'Can find tint asset 0: ' + PathName(tintLayer));
+    AssertEQ(GetNativeValue(ELementByPath(tintLayer, 'TINI')), 2, 'Can read TINI');
+    AssertStr(GetEditValue(ELementByPath(tintLayer, 'TINT')), 
+        'Actors\Character\Character Assets\TintMasks\MaleUpperEyeSocket.dds', 
+        'Can read TINT');
+
+    tintPresetList := ElementByPath(tintAsset, 'Presets');
+    Assert(Assigned(tintPresetList), 'Can read tint asset preset list' + PathName(tintPresetList));
+
+    tintPreset := ELementByIndex(tintPresetList, 2);
+    AssertStr(GetELementEditValues(tintPreset, 'TINC'), 'RedTintAverage*',
+        'Preset color');
+end;
 
 
 //==================================================================
 //==================================================================
 //
 function Initialize: integer;
+var 
+    i: integer;
+    rec: IwbMainRecord;
+    g: IwbGroupRecord;
 begin
     AddMessage(' ');
     AddMessage(' ');
@@ -535,9 +644,28 @@ begin
 
     InitializeLogging;
     LOGGING := True;
-    LOGLEVEL := 100;
+    LOGLEVEL := 20;
     PreferencesInit;
     result := 0;
+
+    AddMessage('Clearing out old records from ' + TEST_FILE_NAME);
+    targetFileIndex := FindFile(TEST_FILE_NAME);
+    if targetFileIndex >= 0 then begin
+        targetFile := FileByIndex(targetFileIndex);
+        for i := RecordCount(targetFile) - 1 downto 0 do begin
+            rec := RecordByIndex(targetFile, i);
+            if (Signature(rec) = 'FLST') 
+                or (Signature(rec) = 'NPC_') 
+                or (Signature(rec) = 'RACE')  
+                or (Signature(rec) = 'GLOB') 
+                or (Signature(rec) = 'ARMA') 
+                or (Signature(rec) = 'ARMO') 
+            then  
+                Remove(rec);
+        end;
+    end;
+
+    clearmessages;
 end;
 
 function Process(entity: IwbMainRecord): integer;
@@ -573,8 +701,9 @@ begin
     // ShowArmor;
 
     LOGGING := True;
-    TestNPCs;
-    // TestArmor;
+    if TEST_NPCS then TestNPCs;
+    if TEST_ARMOR then TestArmor;
+    if TEST_SCHLONGS then TestSchlongs;
 
     AddMessage(Format('============ TESTS COMPLETED %s ===============',
         [IfThen((testErrorCount > 0), 

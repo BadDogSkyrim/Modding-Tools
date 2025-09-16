@@ -1,90 +1,901 @@
-Record,EDID
-105814984,YASNightPredEyeYellowTxt
-105814985,YASNightPredEyeYellowNarrowTxt
-105814899,YASNightPredEyeVampireTxt
-105814987,YASNightPredEyeVampire2Txt
-105814986,YASNightPredEyesBlueGreenTxt
-105814888,YASNightPredEyesAmberBlindRTxt
-105814982,YASNightPredEyeRedTxt
-105814983,YASNightPredEyeRedNarrowTxt
-105814981,YASNightPredEyeOrangeTxt
-105814980,YASNightPredEyeOrangeNarrowTxt
-105814900,YASNightPredEyeLilacTxt
-105814897,YASNightPredEyeIceTxt
-105814901,YASNightPredEyeIceNarrowTxt
-105814893,YASNightPredEyeGreenTxt
-105814898,YASNightPredEyeGreenNarrowTxt
-105814895,YASNightPredEyeGreenBrightTxt
-105814896,YASNightPredEyeGreen2Txt
-105814894,YASNightPredEyeGoldTxt
-105814892,YASNightPredEyeBrownTxt
-105814891,YASNightPredEyeBrownDarkTxt
-105814887,YASNightPredEyeBlueTxt
-105814890,YASNightPredEyeBlueBrightTxt
-105814886,YASNightPredEyeAmberTxt
-105814885,YASNightPredEyeAmberNarrowTxt
-102118498,YASKygarraEyesGoldenTxt
-102118499,YASKygarraEyesDarkIceTxt
-102118501,YASKygarraEyesDarkBrownTxt
-102118500,YASKygarraEyesBrownRedTxt
-102118497,YASHyenaEyesYellowGreenTxt
-105814979,YASHyenaEyesIceDarkTxt
-105814978,YASHyenaEyesGoldTxt
-105814977,YASHyenaEyesBrownRedTxt
-105814976,YASHyenaEyesBrownDarkTxt
-100668134,YASDayPredEyesYellowTxt
-100668133,YASDayPredEyesVampire
-100668138,YASDayPredEyesSnowTxt
-100668137,YASDayPredEyesRedTxt
-102745402,YASDayPredEyesRedBlindRightTxt
-101417740,YASDayPredEyesMixYellowGreenTxt
-101417741,YASDayPredEyesMixBlueGreenTxt
-101417744,YASDayPredEyesMixBlueBrownTxt
-101417742,YASDayPredEyesMixAmberSnowTxt
-100668139,YASDayPredEyesLilacTxt
-100668136,YASDayPredEyesGreyTxt
-100668142,YASDayPredEyesGreenTxt
-105814975,YASDayPredEyesGreenBlindRightTxt
-102745401,YASDayPredEyesGreenBlindLeftTxt
-100668140,YASDayPredEyesGoldTxt
-100668135,YASDayPredEyesBrownDarkTxt
-100668131,YASDayPredEyesBlueTxt
-101417739,YASDayPredEyesBlueGreyBlindLeft
-100668132,YASDayPredEyesBlueDarkTxt
-102118493,YASDayPredEyesBlueBright
-101417743,YASDayPredEyesBlindTxt
-100668123,YASDayPredEyesAmberTxt
-105814974,YASDayPredEyesAmberBlindRightTxt
-101417745,YASDayPredEyesAmberBlindLeftTxt
-100668141,YASDayPredEyesAlbinoTxt
-102118491,SkinEyesVaalsarkVampire
-102118486,SkinEyesVaalsarkGreen
-102118492,SkinEyesVaalsarkGold
-102118488,SkinEyesVaalsarkDarkBrown
-102118489,SkinEyesVaalsarkBrown
-102118487,SkinEyesVaalsarkBrightGreen
-103160263,SkinEyesVaalsarkBlindR
-100679158,SkinEyesVaalsarkAlbino
-100694315,SkinEyesMaleVaalsarkVampire
-100694317,SkinEyesMaleVaalsarkGreen
-100694318,SkinEyesMaleVaalsarkGold
-102118513,SkinEyesMaleVaalsarkDefaultGreen
-100694320,SkinEyesMaleVaalsarkDarkBrown
-102118515,SkinEyesMaleVaalsarkAlbino
-977002,SkinEyesKhajiitYellowNarrow
-977001,SkinEyesKhajiitYellow
-977003,SkinEyesKhajiitVampire
-103160256,SkinEyesKhajiitRedNarrow
-101729114,SkinEyesKhajiitRed
-977000,SkinEyesKhajiitOrangeNarrow
-976999,SkinEyesKhajiitOrange
-976998,SkinEyesKhajiitIceNarrow
-976997,SkinEyesKhajiitIce
-103160255,SkinEyesKhajiitGreenNarrow
-103160250,SkinEyesKhajiitGreen
-976996,SkinEyesKhajiitBlueNarrow
-976995,SkinEyesKhajiitBlue
-103160257,SkinEyesKhajiitBlind
-103160258,SkinEyesKhajiitBlack
-976994,SkinEyesKhajiitBaseNarrow
-976993,SkinEyesKhajiitBase
+Record,EDID,TNAM
+1101544,TemplateClothesRobesMageNoviceHood,
+1102517,TemplateClothesRobesMageApprenticeHood,
+1101542,TemplateClothesRobesMageAdeptHood,
+1077513,TemplateClothesMageRobesCommonHooded,
+1077515,TemplateClothesMageRobesApprenticeHooded,
+552770,SkinWitchlight,
+987527,SkinWispShade,
+271656,SkinWisp,
+997636,SkinSprigganMatron,
+601641,SkinSpriggan,
+964732,SkinSkeletonNecroStormCloak,
+964725,SkinSkeletonNecroImperial,
+964724,SkinSkeletonNecro,
+752026,SkinSkeleton,
+3428,SkinNaked,
+365139,SkinMammothWild,
+365140,SkinMammothBranded,
+749472,SkinMagicAnomaly,
+342264,SkinIceWraith,
+550147,SkinHorseShadowmere,
+550158,SkinHorsePalominoHide,
+550159,SkinHorseGreyHide,
+550160,SkinHorseBlacknWhiteHide,
+550157,SkinHorseBlackHide,
+395029,SkinHorse,
+619075,SkinHagraven,
+718389,SkinGlenmorilWitchHEADLESS,
+668940,SkinGlenmorilWitch,
+100349,SkinBearWhite,
+100350,SkinBearCave,
+551165,SkinBearBrown,
+428062,SkinAtronachStorm,
+373479,SkinAtronachFrost,
+551195,SkinAtronachFlame,
+962513,MS02ForswornHelmet,
+294078,MQTorturerHood,
+888146,ForswornHelmet,
+458354,FavorNosterHelmet,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+606421,FavorHelmofWinterhold,ArmorSteelHelmetB "Steel Horned Helmet" [ARMO:000F6F24]
+371171,ExecutionHoodDB,
+371167,ExecutionHood,
+1085537,EnchClothesWarlockRobesHoodedRestoration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085538,EnchClothesWarlockRobesHoodedRestoration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085539,EnchClothesWarlockRobesHoodedRestoration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085540,EnchClothesWarlockRobesHoodedRestoration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085541,EnchClothesWarlockRobesHoodedRestoration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085542,EnchClothesWarlockRobesHoodedRestoration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085568,EnchClothesWarlockRobesHoodedMagickaRate05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085569,EnchClothesWarlockRobesHoodedMagickaRate04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085570,EnchClothesWarlockRobesHoodedMagickaRate03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085571,EnchClothesWarlockRobesHoodedMagickaRate02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085572,EnchClothesWarlockRobesHoodedIllusion06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085573,EnchClothesWarlockRobesHoodedIllusion05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085574,EnchClothesWarlockRobesHoodedIllusion04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085575,EnchClothesWarlockRobesHoodedIllusion03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085576,EnchClothesWarlockRobesHoodedIllusion02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085577,EnchClothesWarlockRobesHoodedIllusion01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085530,EnchClothesWarlockRobesHoodedDestruction06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085529,EnchClothesWarlockRobesHoodedDestruction05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085528,EnchClothesWarlockRobesHoodedDestruction04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085527,EnchClothesWarlockRobesHoodedDestruction03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085526,EnchClothesWarlockRobesHoodedDestruction02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085525,EnchClothesWarlockRobesHoodedDestruction01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085524,EnchClothesWarlockRobesHoodedConjuration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085523,EnchClothesWarlockRobesHoodedConjuration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085522,EnchClothesWarlockRobesHoodedConjuration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085521,EnchClothesWarlockRobesHoodedConjuration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085520,EnchClothesWarlockRobesHoodedConjuration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085519,EnchClothesWarlockRobesHoodedConjuration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085518,EnchClothesWarlockRobesHoodedAlteration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085517,EnchClothesWarlockRobesHoodedAlteration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085516,EnchClothesWarlockRobesHoodedAlteration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085515,EnchClothesWarlockRobesHoodedAlteration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085514,EnchClothesWarlockRobesHoodedAlteration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1085513,EnchClothesWarlockRobesHoodedAlteration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
+1105210,EnchClothesRobesMageHoodNovice,
+1105211,EnchClothesRobesMageHoodApprentice,TemplateClothesRobesMageApprenticeHood "Apprentice Hood" [ARMO:0010D2B5]
+1105212,EnchClothesRobesMageHoodAdept,TemplateClothesRobesMageAdeptHood "Adept Hood" [ARMO:0010CEE6]
+1085478,EnchClothesNecroRobesHoodedRestoration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085479,EnchClothesNecroRobesHoodedRestoration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085480,EnchClothesNecroRobesHoodedRestoration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085481,EnchClothesNecroRobesHoodedRestoration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085482,EnchClothesNecroRobesHoodedRestoration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085483,EnchClothesNecroRobesHoodedRestoration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085509,EnchClothesNecroRobesHoodedMagickaRate05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085510,EnchClothesNecroRobesHoodedMagickaRate04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085511,EnchClothesNecroRobesHoodedMagickaRate03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085512,EnchClothesNecroRobesHoodedMagickaRate02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085477,EnchClothesNecroRobesHoodedIllusion06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085476,EnchClothesNecroRobesHoodedIllusion05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085475,EnchClothesNecroRobesHoodedIllusion04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085474,EnchClothesNecroRobesHoodedIllusion03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085473,EnchClothesNecroRobesHoodedIllusion02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085472,EnchClothesNecroRobesHoodedIllusion01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085465,EnchClothesNecroRobesHoodedDestruction06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085464,EnchClothesNecroRobesHoodedDestruction05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085463,EnchClothesNecroRobesHoodedDestruction04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085462,EnchClothesNecroRobesHoodedDestruction03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085461,EnchClothesNecroRobesHoodedDestruction02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085460,EnchClothesNecroRobesHoodedDestruction01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085459,EnchClothesNecroRobesHoodedConjuration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085458,EnchClothesNecroRobesHoodedConjuration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085457,EnchClothesNecroRobesHoodedConjuration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085456,EnchClothesNecroRobesHoodedConjuration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085455,EnchClothesNecroRobesHoodedConjuration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085454,EnchClothesNecroRobesHoodedConjuration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085453,EnchClothesNecroRobesHoodedAlteration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085452,EnchClothesNecroRobesHoodedAlteration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085451,EnchClothesNecroRobesHoodedAlteration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085450,EnchClothesNecroRobesHoodedAlteration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085449,EnchClothesNecroRobesHoodedAlteration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+1085448,EnchClothesNecroRobesHoodedAlteration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
+859963,EnchClothesMageRobesAppMagickaRate01,TemplateClothesMageRobesApprenticeHooded "Hooded Mage Robes" [ARMO:0010710B]
+600778,EnchArmorSteelPlateHelmetWaterbreathing,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266295,EnchArmorSteelPlateHelmetRestoration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266294,EnchArmorSteelPlateHelmetRestoration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266293,EnchArmorSteelPlateHelmetRestoration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266292,EnchArmorSteelPlateHelmetMarksman04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266291,EnchArmorSteelPlateHelmetMarksman03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266284,EnchArmorSteelPlateHelmetMarksman02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266279,EnchArmorSteelPlateHelmetMagicka04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266274,EnchArmorSteelPlateHelmetMagicka03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266273,EnchArmorSteelPlateHelmetMagicka02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266272,EnchArmorSteelPlateHelmetIllusion04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+266270,EnchArmorSteelPlateHelmetIllusion03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253829,EnchArmorSteelPlateHelmetIllusion02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253825,EnchArmorSteelPlateHelmetDestruction04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253824,EnchArmorSteelPlateHelmetDestruction03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253823,EnchArmorSteelPlateHelmetDestruction02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253822,EnchArmorSteelPlateHelmetConjuration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253821,EnchArmorSteelPlateHelmetConjuration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253820,EnchArmorSteelPlateHelmetConjuration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253819,EnchArmorSteelPlateHelmetAlteration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253818,EnchArmorSteelPlateHelmetAlteration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+253817,EnchArmorSteelPlateHelmetAlteration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+570994,EnchArmorSteelPlateHelmetAlchemy04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+570993,EnchArmorSteelPlateHelmetAlchemy03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+570992,EnchArmorSteelPlateHelmetAlchemy02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
+600710,EnchArmorSteelHelmetWaterbreathing,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741608,EnchArmorSteelHelmetRestoration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741607,EnchArmorSteelHelmetRestoration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741594,EnchArmorSteelHelmetRestoration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741610,EnchArmorSteelHelmetMarksman03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741609,EnchArmorSteelHelmetMarksman02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741593,EnchArmorSteelHelmetMarksman01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741606,EnchArmorSteelHelmetMagicka03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741605,EnchArmorSteelHelmetMagicka02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741592,EnchArmorSteelHelmetMagicka01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741604,EnchArmorSteelHelmetIllusion03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741603,EnchArmorSteelHelmetIllusion02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741591,EnchArmorSteelHelmetIllusion01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741600,EnchArmorSteelHelmetDestruction03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741599,EnchArmorSteelHelmetDestruction02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741589,EnchArmorSteelHelmetDestruction01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741598,EnchArmorSteelHelmetConjuration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741597,EnchArmorSteelHelmetConjuration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741588,EnchArmorSteelHelmetConjuration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741596,EnchArmorSteelHelmetAlteration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741595,EnchArmorSteelHelmetAlteration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+741587,EnchArmorSteelHelmetAlteration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+571041,EnchArmorSteelHelmetAlchemy03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+571040,EnchArmorSteelHelmetAlchemy02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+571039,EnchArmorSteelHelmetAlchemy01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
+290288,EnchArmorScaledHelmetWaterbreathing,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290287,EnchArmorScaledHelmetRestoration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290286,EnchArmorScaledHelmetRestoration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290285,EnchArmorScaledHelmetRestoration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290274,EnchArmorScaledHelmetMarksman04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290265,EnchArmorScaledHelmetMarksman03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290259,EnchArmorScaledHelmetMarksman02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290251,EnchArmorScaledHelmetMagicka04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290250,EnchArmorScaledHelmetMagicka03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290247,EnchArmorScaledHelmetMagicka02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290244,EnchArmorScaledHelmetIllusion04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290243,EnchArmorScaledHelmetIllusion03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290242,EnchArmorScaledHelmetIllusion02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290229,EnchArmorScaledHelmetDestruction04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290228,EnchArmorScaledHelmetDestruction03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290227,EnchArmorScaledHelmetDestruction02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290226,EnchArmorScaledHelmetConjuration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290225,EnchArmorScaledHelmetConjuration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290081,EnchArmorScaledHelmetConjuration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290080,EnchArmorScaledHelmetAlteration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290079,EnchArmorScaledHelmetAlteration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290074,EnchArmorScaledHelmetAlteration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290040,EnchArmorScaledHelmetAlchemy04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290038,EnchArmorScaledHelmetAlchemy03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+290039,EnchArmorScaledHelmetAlchemy02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
+849943,EnchArmorOrcishHelmetWaterbreathing,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849942,EnchArmorOrcishHelmetRestoration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849941,EnchArmorOrcishHelmetRestoration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849940,EnchArmorOrcishHelmetRestoration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849939,EnchArmorOrcishHelmetMarksman05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849938,EnchArmorOrcishHelmetMarksman04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849937,EnchArmorOrcishHelmetMarksman03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849936,EnchArmorOrcishHelmetMagicka05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849935,EnchArmorOrcishHelmetMagicka04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849934,EnchArmorOrcishHelmetMagicka03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849933,EnchArmorOrcishHelmetIllusion05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849932,EnchArmorOrcishHelmetIllusion04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849931,EnchArmorOrcishHelmetIllusion03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849927,EnchArmorOrcishHelmetDestruction05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849926,EnchArmorOrcishHelmetDestruction04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849925,EnchArmorOrcishHelmetDestruction03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849924,EnchArmorOrcishHelmetConjuration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849923,EnchArmorOrcishHelmetConjuration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849922,EnchArmorOrcishHelmetConjuration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849921,EnchArmorOrcishHelmetAlteration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849920,EnchArmorOrcishHelmetAlteration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849919,EnchArmorOrcishHelmetAlteration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849918,EnchArmorOrcishHelmetAlchemy05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849917,EnchArmorOrcishHelmetAlchemy04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+849916,EnchArmorOrcishHelmetAlchemy03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
+741485,EnchArmorLeatherHelmetRestoration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741484,EnchArmorLeatherHelmetRestoration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741483,EnchArmorLeatherHelmetRestoration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741503,EnchArmorLeatherHelmetMarksman03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741502,EnchArmorLeatherHelmetMarksman02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741501,EnchArmorLeatherHelmetMarksman01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741500,EnchArmorLeatherHelmetMagicka03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741499,EnchArmorLeatherHelmetMagicka02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741498,EnchArmorLeatherHelmetMagicka01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741497,EnchArmorLeatherHelmetIllusion03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741496,EnchArmorLeatherHelmetIllusion02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741495,EnchArmorLeatherHelmetIllusion01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741482,EnchArmorLeatherHelmetDestruction03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741481,EnchArmorLeatherHelmetDestruction02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741480,EnchArmorLeatherHelmetDestruction01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741479,EnchArmorLeatherHelmetConjuration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741478,EnchArmorLeatherHelmetConjuration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741477,EnchArmorLeatherHelmetConjuration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741476,EnchArmorLeatherHelmetAlteration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741475,EnchArmorLeatherHelmetAlteration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+741474,EnchArmorLeatherHelmetAlteration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+570991,EnchArmorLeatherHelmetAlchemy03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+570990,EnchArmorLeatherHelmetAlchemy02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+570989,EnchArmorLeatherHelmetAlchemy01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
+710039,EnchArmorIronHelmetRestoration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710037,EnchArmorIronHelmetRestoration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+500017,EnchArmorIronHelmetRestoration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710036,EnchArmorIronHelmetMarksman03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710035,EnchArmorIronHelmetMarksman02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+500013,EnchArmorIronHelmetMarksman01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710034,EnchArmorIronHelmetMagicka03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710033,EnchArmorIronHelmetMagicka02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+303537,EnchArmorIronHelmetMagicka01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710032,EnchArmorIronHelmetIllusion03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710031,EnchArmorIronHelmetIllusion02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+500009,EnchArmorIronHelmetIllusion01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710028,EnchArmorIronHelmetDestruction03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710027,EnchArmorIronHelmetDestruction02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+500005,EnchArmorIronHelmetDestruction01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710026,EnchArmorIronHelmetConjuration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710025,EnchArmorIronHelmetConjuration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+500003,EnchArmorIronHelmetConjuration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710024,EnchArmorIronHelmetAlteration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+710023,EnchArmorIronHelmetAlteration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+499996,EnchArmorIronHelmetAlteration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+570988,EnchArmorIronHelmetAlchemy03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+570987,EnchArmorIronHelmetAlchemy02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+570986,EnchArmorIronHelmetAlchemy01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
+571062,EnchArmorImperialLightHelmetMagicka03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571088,EnchArmorImperialLightHelmetMagicka02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571087,EnchArmorImperialLightHelmetMagicka01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571086,EnchArmorImperialLightHelmetIllusion03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571085,EnchArmorImperialLightHelmetIllusion02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571084,EnchArmorImperialLightHelmetIllusion01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571080,EnchArmorImperialLightHelmetDestruction03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571079,EnchArmorImperialLightHelmetDestruction02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571078,EnchArmorImperialLightHelmetDestruction01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571077,EnchArmorImperialLightHelmetConjuration03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571076,EnchArmorImperialLightHelmetConjuration02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571074,EnchArmorImperialLightHelmetConjuration01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571073,EnchArmorImperialLightHelmetAlteration03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571072,EnchArmorImperialLightHelmetAlteration02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571071,EnchArmorImperialLightHelmetAlteration01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571070,EnchArmorImperialLightHelmetAlchemy03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571075,EnchArmorImperialLightHelmetAlchemy02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571069,EnchArmorImperialLightHelmetAlchemy01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
+571068,EnchArmorImperialHelmetRestoration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571067,EnchArmorImperialHelmetRestoration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571066,EnchArmorImperialHelmetRestoration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571065,EnchArmorImperialHelmetMarksman03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571064,EnchArmorImperialHelmetMarksman02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571063,EnchArmorImperialHelmetMarksman01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571061,EnchArmorImperialHelmetMagicka02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571060,EnchArmorImperialHelmetMagicka01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571059,EnchArmorImperialHelmetIllusion03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571058,EnchArmorImperialHelmetIllusion02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571057,EnchArmorImperialHelmetIllusion01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571053,EnchArmorImperialHelmetDestruction03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571052,EnchArmorImperialHelmetDestruction02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571051,EnchArmorImperialHelmetDestruction01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571050,EnchArmorImperialHelmetConjuration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571049,EnchArmorImperialHelmetConjuration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571048,EnchArmorImperialHelmetConjuration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571047,EnchArmorImperialHelmetAlteration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571046,EnchArmorImperialHelmetAlteration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571045,EnchArmorImperialHelmetAlteration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571044,EnchArmorImperialHelmetAlchemy03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571043,EnchArmorImperialHelmetAlchemy02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+571042,EnchArmorImperialHelmetAlchemy01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
+709834,EnchArmorHideHelmetRestoration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709833,EnchArmorHideHelmetRestoration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500056,EnchArmorHideHelmetRestoration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709832,EnchArmorHideHelmetMarksman03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709831,EnchArmorHideHelmetMarksman02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500055,EnchArmorHideHelmetMarksman01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709830,EnchArmorHideHelmetMagicka03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709829,EnchArmorHideHelmetMagicka02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500053,EnchArmorHideHelmetMagicka01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709828,EnchArmorHideHelmetIllusion03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709827,EnchArmorHideHelmetIllusion02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500052,EnchArmorHideHelmetIllusion01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709824,EnchArmorHideHelmetDestruction03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709823,EnchArmorHideHelmetDestruction02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500050,EnchArmorHideHelmetDestruction01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709822,EnchArmorHideHelmetConjuration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709821,EnchArmorHideHelmetConjuration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500049,EnchArmorHideHelmetConjuration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709820,EnchArmorHideHelmetAlteration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+709819,EnchArmorHideHelmetAlteration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+500048,EnchArmorHideHelmetAlteration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+570985,EnchArmorHideHelmetAlchemy03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+570984,EnchArmorHideHelmetAlchemy02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+570983,EnchArmorHideHelmetAlchemy01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
+873433,EnchArmorGlassHelmetWaterbreathing,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873432,EnchArmorGlassHelmetRestoration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873431,EnchArmorGlassHelmetRestoration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873430,EnchArmorGlassHelmetRestoration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873429,EnchArmorGlassHelmetMarksman05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873428,EnchArmorGlassHelmetMarksman04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873427,EnchArmorGlassHelmetMarksman03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+1041119,EnchArmorGlassHelmetMagickaRate05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+1041115,EnchArmorGlassHelmetMagickaRate04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+1041114,EnchArmorGlassHelmetMagickaRate03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873426,EnchArmorGlassHelmetMagicka05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873425,EnchArmorGlassHelmetMagicka04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873424,EnchArmorGlassHelmetMagicka03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873423,EnchArmorGlassHelmetIllusion05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873422,EnchArmorGlassHelmetIllusion04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873421,EnchArmorGlassHelmetIllusion03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873417,EnchArmorGlassHelmetDestruction05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873416,EnchArmorGlassHelmetDestruction04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873415,EnchArmorGlassHelmetDestruction03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873414,EnchArmorGlassHelmetConjuration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873413,EnchArmorGlassHelmetConjuration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873412,EnchArmorGlassHelmetConjuration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873411,EnchArmorGlassHelmetAlteration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873410,EnchArmorGlassHelmetAlteration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873409,EnchArmorGlassHelmetAlteration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873408,EnchArmorGlassHelmetAlchemy05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873407,EnchArmorGlassHelmetAlchemy04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+873406,EnchArmorGlassHelmetAlchemy03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+778326,EnchArmorElvenHelmetRestoration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778231,EnchArmorElvenHelmetRestoration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778230,EnchArmorElvenHelmetRestoration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778325,EnchArmorElvenHelmetMarksman04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778229,EnchArmorElvenHelmetMarksman03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778228,EnchArmorElvenHelmetMarksman02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778324,EnchArmorElvenHelmetMagicka04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778227,EnchArmorElvenHelmetMagicka03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778226,EnchArmorElvenHelmetMagicka02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778323,EnchArmorElvenHelmetIllusion04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778225,EnchArmorElvenHelmetIllusion03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778224,EnchArmorElvenHelmetIllusion02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778321,EnchArmorElvenHelmetDestruction04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778221,EnchArmorElvenHelmetDestruction03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778220,EnchArmorElvenHelmetDestruction02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778320,EnchArmorElvenHelmetConjuration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778219,EnchArmorElvenHelmetConjuration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778218,EnchArmorElvenHelmetConjuration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778319,EnchArmorElvenHelmetAlteration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778217,EnchArmorElvenHelmetAlteration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+778216,EnchArmorElvenHelmetAlteration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+570982,EnchArmorElvenHelmetAlchemy04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+570981,EnchArmorElvenHelmetAlchemy03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+570980,EnchArmorElvenHelmetAlchemy02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
+850060,EnchArmorEbonyHelmetWaterbreathing,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850059,EnchArmorEbonyHelmetRestoration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850058,EnchArmorEbonyHelmetRestoration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850057,EnchArmorEbonyHelmetRestoration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850056,EnchArmorEbonyHelmetMarksman05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850055,EnchArmorEbonyHelmetMarksman04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850054,EnchArmorEbonyHelmetMarksman03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+1041137,EnchArmorEbonyHelmetMagickaRate05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+1041136,EnchArmorEbonyHelmetMagickaRate04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+1041135,EnchArmorEbonyHelmetMagickaRate03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850053,EnchArmorEbonyHelmetMagicka05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850052,EnchArmorEbonyHelmetMagicka04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850051,EnchArmorEbonyHelmetMagicka03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850050,EnchArmorEbonyHelmetIllusion05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850049,EnchArmorEbonyHelmetIllusion04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850048,EnchArmorEbonyHelmetIllusion03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850044,EnchArmorEbonyHelmetDestruction05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850043,EnchArmorEbonyHelmetDestruction04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850042,EnchArmorEbonyHelmetDestruction03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850041,EnchArmorEbonyHelmetConjuration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850040,EnchArmorEbonyHelmetConjuration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850039,EnchArmorEbonyHelmetConjuration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850038,EnchArmorEbonyHelmetAlteration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850037,EnchArmorEbonyHelmetAlteration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850036,EnchArmorEbonyHelmetAlteration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850035,EnchArmorEbonyHelmetAlchemy05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850034,EnchArmorEbonyHelmetAlchemy04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+850033,EnchArmorEbonyHelmetAlchemy03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
+600717,EnchArmorDwarvenHelmetWaterbreathing,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113095,EnchArmorDwarvenHelmetRestoration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113093,EnchArmorDwarvenHelmetRestoration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113092,EnchArmorDwarvenHelmetRestoration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113091,EnchArmorDwarvenHelmetMarksman04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113089,EnchArmorDwarvenHelmetMarksman03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113088,EnchArmorDwarvenHelmetMarksman02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113086,EnchArmorDwarvenHelmetMagicka04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113084,EnchArmorDwarvenHelmetMagicka03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113083,EnchArmorDwarvenHelmetMagicka02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113080,EnchArmorDwarvenHelmetIllusion04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113079,EnchArmorDwarvenHelmetIllusion03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+113072,EnchArmorDwarvenHelmetIllusion02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112522,EnchArmorDwarvenHelmetDestruction04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112498,EnchArmorDwarvenHelmetDestruction03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112497,EnchArmorDwarvenHelmetDestruction02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112496,EnchArmorDwarvenHelmetConjuration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112495,EnchArmorDwarvenHelmetConjuration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112494,EnchArmorDwarvenHelmetConjuration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112493,EnchArmorDwarvenHelmetAlteration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112492,EnchArmorDwarvenHelmetAlteration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+112491,EnchArmorDwarvenHelmetAlteration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+570979,EnchArmorDwarvenHelmetAlchemy04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+570978,EnchArmorDwarvenHelmetAlchemy03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+570970,EnchArmorDwarvenHelmetAlchemy02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
+1001806,EnchArmorDraugrHelmetResistFire03,ArmorDraugrHelmet "Ancient Nord Helmet" [ARMO:00056A9E]
+883215,EnchArmorDragonscaleHelmetWaterbreathing,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883214,EnchArmorDragonscaleHelmetRestoration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883213,EnchArmorDragonscaleHelmetRestoration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883212,EnchArmorDragonscaleHelmetRestoration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883211,EnchArmorDragonscaleHelmetMarksman06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883210,EnchArmorDragonscaleHelmetMarksman05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883209,EnchArmorDragonscaleHelmetMarksman04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+1041128,EnchArmorDragonscaleHelmetMagickaRate06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+1041127,EnchArmorDragonscaleHelmetMagickaRate05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+1041126,EnchArmorDragonscaleHelmetMagickaRate04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883208,EnchArmorDragonscaleHelmetMagicka06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883207,EnchArmorDragonscaleHelmetMagicka05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883206,EnchArmorDragonscaleHelmetMagicka04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883205,EnchArmorDragonscaleHelmetIllusion06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883204,EnchArmorDragonscaleHelmetIllusion05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883203,EnchArmorDragonscaleHelmetIllusion04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883199,EnchArmorDragonscaleHelmetDestruction06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883198,EnchArmorDragonscaleHelmetDestruction05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883197,EnchArmorDragonscaleHelmetDestruction04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883196,EnchArmorDragonscaleHelmetConjuration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883195,EnchArmorDragonscaleHelmetConjuration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883194,EnchArmorDragonscaleHelmetConjuration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883193,EnchArmorDragonscaleHelmetAlteration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883192,EnchArmorDragonscaleHelmetAlteration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883191,EnchArmorDragonscaleHelmetAlteration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883190,EnchArmorDragonscaleHelmetAlchemy06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883189,EnchArmorDragonscaleHelmetAlchemy05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883188,EnchArmorDragonscaleHelmetAlchemy04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
+883323,EnchArmorDragonplateHelmetWaterbreathing,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883322,EnchArmorDragonplateHelmetRestoration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883321,EnchArmorDragonplateHelmetRestoration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883320,EnchArmorDragonplateHelmetRestoration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883319,EnchArmorDragonplateHelmetMarksman06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883318,EnchArmorDragonplateHelmetMarksman05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883317,EnchArmorDragonplateHelmetMarksman04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+1041140,EnchArmorDragonplateHelmetMagickaRate06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+1041139,EnchArmorDragonplateHelmetMagickaRate05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+1041138,EnchArmorDragonplateHelmetMagickaRate04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883316,EnchArmorDragonplateHelmetMagicka06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883315,EnchArmorDragonplateHelmetMagicka05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883314,EnchArmorDragonplateHelmetMagicka04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883313,EnchArmorDragonplateHelmetIllusion06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883312,EnchArmorDragonplateHelmetIllusion05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883311,EnchArmorDragonplateHelmetIllusion04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883307,EnchArmorDragonplateHelmetDestruction06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883306,EnchArmorDragonplateHelmetDestruction05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883305,EnchArmorDragonplateHelmetDestruction04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883304,EnchArmorDragonplateHelmetConjuration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883303,EnchArmorDragonplateHelmetConjuration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883302,EnchArmorDragonplateHelmetConjuration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883301,EnchArmorDragonplateHelmetAlteration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883300,EnchArmorDragonplateHelmetAlteration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883299,EnchArmorDragonplateHelmetAlteration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883298,EnchArmorDragonplateHelmetAlchemy06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883297,EnchArmorDragonplateHelmetAlchemy05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883296,EnchArmorDragonplateHelmetAlchemy04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
+883437,EnchArmorDaedricHelmetWaterbreathing,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883436,EnchArmorDaedricHelmetRestoration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883435,EnchArmorDaedricHelmetRestoration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883434,EnchArmorDaedricHelmetRestoration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883433,EnchArmorDaedricHelmetMarksman06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883432,EnchArmorDaedricHelmetMarksman05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883431,EnchArmorDaedricHelmetMarksman04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+1041155,EnchArmorDaedricHelmetMagickaRate06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+1041154,EnchArmorDaedricHelmetMagickaRate05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+1041153,EnchArmorDaedricHelmetMagickaRate04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883430,EnchArmorDaedricHelmetMagicka06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883429,EnchArmorDaedricHelmetMagicka05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883428,EnchArmorDaedricHelmetMagicka04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883427,EnchArmorDaedricHelmetIllusion06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883426,EnchArmorDaedricHelmetIllusion05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883425,EnchArmorDaedricHelmetIllusion04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883421,EnchArmorDaedricHelmetDestruction06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883420,EnchArmorDaedricHelmetDestruction05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883419,EnchArmorDaedricHelmetDestruction04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883418,EnchArmorDaedricHelmetConjuration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883417,EnchArmorDaedricHelmetConjuration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883416,EnchArmorDaedricHelmetConjuration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883415,EnchArmorDaedricHelmetAlteration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883414,EnchArmorDaedricHelmetAlteration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883413,EnchArmorDaedricHelmetAlteration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883412,EnchArmorDaedricHelmetAlchemy06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883411,EnchArmorDaedricHelmetAlchemy05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+883410,EnchArmorDaedricHelmetAlchemy04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
+169459,DunYngolBarrowSteelPlateHelmet,
+1094397,dunWaywardPassGhostArmor,
+434351,DummyHelmet,
+1111903,DremoraDaedricHelmet,
+130428,DraugrHelmet03,
+130427,DraugrHelmet02,
+130423,DraugrHelmet01,
+1089008,Dragon_Tundra_BloodWingRFXArmor,
+1088999,Dragon_Snow_BloodWingRFXArmor,
+1089016,Dragon_Green_BloodWingRFXArmor,
+857512,DragonBloodWingRFXArmor,
+755767,DEMOArmorIronHelmet,
+921042,DBClothesRedguardHood,
+411950,DBClothesJesterHatCicero,
+847474,DBClothesJesterHat,
+850081,DBClothesHood,
+1108829,DBArmorHelmetWornPlayable,
+1071465,DBArmorHelmetWorn,
+925463,DBArmorHelmetSP,
+371652,DBArmorHelmetMaskLess,
+862274,DBArmorHelmet,
+498660,DA09MeridiaBallofLightArmor,
+131420,CWDummyHelmetSons,
+131138,CWDummyHelmetImperial,
+1077516,ClothesWarlockRobesHooded,
+810256,ClothesWarlockHoodUnplayable,
+1099416,ClothesThalmorRobesHooded,
+223813,ClothesRobesGreybeardHood,
+1077514,ClothesRobesBlueHooded,TemplateClothesMageRobesApprenticeHooded "Hooded Mage Robes" [ARMO:0010710B]
+1077512,ClothesRobesBlackHooded,
+506906,ClothesRedguardHood,
+416665,ClothesPsiijicHood,
+559444,ClothesNocturnalHat,
+1077517,ClothesNecromancerRobesHooded,
+726093,ClothesMythicDawnRobes,
+411307,ClothesMournerHat,
+1077510,ClothesMonkRobesHooded,
+1101803,ClothesMonkRobesColorRedHooded,
+1101802,ClothesMonkRobesColorGreyHooded,
+1101804,ClothesMonkRobesColorGreenHooded,
+1101796,ClothesMonkRobesColorBrownHooded,
+1111408,ClothesMGRobesArchmage1Hooded,
+270907,ClothesMerchantHat,
+847492,ClothesFineHat02,
+209084,ClothesFarmHat03,
+133546,ClothesFarmHat02,
+209075,ClothesFarmHat01,
+95893,ClothesFarmClothes03withExtras,
+95894,ClothesFarmClothes03Hat,
+850098,ClothesExecutionerHood,
+1103527,ClothesCollegeHoodVariant2,
+1103526,ClothesCollegeHoodVariant1,
+867816,ClothesCollegeHood,
+113831,ClothesChefHat,
+78084,ClothesBeggarHat,
+862278,ClavicusVileMask,
+976320,ArmorTorturerHood,ArmorThievesGuildHelmet "Thieves Guild Hood" [ARMO:00036585]
+931293,ArmorThievesGuildVariantHelmet,
+931295,ArmorThievesGuildVariant02Helmet,
+931289,ArmorThievesGuildLeaderHelmet,
+931306,ArmorThievesGuildKarliahHelmet,
+867022,ArmorThievesGuildHelmetPlayerImproved,
+867013,ArmorThievesGuildHelmetPlayer,
+222597,ArmorThievesGuildHelmet,
+1082690,ArmorSummersetShadowsGuildHelmet,
+683385,ArmorStormcloakHelmetFull,
+551301,ArmorStormcloakBearHelmet,
+80222,ArmorSteelPlateHelmet,
+1011492,ArmorSteelHelmetB,
+80212,ArmorSteelHelmetA,
+111521,ArmorScaledHelmet,
+868010,ArmorPenitusHelmet,
+80217,ArmorOrcishHelmet,
+1035282,ArmorNightingaleHelmetPlayer03,
+1035283,ArmorNightingaleHelmetPlayer02,
+383880,ArmorNightingaleHelmetPlayer01,
+296920,ArmorNightingaleHelmet,
+1082694,ArmorLinweHelmet,
+80162,ArmorLeatherHelmet,
+77389,ArmorIronHelmet,
+81627,ArmorImperialLightHelmet,
+79567,ArmorImperialHelmetOfficer,
+614669,ArmorImperialHelmetFull,
+81628,ArmorImperialHelmet,
+80147,ArmorHideHelmet,
+136733,ArmorGuardHelmetFullWinterhold,
+136725,ArmorGuardHelmetFullWhiterun,
+136738,ArmorGuardHelmetFullRift,
+136723,ArmorGuardHelmetFullReach,
+136735,ArmorGuardHelmetFullPale,
+136731,ArmorGuardHelmetFullHjaalmarch,
+819036,ArmorGuardHelmetFullHaafingar,
+136729,ArmorGuardHelmetFullFalkreath,
+80187,ArmorGlassHelmet,
+312267,ArmorFAlmerHelmet,
+1072916,ArmorElvenLightHelmet,
+80157,ArmorElvenHelmet,
+80227,ArmorEbonyHelmet,
+1070493,ArmorEastmarchHelmetFull,
+80207,ArmorDwarvenHelmet,
+1055178,ArmorDraugrHelmetUnplayable,
+354974,ArmorDraugrHelmet,
+80192,ArmorDragonscaleHelmet,
+400586,ArmorDragonPriestMaskWoodHelmet,
+400598,ArmorDragonPriestMaskUltraHelmet,
+400585,ArmorDragonPriestMaskSteelHelmet,
+400576,ArmorDragonPriestMaskOrichalumHelmet,
+400523,ArmorDragonPriestMaskMoonstoneHelmet,
+400578,ArmorDragonPriestMaskMarbleHelmet,
+400577,ArmorDragonPriestMaskIronHelmet,
+400549,ArmorDragonPriestMaskEbonyHelmet,
+400555,ArmorDragonPriestMaskCorondrumHelmet,
+400569,ArmorDragonPriestMaskBronzeHelmet,
+80233,ArmorDragonplateHelmet,
+80237,ArmorDaedricHelmet,
+312272,ArmorCompanionsHelmet,
+894800,ArmorBoneCrown,
+307855,ArmorBladesHelmet,
+455582,ArmorBanditHelmet,
+396711,ArmorAtronachFlameDead,
+81628,ArmorImperialHelmet,
+307855,ArmorBladesHelmet,
+312267,ArmorFAlmerHelmet,
+551301,ArmorStormcloakBearHelmet,
+867013,ArmorThievesGuildHelmetPlayer,
+867022,ArmorThievesGuildHelmetPlayerImproved,
+868010,ArmorPenitusHelmet,
+888146,ForswornHelmet,
+931289,ArmorThievesGuildLeaderHelmet,
+962513,MS02ForswornHelmet,
+1041119,EnchArmorGlassHelmetMagickaRate05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
+78084,ClothesBeggarHat,
+80187,ArmorGlassHelmet,
+80192,ArmorDragonscaleHelmet,
+80212,ArmorSteelHelmetA,
+80217,ArmorOrcishHelmet,
+80233,ArmorDragonplateHelmet,
+80237,ArmorDaedricHelmet,
+270907,ClothesMerchantHat,
+383880,ArmorNightingaleHelmetPlayer01,
+455582,ArmorBanditHelmet,
+847492,ClothesFineHat02,
+867816,ClothesCollegeHood,
+1011492,ArmorSteelHelmetB,
+1035282,ArmorNightingaleHelmetPlayer03,
+1035283,ArmorNightingaleHelmetPlayer02,
+1077510,ClothesMonkRobesHooded,
+1077512,ClothesRobesBlackHooded,
+1077513,TemplateClothesMageRobesCommonHooded,
+1077515,TemplateClothesMageRobesApprenticeHooded,
+1077516,ClothesWarlockRobesHooded,
+1077517,ClothesNecromancerRobesHooded,
+1099416,ClothesThalmorRobesHooded,
+1101796,ClothesMonkRobesColorBrownHooded,
+1101802,ClothesMonkRobesColorGreyHooded,
+1101803,ClothesMonkRobesColorRedHooded,
+1101804,ClothesMonkRobesColorGreenHooded,
+1103526,ClothesCollegeHoodVariant1,
+1103527,ClothesCollegeHoodVariant2,
+1111408,ClothesMGRobesArchmage1Hooded,
+395029,SkinHorse,
+550147,SkinHorseShadowmere,
+550157,SkinHorseBlackHide,
+550158,SkinHorsePalominoHide,
+550159,SkinHorseGreyHide,
+550160,SkinHorseBlacknWhiteHide,
+33563627,DLC1ArmorFAlmerHeavyHelmet,
+33581819,DLC1SoulCairnSkinSkeletonNecro,
+33581820,DLC1SoulCairnSkinSkeletonNecro02,
+33583566,DLC1EncSoulCairnBonemanSkin,
+33592940,SkinHorseBONE,
+33626743,DragonUndeadBloodWingRFXArmor,
+33635193,SkinSprigganEarthMother,
+33640115,Dragon_Purple_BloodWingRFXArmor,
+33640128,Dragon_IceLake_BloodWingRFXArmor,
+33643548,SkinNakedSnowElf,
+33644842,SkinAncientAtronachFrost,
+33652379,DLC1VCClothesWarlockHoodUnplayable,
+33659038,DLC1ArmorDawnguardHelmetLight,
+33659614,DLC01ClothesVampireHood,
+33661265,SkinSkeletonArmor1,
+33661267,SkinSkeletonArmor2,
+33662783,DLC01SoulCairnReaperHood,
+33565415,DLC1SkinSoulCairnSoulWisp,
+33575120,DLC1ArmorDawnguardHelmetHeavy,
+33613472,DLC1SeranaHood,
+33614048,DLC1ArmorFAlmerHardenedHelmet,
+312267,ArmorFAlmerHelmet,
+33631882,DLC1ArmorShellbugHelmet,
+33662326,DLC2RR01FalxHelmet,
+33672585,DLC2ArmorChitinLightHelmet,
+33672588,DLC2ArmorChitinHeavyHelmet,
+33672597,DLC2ArmorBonemoldHelmet,
+33672601,DLC2ArmorNordicHeavyHelmet,
+33672609,DLC2ArmorStalhrimHeavyHelmet,
+33672611,DLC2ArmorStalhrimLightHelmet,
+33672615,DLC2MirraksRobes,
+33672617,DLC2SkaalVillagerOutfit,
+33672618,DLC2DarkElfOutfit,
+33676184,DLC2dunKolbjornHelm,
+33683857,SkinSpectralDragon,
+33683858,dlc2SpectralDragonSkin,
+33701917,DLC2dunHaknirArmorHelm,
+33701943,DLC2ArmorAcolyteMaskShock,
+33702142,DLC2ArmorAcolyteMaskFire,
+33702143,DLC2ArmorAcolyteMaskFrost,
+33714456,DLC2SkinAshGuardian,
+33717782,DLC2SkinSprigganBurnt,
+33719545,DLC2EnchArmorBonemoldHelmetAlchemy01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719546,DLC2EnchArmorBonemoldHelmetAlchemy02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719547,DLC2EnchArmorBonemoldHelmetAlchemy03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719548,DLC2EnchArmorBonemoldHelmetAlteration01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719549,DLC2EnchArmorBonemoldHelmetAlteration02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719550,DLC2EnchArmorBonemoldHelmetAlteration03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719551,DLC2EnchArmorBonemoldHelmetConjuration01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719552,DLC2EnchArmorBonemoldHelmetConjuration02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719553,DLC2EnchArmorBonemoldHelmetConjuration03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719554,DLC2EnchArmorBonemoldHelmetDestruction01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719555,DLC2EnchArmorBonemoldHelmetDestruction02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719556,DLC2EnchArmorBonemoldHelmetDestruction03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719557,DLC2EnchArmorBonemoldHelmetIllusion01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719558,DLC2EnchArmorBonemoldHelmetIllusion02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719559,DLC2EnchArmorBonemoldHelmetIllusion03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719560,DLC2EnchArmorBonemoldHelmetMagicka01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719561,DLC2EnchArmorBonemoldHelmetMagicka02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33719562,DLC2EnchArmorBonemoldHelmetMagicka03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
+33722392,DLC2EnchArmorChitinLightHelmetAlchemy02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722393,DLC2EnchArmorChitinLightHelmetAlchemy03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722394,DLC2EnchArmorChitinLightHelmetAlchemy04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722395,DLC2EnchArmorChitinLightHelmetAlteration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722396,DLC2EnchArmorChitinLightHelmetAlteration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722397,DLC2EnchArmorChitinLightHelmetAlteration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722398,DLC2EnchArmorChitinLightHelmetConjuration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722399,DLC2EnchArmorChitinLightHelmetConjuration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722400,DLC2EnchArmorChitinLightHelmetConjuration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722401,DLC2EnchArmorChitinLightHelmetDestruction02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722402,DLC2EnchArmorChitinLightHelmetDestruction03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722403,DLC2EnchArmorChitinLightHelmetIllusion02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722404,DLC2EnchArmorChitinLightHelmetDestruction04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722405,DLC2EnchArmorChitinLightHelmetIllusion03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722406,DLC2EnchArmorChitinLightHelmetIllusion04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722407,DLC2EnchArmorChitinLightHelmetMagicka02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722408,DLC2EnchArmorChitinLightHelmetMagicka03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722409,DLC2EnchArmorChitinLightHelmetMagicka04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722410,DLC2EnchArmorChitinLightHelmetMarksman02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722411,DLC2EnchArmorChitinLightHelmetMarksman03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722412,DLC2EnchArmorChitinLightHelmetMarksman04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722413,DLC2EnchArmorChitinLightHelmetRestoration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722414,DLC2EnchArmorChitinLightHelmetRestoration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722415,DLC2EnchArmorChitinLightHelmetRestoration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
+33722581,DLC2EnchArmorStalhrimLightHelmetAlchemy03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722582,DLC2EnchArmorStalhrimLightHelmetAlchemy04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722583,DLC2EnchArmorStalhrimLightHelmetAlchemy05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722584,DLC2EnchArmorStalhrimLightHelmetAlteration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722585,DLC2EnchArmorStalhrimLightHelmetAlteration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722586,DLC2EnchArmorStalhrimLightHelmetAlteration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722587,DLC2EnchArmorStalhrimLightHelmetConjuration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722588,DLC2EnchArmorStalhrimLightHelmetConjuration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722589,DLC2EnchArmorStalhrimLightHelmetConjuration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722590,DLC2EnchArmorStalhrimLightHelmetDestruction03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722591,DLC2EnchArmorStalhrimLightHelmetDestruction04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722592,DLC2EnchArmorStalhrimLightHelmetDestruction05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722593,DLC2EnchArmorStalhrimLightHelmetIllusion03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722594,DLC2EnchArmorStalhrimLightHelmetIllusion04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722595,DLC2EnchArmorStalhrimLightHelmetIllusion05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722596,DLC2EnchArmorStalhrimLightHelmetMagicka03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722597,DLC2EnchArmorStalhrimLightHelmetMagicka04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722598,DLC2EnchArmorStalhrimLightHelmetMagicka05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722599,DLC2EnchArmorStalhrimLightHelmetMagickaRate03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722600,DLC2EnchArmorStalhrimLightHelmetMagickaRate04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722601,DLC2EnchArmorStalhrimLightHelmetMagickaRate05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722602,DLC2EnchArmorStalhrimLightHelmetMarksman03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722603,DLC2EnchArmorStalhrimLightHelmetMarksman04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722604,DLC2EnchArmorStalhrimLightHelmetMarksman05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722605,DLC2EnchArmorStalhrimLightHelmetRestoration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722606,DLC2EnchArmorStalhrimLightHelmetRestoration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722607,DLC2EnchArmorStalhrimLightHelmetRestoration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722623,DLC2EnchArmorStalhrimLightHelmetWaterbreathing,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
+33722759,DLC2EnchArmorChitinHeavyHelmetAlchemy02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722760,DLC2EnchArmorChitinHeavyHelmetAlchemy03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722761,DLC2EnchArmorChitinHeavyHelmetAlchemy04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722762,DLC2EnchArmorChitinHeavyHelmetAlteration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722763,DLC2EnchArmorChitinHeavyHelmetAlteration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722764,DLC2EnchArmorChitinHeavyHelmetAlteration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722765,DLC2EnchArmorChitinHeavyHelmetConjuration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722766,DLC2EnchArmorChitinHeavyHelmetConjuration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722767,DLC2EnchArmorChitinHeavyHelmetConjuration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722768,DLC2EnchArmorChitinHeavyHelmetDestruction02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722769,DLC2EnchArmorChitinHeavyHelmetDestruction03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722770,DLC2EnchArmorChitinHeavyHelmetDestruction04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722771,DLC2EnchArmorChitinHeavyHelmetIllusion02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722772,DLC2EnchArmorChitinHeavyHelmetIllusion03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722773,DLC2EnchArmorChitinHeavyHelmetIllusion04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722774,DLC2EnchArmorChitinHeavyHelmetMagicka02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722775,DLC2EnchArmorChitinHeavyHelmetMagicka03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722776,DLC2EnchArmorChitinHeavyHelmetMagicka04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722777,DLC2EnchArmorChitinHeavyHelmetMarksman02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722778,DLC2EnchArmorChitinHeavyHelmetMarksman03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722779,DLC2EnchArmorChitinHeavyHelmetMarksman04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722780,DLC2EnchArmorChitinHeavyHelmetRestoration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722781,DLC2EnchArmorChitinHeavyHelmetRestoration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722782,DLC2EnchArmorChitinHeavyHelmetRestoration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722783,DLC2EnchArmorChitinHeavyHelmetWaterbreathing,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
+33722836,DLC2EnchArmorNordicHeavyHelmetAlchemy03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722837,DLC2EnchArmorNordicHeavyHelmetAlchemy04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722838,DLC2EnchArmorNordicHeavyHelmetAlchemy05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722839,DLC2EnchArmorNordicHeavyHelmetAlteration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722840,DLC2EnchArmorNordicHeavyHelmetAlteration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722841,DLC2EnchArmorNordicHeavyHelmetAlteration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722842,DLC2EnchArmorNordicHeavyHelmetConjuration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722843,DLC2EnchArmorNordicHeavyHelmetConjuration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722844,DLC2EnchArmorNordicHeavyHelmetConjuration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722845,DLC2EnchArmorNordicHeavyHelmetDestruction03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722846,DLC2EnchArmorNordicHeavyHelmetDestruction04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722847,DLC2EnchArmorNordicHeavyHelmetDestruction05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722848,DLC2EnchArmorNordicHeavyHelmetIllusion03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722849,DLC2EnchArmorNordicHeavyHelmetIllusion04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722850,DLC2EnchArmorNordicHeavyHelmetIllusion05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722851,DLC2EnchArmorNordicHeavyHelmetMagicka03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722852,DLC2EnchArmorNordicHeavyHelmetMagicka04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722853,DLC2EnchArmorNordicHeavyHelmetMagicka05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722854,DLC2EnchArmorNordicHeavyHelmetMarksman03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722855,DLC2EnchArmorNordicHeavyHelmetMarksman04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722856,DLC2EnchArmorNordicHeavyHelmetMarksman05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722857,DLC2EnchArmorNordicHeavyHelmetRestoration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722858,DLC2EnchArmorNordicHeavyHelmetRestoration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722859,DLC2EnchArmorNordicHeavyHelmetRestoration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722860,DLC2EnchArmorNordicHeavyHelmetWaterbreathing,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
+33722934,DLC2EnchArmorStalhrimHeavyHelmetAlchemy04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722935,DLC2EnchArmorStalhrimHeavyHelmetAlchemy05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722936,DLC2EnchArmorStalhrimHeavyHelmetAlchemy06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722937,DLC2EnchArmorStalhrimHeavyHelmetAlteration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722938,DLC2EnchArmorStalhrimHeavyHelmetAlteration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722939,DLC2EnchArmorStalhrimHeavyHelmetAlteration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722940,DLC2EnchArmorStalhrimHeavyHelmetConjuration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722941,DLC2EnchArmorStalhrimHeavyHelmetConjuration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722942,DLC2EnchArmorStalhrimHeavyHelmetConjuration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722943,DLC2EnchArmorStalhrimHeavyHelmetDestruction04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722944,DLC2EnchArmorStalhrimHeavyHelmetDestruction05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722945,DLC2EnchArmorStalhrimHeavyHelmetDestruction06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722946,DLC2EnchArmorStalhrimHeavyHelmetIllusion04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722947,DLC2EnchArmorStalhrimHeavyHelmetIllusion05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722948,DLC2EnchArmorStalhrimHeavyHelmetIllusion06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722949,DLC2EnchArmorStalhrimHeavyHelmetMagicka04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722950,DLC2EnchArmorStalhrimHeavyHelmetMagicka05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722951,DLC2EnchArmorStalhrimHeavyHelmetMagicka06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722952,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722953,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722954,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722955,DLC2EnchArmorStalhrimHeavyHelmetMarksman04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722956,DLC2EnchArmorStalhrimHeavyHelmetMarksman05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722957,DLC2EnchArmorStalhrimHeavyHelmetMarksman06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722958,DLC2EnchArmorStalhrimHeavyHelmetRestoration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722959,DLC2EnchArmorStalhrimHeavyHelmetRestoration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722960,DLC2EnchArmorStalhrimHeavyHelmetRestoration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33722961,DLC2EnchArmorStalhrimHeavyHelmetWaterbreathing,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
+33723054,DLC2MoragTongHood,
+33725026,DLC2MiraakMaskNew,
+33726205,DLC2dunInstrumentsSkin,
+33729841,DLC2TGArmorVariantHood,
+33730635,DLC2SkinAshSpawn,
+33758033,Dragon_Black_BloodWingRFXArmor,
+33779813,DLC2DarkElfOutfitBlue,
+33779814,DLC2DarkElfOutfitRed,
+33782664,DLC2CultistMask,
+33783793,DLC2dunHaknirArmorHelmNP,
+33786589,DLC2dunFahlbtharzDwarvenHelmet,
+33788180,DLC2ClothesSkaalHat,
+33791275,DLC2MKMiraakMask1L,
+33791278,DLC2MKMiraakMask2L,
+33791279,DLC2MKMiraakMask3L,
+33791905,DLC2MKMiraakMask1H,
+33791906,DLC2MKMiraakMask2H,
+33791907,DLC2MKMiraakMask3H,
+33794851,DLC2ArmorBonemoldImprovedHelmet,
+33796174,DLC2TemplePriestHood,
+33800433,DLC2MKMiraakFightMask1,
+33800434,DLC2MKMiraakFightMask2,
+33800435,DLC2MKMiraakFightMask3,
+33800436,DLC2MKMiraakFightMask4,
+33800437,DLC2MKMiraakFightMask5,
+33800438,DLC2MKMiraakFightMask6,
+33804085,DLC2DummyHelmet,
+33805784,DLC2MiraakSkinHider,

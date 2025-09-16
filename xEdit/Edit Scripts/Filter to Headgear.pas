@@ -1,5 +1,5 @@
 {
-  Apply custom scripted filter for female NPC characters
+  Apply custom scripted filter for headgear
 }
 unit ApplyCustomScriptedFilter;
 

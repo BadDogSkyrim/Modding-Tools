@@ -12,8 +12,11 @@ const
     alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
     // Body part "first person" flags
+    BP_HEAD = 1;
     BP_HAIR = 2;
     BP_HANDS = 8;
+    BP_LONGHAIR = $800;
+    BP_CIRCLET = $1000;
 var 
     LOGGING: boolean;
     LOGLEVEL: integer;
@@ -63,7 +66,7 @@ end;
 
 Function BoolToStr(b: boolean): string;
 begin
-    if b then result := 'T' else result := 'F';
+    if b then result := 'TRUE' else result := 'FALSE';
 end;
 
 Function RecordName(r: IwbMainRecord): string;
@@ -214,11 +217,13 @@ var
     id: Cardinal;
     s: string;
 begin
+    if LOGGING then LogEntry2(50, 'AssignElementRef', FullPath(theElement), EditorID(theRef));
     AddRecursiveMaster(GetFile(theElement), GetFile(theRef));
     id := GetLoadOrderFormID(theRef);
     s := IntToHex(id shr 24, 2) + IntToHex((id and $ffffff),6);
     LogD('AssignElementRef: ' + s);
     SetEditValue(theElement, s);
+    if LOGGING then LogExitT('AssignElementRef');
 end;
 
 
@@ -443,7 +448,7 @@ begin
     Result := Nil;
 
     if not Assigned(f) then begin
-        for i := 0 to FileCount-1 do begin
+        for i := FileCount-1 downto 0 do begin
             r := MainRecordByEditorID(GroupBySignature(FileByIndex(i), recordType), name);
             if Assigned(r) then begin
                 Result := r;
@@ -553,7 +558,7 @@ begin
 	h := (31 * h) mod 16000; 
 	// h := ((31 * h) + seed) mod 16000; 
 	if m = 0 then r := 0 else r := h mod m; 
-	If LOGGING then Log(20, 'Hash(' + s + ', ' + IntToStr(seed) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
+	If LOGGING then Log(50, 'Hash(' + s + ', ' + IntToStr(seed) + ', ' + IntToStr(m) + ') -> ' + IntToStr(h) + '/' + IntToStr(r));
     result := r;
 End;
 

@@ -25,7 +25,14 @@ end;
 
 procedure AssertInt(actual, expected: integer; msg: string);
 begin
-    Assert(actual = expected, Format(msg + ': %d = %d', 
+    Assert(actual=expected, Format(msg + ': %d = %d', 
+        [integer(actual), integer(expected)]));
+end;
+
+
+procedure AssertEQ(actual, expected: integer; msg: string);
+begin
+    Assert(actual=expected, Format(msg + ': %d = %d', 
         [integer(actual), integer(expected)]));
 end;
 
@@ -241,7 +248,7 @@ begin
         found := false;
         for j := 0 to ElementCount(raceTints)-1 do begin
             raceTintIndex := GetElementNativeValues(
-                ElementByIndex(raceTints, j), 'Tint Layer\Texture\TINI');
+                ElementByIndex(raceTints, j), 'Tint Layer\TINI');
             if npcTintIndex = raceTintIndex then begin
                 found := true;
                 break;
@@ -449,6 +456,113 @@ begin
     end;
     if targetLayerIndex <> 0 then 
         Assert(not foundTarget, Format('Did not find target tint layer %d', [targetLayerIndex]));
+end;
+
+
+{=========================================================================
+Check whether an actor has a tint layer where the tint file contains the given substring.
+Returns the number of matching tint layers.
+}
+function ActorHasTint(aActor: IInterface; aSubStr: string): integer;
+var
+    raceRec, actorTintLayers, actorTintLayer: IInterface;
+    raceTintLayers, raceTintLayer: IInterface;
+    i, j: integer;
+    actorTINI, raceTINI: integer;
+    tintFile: string;
+begin
+    AddMessage('ActorHasTint: Checking actor ' + Name(aActor) + ' for substring "' + aSubStr + '"');
+
+    Result := 0;
+    tintFile := '';
+
+    // Get the actor's race record
+    raceRec := WinningOverride(LinksTo(ElementByPath(aActor, 'RNAM')));
+    if not Assigned(raceRec) then begin
+        AddMessage('ActorHasTint: No race record found.');
+        Exit;
+    end;
+
+    // Get actor's Tint Layers
+    actorTintLayers := ElementByPath(aActor, 'Tint Layers');
+    if not Assigned(actorTintLayers) then begin
+        AddMessage('ActorHasTint: No actor tint layers found.');
+        Exit;
+    end;
+
+    // Get race's Tint Layers
+    raceTintLayers := ElementByPath(raceRec, 'Head Data\' 
+        + IfThen(GetElementEditValues(aActor, 'ACBS - Configuration\Flags\Female') = '1', 
+            'Female', 'Male')
+        + ' Head Data\Tint Masks');
+    if not Assigned(raceTintLayers) then begin
+        AddMessage('ActorHasTint: No race tint layers found.');
+        Exit;
+    end;
+
+    // Loop through each actor tint layer
+    for i := 0 to ElementCount(actorTintLayers) - 1 do begin
+        actorTintLayer := ElementByIndex(actorTintLayers, i);
+        actorTINI := GetNativeValue(ElementByPath(actorTintLayer, 'TINI'));
+        AddMessage(Format('ActorHasTint: Actor tint layer %d has TINI %d', [i, actorTINI]));
+
+        // Find matching TINI in race tint layers
+        for j := 0 to ElementCount(raceTintLayers) - 1 do begin
+            raceTintLayer := ElementByIndex(raceTintLayers, j);
+            raceTINI := GetElementNativeValues(raceTintLayer, 'Tint Layer\TINI');
+            AddMessage(Format('ActorHasTint: Comparing actor TINI %d with race TINI %d (index %d)', [actorTINI, raceTINI, j]));
+
+            if actorTINI = raceTINI then begin
+                // Get the TINT file name from the race tint layer
+                tintFile := GetElementEditValues(raceTintLayer, 'Tint Layer\TINT');
+                AddMessage(Format('ActorHasTint: Found matching TINI. Tint file: %s', [tintFile]));
+                if Pos(LowerCase(aSubStr), LowerCase(tintFile)) > 0 then begin
+                    AddMessage('ActorHasTint: Substring found in tint file.');
+                    Inc(Result);
+                end else begin
+                    AddMessage('ActorHasTint: Substring not found in tint file.');
+                end;
+                Break;
+            end;
+        end;
+    end;
+    AddMessage(Format('ActorHasTint: Found %d matching tint layer(s).', [Result]));
+end;
+
+{
+    Returns the count of elements in elist that refer to a record whose EditorID contains targetSubstr.
+}
+function ElementListNameCount(elist: IwbContainer; targetSubstr: string): integer;
+var
+    i: integer;
+    ref: IwbMainRecord;
+begin
+    Result := 0;
+    for i := 0 to ElementCount(elist) - 1 do begin
+        ref := LinksTo(ElementByIndex(elist, i));
+        if Assigned(ref) and ContainsText(EditorID(ref), targetSubstr) then
+            Inc(Result);
+    end;
+end;
+
+{
+    Returns the index of the element in elist that refers to a record with the given EditorID.
+}
+function ElementListNameIndex(elist: IwbContainer; edid: string): integer;
+var
+    i: integer;
+    ref: IwbMainRecord;
+begin
+    Result := -1;
+    for i := 0 to ElementCount(elist) - 1 do begin
+        ref := LinksTo(ElementByIndex(elist, i));
+        // AddMessage(Format('ElementListNameIndex checking index %d: %s', [i, IfThen(Assigned(ref), EditorID(ref), '<nil>')]));
+        if Assigned(ref) and SameText(EditorID(ref), edid) then
+        begin
+            Result := i;
+            Exit;
+        end;
+    end;
 end;
 
 end.

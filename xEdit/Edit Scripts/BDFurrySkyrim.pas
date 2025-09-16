@@ -8,21 +8,24 @@ unit BDFurrySkyrim;
 interface
 implementation
 
-uses BDFurrySkyrim_Preferences, BDArmorFixup, BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes,
-    SysUtils, StrUtils, Windows;
+uses 
+    BDFurrySkyrim_Preferences, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
     FURRIFIER_VERSION = 'X0.01';
     SHOW_OPTIONS_DIALOG = False;
     PATCH_FILE_NAME = 'YASNPCPatch.esp'; // Set to whatever
     USE_SELECTION = FALSE;           // FALSE or TRUE
-    FURRIFY_ARMOR = FALSE;         
+    FURRIFY_ARMOR = TRUE;         
     FURRIFY_NPCS_MALE = TRUE;
-    FURRIFY_NPCS_FEM = FALSE;
+    FURRIFY_NPCS_FEM = TRUE;
     SHOW_HAIR_ASSIGNMENT = TRUE;
     MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
     LOG_ARMOR = 0;
-    LOG_NPCS = 15;
+    LOG_NPCS = 0;
+    CLEAR_MESSAGE_WINDOW = TRUE;
+    CLEAN_TARGET_FILE = FALSE;
 
     IS_NONE = 0;
     IS_FURRIFIABLE = 1;
@@ -33,6 +36,7 @@ var
     processedNPCcount: Integer;
     addonFurrifiedRaces: TStringList;
     hairAssignments: TStringList;
+    cancelFurrification: boolean;
 
 
 {============================================================================
@@ -72,16 +76,6 @@ begin
     CopyElementIf(furrifiedRace, furryRace, 'NAM8');
     CopyElementIf(furrifiedRace, furryRace, 'WNAM');
     CopyElementIf(furrifiedRace, furryRace, 'Head Data');
-
-    // ElementAssign(ElementByPath(furrifiedRace, 'Head Data\Male Head Data'), LowInteger, Nil, false);
-    // ElementAssign(ElementByPath(furrifiedRace, 'WNAM'), LowInteger, ElementByPath(furryRace, 'WNAM'), false);
-    // SetElementEditValues(furrifiedRace, 'RNAM', GetElementEditValues(furryRace, 'RNAM'));
-    // ElementAssign(ElementByPath(furrifiedRace, 'Head Data\Male Head Data'), 
-    //     LowInteger, 
-    //     ElementByPath(furryRace, 'Head Data\Male Head Data'), 
-    //     false);
-    
-    // LoadRaceTints(furryRace);
 
     if LOGGING then LogExitT('FurrifyRace');
 end;
@@ -378,17 +372,15 @@ var
     color: IwbMainRecord;
     sktLayer: IwbElement;
     tintAsset: IwbContainer;
-    tintLayerID: integer;
     tinv: single;
     cnam: IwbElement;
     qnam: IwbElement;
     i: integer;
     c: integer;
 begin
-    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), FullPath(skintonePreset));
+    if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), PathName(skintonePreset));
 
     tintAsset := GetContainer(GetContainer(skintonePreset));
-    tintLayerID := GetLayerID(tintAsset);
     if not ElementExists(npc, 'Tint Layers') then begin
         Add(npc, 'Tint Layers', True);
         sktLayer := ElementByIndex(ElementByPath(npc, 'Tint Layers'), 0);
@@ -399,15 +391,8 @@ begin
     LogD('Created skin tone layer ' + PathName(sktLayer));
     
     SetElementNativeValues(sktLayer, 'TINI', 
-        GetElementNativeValues(tintAsset, 'Tint Layer\Texture\TINI'));
+        GetElementNativeValues(tintAsset, 'Tint Layer\TINI'));
     SetElementNativeValues(sktLayer, 'TIAS', GetElementNativeValues(skintonePreset, 'TIRS'));
-
-    // // Warpaint and tattoos always use full strength.
-    // if (tintLayerID < TINT_SPECIAL_LO) or (tintLayerID = TINT_DIRT) or (tintLayerID = TINT_FREKLES) then
-    //     tinv := HashVal(curNPCalias + FullPath(skintonePreset), 6804, 0, 
-    //         GetElementNativeValues(skintonePreset, 'TINV'))
-    // else
-    //     tinv := 1.0;
 
     // Use the tint intensity from the preset.
     tinv := GetElementNativeValues(skintonePreset, 'TINV');
@@ -424,18 +409,20 @@ begin
         Add(sktLayer, 'TINC', True);
         ElementAssign(ElementByPath(sktLayer, 'TINC'), LowInteger, 
             ElementByPath(color, 'CNAM'), false);
-    end;
 
-    if SameText(GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP'), 'Skin Tone') then begin
-        // Set QNAM to match the Skin Tone, scaled by TINV
-        Add(npc, 'QNAM', true);
-        cnam := ElementByPath(color, 'CNAM');
-        qnam := ElementByPath(npc, 'QNAM');
-        for i := 0 to 2 do begin
-            c := GetNativeValue(ElementByIndex(cnam, i));
-            SetNativeValue(ElementByIndex(qnam, i), round((127-(128-c)*tinv)));
+        if SameText(GetElementEditValues(tintAsset, 'Tint Layer\TINP'), 'Skin Tone') then begin
+            // Set QNAM to match the Skin Tone, scaled by TINV
+            Add(npc, 'QNAM', true);
+            cnam := ElementByPath(color, 'CNAM');
+            qnam := ElementByPath(npc, 'QNAM');
+            for i := 0 to 2 do begin
+                c := GetNativeValue(ElementByIndex(cnam, i));
+                SetNativeValue(ElementByIndex(qnam, i), round((127-(128-c)*tinv)));
+            end;
         end;
-    end;
+    end
+    else
+        Warn('No color found for preset ' + FullPath(skintonePreset));
 
     LogD('Tint layers: ' + IntToStr(ElementCount(ElementByPath(npc, 'Tint Layers'))));
 
@@ -476,13 +463,11 @@ alpha of 0 the layer is assumed to be optional, otherwise required.
 }
 function RaceTintIsRequired(tintAsset: IwbElement): boolean;
 begin
-    if LOGGING then LogEntry1(10, 'RaceTintIsRequired', GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP'));
-    result := (GetElementEditValues(tintAsset, 'Tint Layer\Texture\TINP') = 'Skin Tone')
+    if LOGGING then LogEntry1(10, 'RaceTintIsRequired', GetElementEditValues(tintAsset, 'Tint Layer\TINP'));
+    result := (GetElementEditValues(tintAsset, 'Tint Layer\TINP') = 'Skin Tone')
         or (GetElementNativeValues(tintAsset, 'Presets\[0]\TINV') > 0.01);
     if LOGGING then LogExitT1('RaceTintIsRequired', IfThen(result, 'REQUIRED', 'OPTIONAL'));
 end;
-
-
 
 
 {==================================================================
@@ -491,39 +476,105 @@ race.
 }
 Procedure CurNPCChooseFurryTints;
 var
-    tintList: TStringList;
+    skinToneIndex: integer;
+    i: integer;
+    cid: integer;
+    cl: integer;
+    cnam: string;
     raceIndex: integer;
-    classIndex: integer;
-    tintAssetIndex: integer;
     thisTintAsset: IwbElement;
+    tintAssetIndex: integer;
+    tintList: TStringList;
+    furLayerCount: integer;
+    raceTintClasses: TStringList;
+    p: IwbElement;
 begin
     if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
 
     // Assign skin tone layer
     raceIndex := tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace));
-    classIndex := tintAssets[curNPCsex].objects[raceIndex].IndexOf('Skin Tone');
-    tintList := tintAssets[curNPCsex].objects[raceIndex].objects[classIndex];
+    raceTintClasses := tintAssets[curNPCsex].objects[raceIndex];
+    skinToneIndex := raceTintClasses.IndexOf('Skin Tone');
+    tintList := raceTintClasses.objects[skinToneIndex];
 
-    tintAssetIndex := Hash(curNPCalias, 1234, tintList.Count);
-    thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
-    ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
+    thisTintAsset := ObjectToElement(tintList.objects[0]);
+    p := ElementByPath(thisTintAsset, 'Presets');
+    if Assigned(p) then begin
+        if LOGGING then LogD(Format('Assigning skin tone layer from %s', [PathName(thisTintAsset)]));
+        ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
+    end
+    else
+        Warn(Format('No presets found for tint layer %s', [PathName(thisTintAsset)]));
 
-    exit;
+    // Go through fur tint layers of the furry race in pseudo-random order so we pick up
+    // different layers for different NPCs.
+    RandomizeIndexList(curNPCAlias, 5345, raceTintClasses.Count);
+    furLayerCount := 0;
 
-    // XXXXXXXXXX
-    // optLayers := TStringList.Create;
-    // appliedLayers := TStringList.Create;
+    for cl := 0 to indexList.Count-1 do begin
+        i := Integer(indexList.objects[cl]);
+        cnam := raceTintClasses.strings[i];
+        cid := tintLayerNames.IndexOf(cnam);
+        if (cid > TINT_SKIN_TONE) then begin
+            if LOGGING then LogD(Format('Found tint class %d: %s', [cid, cnam]));
 
-    // // Go through tint layers of the furry race in "random" order so we pick up different
-    // // layers for different NPCs.
+            if  // It's a fur layer and we haven't reached the max fur layers yet
+                ((cid < TINT_DECORATION_LO) and (furLayerCount < MAX_TINT_LAYERS))
+                // It's a decoration layer and the NPC has it
+                or ((cid >= TINT_DECORATION_LO) and (curNPCTintLayers.IndexOf(cnam) >= 0))
+            then begin
+
+                tintList := raceTintClasses.objects[i];
+                If tintList.Count > 0 then 
+                    tintAssetIndex := Hash(curNPCalias, 529, tintList.Count)
+                else
+                    tintAssetIndex := 0;
+                thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
+                if LOGGING then LogD(Format('Assigning tint layer %s from %s', [cnam, PathName(thisTintAsset)]));
+                ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
+                if LOGGING then LogD(Format('Applied layer of type %s', [cnam]));
+
+                // Keep track of applied fur layers 
+                if cid < TINT_DECORATION_LO then Inc(furLayerCount);
+                
+            end;
+        end;
+    end;
+
+
+
+// var
+//     appliedLayers: TStringList;
+//     classIndex: integer;
+//     h: integer;
+//     i: integer;
+//     layerID: integer;
+//     layername: string;
+//     optLayers: TStringList;
+//     raceIndex: integer;
+//     t: integer;
+//     thisLayer: string;
+//     thisLayerID: integer;
+//     thisTintAsset: IwbElement;
+//     tintAssetIndex: integer;
+//     tintList: TStringList;
+//     tintMasks: IwbContainer;
+//     tintNPC: Boolean;
+//     tintOK: Boolean;
+// begin
     // tintMasks := ElementByPath(curNPCFurryRace, tintMaskPaths[curNPCsex]);
     // RandomizeIndexList(curNPCAlias, 5345, ElementCount(tintMasks));
 
     // for t := 0 to indexList.Count-1 do begin
     //     thisTintAsset := ElementByIndex(tintMasks, Integer(indexList.objects[t]));
     //     layerID := GetLayerID(thisTintAsset);
-    //     if (layerID >= 0) then begin
+    //     // if layerID >= TINT_DECORATION_LO then begin
+    //     //     if LOGGING then LogD('Decoration layer NYI ' + PathName(thisTintAsset));
+    //     // end
+    //     // else 
+    //     if (layerID > TINT_SKIN_TONE) then begin
     //         layername := tintlayerNames[layerID];
+    //         if LOGGING then LogD(Format('Found layer %d/%s', [layerID, layername]));
     //         if RaceTintIsRequired(thisTintAsset) then begin
     //             // Some furry races depend on the skin tone layer having a color to look
     //             // good. Others have built-in color and the skin tone just changes the
@@ -535,11 +586,13 @@ begin
     //             appliedLayers.Add(layername);
     //         end
     //         else begin
+    //             // Apply a layer only if it hasn't already been applied.
     //             if appliedLayers.IndexOf(layername) < 0 then begin
     //                 // Special layers only applied if original has them.
     //                 tintNPC := False;
-    //                 tintOK := (layerID < TINT_SPECIAL_LO);
-    //                 if not tintOK then tintNPC := CurNPCHasTintlayer(layerID);
+    //                 tintOK := (layerID < TINT_DECORATION_LO) and (layerID <> TINT_SKIN_TONE);
+    //                 if not tintOK  and (layerID <> TINT_SKIN_TONE) then 
+    //                     tintNPC := CurNPCHasTintlayer(layername);
     //                 if tintOK or tintNPC then begin
     //                     optLayers.AddObject(layername, ElementByPath(thisTintAsset, 'Presets'));
     //                     appliedLayers.Add(layername);
@@ -550,7 +603,11 @@ begin
     //                 if LOGGING then LogD(Format('Skipping optional layer %s, already applied', [layername]));
     //         end;
     //     end
-    //     else Warn('Unknown tint layer: ' + PathName(thisTintAsset));
+    //     else if layerID < 0 
+    //     then
+    //         Warn(Format('Unknown tint layer "%s": %s', [
+    //             GetElementEditValues(thisTintAsset, 'Tint Layer\TINT'), 
+    //             PathName(thisTintAsset)]));
     // end;
 
     // // Assign up to MAX_TINT_LAYERS optional layers
@@ -563,14 +620,14 @@ begin
 
     //     if LOGGING then LogD(Format('Considering layer %s (%d) for %s', 
     //         [thisLayer, thisLayerID, Name(curNPC)]));
-    //     if (thisLayerID >= TINT_SPECIAL_LO) or (i > 0) then begin
+    //     if (thisLayerID >= TINT_DECORATION_LO) or (i > 0) then begin
     //         ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), True);
     //         if LOGGING then LogD(Format('Applied layer of type %s, %d/%d remaining', [thisLayer, optLayers.count, i]));
     //     end;
     //     optLayers.Delete(h);
 
     //     // Only non-special layers count against the tint layer maximum.
-    //     if thisLayerID < TINT_SPECIAL_LO then i := i - 1;
+    //     if thisLayerID < TINT_DECORATION_LO then i := i - 1;
     // end;
 
     // optLayers.Free;
@@ -626,7 +683,7 @@ begin
                 if appliedLayers.IndexOf(layername) < 0 then begin
                     // Special layers only applied if original has them.
                     tintNPC := False;
-                    tintOK := (layerID < TINT_SPECIAL_LO);
+                    tintOK := (layerID < TINT_DECORATION_LO);
                     if not tintOK then tintNPC := CurNPCHasTintlayer(layerID);
                     if tintOK or tintNPC then begin
                         optLayers.AddObject(layername, ElementByPath(thisTintAsset, 'Presets'));
@@ -651,14 +708,14 @@ begin
 
         if LOGGING then LogD(Format('Considering layer %s (%d) for %s', 
             [thisLayer, thisLayerID, Name(curNPC)]));
-        if (thisLayerID >= TINT_SPECIAL_LO) or (i > 0) then begin
+        if (thisLayerID >= TINT_DECORATION_LO) or (i > 0) then begin
             ChooseFurryTintLayer(curNPC, ObjectToElement(optLayers.objects[h]), True);
             if LOGGING then LogD(Format('Applied layer of type %s, %d/%d remaining', [thisLayer, optLayers.count, i]));
         end;
         optLayers.Delete(h);
 
         // Only non-special layers count against the tint layer maximum.
-        if thisLayerID < TINT_SPECIAL_LO then i := i - 1;
+        if thisLayerID < TINT_DECORATION_LO then i := i - 1;
     end;
 
     optLayers.Free;
@@ -731,11 +788,12 @@ begin
         processedNPCcount := 0;
         npcList := GroupBySignature(FileByIndex(f), 'NPC_');
         for n := 0 to ElementCount(npcList)-1 do begin
-            if ((processedNPCcount mod 200) = 0) then
+            if ((processedNPCcount mod 500) = 0) then
                 AddMessage(Format('Furrifying %s: %.0f', 
                     [GetFileName(FileByIndex(f)), 100*processedNPCcount/ElementCount(npcList)]) + '%');
 
             npc := ElementByIndex(npcList, n);
+            if LOGGING then Log(10, 'Found NPC ' + Path(npc));
             if IsWinningOverride(npc) then begin
                 // Only furrify the winning override. We'll get to it unless it's in
                 // FFO or later, in which case it doesn't need furrification.
@@ -743,6 +801,7 @@ begin
             end;
             processedNPCcount := processedNPCcount + 1;
         end;
+        AddMessage(Format('Furrifying %s: 100', [GetFileName(FileByIndex(f))]) + '%');
         AddMessage(Format('Furrified %s: %d', 
             [GetFileName(FileByIndex(f)), processedNPCcount]));
     end;
@@ -817,19 +876,43 @@ begin
 end;
 
 
-{===================================================================
-Furrify all armor. Walk through all armor in the load order and fix their armor addons to
-be furrified.
-}
-procedure FurrifyArmor;
+// {===================================================================
+// Furrify all armor. Walk through all armor in the load order and fix their armor addons to
+// be furrified.
+// }
+// procedure FurrifyArmor;
+// var
+//     i: integer;
+// begin
+//     CollectArmor;
+
+//     for i := 0 to furrifiableArmors.count-1 do begin
+//         FurrifyArmorRecord(ObjectToElement(furrifiableArmors.objects[i]));
+//     end;
+// end;
+
+
+procedure CLeanTargetFile;
 var
     i: integer;
+    rec: IwbMainRecord;
 begin
-    CollectArmor;
-
-    for i := 0 to furrifiableArmors.count-1 do begin
-        FurrifyArmorRecord(ObjectToElement(furrifiableArmors.objects[i]));
+    AddMessage('Clearing out old records');
+    AddMessage('Clearing out old records from ' + GetFileName(targetFile));
+    for i := RecordCount(targetFile) - 1 downto 0 do begin
+        rec := RecordByIndex(targetFile, i);
+        if (Signature(rec) = 'FLST') 
+            or (Signature(rec) = 'NPC_') 
+            or (Signature(rec) = 'RACE')  
+            or (Signature(rec) = 'GLOB') 
+            or (Signature(rec) = 'ARMA') 
+            or (Signature(rec) = 'ARMO') 
+        then  begin
+            AddMessage(Format('[%d] Removing %s', [i, EditorID(rec)]));
+            Remove(rec);
+        end;
     end;
+    AddMessage('Done clearing old records');
 end;
 
 
@@ -847,12 +930,11 @@ begin
     AddMessage('xEdit Version ' + GetXEditVersion());
     AddMessage(' ');
 
+    cancelFurrification := FALSE;
     InitializeLogging;
     LOGGING := 0;
     LOGLEVEL := 1;
     if LOGGING then LogEntry(1, 'Initialize');
-
-    hairAssignments := TStringList.Create;
 
     targetFileIndex := FindFile(PATCH_FILE_NAME);
     LogD(Format('Found target file at %d', [targetFileIndex]));
@@ -864,8 +946,13 @@ begin
     else 
         targetFile := FileByIndex(targetFileIndex);
 
+    if CLEAN_TARGET_FILE then CleanTargetFIle;
+    if CLEAR_MESSAGE_WINDOW then ClearMessages;
+
+    hairAssignments := TStringList.Create;
+
     PreferencesInit;
-    CollectArmor;
+    // CollectArmor;
     // CollectAddons;
     SetPreferences;
     ShowRaceAssignments;
@@ -887,7 +974,7 @@ var
     win: IwbMainRecord;
     s: integer;
 begin
-    if USE_SELECTION and (Signature(entity) = 'NPC_') then 
+    if (not cancelFurrification) and USE_SELECTION and (Signature(entity) = 'NPC_') then 
         s := IfThen(GetElementEditValues(entity, 'ACBS - Configuration\Flags\Female') = '1',
             SEX_FEM, SEX_MALE);
         if (FURRIFY_NPCS_MALE and (s = SEX_MALE)) or (FURRIFY_NPCS_FEM and (s = SEX_FEM)) then begin
@@ -901,29 +988,42 @@ end;
 function Finalize: integer;
 var
     errRpt: string;
+    f, a: integer;
+    armorList: IwbElement;
+    armor: IwbMainRecord;
 begin
     if LOGGING then LogEntry(1, 'Finalize');
 
-    if (FURRIFY_NPCS_MALE or FURRIFY_NPCS_FEM) and (not USE_SELECTION) then begin
+    if (FURRIFY_NPCS_MALE or FURRIFY_NPCS_FEM) 
+        and (not USE_SELECTION) 
+        and (not cancelFurrification) 
+    then begin
         FurrifyAllNPCs;
     end;
 
-    LOGGING := (LOG_ARMOR > 0);
-    LOGLEVEL := LOG_ARMOR;
-    if FURRIFY_ARMOR then FurrifyArmor;
+    if FURRIFY_ARMOR and (not cancelFurrification) then begin
+        LOGGING := (LOG_ARMOR > 0);
+        LOGLEVEL := LOG_ARMOR;
+        FurrifyAllArmors;
+    end;
+
+    if (not cancelFurrification) then FurrifyAllSchlongs;
 
     if (processedNPCcount > 0) and SHOW_HAIR_ASSIGNMENT then ShowHair;
 
     PreferencesFree;
-    hairAssignments.Free;
+    if Assigned(hairAssignments) then hairAssignments.Free;
     result := 0;
     if LOGGING then LogExitT('Finalize');
 
-    errRpt := IfThen((errCount = 0) and (warnCount = 0), 
-        'SUCCESS', 
-        IfThen(warnCount = 0, 
-            Format('WITH %d ERRORS', [errCount]),
-            Format('WITH %d ERRORS, %d WARNINGS', [errCount, warnCount])));
+    if cancelFurrification then
+        errRpt := 'Furrification cancelled by user'
+    else
+        errRpt := IfThen((errCount = 0) and (warnCount = 0), 
+            'SUCCESS', 
+            IfThen(warnCount = 0, 
+                Format('WITH %d ERRORS', [errCount]),
+                Format('WITH %d ERRORS, %d WARNINGS', [errCount, warnCount])));
 
     AddMessage(' ');
     AddMessage(' ');
