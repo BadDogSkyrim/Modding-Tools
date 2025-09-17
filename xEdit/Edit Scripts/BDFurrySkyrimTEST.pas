@@ -246,6 +246,13 @@ begin
     AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
         'Nord race removed from MageApprenticeHoodAA');
 
+
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesRedguardHood'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'RedguardClothesHatAA'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race removed from RedguardClothesHatAA');
+
     { The stormcloak helmet has special variants for cats and dogs. Cat and Canine mods
     provide special versions keyed to their races. The furrifier has to merge them.} 
     AddMessage(#13#10#13#10 + '==Stormcloak helmet=='); 
@@ -688,9 +695,9 @@ begin
         targetFile := FileByIndex(targetFileIndex);
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
+    LOGGING := FALSE; // Log the setup y/n
     TestSystemFunc;
 
-    LOGGING := TRUE;
     SetPreferences;
     // ShowRaceAssignments;
     FurrifyAllRaces;

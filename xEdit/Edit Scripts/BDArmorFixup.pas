@@ -442,7 +442,7 @@ begin
                     EditorID(raceRec),
                     BoolToStr(armorFallbacks.indexOf(EditorID(raceRec)) >= 0)]));
                 if armorFallbacks.indexOf(EditorID(raceRec)) >= 0 then begin
-                    result := FALSE;
+                    result := TRUE;
                 end;
             end;
         end;
@@ -497,6 +497,9 @@ begin
     maIter := maIndex;
     if maIndex < 0 then maIndex := 0;
     
+    if LOGGING then Log(25, Format('Iterating over %d overrides for %s', [
+        Integer(OverrideCount(maMaster)), Name(maMaster)
+    ]))
 end;
 
 
@@ -515,15 +518,17 @@ Iterate through the armor overrides, starting with the highest override.
 }
 function MergeArmorNextOverride: boolean;
 begin
-    if SameText(GetFileName(maOverride), UNOFFICIAL_PATCH) then begin
+    if maIter < -1 then
+        result := FALSE
+    else if SameText(GetFileName(maOverride), UNOFFICIAL_PATCH) then begin
         // Assume the unofficial patch has properly dealt with everything below it.
-        maIter := -1;
+        maIter := -2;
         maIndex := 0;
-        result := false;
+        result := TRUE;
         if LOGGING then LogD('Halting at override in unofficial patch');
     end
     else begin 
-        result := (maIter >= 0);
+        // result := (maIter >= 0);
 
         if maIter < 0 then maOverride := maMaster
         else maOverride := OverrideByIndex(maMaster, maIter);
@@ -532,6 +537,7 @@ begin
 
         maIndex := maIter;
         maIter := maIter - 1;
+        result := TRUE
     end;
 end;
 
@@ -637,10 +643,11 @@ begin
     aaList := ElementByPath(armor, 'Armature');
     for i := 0 to ElementCount(aaList) - 1 do begin
         otherAddon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
-        if EditorID(otherAddon) <> EditorID(addon) then begin
+        if (EditorID(otherAddon) <> EditorID(addon))
+            and (processedAddons.IndexOf(EditorID(otherAddon)) < 0) 
+        then begin
             if BodypartsOverlap(otherAddon, GetBodypartFlags(addon)) then begin
                 if LOGGING then LogD(Format('Fixing overlapping addon %s', [EditorID(otherAddon)]));
-
                 AddonRemoveFurrifiedRaces(otherAddon);
             end;
         end;
@@ -818,7 +825,7 @@ begin
         // end;
 
         // for thisOverride := highest to lowest override do begin
-        while MergeArmorNextOverride do begin
+        While MergeArmorNextOverride do begin 
             if LOGGING then LogD(Format('Processing override [%d] %s', [maIndex, PathName(maOverride)]));
             MergeArmorKeywords;
             MergeArmorAddons;
