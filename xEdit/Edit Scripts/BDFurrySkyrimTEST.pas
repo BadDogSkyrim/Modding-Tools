@@ -239,15 +239,6 @@ begin
 
     AddMessage(#13#10#13#10 + '==Hoods=='); 
 
-    { The archmage hooded outfit has both body and hood. Race Distribution Framework
-    appears to have an issue where it fails to use the fallback race for the hood. So make
-    sure we added the furrified race to the hood so it can be equipped. }
-    // old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMGRobesArchmage1Hooded'));
-    // e := FurrifyArmorRecord(old);
-    // aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'ArchmageHood_KhaAA'));
-    // AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
-    //     'Nord race added to ArchmageHood_KhaAA');
-
     { Hoods just use the khajiit version, so make sure furrified races are removed from
     the human addons. } 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesCollegeHood'));
@@ -311,8 +302,19 @@ begin
     e := FurrifyArmorRecord(old);
     AssertLT(GetLoadOrder(GetFile(e)), GetLoadOrder(targetFile), 'ClothesMGRobesArchmage1Hooded not overridden');
     AssertInList(ElementByName(e, 'Armature'), 'ArchmageHood_KhaAA');
-    aa := WinningOverride(FindAsset(nil, 'ARMA', 'ArchmageHood_KhaAA'));
-    AssertLT(GetLoadOrder(GetFile(aa)), targetFileIndex, 'ArchmageHood_KhaAA not overridden');
+    // aa := WinningOverride(FindAsset(nil, 'ARMA', 'ArchmageHood_KhaAA'));
+    // AssertLT(GetLoadOrder(GetFile(aa)), targetFileIndex, 'ArchmageHood_KhaAA not overridden');
+
+    { The archmage hooded outfit has both body and hood. Race Distribution Framework
+    appears to have an issue where it fails to use the fallback race for the hood. So make
+    sure we added the furrified race to the hood so it can be equipped. }
+
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'ArchmageHood_KhaAA'));
+    AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race added to ArchmageHood_KhaAA');
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'ArchmageRobesAA'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 2,
+        'Nord race not duplicated in ArchmageRobesAA');
 
     { Jarl clothes get 'warm' keyword from Update and 'SOS_Revealing' from Skimpy. Make
     sure both are on the winning override. }
@@ -709,7 +711,7 @@ begin
     TestSystemFunc;
 
     SetPreferences;
-    // ShowRaceAssignments;
+    ShowRaceAssignments;
     FurrifyAllRaces;
     ShowRaceTints;
     TestRaces;

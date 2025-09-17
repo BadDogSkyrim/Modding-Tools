@@ -93,23 +93,6 @@ begin
 end;
 
 
-// {===================================================================
-// Compare bodypart flags and return true if any flags match.
-// }
-// function AABodypartsMatch(addon1, addon2: IwbMainRecord): boolean;
-// var
-//     addonBodyparts1, addonBodyparts2: IwbMainRecord;
-// begin
-//     if LOGGING then LogEntry2(15, 'AABodypartsMatch', PathName(addon1), PathName(addon2));
-//     // result := true;
-//     // addonBodyparts1 := ElementByPath(addon1, '[2]\[0]');
-//     // addonBodyparts2 := ElementByPath(addon2, '[2]\[0]');
-//     // result := ((GetNativeValue(addonBodyparts1) and GetNativeValue(addonBodyparts2)) <> 0);
-//     result := ((GetBodypartFags(addon1) and GetBodypartFags(addon2)) <> 0);
-//     if LOGGING then LogExitT1('AABodypartsMatch', BoolToStr(result));
-// end;
-
-
 {===================================================================
 Find the armor addon listed in an armor record that matches a given race and covers the
 given bodyparts.
@@ -327,8 +310,12 @@ end;
 
 
 {=================================================================== 
-Fix an addon to reflect furrification -- if it's good for a furry race or a furry armor
-fallback add the furrified vanilla race.
+Fix an addon to reflect furrification by adding furrified races. 
+
+A furrified race is added if the armor is good for its furry race.
+
+A furrified race is also added if the armor is good for the fallback of a furrified race
+and there's no addon covering the same slots that references the furrified race directly.
 
 Return TRUE if this is a furry addon and we added furrified races
     OR if this addon works for the armor fallback race of a furrified race.
@@ -339,11 +326,13 @@ function AddonAddFurrifiedRaces(addon: IwbMainRecord): boolan;
 var
     i, fidx: integer;
     raceList: IwbElement;
-    raceRec, vanillaRec: IwbMainRecord;
+    raceName: string;
+    vanillaRec: IwbMainRecord;
     e: IwbElement;
     aaOverride: IwbMainRecord;
     furryList: TStringList;
     fl: integer;
+    curRaceList: TStringList;
 begin
     if LOGGING then LogEntry1(5, 'AddonAddFurrifiedRaces', PathName(addon));
 
@@ -354,16 +343,44 @@ begin
     if (GetLoadOrder(GetFile(addon)) < targetFileIndex) 
         and (processedAddons.IndexOf(EditorID(addon)) < 0) 
     then begin
-
         raceList := ElementByPath(addon, 'Additional Races');
+        
+        // Don't dup races
+        curRaceList := TStringList.Create;
+        curRaceList.duplicates := dupIgnore;
+        curRaceList.sorted := TRUE;
+        for i := -1 to ElementCount(raceList)-1 do begin
+            if i < 0 then raceName := EditorID(LinksTo(ElementByPath(addon, 'RNAM')))
+            else raceName := EditorID(LinksTo(ElementByIndex(raceList, i)));
+            curRaceList.Add(raceName);
+            if LOGGING then LogD(Format('Found existing race %s', [raceName]));
+        end;
+
         for i := -1 to ElementCount(racelist)-1 do begin
             if i < 0 then 
-                raceRec := LinksTo(ElementByPath(addon, 'RNAM'))
+                raceName := EditorID(LinksTo(ElementByPath(addon, 'RNAM')))
             else 
-                raceRec := LinksTo(ElementByIndex(raceList, i));
-            fidx := furryRaces.IndexOf(EditorID(raceRec));
-            // If the addon is for a furry race, add the furrified vanilla race.
+                raceName := EditorID(LinksTo(ElementByIndex(raceList, i)));
+
+            // Check whether the addon is good for a furry race
+            furryList := nil;
+            fidx := furryRaces.IndexOf(raceName);
             if fidx >= 0 then begin
+                if LOGGING then LogD(Format('Works for %s', [raceName]));
+                furryList := furryRaces.objects[fidx];
+            end
+            // No? Then see if it's good for a fallback armor race where the race isn't
+            // referenced directly
+            else if raceAssignments.indexOf(raceName) < 0 then  begin
+                fidx := armorFallbacks.IndexOf(raceName);
+                if fidx >= 0 then begin
+                    if LOGGING then LogD(Format('Works for fallback %s', [raceName]));
+                    furryList := armorFallbacks.objects[fidx];
+                end;
+            end;
+
+            // If the addon is for a furry race, add the furrified vanilla race.
+            if Assigned(furryList) then begin
                 result := TRUE;
                 if not Assigned(aaOverride) then begin
                     if GetLoadOrder(GetFile(addon)) < targetFileIndex then 
@@ -372,9 +389,19 @@ begin
                         aaOverride := addon;
                 end;
 
-                furryList := furryRaces.objects[fidx];
                 for fl := 0 to furryList.Count-1 do begin
                     vanillaRec := ObjectToElement(furryList.objects[fl]);
+                    if maAddonRaces.IndexOf(EditorID(vanillaRec)) >= 0 then begin
+                        if LOGGING then LogD(Format('Skipping race %s, handled by another addon',
+                            [EditorID(vanillaRec)]));
+                        continue;
+                    end
+                    else if curRaceList.IndexOf(EditorID(vanillaRec)) >= 0 then begin
+                        if LOGGING then LogD(Format('Skipping race %s, already present',
+                            [EditorID(vanillaRec)]));
+                        continue;
+                    end;
+                        
                     if LOGGING then LogD(Format('Adding race %s to %s', [EditorID(vanillaRec), PathName(aaOverride)]));
                     e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
                         HighInteger, nil, false);
@@ -383,19 +410,10 @@ begin
                         maFurrySlots, Integer(GetBodypartFlags(aaOverride))]));
                 end;
                 maFurrySlots := maFurrySlots or GetBodypartFlags(aaOverride);
-            end
-            // Addon isn't for a furry race but maybe it works for the armor fallback race of
-            // a furrified race.
-            else begin
-                if LOGGING then LogD(Format('Checking whether %s is a fallback race (%s)', [
-                    EditorID(raceRec),
-                    BoolToStr(armorFallbacks.IndexOf(EditorID(raceRec)) >= 0)]));
-                if armorFallbacks.IndexOf(EditorID(raceRec)) >= 0 then begin
-                    result := TRUE;
-                end;
             end;
         end;
         processedAddons.AddObject(EditorID(aaOverride), aaOverride);
+        curRaceList.Free;
 
     end;
     if LOGGING then LogExitT1('AddonAddFurrifiedRaces', BoolToStr(result));
@@ -527,10 +545,6 @@ begin
                 e := ElementAssign(ElementByPath(maNewOverride, 'Keywords\KWDA'), HighInteger, nil, false);
                 AssignElementRef(e, keyword);
                 maKeywords.AddObject(EditorID(keyword), keyword);
-                // if not IsWinningOverride(maNewOverride) then begin
-                //     if LOGGING then LogD('Added keyword: ' + EditorID(keyword));
-                //     maChanged := true;
-                // end;
             end;
         end;
     end;
@@ -574,9 +588,6 @@ begin
     if LOGGING then LogEntry2(10, 'FixupOverlappingAddons', Name(armor), PathName(addon));
 
     // Collect the races covered by this addon. These are the ones to remove from other addons.
-    maAddonRaces := TStringList.Create;
-    maAddonRaces.Duplicates := dupIgnore;
-    maAddonRaces.Sorted := true;
     for i := -1 to ElementCount(ElementByPath(addon, 'Additional Races')) - 1 do begin
         if i < 0 then 
             thisRace := LinksTo(ElementByPath(addon, 'RNAM'))
@@ -607,8 +618,56 @@ begin
         end;
     end;
 
-    maAddonRaces.Free;
     if LOGGING then LogExitT('FixupOverlappingAddons');
+end;
+
+
+{===================================================================
+Collect all furry races currently covered by maOverride's addons which cover the given
+bodyparts in maAddonRaces. 
+}
+Procedure CollectArmorRaces(targetAddon: IwbMainRecord);
+var
+    addonList: IwbElement;
+    i: integer;
+    arma: IwbMainRecord;
+    raceList: IwbElement;
+    raceCount: integer;
+    j: integer;
+    thisRace: IwbMainRecord;
+begin
+    if LOGGING then LogEntry1(15, 'CollectArmorRaces', PathName(targetAddon));
+    maAddonRaces := TStringList.Create;
+    maAddonRaces.Duplicates := dupIgnore;
+    maAddonRaces.Sorted := true;
+
+    addonList := ElementByPath(WinningOverride(maMaster), 'Armature');
+    for i := 0 to ElementCount(addonList)-1 do begin
+        arma := WinningOverride(LinksTo(ElementByIndex(addonList, i)));
+        if (EditorID(arma) <> EditorID(targetAddon))
+            and ((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)) <> 0) 
+        then begin
+            if LOGGING then LogD(Format('Found overlapping addon %s:%s | %s:%s = %s', [
+                EditorID(targetAddon), IntToHex(GetBodypartFlags(targetAddon), 8),
+                EditorID(arma), IntToHex(GetBodypartFlags(arma), 8),
+                IntToHex((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)), 8)
+            ]));
+            raceList := ElementByPath(arma, 'Additional Races');
+            if Assigned(raceList) then raceCount := ElementCount(raceList)
+            else raceCount := 0;
+            for j := -1 to raceCount-1 do begin
+                if j < 0 then 
+                    thisRace := LinksTo(ElementByPath(arma, 'RNAM'))
+                else 
+                    thisRace := LinksTo(ElementByIndex(raceList, j));
+                if furryRaces.IndexOf(EditorID(thisRace)) >= 0 then begin
+                    maAddonRaces.Add(EditorID(thisRace));
+                    if LOGGING then LogD(Format('Added race %s to addon list', [EditorID(thisRace)]));
+                end;
+            end;
+        end;
+    end;
+    if LOGGING then LogExitT('CollectArmorRaces');
 end;
 
 
@@ -623,24 +682,31 @@ var
     newAddon: IwbMainRecord;
     e: IwbElement;
 begin
-    if LOGGING then LogEntry1(5, 'MergeArmorAddons', PathName(maOverride));
+    if LOGGING then LogEntry1(15, 'MergeArmorAddons', PathName(maOverride));
 
     aaList := ElementByPath(maOverride, 'Armature');
     if Assigned(aaList) then begin
         // Walk through the addons and extend furry adddons to cover assigned furrified races.
         for i := 0 to ElementCount(aaList) - 1 do begin
             addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
+            if LOGGING then LogD(Format('addon %s load order = %d, target file = %d', [
+                PathName(addon),
+                Integer(GetLoadOrder(GetFile(addon))),
+                Integer(GetLoadOrder(targetFile))]));
+            if GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile) then begin
+                // Furrify the addon's races if needed.
+                CollectArmorRaces(addon);
+                if AddonAddFurrifiedRaces(addon) then 
+                    FixupOverlappingAddons(maOverride, addon);
 
-            // Furrify the addon's races if needed.
-            if AddonAddFurrifiedRaces(addon) then 
-                FixupOverlappingAddons(maOverride, addon);
-
-            // Make sure this addon is in the armor's list.
-            if maAddons.IndexOf(EditorID(addon)) < 0 then begin
-                MergeArmorMakeOverride;
-                e := InsertAddonSlot(ElementByPath(maNewOverride, 'Armature'), addon);
-                AssignElementRef(e, addon);
-                maAddons.AddObject(EditorID(addon), addon);
+                // Make sure this addon is in the armor's list.
+                if maAddons.IndexOf(EditorID(addon)) < 0 then begin
+                    MergeArmorMakeOverride;
+                    e := InsertAddonSlot(ElementByPath(maNewOverride, 'Armature'), addon);
+                    AssignElementRef(e, addon);
+                    maAddons.AddObject(EditorID(addon), addon);
+                end;
+                if Assigned(maAddonRaces) then maAddonRaces.Free;
             end;
         end;
 
@@ -690,64 +756,6 @@ end;
 
 
 {===================================================================
-Create a new armor override, merging keyword lists and armor addons.
-}
-// procedure MergeArmorMakeOverride;
-// var
-//     aaList: IwbElement;
-//     addon, newAddon: IwbMainRecord;
-//     e: IwbElement;
-//     i: integer;
-//     kw: IwbMainRecord;
-//     kwList: IwbElement;
-// begin
-//     if LOGGING then LogEntry1(15, 'MergeArmorMakeOverride', PathName(maArmor));
-
-//     if maChanged then begin
-//         // Create an override of the armor record
-//         maArmorNew := MakeOverride(maArmor, targetFile);
-
-//         // Update the armature list with the furrified addons
-//         Remove(ElementByPath(maArmorNew, 'Armature')); // Clear the existing list
-//         Add(maArmorNew, 'Armature', true); 
-//         aaList := ElementByPath(maArmorNew, 'Armature');
-
-//         for i := 0 to maAddons.Count - 1 do begin
-//             addon := ObjectToElement(maAddons.Objects[i]);
-//             if Assigned(addon) then begin
-//                 if LOGGING then LogD('Adding addon to override: ' + EditorID(addon));
-//                 if i = 0 then 
-//                     e := ElementByIndex(aaList, 0)
-//                 else 
-//                     e := InsertAddonSlot(aaList, addon);
-//                 AssignElementRef(e, addon);
-//                 if LOGGING then LogD('Added addon to override: ' + EditorID(addon));
-//             end;
-//         end;
-
-//         // Update the keywords list with merged keywords. The merge has to have as many
-//         // or more keywords than the original, so overwrite the list in place.
-//         Add(maArmorNew, 'Keywords\KWDA', true);
-//         kwlist := ElementByPath(maArmorNew, 'Keywords\KWDA');
-//         if LOGGING then LogD(Format('Have %d keywords in list %s', [Integer(ElementCount(kwList)), PathName(kwList)]));
-//         for i := 0 to maKeywords.Count - 1 do begin
-
-//             if i < ElementCount(kwList) then e := ElementByIndex(kwList, i)
-//             else e := ElementAssign(kwList, HighInteger, nil, false);
-
-//             kw := ObjectToElement(maKeywords.Objects[i]);
-//             if Assigned(kw) then begin
-//                 AssignElementRef(e, kw);
-//                 if LOGGING then LogD(Format('Added keyword to override [%s]: %s', [PathName(e), EditorID(kw)]));
-//             end;
-//         end;
-//     end;
-
-//     if LOGGING then LogExitT('MergeArmorMakeOverride');
-// end;
-
-
-{===================================================================
 Furrify a single armor record. Every addon which references a furrified race has the
 furrified race removed and the armor is augmented with the furry version of the addon. 
 }
@@ -765,18 +773,6 @@ begin
     if HasNoOverride(armor) and (GetLoadOrder(GetFile(armor)) < targetFileIndex) then begin
         if LOGGING then LogD('Processing armor: ' + PathName(armor));
         MergeArmorStart(armor);
-
-        // // Seed maAddons with the armor's existing addons.
-        // aaList := ElementByPath(armor, 'Armature');
-        // if Assigned(aaList) then begin
-        //     for i := 0 to ElementCount(aaList) - 1 do begin
-        //         addon := WinningOverride(LinksTo(ElementByIndex(aaList, i)));
-        //         if Assigned(addon) then begin
-        //             newAddon := AddonAddFurrifiedRaces(addon);
-        //             maAddons.AddObject(EditorID(addon), newAddon);
-        //         end;
-        //     end;
-        // end;
 
         // for thisOverride := highest to lowest override do begin
         While MergeArmorNextOverride do begin 
@@ -871,9 +867,6 @@ begin
         if LOGGING then LogD('Not checked already');
         result := IS_NONE;
 
-        // if LOGGING then LogD(Format('%s is hair: %d', [EditorID(addon), Integer(GetElementNativeValues(addon, 'BODT\First Person Flags\31 - Hair'))]));
-        // if LOGGING then LogD(Format('%s is hands: %d', [EditorID(addon), Integer(GetElementNativeValues(addon, 'BODT\First Person Flags\33 - Hands'))]));
-        
         if ((GetBodypartFlags(addon) and BP_HAIR) <> 0) 
             or ((GetBodypartFlags(addon) and BP_HANDS) <> 0) 
         then begin

@@ -83,7 +83,8 @@ var
     // IWbMainRecords of the vanilla race they furrify. 
     furryRaces: TStringList;
 
-    // List of armor fallback races for furrifed races.
+    // List of armor fallback races for furrifed races. Key is the fallback race, value is
+    // the furrified race. 
     armorFallbacks: TStringList;
 
     // List of factions that force their owner's race: factionName = RaceName
@@ -333,11 +334,14 @@ var i, j, tintIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     if LOGGING then LogEntry(20, 'PreferencesFree');
     raceAssignments.Free;
-    armorFallbacks.Free;
     factionRaces.Free;
     furryRaceClass.Free;
     armorRaces.Free;
     vanillaRaces.free;
+    
+    for i := 0 to armorFallbacks.Count-1 do
+        armorFallbacks.objects[i].Free;
+    armorFallbacks.Free;
 
     for i := 0 to furryRaces.Count-1 do
         furryRaces.objects[i].Free;
@@ -821,6 +825,9 @@ var
     armorRace: IwbMainRecord;
     furryList: TStringList;
     fidx: integer;
+    fbRace: IwbMainRecord;
+    fbIdx: integer;
+    fbList: TStringList;
 begin
     if LOGGING then LogEntry2(1, 'SetRace', vanillaRaceName, furryRaceName);
 
@@ -851,11 +858,21 @@ begin
         end;
 
         if Assigned(ElementByPath(furryRace, 'RNAM')) then begin
+            fbRace := WinningOverride(LinksTo(ElementByPath(furryRace, 'RNAM')));
+            fbIdx := armorFallbacks.IndexOf(EditorID(fbRace));
             if LOGGING then LOGD(Format('Adding %s as a fallback race for %s', [
-                EditorID(LinksTo(ElementByPath(furryRace, 'RNAM'))),
-                vanillaRaceName
+                EditorID(fbRace),
+                EditorID(vanillaRace)
             ]));
-            armorFallbacks.Add(EditorID(LinksTo(ElementByPath(furryRace, 'RNAM'))));
+            if fbIdx < 0 then begin
+                fbList := TStringList.Create;
+                fbList.Duplicates := dupIgnore;
+                fbList.Sorted := True;
+                armorFallbacks.AddObject(EditorID(fbRace), fbList);
+            end
+            else
+                fbList := armorFallbacks.objects[fbIdx];
+            fbList.AddObject(vanillaRaceName, vanillaRace);
         end
         else
             if LOGGING then LogD(Format('Vanilla race %s has no armor fallback', [
@@ -922,7 +939,8 @@ end;
 
 
 Procedure ShowRaceAssignments;
-var i: integer;
+var i, j: integer;
+    fbList: TStringList;
 begin
     AddMessage('==RACE ASSIGNMENTS==');
     for i := 0 to raceAssignments.Count-1 do begin
@@ -930,6 +948,15 @@ begin
             raceAssignments[i], EditorID(ObjectToElement(raceAssignments.objects[i]))]));
     end;
     AddMessage('--RACE ASSIGNMENTS--');
+    AddMessage('==RACE FALLBACKS==');
+    for i := 0 to armorFallbacks.Count-1 do begin
+        AddMessage(Format('Race fallback %s', [armorFallbacks.strings[i]]));
+        fbList := armorFallbacks.objects[i];
+        for j := 0 to fbList.Count-1 do begin
+            AddMessage(Format('|   %s %s', [fbList.strings[j], '']));
+        end;
+    end;
+    AddMessage('--RACE FALLBACKS--');
 end;
 
 
