@@ -175,62 +175,6 @@ begin
 end;
 
 
-// {===================================================================
-// Find the furry armor addon that works for the given furrified race and is a valid
-// replacement for the given addon (covers the same bodyparts).
-
-// The furry addon has to be referenced by one of the armor's overrides. 
-// }
-// function FindFurryAddon(race: IwbMainRecord; armor, addon: IwbMainRecord): IwbMainRecord;
-// var
-//     classIdx: integer;
-//     defIdx: Integer;
-//     furRace: IwbMainRecord;
-//     furRaceName: string;
-//     racei: integer;
-//     rootName: string;
-//     targetName: string;
-//     targIdx: integer;
-// begin
-//     if LOGGING then LogEntry3(5, 'FindFurryAddon', EditorID(race), EditorID(armor), EditorID(addon));
-
-//     rootName := AddonRootName(armor);
-
-//     // Find an addon for this race specifically
-//     targetName := 'YA_' + rootname + '_' + EditorID(race);
-//     targIdx := allAddons.IndexOf(targetName);
-//     if LOGGING then LogD('Found specific addon: ' + targetName + ' at ' + IntToStr(targIdx));
-//     if targIdx >= 0 then begin
-//         result := ObjectToElement(allAddons.objects[targIdx]);
-//     end;
-//     if not Assigned(result) then begin
-//         // Find an addon for this race class
-//         racei := raceAssignments.IndexOf(EditorID(race));
-//         furRace := ObjectToElement(raceAssignments.objects[racei]);
-//         furRaceName := EditorID(furRace);
-//         if LOGGING then LogD(Format('Associated furry race: [%d] %s', [racei, furRaceName]));
-//         classIdx := furryRaceClass.IndexOfName(furRaceName);
-//         if classIdx >= 0 then begin
-//             targetName := 'YA_' + rootname + '_' + furryRaceClass.ValueFromIndex[classIdx];
-//             targIdx := allAddons.IndexOf(targetName);
-//             if LOGGING then LogD('Found class addon: ' + targetName + ' at ' + IntToStr(targIdx));
-//             if targIdx >= 0 then begin
-//                 result := ObjectToElement(allAddons.objects[targIdx]);
-//             end;
-//         end;
-//     end;
-//     if not Assigned(result) then begin
-//         defIdx := furryRaces.IndexOf(armorRaces.values[furRaceName]);
-//         if LOGGING then LogD(Format('Found armor race: [%d] %s', [defIdx, armorRaces.values[furRaceName]]));
-//         if defIdx >= 0 then begin
-//             result := FindMatchingAddon(armor, addon, ObjectToElement(furryRaces.objects[defIdx]));
-//         end;
-//     end;
-
-//     if LOGGING then LogExitT1('FindFurryAddon', EditorID(result));
-// end;
-
-
 {===================================================================
 Remove a race from an armor addon. Returns the addon as modified (may be an override).
 }
@@ -382,9 +326,9 @@ begin
 end;
 
 
-{===================================================================
-Fix an addon to reflect furrification -- if it's good for a furry race add the furrified 
-vanilla race.
+{=================================================================== 
+Fix an addon to reflect furrification -- if it's good for a furry race or a furry armor
+fallback add the furrified vanilla race.
 
 Return TRUE if this is a furry addon and we added furrified races
     OR if this addon works for the armor fallback race of a furrified race.
@@ -398,6 +342,8 @@ var
     raceRec, vanillaRec: IwbMainRecord;
     e: IwbElement;
     aaOverride: IwbMainRecord;
+    furryList: TStringList;
+    fl: integer;
 begin
     if LOGGING then LogEntry1(5, 'AddonAddFurrifiedRaces', PathName(addon));
 
@@ -426,13 +372,16 @@ begin
                         aaOverride := addon;
                 end;
 
-                vanillaRec := ObjectToElement(furryRaces.objects[fidx]);
-                if LOGGING then LogD(Format('Adding race %s to %s', [EditorID(vanillaRec), PathName(aaOverride)]));
-                e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
-                    HighInteger, nil, false);
-                AssignElementRef(e, vanillaRec);
-                if LOGGING then LogD(Format('Merging bodypart flags %d with %d', [
-                    maFurrySlots, Integer(GetBodypartFlags(aaOverride))]));
+                furryList := furryRaces.objects[fidx];
+                for fl := 0 to furryList.Count-1 do begin
+                    vanillaRec := ObjectToElement(furryList.objects[fl]);
+                    if LOGGING then LogD(Format('Adding race %s to %s', [EditorID(vanillaRec), PathName(aaOverride)]));
+                    e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
+                        HighInteger, nil, false);
+                    AssignElementRef(e, vanillaRec);
+                    if LOGGING then LogD(Format('Merging bodypart flags %d with %d', [
+                        maFurrySlots, Integer(GetBodypartFlags(aaOverride))]));
+                end;
                 maFurrySlots := maFurrySlots or GetBodypartFlags(aaOverride);
             end
             // Addon isn't for a furry race but maybe it works for the armor fallback race of
@@ -440,8 +389,8 @@ begin
             else begin
                 if LOGGING then LogD(Format('Checking whether %s is a fallback race (%s)', [
                     EditorID(raceRec),
-                    BoolToStr(armorFallbacks.indexOf(EditorID(raceRec)) >= 0)]));
-                if armorFallbacks.indexOf(EditorID(raceRec)) >= 0 then begin
+                    BoolToStr(armorFallbacks.IndexOf(EditorID(raceRec)) >= 0)]));
+                if armorFallbacks.IndexOf(EditorID(raceRec)) >= 0 then begin
                     result := TRUE;
                 end;
             end;
@@ -619,6 +568,8 @@ var
     thisRace: IwbMainRecord;
     furrifiedRace: IwbMainRecord;
     fi: integer;
+    furryList: TStringList;
+    fl: integer;
 begin
     if LOGGING then LogEntry2(10, 'FixupOverlappingAddons', Name(armor), PathName(addon));
 
@@ -633,10 +584,13 @@ begin
             thisRace := LinksTo(ElementByIndex(ElementByPath(addon, 'Additional Races'), i));
         fi := furryRaces.IndexOf(EditorID(thisRace));
         if fi >= 0 then begin
-            furrifiedRace := ObjectToElement(furryRaces.objects[fi]);
-            maAddonRaces.Add(EditorID(furrifiedRace));
-            if LOGGING then LogD(Format('Addon %s covers race %s', [
-                EditorID(addon), EditorID(furrifiedRace)]));
+            furryList := furryRaces.objects[fi];
+            for fl := 0 to furryList.Count-1 do begin
+                furrifiedRace := ObjectToElement(furryList.objects[fl]);
+                maAddonRaces.Add(EditorID(furrifiedRace));
+                if LOGGING then LogD(Format('Addon %s covers race %s', [
+                    EditorID(addon), EditorID(furrifiedRace)]));
+            end;
         end;
     end;
 

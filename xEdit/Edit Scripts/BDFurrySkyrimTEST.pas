@@ -237,15 +237,24 @@ begin
     AddMessage(#13#10#13#10 + '============ CHECKING ARMOR ===============');
     FurrifyArmorsInit;
 
+    AddMessage(#13#10#13#10 + '==Hoods=='); 
+
+    { The archmage hooded outfit has both body and hood. Race Distribution Framework
+    appears to have an issue where it fails to use the fallback race for the hood. So make
+    sure we added the furrified race to the hood so it can be equipped. }
+    // old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMGRobesArchmage1Hooded'));
+    // e := FurrifyArmorRecord(old);
+    // aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'ArchmageHood_KhaAA'));
+    // AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+    //     'Nord race added to ArchmageHood_KhaAA');
+
     { Hoods just use the khajiit version, so make sure furrified races are removed from
     the human addons. } 
-    AddMessage(#13#10#13#10 + '==Hood=='); 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesCollegeHood'));
     e := FurrifyArmorRecord(old);
     aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHoodAA'));
     AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
         'Nord race removed from MageApprenticeHoodAA');
-
 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesRedguardHood'));
     e := FurrifyArmorRecord(old);
@@ -276,6 +285,7 @@ begin
     // Dog & cat addons have been extended with furrified races
     aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YASStormcloakHelm_DOG');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
+    AssertInList(ElementByPath(aa, 'Additional Races'), 'ElderRace');
     aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_CAT');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'WoodElfRace');
     // Furrified races removed from vanilla addon.

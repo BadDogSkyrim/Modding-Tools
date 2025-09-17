@@ -79,7 +79,8 @@ var
     // List of vanilla races being furrified. Values are the IwbMainRecord of the race.
     vanillaRaces: TStringList;
 
-    // List of furry race names; values are the vanilla IWbMainRecord they furrify.
+    // List of furry race names; values are a TStringList containing the names and
+    // IWbMainRecords of the vanilla race they furrify. 
     furryRaces: TStringList;
 
     // List of armor fallback races for furrifed races.
@@ -332,13 +333,16 @@ var i, j, tintIdx, sexIdx, typeIdx, m: Cardinal;
 begin
     if LOGGING then LogEntry(20, 'PreferencesFree');
     raceAssignments.Free;
-    furryRaces.Free;
     armorFallbacks.Free;
     factionRaces.Free;
     furryRaceClass.Free;
     armorRaces.Free;
     vanillaRaces.free;
 
+    for i := 0 to furryRaces.Count-1 do
+        furryRaces.objects[i].Free;
+    furryRaces.Free;
+    
     for i := 0 to headpartEquivalents.Count-1 do
         headpartEquivalents.objects[i].Free;
     headpartEquivalents.Free;
@@ -815,6 +819,8 @@ var
     vanillaRace: IwbMainRecord;
     furryRace: IwbMainRecord;
     armorRace: IwbMainRecord;
+    furryList: TStringList;
+    fidx: integer;
 begin
     if LOGGING then LogEntry2(1, 'SetRace', vanillaRaceName, furryRaceName);
 
@@ -827,9 +833,16 @@ begin
     else begin
         raceAssignments.AddObject(vanillaRaceName, WinningOverride(furryRace));
 
-        if furryRaces.IndexOf(furryRaceName) < 0 then begin
-            furryRaces.AddObject(furryRaceName, WinningOverride(vanillaRace));
+        fidx := furryRaces.IndexOf(furryRaceName);
+        if fidx < 0 then begin
+            furryList := TStringList.Create;
+            furryList.AddObject(EditorID(vanillaRace), vanillaRace);
+            furryRaces.AddObject(furryRaceName, furryList);
             LoadRaceTints(furryRace);
+        end
+        else begin
+            furryList := furryRaces.objects[fidx];
+            furryList.AddObject(EditorID(vanillaRace), vanillaRace);
         end;
 
         if vanillaRaces.IndexOf(vanillaRaceName) < 0 then begin
@@ -855,7 +868,6 @@ begin
                 Warn(Format('Race %s not found, race %s may have trouble wearing armor', [
                     defaultArmorRace, vanillaRaceName]))
             else begin
-                // furryRaces.AddObject(defaultArmorRace, armorRace);
                 armorRaces.add(furryRaceName + '=' + defaultArmorRace);
             End;
         end;
@@ -1029,6 +1041,7 @@ var
     s: integer;
     sl: TStringList;
     vanillaRaceIdx, furryRaceIdx: integer;
+    furryList: TStringList;
 begin
     if LOGGING then LogEntry(15, 'FurrifyHeadpartLists');
 
@@ -1068,11 +1081,13 @@ begin
 
                 furryRaceIdx := furryRaces.IndexOf(EditorID(race));
                 if furryRaceIdx >= 0 then begin
-                    // We have a furry race, so add its vanilla race to the list. 
+                    // We have a furry race, so add its vanilla races to the list. 
                     if LOGGING then LogT(Format('Contains furry race %s', 
                         [furryRaces.strings[furryRaceIdx]])); 
-                    hpNewList.AddObject(EditorID(ObjectToElement(furryRaces.objects[furryRaceIdx])), 
-                        furryRaces.objects[furryRaceIdx]);
+                    furryList := furryRaces.objects[furryRaceIdx];
+                    for i := 0 to furryList.Count-1 do begin
+                        hpNewList.AddObject(furryList.strings[i], furryList.objects[i]);
+                    end;
                 end;
                 haveChanges := true;
             end;
@@ -1426,24 +1441,6 @@ begin
             tintClassName := tintAssetClasses[curNPCsex].objects[curNPCRaceTintIndex].values[tini];
             curNPCTintLayers.Add(tintClassName);
             if LOGGING then LogD(Format('Found tint layer %s/%s', [tini, tintClassName]));
-
-            // raceTintLayerIndex 
-            //     := tintAssets[curNPCsex].objects[curNPCRaceTintIndex].IndexOf(tini);
-            // if racetintlayerIndex < 0 then begin
-            //     Warn(Format('NPC has unknown tint layer %s', [tini]));
-            //     continue;
-            // end;
-
-            // raceTintLayer := ElementByIndex(
-            //     ElementByPath(curNPCrace, tintMaskPaths[curNPCsex]),
-            //     raceTintLayerIndex);
-
-            // layerID := GetLayerID(racetintlayer);
-            // if layerID >= 0 or layerID < 0 then begin
-            //     curNPCTintLayers.Add(tintlayerNames[layerID]);
-            //     if LOGGING then LogD(Format('Found tint layer %s', [
-            //         GetElementEditValues(tintLayer, 'TINI')]));
-            // end;
         end;
     end;
 

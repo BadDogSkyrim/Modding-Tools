@@ -557,7 +557,7 @@ begin
     SetNPCRace('Cosnach', 'YASReachmanRace');
     SetNPCRace('Duach', 'YASReachmanRace');
     SetNPCRace('Enmon', 'YASReachmanRace');
-    SetNPCRace('Gralnach', 'YASReachmanRaceChild');
+    // SetNPCRace('Gralnach', 'YASReachmanRaceChild');
     SetNPCRace('Mena', 'YASReachmanRace');
     SetNPCRace('Rondach', 'YASReachmanRace');
     SetNPCRace('Anton', 'YASReachmanRace'); // "Anton sure looks like he's from the Reach"

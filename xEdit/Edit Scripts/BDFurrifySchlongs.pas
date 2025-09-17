@@ -99,6 +99,8 @@ var
     raceName: string;
     fi: integer;
     listEntries: IwbContainer;
+    furryList: TStringList;
+    i: integer;
 begin
     if LOGGING then LogEntry3(5, 'FurrifySchlongLists', Name(raceCompat), Name(raceProb), Name(raceSize));
 
@@ -110,8 +112,12 @@ begin
         if LOGGING then LogD(Format('Checking %s: %d', [raceName, fi]));
         if fi >= 0 then 
         begin
-            // Schlong is good for a furry race, furrified vanilla race must be added.
-            AddVanillaRace(idx, ObjectToElement(furryRaces.objects[fi]), raceCompat, raceProb, raceSize);
+            furryList := furryRaces.objects[fi];
+            for i := 0 to furryList.Count-1 do begin
+                // Schlong is good for a furry race, furrified vanilla race must be added.
+                AddVanillaRace(idx, ObjectToElement(furryList.objects[i]), 
+                    raceCompat, raceProb, raceSize);
+            end;
         end;
     end;
 
@@ -143,7 +149,7 @@ begin
 
     rs := MakeOverride(raceSize, targetFile);
     newSize := CopyGlobal(
-        WinningOverride(LinksTo(ElementByIndex(ElementByPath(raceProb, 'FormIDs'), entry))), 
+        WinningOverride(LinksTo(ElementByIndex(ElementByPath(raceSize, 'FormIDs'), entry))), 
         EditorID(furrifiedRace));
     newElement := ElementAssign(ElementByPath(rs, 'FormIDs'), HighInteger, nil, False);
     AssignElementRef(newElement, newSize);
