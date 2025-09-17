@@ -431,17 +431,18 @@ begin
                 e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
                     HighInteger, nil, false);
                 AssignElementRef(e, vanillaRec);
-                if LOGGING then LogD(Format('Merging %d with %d', [
+                if LOGGING then LogD(Format('Merging bodypart flags %d with %d', [
                     maFurrySlots, Integer(GetBodypartFlags(aaOverride))]));
                 maFurrySlots := maFurrySlots or GetBodypartFlags(aaOverride);
             end
             // Addon isn't for a furry race but maybe it works for the armor fallback race of
             // a furrified race.
             else begin
-                if LOGGING then LogD(Format('Checking whether %s is a fallback race', [
-                    EditorID(raceRec)]));
+                if LOGGING then LogD(Format('Checking whether %s is a fallback race (%s)', [
+                    EditorID(raceRec),
+                    BoolToStr(armorFallbacks.indexOf(EditorID(raceRec)) >= 0)]));
                 if armorFallbacks.indexOf(EditorID(raceRec)) >= 0 then begin
-                    result := TRUE;
+                    result := FALSE;
                 end;
             end;
         end;

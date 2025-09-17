@@ -243,6 +243,8 @@ begin
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesCollegeHood'));
     e := FurrifyArmorRecord(old);
     aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHoodAA'));
+    // AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+    //     'Nord race removed from MageApprenticeHoodAA');
 
     { The stormcloak helmet has special variants for cats and dogs. Cat and Canine mods
     provide special versions keyed to their races. The furrifier has to merge them.} 
