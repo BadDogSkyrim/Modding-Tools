@@ -22,7 +22,7 @@ const
     FURRIFY_NPCS_FEM = TRUE;
     SHOW_HAIR_ASSIGNMENT = TRUE;
     MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
-    LOG_ARMOR = 0;
+    LOG_ARMOR = 20;
     LOG_NPCS = 0;
     CLEAR_MESSAGE_WINDOW = TRUE;
     CLEAN_TARGET_FILE = FALSE;
@@ -1022,8 +1022,8 @@ begin
         errRpt := IfThen((errCount = 0) and (warnCount = 0), 
             'SUCCESS', 
             IfThen(warnCount = 0, 
-                Format('WITH %d ERRORS', [errCount]),
-                Format('WITH %d ERRORS, %d WARNINGS', [errCount, warnCount])));
+                Format('WITH %s ERRORS', [IntToStr(errCount)]),
+                Format('WITH %s ERRORS, %s WARNINGS', [IntToStr(errCount), IntToStr(warnCount)])));
 
     AddMessage(' ');
     AddMessage(' ');

@@ -344,7 +344,7 @@ begin
         and (processedAddons.IndexOf(EditorID(addon)) < 0) 
     then begin
         raceList := ElementByPath(addon, 'Additional Races');
-        
+
         // Don't dup races
         curRaceList := TStringList.Create;
         curRaceList.duplicates := dupIgnore;
@@ -381,7 +381,6 @@ begin
 
             // If the addon is for a furry race, add the furrified vanilla race.
             if Assigned(furryList) then begin
-                result := TRUE;
                 if not Assigned(aaOverride) then begin
                     if GetLoadOrder(GetFile(addon)) < targetFileIndex then 
                         aaOverride := MakeOverride(addon, targetFile)
@@ -394,20 +393,22 @@ begin
                     if maAddonRaces.IndexOf(EditorID(vanillaRec)) >= 0 then begin
                         if LOGGING then LogD(Format('Skipping race %s, handled by another addon',
                             [EditorID(vanillaRec)]));
-                        continue;
                     end
                     else if curRaceList.IndexOf(EditorID(vanillaRec)) >= 0 then begin
                         if LOGGING then LogD(Format('Skipping race %s, already present',
                             [EditorID(vanillaRec)]));
-                        continue;
+                    end
+                    else begin
+                        result := TRUE;
+                            
+                        if LOGGING then LogD(Format('Adding race %s to %s', [
+                            EditorID(vanillaRec), PathName(aaOverride)]));
+                        e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
+                            HighInteger, nil, false);
+                        AssignElementRef(e, vanillaRec);
+                        if LOGGING then LogD(Format('Merging bodypart flags %s with %s', [
+                            IntToHex(maFurrySlots, 8), IntToHex(GetBodypartFlags(aaOverride), 8)]));
                     end;
-                        
-                    if LOGGING then LogD(Format('Adding race %s to %s', [EditorID(vanillaRec), PathName(aaOverride)]));
-                    e := ElementAssign(ElementByPath(aaOverride, 'Additional Races'), 
-                        HighInteger, nil, false);
-                    AssignElementRef(e, vanillaRec);
-                    if LOGGING then LogD(Format('Merging bodypart flags %d with %d', [
-                        maFurrySlots, Integer(GetBodypartFlags(aaOverride))]));
                 end;
                 maFurrySlots := maFurrySlots or GetBodypartFlags(aaOverride);
             end;
@@ -693,7 +694,11 @@ begin
                 PathName(addon),
                 Integer(GetLoadOrder(GetFile(addon))),
                 Integer(GetLoadOrder(targetFile))]));
-            if GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile) then begin
+            if (GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile))
+                and ((GetBodypartFlags(addon) and 
+                        (BP_HEAD or BP_HAIR or BP_HANDS or BP_LONGHAIR or BP_CIRCLET or BP_SCHLONG))
+                    <> 0)
+            then begin
                 // Furrify the addon's races if needed.
                 CollectArmorRaces(addon);
                 if AddonAddFurrifiedRaces(addon) then 
@@ -769,8 +774,11 @@ begin
     if LOGGING then LogEntry1(5, 'FurrifyArmorRecord', PathName(armor));
     result := armor;
 
-    // Only process the highest override; don't process if we did it already.
-    if HasNoOverride(armor) and (GetLoadOrder(GetFile(armor)) < targetFileIndex) then begin
+    // Only process the highest override; don't process if we did it already; don't process
+    // unless it's an armor type we care about.
+    if HasNoOverride(armor) 
+        and (GetLoadOrder(GetFile(armor)) < targetFileIndex) 
+    then begin
         if LOGGING then LogD('Processing armor: ' + PathName(armor));
         MergeArmorStart(armor);
 

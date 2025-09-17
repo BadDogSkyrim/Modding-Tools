@@ -17,6 +17,8 @@ const
     BP_HANDS = 8;
     BP_LONGHAIR = $800;
     BP_CIRCLET = $1000;
+    BP_SCHLONG = $400000;
+
 var 
     LOGGING: boolean;
     LOGLEVEL: integer;

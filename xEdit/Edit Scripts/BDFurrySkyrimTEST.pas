@@ -253,6 +253,18 @@ begin
     AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
         'Nord race removed from RedguardClothesHatAA');
 
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMonkRobesColorGreyHooded'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MonkHoodColorGrey_ArgAA'));
+    AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race added to MonkHoodColorGrey_ArgAA');
+
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMournerHat'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MournerHatKha01AA'));
+    AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race removed from MournerHatKha01AA');
+
     { The stormcloak helmet has special variants for cats and dogs. Cat and Canine mods
     provide special versions keyed to their races. The furrifier has to merge them.} 
     AddMessage(#13#10#13#10 + '==Stormcloak helmet=='); 
