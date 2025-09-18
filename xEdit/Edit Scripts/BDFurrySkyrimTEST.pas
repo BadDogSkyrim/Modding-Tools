@@ -69,9 +69,13 @@ begin
 
     flst := FindAsset(targetFile, 'FLST', 'YASDogSheathMale_CompatibleRaces');
     Assert(Assigned(flst), 'Have override for YASDogSheathMale_CompatibleRaces');
-    AssertGT(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 
-        0,
+    AssertGT(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 0,
         'NordRace added to YASDogSheathMale_CompatibleRaces');
+
+    flst := FindAsset(targetFile, 'FLST', 'SOS_Addon_SmurfAverage_CompatibleRaces');
+    Assert(Assigned(flst), 'Have override for SOS_Addon_SmurfAverage_CompatibleRaces');
+    AssertEQ(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 0,
+        'NordRace removed from SOS_Addon_SmurfAverage_CompatibleRaces');
 end;
 
 procedure TestNPCs;

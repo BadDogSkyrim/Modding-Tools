@@ -177,6 +177,8 @@ var
     defaultRace: IwbMainRecord;
     firstModIndex: integer; // Index of the first mod following the vanilla plugins.
 
+    relevantBodyparts: integer;
+
 
 Procedure PreferencesInit;
 var i, j, k: integer;
@@ -325,6 +327,8 @@ begin
     end;
             
     defaultRace := FindAsset(FileByIndex(0), 'RACE', 'DefaultRace');
+    relevantBodyparts := (BP_HEAD or BP_HAIR or BP_HANDS or BP_LONGHAIR or BP_CIRCLET 
+        or BP_SCHLONG);
 
     if LOGGING then LogExitT('PreferencesInit');
 end;

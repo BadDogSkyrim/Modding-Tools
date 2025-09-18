@@ -602,6 +602,28 @@ begin
     result := ((rgbVal shr 24) and $FF)/255.0;
 end;
 
+
+{=========================================================
+    Returns the index of the element in elist that refers to a record with the given EditorID.
+}
+function ElementListNameIndex(elist: IwbContainer; edid: string): integer;
+var
+    i: integer;
+    ref: IwbMainRecord;
+begin
+    Result := -1;
+    for i := 0 to ElementCount(elist) - 1 do begin
+        ref := LinksTo(ElementByIndex(elist, i));
+        // AddMessage(Format('ElementListNameIndex checking index %d: %s', [i, IfThen(Assigned(ref), EditorID(ref), '<nil>')]));
+        if Assigned(ref) and SameText(EditorID(ref), edid) then
+        begin
+            Result := i;
+            Exit;
+        end;
+    end;
+end;
+
+
 //=========================================================
 // Create a form button
 function FormButton(f: TForm; parent: TForm; lab: String; res: Cardinal; left, top: integer):

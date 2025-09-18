@@ -695,9 +695,7 @@ begin
                 Integer(GetLoadOrder(GetFile(addon))),
                 Integer(GetLoadOrder(targetFile))]));
             if (GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile))
-                and ((GetBodypartFlags(addon) and 
-                        (BP_HEAD or BP_HAIR or BP_HANDS or BP_LONGHAIR or BP_CIRCLET or BP_SCHLONG))
-                    <> 0)
+                and ((GetBodypartFlags(addon) and relevantBodyparts) <> 0)
             then begin
                 // Furrify the addon's races if needed.
                 CollectArmorRaces(addon);

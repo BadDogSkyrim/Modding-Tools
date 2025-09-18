@@ -22,8 +22,9 @@ const
     FURRIFY_NPCS_FEM = TRUE;
     SHOW_HAIR_ASSIGNMENT = TRUE;
     MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
-    LOG_ARMOR = 20;
+    LOG_ARMOR = 0;
     LOG_NPCS = 0;
+    LOG_SCHLONGS = 20;
     CLEAR_MESSAGE_WINDOW = TRUE;
     CLEAN_TARGET_FILE = FALSE;
 
@@ -1007,7 +1008,11 @@ begin
         FurrifyAllArmors;
     end;
 
-    if (not cancelFurrification) then FurrifyAllSchlongs;
+    if (not cancelFurrification) then begin
+        LOGGING := (LOG_SCHLONGS > 0);
+        LOG_LEVEL := LOG_SCHLONGS;
+        FurrifyAllSchlongs;
+    end;
 
     if (processedNPCcount > 0) and SHOW_HAIR_ASSIGNMENT then ShowHair;
 
