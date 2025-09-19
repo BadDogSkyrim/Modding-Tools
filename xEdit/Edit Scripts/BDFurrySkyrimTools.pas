@@ -158,6 +158,9 @@ var
 
     npcForcedRace: TStringList;
 
+    // Headparts that mean "no headpart here"
+    emptyHeadparts: TStringList;
+
     // Information about the NPC being furrified. Global variables because we can't 
     // pass structures in procedure calls.
     curNPC: IwbMainRecord;
@@ -316,6 +319,10 @@ begin
     npcForcedRace.Duplicates := dupIgnore;
     npcForcedRace.Sorted := true;
 
+    emptyHeadparts := TStringList.Create;
+    emptyHeadparts.Duplicates := dupIgnore;
+    emptyHeadparts.Sorted := true;
+
     vanillaPlugins := TStringList.Create;
     vanillaPlugins.Add('Skyrim.esm');
     vanillaPlugins.Add('Update.esm');
@@ -407,6 +414,7 @@ begin
     furrifiableArmors.free;
     allAddons.free;
     npcForcedRace.free;
+    emptyHeadparts.free;
     if Assigned(indexList) then indexList.Free;
     vanillaPlugins.free;
 
@@ -964,6 +972,15 @@ begin
         end;
     end;
     AddMessage('--RACE FALLBACKS--');
+end;
+
+
+{=====================================================================
+Record headpart that means the headpart is empty.
+}
+procedure SetEmptyHeadPart(headpartID: string);
+begin
+    emptyHeadparts.Add(headpartID);
 end;
 
 

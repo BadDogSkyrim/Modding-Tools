@@ -604,7 +604,7 @@ end;
 
 
 {=========================================================
-    Returns the index of the element in elist that refers to a record with the given EditorID.
+Returns the index of the element in elist that refers to a record with the given EditorID.
 }
 function ElementListNameIndex(elist: IwbContainer; edid: string): integer;
 var
@@ -620,6 +620,24 @@ begin
             Result := i;
             Exit;
         end;
+    end;
+end;
+
+
+{=========================================================
+Returns the count of elements in elist that refer to a record whose EditorID contains
+targetSubstr.
+}
+function ElementListNameCount(elist: IwbContainer; targetSubstr: string): integer;
+var
+    i: integer;
+    ref: IwbMainRecord;
+begin
+    Result := 0;
+    for i := 0 to ElementCount(elist) - 1 do begin
+        ref := LinksTo(ElementByIndex(elist, i));
+        if Assigned(ref) and ContainsText(EditorID(ref), targetSubstr) then
+            Inc(Result);
     end;
 end;
 

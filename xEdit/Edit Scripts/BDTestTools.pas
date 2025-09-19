@@ -529,20 +529,4 @@ begin
     AddMessage(Format('ActorHasTint: Found %d matching tint layer(s).', [Result]));
 end;
 
-{
-    Returns the count of elements in elist that refer to a record whose EditorID contains targetSubstr.
-}
-function ElementListNameCount(elist: IwbContainer; targetSubstr: string): integer;
-var
-    i: integer;
-    ref: IwbMainRecord;
-begin
-    Result := 0;
-    for i := 0 to ElementCount(elist) - 1 do begin
-        ref := LinksTo(ElementByIndex(elist, i));
-        if Assigned(ref) and ContainsText(EditorID(ref), targetSubstr) then
-            Inc(Result);
-    end;
-end;
-
 end.

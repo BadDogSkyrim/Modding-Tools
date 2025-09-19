@@ -791,6 +791,24 @@ begin
         NPCAlias('WEDL04SaloniaCarvain', 'WEDL03SaloniaCarvain');
     END;
 
+    begin // Headparts that mean "no headpart here"
+        SetEmptyHeadPart('BrowsFemaleArgonian00');
+        SetEmptyHeadPart('BrowsMaleArgonian00');
+        SetEmptyHeadPart('BrowsMaleHumanoid12NoBrow');
+        SetEmptyHeadPart('FemaleBrowsHuman12NoBrow');
+        SetEmptyHeadPart('HairArgonianFemale00');
+        SetEmptyHeadPart('HairArgonianMale00');
+        SetEmptyHeadPart('HairKhajiit00');
+        SetEmptyHeadPart('HumanBeard00NoBeard');
+        SetEmptyHeadPart('KhajiitNoBeard');
+        SetEmptyHeadPart('MarksFemaleArgonianScar00');
+        SetEmptyHeadPart('MarksFemaleHumanoid00NoGash');
+        SetEmptyHeadPart('MarksFemaleKhajiitScar00');
+        SetEmptyHeadPart('MarksMaleArgonianScar00');
+        SetEmptyHeadPart('MarksMaleHumanoid00NoScar');
+        SetEmptyHeadPart('MarksMaleKhajiitScar00');
+    end;
+
     DefineLabelConflicts;
 end;
 

@@ -165,6 +165,8 @@ begin
     AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
     Assert(ElementCount(ElementByPath(e, 'Tint Layers')) > 1, 'At least two tint layers');
     AssertInt(ActorHasTint(e, 'paint'), 0, 'BalgruuftheGreater has no paint tint');
+    AssertInt(ELementListNameCount(ElementByPath(e, 'Head Parts'), 'Scar'), 0,
+        'BalgruuftheGreater has no scars');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'BolgeirBearclaw');
     e := FurrifyNPC(old);

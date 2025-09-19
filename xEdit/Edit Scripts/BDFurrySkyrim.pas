@@ -292,13 +292,18 @@ var
 begin
     if LOGGING then LogEntry2(10, 'CurNPCFindSimilarHeadpart', Name(curNPC), Name(oldHeadpart));
     result := Nil;
-    i := headpartLabels.IndexOf(EditorID(oldHeadpart));
-    if i >= 0 then begin
-        for j := 0 to headpartlabels.objects[i].Count-1 do begin
-            CurNPCAddLabel(headpartlabels.objects[i].strings[j]);
+    if emptyHeadparts.IndexOf(EditorID(oldHeadpart)) >= 0 then begin
+        if LOGGING then LogD(Format('Headpart %s means empty, skipping', [EditorID(oldHeadpart)]));
+    end
+    else begin
+        i := headpartLabels.IndexOf(EditorID(oldHeadpart));
+        if i >= 0 then begin
+            for j := 0 to headpartlabels.objects[i].Count-1 do begin
+                CurNPCAddLabel(headpartlabels.objects[i].strings[j]);
+            end;
         end;
+        result := CurNPCBestHeadpartMatch(oldHeadpart);
     end;
-    result := CurNPCBestHeadpartMatch(oldHeadpart);
     if LOGGING then LogExitT1('CurNPCFindSimilarHeadpart', Name(result));
 end;
 
