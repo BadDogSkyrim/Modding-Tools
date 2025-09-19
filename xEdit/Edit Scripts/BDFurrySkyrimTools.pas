@@ -179,6 +179,9 @@ var
 
     relevantBodyparts: integer;
 
+    // "Local" variable used for processing headpart lists.
+    furrifiedHPlists: TStringList;
+
 
 Procedure PreferencesInit;
 var i, j, k: integer;
@@ -998,7 +1001,7 @@ end;
 
 
 {==================================================================
-Record headpart assignments.
+Record headpart assignments for all headparts in headpartRecords.
 }
 procedure RecordHeadpartAssignments;
 var
@@ -1049,53 +1052,38 @@ end;
 
 
 {===================================================================== 
-Go through all headparts and remove furrified vanilla races from their headpart lists.
+Furrify a single headpart list: remove furrified vanilla races from its race list.
 Also add the vanilla to the furry headpart lists. 
+
 Sets up raceHeadparts.
 }
-procedure FurrifyHeadpartLists;
+procedure FurrifyHeadpartList(hp: IwbMainRecord);
 var
-    furrifiedHPlists: TStringList;
     haveChanges: boolean;
     headpartList: IwbMainRecord;
-    hp: IwbMainRecord;
     hpFormlist: IwbElement;
     hpFormlistOvr: IwbElement;
-    hpIter, raceIter: integer;
     hpNewList: TStringList;
     hpOverride: IwbMainRecord;
-    hpType: integer;
+    raceIter: integer;
     i: integer;
-    r: integer;
     race: IwbMainRecord;
-    racename: string;
-    s: integer;
-    sl: TStringList;
     vanillaRaceIdx, furryRaceIdx: integer;
     furryList: TStringList;
 begin
-    if LOGGING then LogEntry(15, 'FurrifyHeadpartLists');
+    if LOGGING then LogEntry1(15, 'FurrifyHeadpartList', Name(hp));
 
-    furrifiedHPlists := TStringList.Create;
-    furrifiedHPlists.Duplicates := dupIgnore;
-    furrifiedHPlists.Sorted := true;
+    haveChanges := false;
+    hpNewList := TStringList.Create;
+    hpNewList.Duplicates := dupIgnore;
+    hpNewList.Sorted := true;
 
-    // Only look at formlists associated with headparts we've been told about.
-    for hpIter := 0 to headpartRecords.Count-1 do begin
-        haveChanges := false;
-        hp := ObjectToElement(headpartRecords.objects[hpIter]);
-        hpType := StrToHeadpart(GetElementEditValues(hp, 'PNAM'));
+    headpartList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM')));
 
-        if LOGGING then LogT(Format('Checking headpart %s', [
-            IfThen(Assigned(hp), Name(hp), headpartRecords.strings[hpIter] + ' [Unassigned]')]));
-        
-        headpartList := WinningOverride(LinksTo(ElementByPath(hp, 'RNAM')));
-
-        if furrifiedHPlists.IndexOf(EditorID(headpartList)) >= 0 then continue;
+    if furrifiedHPlists.IndexOf(EditorID(headpartList)) < 0 then begin
         furrifiedHPlists.Add(EditorID(headpartList));
 
         hpFormlist := ElementByPath(headpartList, 'FormIDs');
-        hpNewList := TStringList.Create;
         for raceIter := 0 to ElementCount(hpFormList)-1 do begin
             race := WinningOverride(LinksTo(ElementByIndex(hpFormList, raceIter)));
             vanillaRaceIdx := raceAssignments.IndexOf(EditorID(race));
@@ -1123,28 +1111,64 @@ begin
                 haveChanges := true;
             end;
         end;
-
-        if LOGGING then LogT(Format('Headpart %s has new races %s', [Name(headpartList), hpNewList.CommaText]));
-
-        // If we made changes, update the headpart list.
-        if haveChanges then begin
-            hpOverride := MakeOverride(headpartList, targetFile);
-            Remove(ElementByPath(hpOverride, 'FormIDs'));
-            if hpNewList.Count > 0 then begin
-                hpFormlistOvr := Add(hpOverride, 'FormIDs', true);
-                for i := 0 to hpNewList.Count-1 do begin
-                    ElementAssign(hpFormlistOvr, i, ObjectToElement(hpNewList.objects[i]), false);
-                end;
-            end;
-        end;
-
-        hpNewList.Free;
     end;
 
-    furrifiedHPlists.Free;
+    if LOGGING then LogT(Format('Headpart %s has new races %s', [Name(headpartList), hpNewList.CommaText]));
+
+    // If we made changes, update the headpart list.
+    if haveChanges then begin
+        hpOverride := MakeOverride(headpartList, targetFile);
+        Remove(ElementByPath(hpOverride, 'FormIDs'));
+        if hpNewList.Count > 0 then begin
+            hpFormlistOvr := Add(hpOverride, 'FormIDs', true);
+            for i := 0 to hpNewList.Count-1 do begin
+                ElementAssign(hpFormlistOvr, i, ObjectToElement(hpNewList.objects[i]), false);
+            end;
+        end;
+    end;
+
+    hpNewList.Free;
+    if LOGGING then LogExitT('FurrifyHeadpartList');
+end;
+
+
+{===================================================================== 
+Go through all headparts and remove furrified vanilla races from their headpart lists.
+Also add the vanilla to the furry headpart lists. 
+
+Sets up raceHeadparts.
+}
+procedure FurrifyAllHeadpartLists;
+var
+    fileIter, hpIter: integer;
+    grp: IwbElement;
+    hp: IwbMainRecord;
+begin
+    if LOGGING then LogEntry(15, 'FurrifyAllHeadpartLists');
+
+    furrifiedHPlists := TStringList.Create;
+    furrifiedHPlists.Duplicates := dupIgnore;
+    furrifiedHPlists.Sorted := true;
+
+    // // Only look at formlists associated with headparts we've been told about.
+    // for hpIter := 0 to headpartRecords.Count-1 do begin
+
+    // Walk through all headparts -- some may not have been assigned but reference furrified
+    // races.
+    for fileIter := 0 to targetFileIndex-1 do begin
+        grp := GroupBySignature(FileByIndex(fileIter), 'HDPT');
+        for hpIter := 0 to ElementCount(grp)-1 do begin
+            hp := ElementByIndex(grp, hpIter);
+            if IsWinningOverride(hp) then 
+                FurrifyHeadpartList(hp);
+        end;
+    end;
+
     RecordHeadpartAssignments;
 
-    if LOGGING then LogExitT('FurrifyHeadpartLists');
+    furrifiedHPLists.Free;
+
+    if LOGGING then LogExitT('FurrifyAllHeadpartLists');
 end;
 
 
@@ -1163,8 +1187,8 @@ begin
 
     vanillaHP := FindAsset(Nil, 'HDPT', vanillaHPName);
     furryHP := FindAsset(Nil, 'HDPT', furryHPName);
-    if not Assigned(furryHP) then Warn(Format('Headpart %s not found', [furryHPName]));
-    if not Assigned(vanillaHP) then Warn(Format('Headpart %s not found', [vanillaHPName]));
+    if not Assigned(furryHP) then Warn(Format('Furry headpart %s not found, will not be assigned', [furryHPName]));
+    if not Assigned(vanillaHP) then Warn(Format('Vanilla headpart %s not found, will not be assigned', [vanillaHPName]));
     if Assigned(furryHP) and Assigned(vanillaHP) then begin
         hpi := headpartEquivalents.IndexOf(vanillaHPName);
         if hpi < 0 then begin
@@ -1210,7 +1234,7 @@ var
 begin
     if LOGGING then LogEntry2(1, 'LabelHeadpart', headpartName, labelName);
     hpRecord := FindAsset(Nil, 'HDPT', headpartName);
-    if not Assigned(hpRecord) then Err(Format('Headpart %s not found', [headpartName]));
+    if not Assigned(hpRecord) then Err(Format('Headpart %s not found, cannot be labeled', [headpartName]));
     hpi := headpartLabels.IndexOf(headpartName);
     if hpi < 0 then begin
         headpartLabels.AddObject(headpartName, TStringList.Create);
@@ -1237,7 +1261,7 @@ begin
     if LOGGING then LogEntry2(1, 'LabelHeadpartList', headpartName, labelNames);
     hpRecord := FindAsset(Nil, 'HDPT', headpartName);
     if not Assigned(hpRecord) then 
-        Warn(Format('Headpart %s not found', [headpartName]))
+        Warn(Format('Headpart %s not found, label list cannot be assigned', [headpartName]))
     else begin
         hpi := headpartLabels.IndexOf(headpartName);
         if hpi < 0 then begin

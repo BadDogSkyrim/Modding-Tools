@@ -296,27 +296,42 @@ begin
         LabelHeadpartList('YASDogMaleHairVanillaHair001', 'MESSY,LONG');
         LabelHeadpartList('YASDogMaleHairSidehawk', 'MOHAWK,FUNKY,BOLD');
 
-        // LabelHeadpartList('YASCanFemHairBraid001', 'NEAT,TIEDBACK,LONG,BRAIDS');
-        // LabelHeadpartList('YASCanFemHairBraid002', 'NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
-        // LabelHeadpartList('YASCanFemHairDreads001', 'DREADS,BOLD,FUNKY');
-        // LabelHeadpartList('YASCanFemHairDreads002', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
-        // LabelHeadpartList('YASCanFemHairFringeFlip001', 'YOUNG,NEAT,SHORT');
-        // LabelHeadpartList('YASCanFemHairMane001', 'MANE,LONG,BOLD');
-        // LabelHeadpartList('YASCanFemHairMane002', 'MANE,LONG,BOLD');
-        // LabelHeadpartList('YASCanFemHairMane003', 'MANE,LONG,BOLD,NOBLE');
-        // LabelHeadpartList('YASCanFemHairMohawk001', 'MOHAWK,BOLD,FUNKY');
-        // LabelHeadpartList('YASCanFemHairMohawk002', 'MOHAWK,BOLD,FUNKY,FEATHERS');
-        // LabelHeadpartList('YASCanFemHairShaggy001', 'LONG,MESSY,LONG');
-        // LabelHeadpartList('YASCanFemHairShaggy002', 'MESSY,BRAIDS');
-        // LabelHeadpartList('YASCanFemHairShortCrop001', 'SHORT,NEAT,MILITARY');
-        // LabelHeadpartList('YASCanFemHairShortCrop002', 'SHORT,NEAT');
-        // LabelHeadpartList('YASCanFemHairShortCrop003', 'SHORT,NEAT,BRAIDS,NOBLE');
-        // LabelHeadpartList('YASCanFemHairTiedStyle001', 'LONG,NOBLE,ELABORATE');
-        // LabelHeadpartList('YASCanFemHairVanillaBraid001', 'TIEDBACK,BRAIDS');
-        // LabelHeadpartList('YASCanFemHairVanillaCrop001', 'SHORT,TIEDBACK');
-        // LabelHeadpartList('YASCanFemHairVanillaHair001', 'SHORT,BRAIDS,FUNKY');
-        // LabelHeadpartList('00LykaiosHairKhajiitFemale02', 'SHORT,TIEDBACK');
-        // LabelHeadpartList('00LykaiosHairKhajiitFemale03', 'SHORT,BRAIDS,FUNKY');
+        LabelHeadpartList('YASDogFemHair01', 'NEAT,TIEDBACK,SHORT,BRAIDS');
+        LabelHeadpartList('YASDogFemHair02', 'NEAT,TIEDBACK');
+        LabelHeadpartList('YASDogFemHair03', 'NEAT,SHORT');
+        LabelHeadpartList('YASDogFemHair04', 'NEAT,LONG,TIEDBACK,BRAIDS');
+        LabelHeadpartList('YASDogFemHair05', 'SHORT,TIEDBACK,FUNKY');
+        LabelHeadpartList('YASDogFemHair06', 'SHORT,TIEDBACK,FUNKY');
+        LabelHeadpartList('YASDogFemHair07', 'SHORT,TIEDBACK,FUNKY,BRAIDS');
+        LabelHeadpartList('YASDogFemHair08', 'NEAT,LONG,TIEDBACK,BRAIDS,FUNKY');
+        LabelHeadpartList('YASDogFemHair09', 'NEAT,TIEDBACK,SHORT,BRAIDS');
+        LabelHeadpartList('YASDogFemHair10', 'NEAT,TIEDBACK');
+        LabelHeadpartList('YASDogFemHairBraid001', 'NEAT,TIEDBACK,LONG,BRAIDS');
+        LabelHeadpartList('YASDogFemHairBraid002', 'NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
+        LabelHeadpartList('YASDogFemHairDreads001', 'DREADS,BOLD,FUNKY');
+        LabelHeadpartList('YASDogFemHairDreads002', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
+        LabelHeadpartList('YASDogFemHairDreads003', 'DREADS,BOLD,FUNKY');
+        LabelHeadpartList('YASDogFemHairDreads004', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
+        LabelHeadpartList('YASDogFemHairFringeFlip001', 'YOUNG,NEAT,SHORT');
+        LabelHeadpartList('YASDogFemHairMane001', 'MANE,LONG,BOLD');
+        LabelHeadpartList('YASDogFemHairMane002', 'MANE,LONG,BOLD');
+        LabelHeadpartList('YASDogFemHairMane003', 'MANE,LONG,BOLD,NOBLE');
+        LabelHeadpartList('YASDogFemHairMohawk001', 'MOHAWK,BOLD,FUNKY');
+        LabelHeadpartList('YASDogFemHairMohawk002', 'MOHAWK,BOLD,FUNKY,FEATHERS');
+        LabelHeadpartList('YASDogFemHairShaggy001', 'LONG,MESSY,LONG');
+        LabelHeadpartList('YASDogFemHairShaggy002', 'MESSY,BRAIDS');
+        LabelHeadpartList('YASDogFemHairShortCrop001', 'SHORT,NEAT,MILITARY');
+        LabelHeadpartList('YASDogFemHairShortCrop002', 'SHORT,NEAT');
+        LabelHeadpartList('YASDogFemHairShortCrop003', 'SHORT,NEAT,BRAIDS,NOBLE');
+        LabelHeadpartList('YASDogFemHairTiedStyle001', 'LONG,NOBLE,ELABORATE');
+        LabelHeadpartList('YASDogFemHairVanillaBraid001', 'TIEDBACK,BRAIDS');
+        LabelHeadpartList('YASDogFemHairVanillaCrop001', 'SHORT,TIEDBACK');
+        LabelHeadpartList('YASDogFemHairVanillaHair001', 'SHORT,BRAIDS,FUNKY');
+        LabelHeadpartList('YASFemHairApachii01', 'NEAT,YOUNG,BRAIDS');
+        LabelHeadpartList('YASFemHairApachii02', 'DREADS,LONG,BOLD,FUNKY');
+        LabelHeadpartList('YASFemHairApachii03', 'NEAT,SHORT');
+        LabelHeadpartList('YASFemHairApachii04', 'MESSY,LONG');
+        LabelHeadpartList('YASFemHairApachii05', 'MESSY,LONG');
     end;
 
     begin // Descriptions of vanilla hair styles
@@ -461,6 +476,259 @@ begin
         AssignHeadpart('MaleEyesHumanLightGrey', 'YASDayPredMaleEyesGrey');
         AssignHeadpart('MaleEyesHumanLightIceGreyBlindLeft', 'YASDayPredMaleEyesGreenBlindL');
         AssignHeadpart('MaleEyesHumanVampire', 'YASDayPredMaleEyesVampire');
+
+        AssignHeadPart('FemaleEyesDarkElfBlind', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesDarkElfDeepRed', 'YASNightPredFemEyesRed');
+        AssignHeadPart('FemaleEyesDarkElfDeepRed2', 'YASNightPredFemEyesGreen');
+        AssignHeadPart('FemaleEyesDarkElfDeepRed2BlindRight', 'YASNightPredFemEyesAmberBlindR');
+        AssignHeadPart('FemaleEyesDarkElfDeepRedBlindLeft', 'YASDayPredFemEyesAmberBlindL');
+        AssignHeadPart('FemaleEyesDarkElfRed', 'YASNightPredFemEyesRed');
+        AssignHeadPart('FemaleEyesDarkElfUnique', 'YASNightPredFemEyesGreen');
+        AssignHeadPart('FemaleEyesDremora', 'YASNIghtPredFemEyesOrangeNarrow');
+        AssignHeadPart('FemaleEyesElfBlind', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesHighElfDarkYellow', 'YASDayPredFemEyesGold');
+        AssignHeadPart('FemaleEyesHighElfOrange', 'YASDayPredFemEyesGold');
+        AssignHeadPart('FemaleEyesHighElfOrangeBlindRight', 'YASDayPredFemEyesGreenBlindR');
+        AssignHeadPart('FemaleEyesHighElfYellow', 'YASDayPredFemEyesYellow');
+        AssignHeadPart('FemaleEyesHighElfYellowBlindLeft', 'YASDayPredFemEyesAmberBlindL');
+        AssignHeadPart('FemaleEyesHumanAmber', 'YASDayPredFemEyesAmber');
+        AssignHeadPart('FemaleEyesHumanAmberBlindLeft', 'YASDayPredFemEyesBlueBlindL');
+        AssignHeadPart('FemaleEyesHumanBlind', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesHumanBrightGreen', 'YASDayPredFemEyesGreen');
+        AssignHeadPart('FemaleEyesHumanBrown', 'YASDayPredFemEyesBrownDark');
+        AssignHeadPart('FemaleEyesHumanBrownBlindRight', 'YASDayPredMaleEyesAmberBlindR');
+        AssignHeadPart('FemaleEyesHumanBrownBloodShot', 'YASDayPredFemEyesRed');
+        AssignHeadPart('FemaleEyesHumanDarkBlue', 'YASDayPredFemEyesBlue');
+        AssignHeadPart('FemaleEyesHumanDarkBlueBlindRight', 'YASDayPredFemEyesGreenBlindR');
+        AssignHeadPart('FemaleEyesHumanDemon', 'YASNightPredFemEyesRedNarrow');
+        AssignHeadPart('FemaleEyesHumanGreenHazel', 'YASDayPredFemEyesGreen');
+        AssignHeadPart('FemaleEyesHumanGrey', 'YASDayPredFemEyesLilac');
+        AssignHeadPart('FemaleEyesHumanGreyBlindLeft', 'YASDayPredFemEyesGreenBlindL');
+        AssignHeadPart('FemaleEyesHumanHazel', 'YASDayPredFemEyesAmber');
+        AssignHeadPart('FemaleEyesHumanHazelBrown', 'YASDayPredFemEyesAmber');
+        AssignHeadPart('FemaleEyesHumanIceBlue', 'YASDayPredFemEyesAlbino');
+        AssignHeadPart('FemaleEyesHumanLightBlue', 'YASDayPredFemEyesBlueDark');
+        AssignHeadPart('FemaleEyesHumanLightBlueBloodShot', 'YASDayPredFemEyesRed');
+        AssignHeadPart('FemaleEyesHumanLightGrey', 'YASDayPredFemEyesAlbino');
+        AssignHeadPart('FemaleEyesHumanVampire', 'YASDayPredFemEyesVampire');
+        AssignHeadPart('FemaleEyesHumanYellow', 'YASDayPredFemEyesYellow');
+        AssignHeadPart('FemaleEyesOrcBlind', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesOrcDarkGrey', 'YASDayPredFemEyesAlbino');
+        AssignHeadPart('FemaleEyesOrcIceBlue', 'YASDayPredFemEyesBlueDark');
+        AssignHeadPart('FemaleEyesOrcIceBlueBlindRight', 'YASDayPredFemEyesGreenBlindR');
+        AssignHeadPart('FemaleEyesOrcRed', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesOrcRedBlindRight', 'YASDayPredFemEyesRedBlindR');
+        AssignHeadPart('FemaleEyesOrcVampire', 'YASDayPredFemEyesVampire');
+        AssignHeadPart('FemaleEyesOrcYellow', 'YASDayPredFemEyesYellow');
+        AssignHeadPart('FemaleEyesOrcYellowBlindLeft', 'YASNightPredFemEyesYellowBlindLeft');
+        AssignHeadPart('FemaleEyesWoodElfBlind', 'YASDayPredFemEyesBlind');
+        AssignHeadPart('FemaleEyesWoodElfBrown', 'YASNightPredFemEyesBrown');
+        AssignHeadPart('FemaleEyesWoodElfDeepBrown', 'YASNightPredFemEyesBrownDark');
+        AssignHeadPart('FemaleEyesWoodElfDeepBrownBlindLeft', 'YASNightPredFemEyesYellowBlindLeft');
+        AssignHeadPart('FemaleEyesWoodElfDeepViolet', 'YASNIghtPredFemEyesIce');
+        AssignHeadPart('FemaleEyesWoodElfDeepVioletBlindRight', 'YASNightPredFemEyesYellowBlindR');
+        AssignHeadPart('FemaleEyesWoodElfLightBrown', 'YASNIghtPredFemEyesAmberNarrow');
+
+    end;
+
+    begin // Scars and facial markings
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASKettuFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASKonoiFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASKygarraFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASLykaiosFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASVaalsarkFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid01LeftGash', 'YASXebaFemScarL01');
+
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASKettuFemScarL02');
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASKonoiFemScarL02');
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASKygarraFemScarL02');
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASLykaiosFemScarL02');
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASVaalsarkFemScarL02');
+        AssignHeadPart('MarksFemaleHumanoid02LeftGash', 'YASXebaFemScarL02');
+
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASKettuFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASKonoiFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASKygarraFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASLykaiosFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASVaalsarkFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid03LeftGash', 'YASXebaFemScarL03');
+
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASKettuFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASKonoiFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASKygarraFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASLykaiosFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASVaalsarkFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid04LeftGash', 'YASXebaFemScarL04');
+
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASKettuFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASKonoiFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASKygarraFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASLykaiosFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASVaalsarkFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid05LeftGash', 'YASXebaFemScarC01');
+
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASKettuFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASKonoiFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASKygarraFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASLykaiosFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASVaalsarkFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid06LeftGash', 'YASXebaFemScarC02');
+
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASKettuFemScarR01');
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASKonoiFemScarR01');
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASKygarraFemScarR01');
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASLykaiosFemScarR01');
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASVaalsarkFemScarR01');
+        AssignHeadPart('MarksFemaleHumanoid07RightGash', 'YASXebaFemScarR01');
+
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASKettuFemScarR02');
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASKonoiFemScarR02');
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASKygarraFemScarR02');
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASLykaiosFemScarR02');
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASVaalsarkFemScarR02');
+        AssignHeadPart('MarksFemaleHumanoid08RightGash', 'YASXebaFemScarR02');
+
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASKettuFemScarR03');
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASKonoiFemScarR03');
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASKygarraFemScarR03');
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASLykaiosFemScarR03');
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASVaalsarkFemScarR03');
+        AssignHeadPart('MarksFemaleHumanoid09RightGash', 'YASXebaFemScarR03');
+
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKettuFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKonoiFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKygarraFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASLykaiosFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASVaalsarkFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASXebaFemScarL03');
+
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKettuFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKonoiFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASKygarraFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASLykaiosFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASVaalsarkFemScarL04');
+        AssignHeadPart('MarksFemaleHumanoid10LeftGash', 'YASXebaFemScarL04');
+
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASKettuFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASKonoiFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASKygarraFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASLykaiosFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASVaalsarkFemScarC01');
+        AssignHeadPart('MarksFemaleHumanoid10RightGashR', 'YASXebaFemScarC01');
+
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASKettuFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASKonoiFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASKygarraFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASLykaiosFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASVaalsarkFemScarL01');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGash', 'YASXebaFemScarL01');
+
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASKettuFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASKonoiFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASKygarraFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASLykaiosFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASVaalsarkFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid11LeftGashR', 'YASXebaFemScarC02');
+
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASKettuFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASKonoiFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASKygarraFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASLykaiosFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASVaalsarkFemScarL03');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGash', 'YASXebaFemScarL03');
+
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASKettuFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASKonoiFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASKygarraFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASLykaiosFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASVaalsarkFemScarC02');
+        AssignHeadPart('MarksFemaleHumanoid12LeftGashR', 'YASXebaFemScarC02');
+
+        AssignHeadPart('MarksMaleHumanoid01LeftGash', 'YASKettuMaleScarL01');
+        AssignHeadPart('MarksMaleHumanoid01LeftGash', 'YASKygarraMaleScarL01');
+        AssignHeadPart('MarksMaleHumanoid01LeftGash', 'YASLykMaleScarL06');
+        AssignHeadPart('MarksMaleHumanoid01LeftGash', 'YASVaalsarkMaleScarL01');
+
+        AssignHeadPart('MarksMaleHumanoid02LeftGash', 'YASKettuMaleScarL02');
+        AssignHeadPart('MarksMaleHumanoid02LeftGash', 'YASKygarraMaleScarL02');
+        AssignHeadPart('MarksMaleHumanoid02LeftGash', 'YASLykMaleScarL07');
+        AssignHeadPart('MarksMaleHumanoid02LeftGash', 'YASVaalsarkMaleScarL02');
+
+        AssignHeadPart('MarksMaleHumanoid03LeftGash', 'YASKettuMaleScarL03BlindL');
+        AssignHeadPart('MarksMaleHumanoid03LeftGash', 'YASKygarraMaleScarL03');
+        AssignHeadPart('MarksMaleHumanoid03LeftGash', 'YASLykMaleScarL05LBlindL');
+        AssignHeadPart('MarksMaleHumanoid03LeftGash', 'YASVaalsarkMaleScarL03BlindL');
+
+        AssignHeadPart('MarksMaleHumanoid04LeftGash', 'YASKettuMaleScarL04');
+        AssignHeadPart('MarksMaleHumanoid04LeftGash', 'YASKygarraMaleScarL04');
+        AssignHeadPart('MarksMaleHumanoid04LeftGash', 'YASLykMaleScarL08');
+        AssignHeadPart('MarksMaleHumanoid04LeftGash', 'YASVaalsarkMaleScarL04');
+
+        AssignHeadPart('MarksMaleHumanoid05LeftGash', 'YASKettuMaleScarL01');
+        AssignHeadPart('MarksMaleHumanoid05LeftGash', 'YASKygarraMaleScarL01');
+        AssignHeadPart('MarksMaleHumanoid05LeftGash', 'YASLykMaleScarL06');
+        AssignHeadPart('MarksMaleHumanoid05LeftGash', 'YASVaalsarkMaleScarL01');
+
+        AssignHeadPart('MarksMaleHumanoid06LeftGash', 'YASKettuMaleScarL02');
+        AssignHeadPart('MarksMaleHumanoid06LeftGash', 'YASKygarraMaleScarL02');
+        AssignHeadPart('MarksMaleHumanoid06LeftGash', 'YASLykMaleScarL08');
+        AssignHeadPart('MarksMaleHumanoid06LeftGash', 'YASVaalsarkMaleScarL02');
+
+        AssignHeadPart('MarksMaleHumanoid10LeftGash', 'YASKettuMaleScarL03BlindL');
+        AssignHeadPart('MarksMaleHumanoid10LeftGash', 'YASKygarraMaleScarL03');
+        AssignHeadPart('MarksMaleHumanoid10LeftGash', 'YASLykMaleScarL05LBlindL');
+        AssignHeadPart('MarksMaleHumanoid10LeftGash', 'YASVaalsarkMaleScarL03BlindL');
+
+        AssignHeadPart('MarksMaleHumanoid11LeftGash', 'YASKettuMaleScarL04');
+        AssignHeadPart('MarksMaleHumanoid11LeftGash', 'YASKygarraMaleScarL04');
+        AssignHeadPart('MarksMaleHumanoid11LeftGash', 'YASLykMaleScarL08');
+        AssignHeadPart('MarksMaleHumanoid11LeftGash', 'YASVaalsarkMaleScarL04');
+
+        AssignHeadPart('MarksMaleHumanoid12LeftGash', 'YASKettuMaleScarC02');
+        AssignHeadPart('MarksMaleHumanoid12LeftGash', 'YASKygarraMaleScarC01');
+        AssignHeadPart('MarksMaleHumanoid12LeftGash', 'YASLykMaleScarC09');
+        AssignHeadPart('MarksMaleHumanoid12LeftGash', 'YASVaalsarkMaleScarC01');
+
+        AssignHeadPart('MarksMaleHumanoid04RightGashR', 'YASKettuMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid04RightGashR', 'YASKygarraMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid04RightGashR', 'YASLykMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid04RightGashR', 'YASVaalsarkMaleScarR01');
+
+        AssignHeadPart('MarksMaleHumanoid06RightGashR', 'YASKettuMaleScarR02BlindR');
+        AssignHeadPart('MarksMaleHumanoid06RightGashR', 'YASKygarraMaleScarR02');
+        AssignHeadPart('MarksMaleHumanoid06RightGashR', 'YASLykMaleScarR03BlindR');
+        AssignHeadPart('MarksMaleHumanoid06RightGashR', 'YASVaalsarkMaleScarR02');
+        
+        AssignHeadPart('MarksMaleHumanoid07RightGash', 'YASKettuMaleScarR03');
+        AssignHeadPart('MarksMaleHumanoid07RightGash', 'YASKygarraMaleScarR03');
+        AssignHeadPart('MarksMaleHumanoid07RightGash', 'YASLykMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid07RightGash', 'YASVaalsarkMaleScarR03');
+
+        AssignHeadPart('MarksMaleHumanoid08RightGash', 'YASKettuMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid08RightGash', 'YASKygarraMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid08RightGash', 'YASLykMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid08RightGash', 'YASVaalsarkMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid08RightGash', 'YASVaalsarkMaleScarR05BlindR');
+
+        AssignHeadPart('MarksMaleHumanoid09RightGash', 'YASKettuMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid09RightGash', 'YASKygarraMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid09RightGash', 'YASLykMaleScarR01');
+        AssignHeadPart('MarksMaleHumanoid09RightGash', 'YASVaalsarkMaleScarR01');
+
+        AssignHeadPart('MarksMaleHumanoid10RightGashR', 'YASKettuMaleScarR03');
+        AssignHeadPart('MarksMaleHumanoid10RightGashR', 'YASKygarraMaleScarR03');
+        AssignHeadPart('MarksMaleHumanoid10RightGashR', 'YASLykMaleScarR04');
+        AssignHeadPart('MarksMaleHumanoid10RightGashR', 'YASVaalsarkMaleScarR03');
+        
+        AssignHeadPart('MarksMaleHumanoid11RightGashR', 'YASKettuMaleScarC02');
+        AssignHeadPart('MarksMaleHumanoid11RightGashR', 'YASKygarraMaleScarC01');
+        AssignHeadPart('MarksMaleHumanoid11RightGashR', 'YASLykMaleScarC09');
+        AssignHeadPart('MarksMaleHumanoid11RightGashR', 'YASVaalsarkMaleScarC01');
+
+        AssignHeadPart('MarksMaleHumanoid12RightGashR', 'YASKygarraMaleScarC02');
+        AssignHeadPart('MarksMaleHumanoid12RightGashR', 'YASLykMaleScarC10');
+        AssignHeadPart('MarksMaleHumanoid12RightGashR', 'YASVaalsarkMaleScarC02');
+        AssignHeadPart('MarksMaleHumanoid12RightGashR', 'YASLykMaleScarC10');
     end;
 
     BEGIN // Aliases for NPCs that have multiple NPC records

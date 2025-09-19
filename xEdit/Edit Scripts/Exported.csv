@@ -1,901 +1,575 @@
-Record,EDID,TNAM
-1101544,TemplateClothesRobesMageNoviceHood,
-1102517,TemplateClothesRobesMageApprenticeHood,
-1101542,TemplateClothesRobesMageAdeptHood,
-1077513,TemplateClothesMageRobesCommonHooded,
-1077515,TemplateClothesMageRobesApprenticeHooded,
-552770,SkinWitchlight,
-987527,SkinWispShade,
-271656,SkinWisp,
-997636,SkinSprigganMatron,
-601641,SkinSpriggan,
-964732,SkinSkeletonNecroStormCloak,
-964725,SkinSkeletonNecroImperial,
-964724,SkinSkeletonNecro,
-752026,SkinSkeleton,
-3428,SkinNaked,
-365139,SkinMammothWild,
-365140,SkinMammothBranded,
-749472,SkinMagicAnomaly,
-342264,SkinIceWraith,
-550147,SkinHorseShadowmere,
-550158,SkinHorsePalominoHide,
-550159,SkinHorseGreyHide,
-550160,SkinHorseBlacknWhiteHide,
-550157,SkinHorseBlackHide,
-395029,SkinHorse,
-619075,SkinHagraven,
-718389,SkinGlenmorilWitchHEADLESS,
-668940,SkinGlenmorilWitch,
-100349,SkinBearWhite,
-100350,SkinBearCave,
-551165,SkinBearBrown,
-428062,SkinAtronachStorm,
-373479,SkinAtronachFrost,
-551195,SkinAtronachFlame,
-962513,MS02ForswornHelmet,
-294078,MQTorturerHood,
-888146,ForswornHelmet,
-458354,FavorNosterHelmet,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-606421,FavorHelmofWinterhold,ArmorSteelHelmetB "Steel Horned Helmet" [ARMO:000F6F24]
-371171,ExecutionHoodDB,
-371167,ExecutionHood,
-1085537,EnchClothesWarlockRobesHoodedRestoration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085538,EnchClothesWarlockRobesHoodedRestoration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085539,EnchClothesWarlockRobesHoodedRestoration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085540,EnchClothesWarlockRobesHoodedRestoration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085541,EnchClothesWarlockRobesHoodedRestoration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085542,EnchClothesWarlockRobesHoodedRestoration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085568,EnchClothesWarlockRobesHoodedMagickaRate05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085569,EnchClothesWarlockRobesHoodedMagickaRate04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085570,EnchClothesWarlockRobesHoodedMagickaRate03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085571,EnchClothesWarlockRobesHoodedMagickaRate02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085572,EnchClothesWarlockRobesHoodedIllusion06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085573,EnchClothesWarlockRobesHoodedIllusion05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085574,EnchClothesWarlockRobesHoodedIllusion04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085575,EnchClothesWarlockRobesHoodedIllusion03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085576,EnchClothesWarlockRobesHoodedIllusion02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085577,EnchClothesWarlockRobesHoodedIllusion01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085530,EnchClothesWarlockRobesHoodedDestruction06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085529,EnchClothesWarlockRobesHoodedDestruction05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085528,EnchClothesWarlockRobesHoodedDestruction04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085527,EnchClothesWarlockRobesHoodedDestruction03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085526,EnchClothesWarlockRobesHoodedDestruction02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085525,EnchClothesWarlockRobesHoodedDestruction01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085524,EnchClothesWarlockRobesHoodedConjuration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085523,EnchClothesWarlockRobesHoodedConjuration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085522,EnchClothesWarlockRobesHoodedConjuration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085521,EnchClothesWarlockRobesHoodedConjuration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085520,EnchClothesWarlockRobesHoodedConjuration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085519,EnchClothesWarlockRobesHoodedConjuration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085518,EnchClothesWarlockRobesHoodedAlteration06,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085517,EnchClothesWarlockRobesHoodedAlteration05,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085516,EnchClothesWarlockRobesHoodedAlteration04,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085515,EnchClothesWarlockRobesHoodedAlteration03,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085514,EnchClothesWarlockRobesHoodedAlteration02,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1085513,EnchClothesWarlockRobesHoodedAlteration01,ClothesWarlockRobesHooded "Hooded Black Mage Robes" [ARMO:0010710C]
-1105210,EnchClothesRobesMageHoodNovice,
-1105211,EnchClothesRobesMageHoodApprentice,TemplateClothesRobesMageApprenticeHood "Apprentice Hood" [ARMO:0010D2B5]
-1105212,EnchClothesRobesMageHoodAdept,TemplateClothesRobesMageAdeptHood "Adept Hood" [ARMO:0010CEE6]
-1085478,EnchClothesNecroRobesHoodedRestoration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085479,EnchClothesNecroRobesHoodedRestoration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085480,EnchClothesNecroRobesHoodedRestoration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085481,EnchClothesNecroRobesHoodedRestoration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085482,EnchClothesNecroRobesHoodedRestoration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085483,EnchClothesNecroRobesHoodedRestoration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085509,EnchClothesNecroRobesHoodedMagickaRate05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085510,EnchClothesNecroRobesHoodedMagickaRate04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085511,EnchClothesNecroRobesHoodedMagickaRate03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085512,EnchClothesNecroRobesHoodedMagickaRate02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085477,EnchClothesNecroRobesHoodedIllusion06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085476,EnchClothesNecroRobesHoodedIllusion05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085475,EnchClothesNecroRobesHoodedIllusion04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085474,EnchClothesNecroRobesHoodedIllusion03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085473,EnchClothesNecroRobesHoodedIllusion02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085472,EnchClothesNecroRobesHoodedIllusion01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085465,EnchClothesNecroRobesHoodedDestruction06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085464,EnchClothesNecroRobesHoodedDestruction05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085463,EnchClothesNecroRobesHoodedDestruction04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085462,EnchClothesNecroRobesHoodedDestruction03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085461,EnchClothesNecroRobesHoodedDestruction02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085460,EnchClothesNecroRobesHoodedDestruction01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085459,EnchClothesNecroRobesHoodedConjuration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085458,EnchClothesNecroRobesHoodedConjuration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085457,EnchClothesNecroRobesHoodedConjuration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085456,EnchClothesNecroRobesHoodedConjuration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085455,EnchClothesNecroRobesHoodedConjuration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085454,EnchClothesNecroRobesHoodedConjuration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085453,EnchClothesNecroRobesHoodedAlteration06,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085452,EnchClothesNecroRobesHoodedAlteration05,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085451,EnchClothesNecroRobesHoodedAlteration04,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085450,EnchClothesNecroRobesHoodedAlteration03,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085449,EnchClothesNecroRobesHoodedAlteration02,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-1085448,EnchClothesNecroRobesHoodedAlteration01,ClothesNecromancerRobesHooded "Hooded Necromancer Robes" [ARMO:0010710D]
-859963,EnchClothesMageRobesAppMagickaRate01,TemplateClothesMageRobesApprenticeHooded "Hooded Mage Robes" [ARMO:0010710B]
-600778,EnchArmorSteelPlateHelmetWaterbreathing,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266295,EnchArmorSteelPlateHelmetRestoration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266294,EnchArmorSteelPlateHelmetRestoration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266293,EnchArmorSteelPlateHelmetRestoration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266292,EnchArmorSteelPlateHelmetMarksman04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266291,EnchArmorSteelPlateHelmetMarksman03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266284,EnchArmorSteelPlateHelmetMarksman02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266279,EnchArmorSteelPlateHelmetMagicka04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266274,EnchArmorSteelPlateHelmetMagicka03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266273,EnchArmorSteelPlateHelmetMagicka02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266272,EnchArmorSteelPlateHelmetIllusion04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-266270,EnchArmorSteelPlateHelmetIllusion03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253829,EnchArmorSteelPlateHelmetIllusion02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253825,EnchArmorSteelPlateHelmetDestruction04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253824,EnchArmorSteelPlateHelmetDestruction03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253823,EnchArmorSteelPlateHelmetDestruction02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253822,EnchArmorSteelPlateHelmetConjuration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253821,EnchArmorSteelPlateHelmetConjuration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253820,EnchArmorSteelPlateHelmetConjuration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253819,EnchArmorSteelPlateHelmetAlteration04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253818,EnchArmorSteelPlateHelmetAlteration03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-253817,EnchArmorSteelPlateHelmetAlteration02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-570994,EnchArmorSteelPlateHelmetAlchemy04,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-570993,EnchArmorSteelPlateHelmetAlchemy03,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-570992,EnchArmorSteelPlateHelmetAlchemy02,ArmorSteelPlateHelmet "Steel Plate Helmet" [ARMO:0001395E]
-600710,EnchArmorSteelHelmetWaterbreathing,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741608,EnchArmorSteelHelmetRestoration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741607,EnchArmorSteelHelmetRestoration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741594,EnchArmorSteelHelmetRestoration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741610,EnchArmorSteelHelmetMarksman03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741609,EnchArmorSteelHelmetMarksman02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741593,EnchArmorSteelHelmetMarksman01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741606,EnchArmorSteelHelmetMagicka03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741605,EnchArmorSteelHelmetMagicka02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741592,EnchArmorSteelHelmetMagicka01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741604,EnchArmorSteelHelmetIllusion03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741603,EnchArmorSteelHelmetIllusion02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741591,EnchArmorSteelHelmetIllusion01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741600,EnchArmorSteelHelmetDestruction03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741599,EnchArmorSteelHelmetDestruction02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741589,EnchArmorSteelHelmetDestruction01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741598,EnchArmorSteelHelmetConjuration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741597,EnchArmorSteelHelmetConjuration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741588,EnchArmorSteelHelmetConjuration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741596,EnchArmorSteelHelmetAlteration03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741595,EnchArmorSteelHelmetAlteration02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-741587,EnchArmorSteelHelmetAlteration01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-571041,EnchArmorSteelHelmetAlchemy03,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-571040,EnchArmorSteelHelmetAlchemy02,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-571039,EnchArmorSteelHelmetAlchemy01,ArmorSteelHelmetA "Steel Helmet" [ARMO:00013954]
-290288,EnchArmorScaledHelmetWaterbreathing,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290287,EnchArmorScaledHelmetRestoration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290286,EnchArmorScaledHelmetRestoration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290285,EnchArmorScaledHelmetRestoration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290274,EnchArmorScaledHelmetMarksman04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290265,EnchArmorScaledHelmetMarksman03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290259,EnchArmorScaledHelmetMarksman02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290251,EnchArmorScaledHelmetMagicka04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290250,EnchArmorScaledHelmetMagicka03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290247,EnchArmorScaledHelmetMagicka02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290244,EnchArmorScaledHelmetIllusion04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290243,EnchArmorScaledHelmetIllusion03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290242,EnchArmorScaledHelmetIllusion02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290229,EnchArmorScaledHelmetDestruction04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290228,EnchArmorScaledHelmetDestruction03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290227,EnchArmorScaledHelmetDestruction02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290226,EnchArmorScaledHelmetConjuration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290225,EnchArmorScaledHelmetConjuration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290081,EnchArmorScaledHelmetConjuration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290080,EnchArmorScaledHelmetAlteration04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290079,EnchArmorScaledHelmetAlteration03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290074,EnchArmorScaledHelmetAlteration02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290040,EnchArmorScaledHelmetAlchemy04,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290038,EnchArmorScaledHelmetAlchemy03,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-290039,EnchArmorScaledHelmetAlchemy02,ArmorScaledHelmet "Scaled Helmet" [ARMO:0001B3A1]
-849943,EnchArmorOrcishHelmetWaterbreathing,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849942,EnchArmorOrcishHelmetRestoration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849941,EnchArmorOrcishHelmetRestoration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849940,EnchArmorOrcishHelmetRestoration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849939,EnchArmorOrcishHelmetMarksman05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849938,EnchArmorOrcishHelmetMarksman04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849937,EnchArmorOrcishHelmetMarksman03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849936,EnchArmorOrcishHelmetMagicka05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849935,EnchArmorOrcishHelmetMagicka04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849934,EnchArmorOrcishHelmetMagicka03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849933,EnchArmorOrcishHelmetIllusion05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849932,EnchArmorOrcishHelmetIllusion04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849931,EnchArmorOrcishHelmetIllusion03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849927,EnchArmorOrcishHelmetDestruction05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849926,EnchArmorOrcishHelmetDestruction04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849925,EnchArmorOrcishHelmetDestruction03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849924,EnchArmorOrcishHelmetConjuration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849923,EnchArmorOrcishHelmetConjuration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849922,EnchArmorOrcishHelmetConjuration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849921,EnchArmorOrcishHelmetAlteration05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849920,EnchArmorOrcishHelmetAlteration04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849919,EnchArmorOrcishHelmetAlteration03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849918,EnchArmorOrcishHelmetAlchemy05,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849917,EnchArmorOrcishHelmetAlchemy04,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-849916,EnchArmorOrcishHelmetAlchemy03,ArmorOrcishHelmet "Orcish Helmet" [ARMO:00013959]
-741485,EnchArmorLeatherHelmetRestoration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741484,EnchArmorLeatherHelmetRestoration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741483,EnchArmorLeatherHelmetRestoration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741503,EnchArmorLeatherHelmetMarksman03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741502,EnchArmorLeatherHelmetMarksman02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741501,EnchArmorLeatherHelmetMarksman01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741500,EnchArmorLeatherHelmetMagicka03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741499,EnchArmorLeatherHelmetMagicka02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741498,EnchArmorLeatherHelmetMagicka01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741497,EnchArmorLeatherHelmetIllusion03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741496,EnchArmorLeatherHelmetIllusion02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741495,EnchArmorLeatherHelmetIllusion01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741482,EnchArmorLeatherHelmetDestruction03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741481,EnchArmorLeatherHelmetDestruction02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741480,EnchArmorLeatherHelmetDestruction01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741479,EnchArmorLeatherHelmetConjuration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741478,EnchArmorLeatherHelmetConjuration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741477,EnchArmorLeatherHelmetConjuration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741476,EnchArmorLeatherHelmetAlteration03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741475,EnchArmorLeatherHelmetAlteration02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-741474,EnchArmorLeatherHelmetAlteration01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-570991,EnchArmorLeatherHelmetAlchemy03,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-570990,EnchArmorLeatherHelmetAlchemy02,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-570989,EnchArmorLeatherHelmetAlchemy01,ArmorLeatherHelmet "Leather Helmet" [ARMO:00013922]
-710039,EnchArmorIronHelmetRestoration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710037,EnchArmorIronHelmetRestoration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-500017,EnchArmorIronHelmetRestoration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710036,EnchArmorIronHelmetMarksman03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710035,EnchArmorIronHelmetMarksman02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-500013,EnchArmorIronHelmetMarksman01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710034,EnchArmorIronHelmetMagicka03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710033,EnchArmorIronHelmetMagicka02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-303537,EnchArmorIronHelmetMagicka01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710032,EnchArmorIronHelmetIllusion03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710031,EnchArmorIronHelmetIllusion02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-500009,EnchArmorIronHelmetIllusion01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710028,EnchArmorIronHelmetDestruction03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710027,EnchArmorIronHelmetDestruction02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-500005,EnchArmorIronHelmetDestruction01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710026,EnchArmorIronHelmetConjuration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710025,EnchArmorIronHelmetConjuration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-500003,EnchArmorIronHelmetConjuration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710024,EnchArmorIronHelmetAlteration03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-710023,EnchArmorIronHelmetAlteration02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-499996,EnchArmorIronHelmetAlteration01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-570988,EnchArmorIronHelmetAlchemy03,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-570987,EnchArmorIronHelmetAlchemy02,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-570986,EnchArmorIronHelmetAlchemy01,ArmorIronHelmet "Iron Helmet" [ARMO:00012E4D]
-571062,EnchArmorImperialLightHelmetMagicka03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571088,EnchArmorImperialLightHelmetMagicka02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571087,EnchArmorImperialLightHelmetMagicka01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571086,EnchArmorImperialLightHelmetIllusion03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571085,EnchArmorImperialLightHelmetIllusion02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571084,EnchArmorImperialLightHelmetIllusion01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571080,EnchArmorImperialLightHelmetDestruction03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571079,EnchArmorImperialLightHelmetDestruction02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571078,EnchArmorImperialLightHelmetDestruction01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571077,EnchArmorImperialLightHelmetConjuration03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571076,EnchArmorImperialLightHelmetConjuration02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571074,EnchArmorImperialLightHelmetConjuration01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571073,EnchArmorImperialLightHelmetAlteration03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571072,EnchArmorImperialLightHelmetAlteration02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571071,EnchArmorImperialLightHelmetAlteration01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571070,EnchArmorImperialLightHelmetAlchemy03,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571075,EnchArmorImperialLightHelmetAlchemy02,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571069,EnchArmorImperialLightHelmetAlchemy01,ArmorImperialLightHelmet "Imperial Light Helmet" [ARMO:00013EDB]
-571068,EnchArmorImperialHelmetRestoration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571067,EnchArmorImperialHelmetRestoration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571066,EnchArmorImperialHelmetRestoration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571065,EnchArmorImperialHelmetMarksman03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571064,EnchArmorImperialHelmetMarksman02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571063,EnchArmorImperialHelmetMarksman01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571061,EnchArmorImperialHelmetMagicka02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571060,EnchArmorImperialHelmetMagicka01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571059,EnchArmorImperialHelmetIllusion03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571058,EnchArmorImperialHelmetIllusion02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571057,EnchArmorImperialHelmetIllusion01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571053,EnchArmorImperialHelmetDestruction03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571052,EnchArmorImperialHelmetDestruction02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571051,EnchArmorImperialHelmetDestruction01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571050,EnchArmorImperialHelmetConjuration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571049,EnchArmorImperialHelmetConjuration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571048,EnchArmorImperialHelmetConjuration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571047,EnchArmorImperialHelmetAlteration03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571046,EnchArmorImperialHelmetAlteration02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571045,EnchArmorImperialHelmetAlteration01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571044,EnchArmorImperialHelmetAlchemy03,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571043,EnchArmorImperialHelmetAlchemy02,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-571042,EnchArmorImperialHelmetAlchemy01,ArmorImperialHelmet "Imperial Helmet" [ARMO:00013EDC]
-709834,EnchArmorHideHelmetRestoration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709833,EnchArmorHideHelmetRestoration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500056,EnchArmorHideHelmetRestoration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709832,EnchArmorHideHelmetMarksman03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709831,EnchArmorHideHelmetMarksman02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500055,EnchArmorHideHelmetMarksman01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709830,EnchArmorHideHelmetMagicka03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709829,EnchArmorHideHelmetMagicka02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500053,EnchArmorHideHelmetMagicka01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709828,EnchArmorHideHelmetIllusion03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709827,EnchArmorHideHelmetIllusion02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500052,EnchArmorHideHelmetIllusion01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709824,EnchArmorHideHelmetDestruction03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709823,EnchArmorHideHelmetDestruction02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500050,EnchArmorHideHelmetDestruction01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709822,EnchArmorHideHelmetConjuration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709821,EnchArmorHideHelmetConjuration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500049,EnchArmorHideHelmetConjuration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709820,EnchArmorHideHelmetAlteration03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-709819,EnchArmorHideHelmetAlteration02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-500048,EnchArmorHideHelmetAlteration01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-570985,EnchArmorHideHelmetAlchemy03,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-570984,EnchArmorHideHelmetAlchemy02,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-570983,EnchArmorHideHelmetAlchemy01,ArmorHideHelmet "Hide Helmet" [ARMO:00013913]
-873433,EnchArmorGlassHelmetWaterbreathing,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873432,EnchArmorGlassHelmetRestoration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873431,EnchArmorGlassHelmetRestoration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873430,EnchArmorGlassHelmetRestoration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873429,EnchArmorGlassHelmetMarksman05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873428,EnchArmorGlassHelmetMarksman04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873427,EnchArmorGlassHelmetMarksman03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-1041119,EnchArmorGlassHelmetMagickaRate05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-1041115,EnchArmorGlassHelmetMagickaRate04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-1041114,EnchArmorGlassHelmetMagickaRate03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873426,EnchArmorGlassHelmetMagicka05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873425,EnchArmorGlassHelmetMagicka04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873424,EnchArmorGlassHelmetMagicka03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873423,EnchArmorGlassHelmetIllusion05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873422,EnchArmorGlassHelmetIllusion04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873421,EnchArmorGlassHelmetIllusion03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873417,EnchArmorGlassHelmetDestruction05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873416,EnchArmorGlassHelmetDestruction04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873415,EnchArmorGlassHelmetDestruction03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873414,EnchArmorGlassHelmetConjuration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873413,EnchArmorGlassHelmetConjuration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873412,EnchArmorGlassHelmetConjuration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873411,EnchArmorGlassHelmetAlteration05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873410,EnchArmorGlassHelmetAlteration04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873409,EnchArmorGlassHelmetAlteration03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873408,EnchArmorGlassHelmetAlchemy05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873407,EnchArmorGlassHelmetAlchemy04,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-873406,EnchArmorGlassHelmetAlchemy03,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-778326,EnchArmorElvenHelmetRestoration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778231,EnchArmorElvenHelmetRestoration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778230,EnchArmorElvenHelmetRestoration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778325,EnchArmorElvenHelmetMarksman04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778229,EnchArmorElvenHelmetMarksman03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778228,EnchArmorElvenHelmetMarksman02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778324,EnchArmorElvenHelmetMagicka04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778227,EnchArmorElvenHelmetMagicka03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778226,EnchArmorElvenHelmetMagicka02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778323,EnchArmorElvenHelmetIllusion04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778225,EnchArmorElvenHelmetIllusion03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778224,EnchArmorElvenHelmetIllusion02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778321,EnchArmorElvenHelmetDestruction04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778221,EnchArmorElvenHelmetDestruction03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778220,EnchArmorElvenHelmetDestruction02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778320,EnchArmorElvenHelmetConjuration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778219,EnchArmorElvenHelmetConjuration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778218,EnchArmorElvenHelmetConjuration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778319,EnchArmorElvenHelmetAlteration04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778217,EnchArmorElvenHelmetAlteration03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-778216,EnchArmorElvenHelmetAlteration02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-570982,EnchArmorElvenHelmetAlchemy04,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-570981,EnchArmorElvenHelmetAlchemy03,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-570980,EnchArmorElvenHelmetAlchemy02,ArmorElvenHelmet "Elven Helmet" [ARMO:0001391D]
-850060,EnchArmorEbonyHelmetWaterbreathing,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850059,EnchArmorEbonyHelmetRestoration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850058,EnchArmorEbonyHelmetRestoration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850057,EnchArmorEbonyHelmetRestoration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850056,EnchArmorEbonyHelmetMarksman05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850055,EnchArmorEbonyHelmetMarksman04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850054,EnchArmorEbonyHelmetMarksman03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-1041137,EnchArmorEbonyHelmetMagickaRate05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-1041136,EnchArmorEbonyHelmetMagickaRate04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-1041135,EnchArmorEbonyHelmetMagickaRate03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850053,EnchArmorEbonyHelmetMagicka05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850052,EnchArmorEbonyHelmetMagicka04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850051,EnchArmorEbonyHelmetMagicka03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850050,EnchArmorEbonyHelmetIllusion05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850049,EnchArmorEbonyHelmetIllusion04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850048,EnchArmorEbonyHelmetIllusion03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850044,EnchArmorEbonyHelmetDestruction05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850043,EnchArmorEbonyHelmetDestruction04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850042,EnchArmorEbonyHelmetDestruction03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850041,EnchArmorEbonyHelmetConjuration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850040,EnchArmorEbonyHelmetConjuration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850039,EnchArmorEbonyHelmetConjuration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850038,EnchArmorEbonyHelmetAlteration05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850037,EnchArmorEbonyHelmetAlteration04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850036,EnchArmorEbonyHelmetAlteration03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850035,EnchArmorEbonyHelmetAlchemy05,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850034,EnchArmorEbonyHelmetAlchemy04,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-850033,EnchArmorEbonyHelmetAlchemy03,ArmorEbonyHelmet "Ebony Helmet" [ARMO:00013963]
-600717,EnchArmorDwarvenHelmetWaterbreathing,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113095,EnchArmorDwarvenHelmetRestoration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113093,EnchArmorDwarvenHelmetRestoration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113092,EnchArmorDwarvenHelmetRestoration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113091,EnchArmorDwarvenHelmetMarksman04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113089,EnchArmorDwarvenHelmetMarksman03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113088,EnchArmorDwarvenHelmetMarksman02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113086,EnchArmorDwarvenHelmetMagicka04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113084,EnchArmorDwarvenHelmetMagicka03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113083,EnchArmorDwarvenHelmetMagicka02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113080,EnchArmorDwarvenHelmetIllusion04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113079,EnchArmorDwarvenHelmetIllusion03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-113072,EnchArmorDwarvenHelmetIllusion02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112522,EnchArmorDwarvenHelmetDestruction04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112498,EnchArmorDwarvenHelmetDestruction03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112497,EnchArmorDwarvenHelmetDestruction02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112496,EnchArmorDwarvenHelmetConjuration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112495,EnchArmorDwarvenHelmetConjuration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112494,EnchArmorDwarvenHelmetConjuration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112493,EnchArmorDwarvenHelmetAlteration04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112492,EnchArmorDwarvenHelmetAlteration03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-112491,EnchArmorDwarvenHelmetAlteration02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-570979,EnchArmorDwarvenHelmetAlchemy04,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-570978,EnchArmorDwarvenHelmetAlchemy03,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-570970,EnchArmorDwarvenHelmetAlchemy02,ArmorDwarvenHelmet "Dwarven Helmet" [ARMO:0001394F]
-1001806,EnchArmorDraugrHelmetResistFire03,ArmorDraugrHelmet "Ancient Nord Helmet" [ARMO:00056A9E]
-883215,EnchArmorDragonscaleHelmetWaterbreathing,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883214,EnchArmorDragonscaleHelmetRestoration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883213,EnchArmorDragonscaleHelmetRestoration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883212,EnchArmorDragonscaleHelmetRestoration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883211,EnchArmorDragonscaleHelmetMarksman06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883210,EnchArmorDragonscaleHelmetMarksman05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883209,EnchArmorDragonscaleHelmetMarksman04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-1041128,EnchArmorDragonscaleHelmetMagickaRate06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-1041127,EnchArmorDragonscaleHelmetMagickaRate05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-1041126,EnchArmorDragonscaleHelmetMagickaRate04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883208,EnchArmorDragonscaleHelmetMagicka06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883207,EnchArmorDragonscaleHelmetMagicka05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883206,EnchArmorDragonscaleHelmetMagicka04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883205,EnchArmorDragonscaleHelmetIllusion06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883204,EnchArmorDragonscaleHelmetIllusion05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883203,EnchArmorDragonscaleHelmetIllusion04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883199,EnchArmorDragonscaleHelmetDestruction06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883198,EnchArmorDragonscaleHelmetDestruction05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883197,EnchArmorDragonscaleHelmetDestruction04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883196,EnchArmorDragonscaleHelmetConjuration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883195,EnchArmorDragonscaleHelmetConjuration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883194,EnchArmorDragonscaleHelmetConjuration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883193,EnchArmorDragonscaleHelmetAlteration06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883192,EnchArmorDragonscaleHelmetAlteration05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883191,EnchArmorDragonscaleHelmetAlteration04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883190,EnchArmorDragonscaleHelmetAlchemy06,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883189,EnchArmorDragonscaleHelmetAlchemy05,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883188,EnchArmorDragonscaleHelmetAlchemy04,ArmorDragonscaleHelmet "Dragonscale Helmet" [ARMO:00013940]
-883323,EnchArmorDragonplateHelmetWaterbreathing,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883322,EnchArmorDragonplateHelmetRestoration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883321,EnchArmorDragonplateHelmetRestoration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883320,EnchArmorDragonplateHelmetRestoration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883319,EnchArmorDragonplateHelmetMarksman06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883318,EnchArmorDragonplateHelmetMarksman05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883317,EnchArmorDragonplateHelmetMarksman04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-1041140,EnchArmorDragonplateHelmetMagickaRate06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-1041139,EnchArmorDragonplateHelmetMagickaRate05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-1041138,EnchArmorDragonplateHelmetMagickaRate04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883316,EnchArmorDragonplateHelmetMagicka06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883315,EnchArmorDragonplateHelmetMagicka05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883314,EnchArmorDragonplateHelmetMagicka04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883313,EnchArmorDragonplateHelmetIllusion06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883312,EnchArmorDragonplateHelmetIllusion05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883311,EnchArmorDragonplateHelmetIllusion04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883307,EnchArmorDragonplateHelmetDestruction06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883306,EnchArmorDragonplateHelmetDestruction05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883305,EnchArmorDragonplateHelmetDestruction04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883304,EnchArmorDragonplateHelmetConjuration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883303,EnchArmorDragonplateHelmetConjuration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883302,EnchArmorDragonplateHelmetConjuration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883301,EnchArmorDragonplateHelmetAlteration06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883300,EnchArmorDragonplateHelmetAlteration05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883299,EnchArmorDragonplateHelmetAlteration04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883298,EnchArmorDragonplateHelmetAlchemy06,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883297,EnchArmorDragonplateHelmetAlchemy05,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883296,EnchArmorDragonplateHelmetAlchemy04,ArmorDragonplateHelmet "Dragonplate Helmet" [ARMO:00013969]
-883437,EnchArmorDaedricHelmetWaterbreathing,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883436,EnchArmorDaedricHelmetRestoration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883435,EnchArmorDaedricHelmetRestoration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883434,EnchArmorDaedricHelmetRestoration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883433,EnchArmorDaedricHelmetMarksman06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883432,EnchArmorDaedricHelmetMarksman05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883431,EnchArmorDaedricHelmetMarksman04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-1041155,EnchArmorDaedricHelmetMagickaRate06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-1041154,EnchArmorDaedricHelmetMagickaRate05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-1041153,EnchArmorDaedricHelmetMagickaRate04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883430,EnchArmorDaedricHelmetMagicka06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883429,EnchArmorDaedricHelmetMagicka05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883428,EnchArmorDaedricHelmetMagicka04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883427,EnchArmorDaedricHelmetIllusion06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883426,EnchArmorDaedricHelmetIllusion05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883425,EnchArmorDaedricHelmetIllusion04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883421,EnchArmorDaedricHelmetDestruction06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883420,EnchArmorDaedricHelmetDestruction05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883419,EnchArmorDaedricHelmetDestruction04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883418,EnchArmorDaedricHelmetConjuration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883417,EnchArmorDaedricHelmetConjuration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883416,EnchArmorDaedricHelmetConjuration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883415,EnchArmorDaedricHelmetAlteration06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883414,EnchArmorDaedricHelmetAlteration05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883413,EnchArmorDaedricHelmetAlteration04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883412,EnchArmorDaedricHelmetAlchemy06,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883411,EnchArmorDaedricHelmetAlchemy05,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-883410,EnchArmorDaedricHelmetAlchemy04,ArmorDaedricHelmet "Daedric Helmet" [ARMO:0001396D]
-169459,DunYngolBarrowSteelPlateHelmet,
-1094397,dunWaywardPassGhostArmor,
-434351,DummyHelmet,
-1111903,DremoraDaedricHelmet,
-130428,DraugrHelmet03,
-130427,DraugrHelmet02,
-130423,DraugrHelmet01,
-1089008,Dragon_Tundra_BloodWingRFXArmor,
-1088999,Dragon_Snow_BloodWingRFXArmor,
-1089016,Dragon_Green_BloodWingRFXArmor,
-857512,DragonBloodWingRFXArmor,
-755767,DEMOArmorIronHelmet,
-921042,DBClothesRedguardHood,
-411950,DBClothesJesterHatCicero,
-847474,DBClothesJesterHat,
-850081,DBClothesHood,
-1108829,DBArmorHelmetWornPlayable,
-1071465,DBArmorHelmetWorn,
-925463,DBArmorHelmetSP,
-371652,DBArmorHelmetMaskLess,
-862274,DBArmorHelmet,
-498660,DA09MeridiaBallofLightArmor,
-131420,CWDummyHelmetSons,
-131138,CWDummyHelmetImperial,
-1077516,ClothesWarlockRobesHooded,
-810256,ClothesWarlockHoodUnplayable,
-1099416,ClothesThalmorRobesHooded,
-223813,ClothesRobesGreybeardHood,
-1077514,ClothesRobesBlueHooded,TemplateClothesMageRobesApprenticeHooded "Hooded Mage Robes" [ARMO:0010710B]
-1077512,ClothesRobesBlackHooded,
-506906,ClothesRedguardHood,
-416665,ClothesPsiijicHood,
-559444,ClothesNocturnalHat,
-1077517,ClothesNecromancerRobesHooded,
-726093,ClothesMythicDawnRobes,
-411307,ClothesMournerHat,
-1077510,ClothesMonkRobesHooded,
-1101803,ClothesMonkRobesColorRedHooded,
-1101802,ClothesMonkRobesColorGreyHooded,
-1101804,ClothesMonkRobesColorGreenHooded,
-1101796,ClothesMonkRobesColorBrownHooded,
-1111408,ClothesMGRobesArchmage1Hooded,
-270907,ClothesMerchantHat,
-847492,ClothesFineHat02,
-209084,ClothesFarmHat03,
-133546,ClothesFarmHat02,
-209075,ClothesFarmHat01,
-95893,ClothesFarmClothes03withExtras,
-95894,ClothesFarmClothes03Hat,
-850098,ClothesExecutionerHood,
-1103527,ClothesCollegeHoodVariant2,
-1103526,ClothesCollegeHoodVariant1,
-867816,ClothesCollegeHood,
-113831,ClothesChefHat,
-78084,ClothesBeggarHat,
-862278,ClavicusVileMask,
-976320,ArmorTorturerHood,ArmorThievesGuildHelmet "Thieves Guild Hood" [ARMO:00036585]
-931293,ArmorThievesGuildVariantHelmet,
-931295,ArmorThievesGuildVariant02Helmet,
-931289,ArmorThievesGuildLeaderHelmet,
-931306,ArmorThievesGuildKarliahHelmet,
-867022,ArmorThievesGuildHelmetPlayerImproved,
-867013,ArmorThievesGuildHelmetPlayer,
-222597,ArmorThievesGuildHelmet,
-1082690,ArmorSummersetShadowsGuildHelmet,
-683385,ArmorStormcloakHelmetFull,
-551301,ArmorStormcloakBearHelmet,
-80222,ArmorSteelPlateHelmet,
-1011492,ArmorSteelHelmetB,
-80212,ArmorSteelHelmetA,
-111521,ArmorScaledHelmet,
-868010,ArmorPenitusHelmet,
-80217,ArmorOrcishHelmet,
-1035282,ArmorNightingaleHelmetPlayer03,
-1035283,ArmorNightingaleHelmetPlayer02,
-383880,ArmorNightingaleHelmetPlayer01,
-296920,ArmorNightingaleHelmet,
-1082694,ArmorLinweHelmet,
-80162,ArmorLeatherHelmet,
-77389,ArmorIronHelmet,
-81627,ArmorImperialLightHelmet,
-79567,ArmorImperialHelmetOfficer,
-614669,ArmorImperialHelmetFull,
-81628,ArmorImperialHelmet,
-80147,ArmorHideHelmet,
-136733,ArmorGuardHelmetFullWinterhold,
-136725,ArmorGuardHelmetFullWhiterun,
-136738,ArmorGuardHelmetFullRift,
-136723,ArmorGuardHelmetFullReach,
-136735,ArmorGuardHelmetFullPale,
-136731,ArmorGuardHelmetFullHjaalmarch,
-819036,ArmorGuardHelmetFullHaafingar,
-136729,ArmorGuardHelmetFullFalkreath,
-80187,ArmorGlassHelmet,
-312267,ArmorFAlmerHelmet,
-1072916,ArmorElvenLightHelmet,
-80157,ArmorElvenHelmet,
-80227,ArmorEbonyHelmet,
-1070493,ArmorEastmarchHelmetFull,
-80207,ArmorDwarvenHelmet,
-1055178,ArmorDraugrHelmetUnplayable,
-354974,ArmorDraugrHelmet,
-80192,ArmorDragonscaleHelmet,
-400586,ArmorDragonPriestMaskWoodHelmet,
-400598,ArmorDragonPriestMaskUltraHelmet,
-400585,ArmorDragonPriestMaskSteelHelmet,
-400576,ArmorDragonPriestMaskOrichalumHelmet,
-400523,ArmorDragonPriestMaskMoonstoneHelmet,
-400578,ArmorDragonPriestMaskMarbleHelmet,
-400577,ArmorDragonPriestMaskIronHelmet,
-400549,ArmorDragonPriestMaskEbonyHelmet,
-400555,ArmorDragonPriestMaskCorondrumHelmet,
-400569,ArmorDragonPriestMaskBronzeHelmet,
-80233,ArmorDragonplateHelmet,
-80237,ArmorDaedricHelmet,
-312272,ArmorCompanionsHelmet,
-894800,ArmorBoneCrown,
-307855,ArmorBladesHelmet,
-455582,ArmorBanditHelmet,
-396711,ArmorAtronachFlameDead,
-81628,ArmorImperialHelmet,
-307855,ArmorBladesHelmet,
-312267,ArmorFAlmerHelmet,
-551301,ArmorStormcloakBearHelmet,
-867013,ArmorThievesGuildHelmetPlayer,
-867022,ArmorThievesGuildHelmetPlayerImproved,
-868010,ArmorPenitusHelmet,
-888146,ForswornHelmet,
-931289,ArmorThievesGuildLeaderHelmet,
-962513,MS02ForswornHelmet,
-1041119,EnchArmorGlassHelmetMagickaRate05,ArmorGlassHelmet "Glass Helmet" [ARMO:0001393B]
-78084,ClothesBeggarHat,
-80187,ArmorGlassHelmet,
-80192,ArmorDragonscaleHelmet,
-80212,ArmorSteelHelmetA,
-80217,ArmorOrcishHelmet,
-80233,ArmorDragonplateHelmet,
-80237,ArmorDaedricHelmet,
-270907,ClothesMerchantHat,
-383880,ArmorNightingaleHelmetPlayer01,
-455582,ArmorBanditHelmet,
-847492,ClothesFineHat02,
-867816,ClothesCollegeHood,
-1011492,ArmorSteelHelmetB,
-1035282,ArmorNightingaleHelmetPlayer03,
-1035283,ArmorNightingaleHelmetPlayer02,
-1077510,ClothesMonkRobesHooded,
-1077512,ClothesRobesBlackHooded,
-1077513,TemplateClothesMageRobesCommonHooded,
-1077515,TemplateClothesMageRobesApprenticeHooded,
-1077516,ClothesWarlockRobesHooded,
-1077517,ClothesNecromancerRobesHooded,
-1099416,ClothesThalmorRobesHooded,
-1101796,ClothesMonkRobesColorBrownHooded,
-1101802,ClothesMonkRobesColorGreyHooded,
-1101803,ClothesMonkRobesColorRedHooded,
-1101804,ClothesMonkRobesColorGreenHooded,
-1103526,ClothesCollegeHoodVariant1,
-1103527,ClothesCollegeHoodVariant2,
-1111408,ClothesMGRobesArchmage1Hooded,
-395029,SkinHorse,
-550147,SkinHorseShadowmere,
-550157,SkinHorseBlackHide,
-550158,SkinHorsePalominoHide,
-550159,SkinHorseGreyHide,
-550160,SkinHorseBlacknWhiteHide,
-33563627,DLC1ArmorFAlmerHeavyHelmet,
-33581819,DLC1SoulCairnSkinSkeletonNecro,
-33581820,DLC1SoulCairnSkinSkeletonNecro02,
-33583566,DLC1EncSoulCairnBonemanSkin,
-33592940,SkinHorseBONE,
-33626743,DragonUndeadBloodWingRFXArmor,
-33635193,SkinSprigganEarthMother,
-33640115,Dragon_Purple_BloodWingRFXArmor,
-33640128,Dragon_IceLake_BloodWingRFXArmor,
-33643548,SkinNakedSnowElf,
-33644842,SkinAncientAtronachFrost,
-33652379,DLC1VCClothesWarlockHoodUnplayable,
-33659038,DLC1ArmorDawnguardHelmetLight,
-33659614,DLC01ClothesVampireHood,
-33661265,SkinSkeletonArmor1,
-33661267,SkinSkeletonArmor2,
-33662783,DLC01SoulCairnReaperHood,
-33565415,DLC1SkinSoulCairnSoulWisp,
-33575120,DLC1ArmorDawnguardHelmetHeavy,
-33613472,DLC1SeranaHood,
-33614048,DLC1ArmorFAlmerHardenedHelmet,
-312267,ArmorFAlmerHelmet,
-33631882,DLC1ArmorShellbugHelmet,
-33662326,DLC2RR01FalxHelmet,
-33672585,DLC2ArmorChitinLightHelmet,
-33672588,DLC2ArmorChitinHeavyHelmet,
-33672597,DLC2ArmorBonemoldHelmet,
-33672601,DLC2ArmorNordicHeavyHelmet,
-33672609,DLC2ArmorStalhrimHeavyHelmet,
-33672611,DLC2ArmorStalhrimLightHelmet,
-33672615,DLC2MirraksRobes,
-33672617,DLC2SkaalVillagerOutfit,
-33672618,DLC2DarkElfOutfit,
-33676184,DLC2dunKolbjornHelm,
-33683857,SkinSpectralDragon,
-33683858,dlc2SpectralDragonSkin,
-33701917,DLC2dunHaknirArmorHelm,
-33701943,DLC2ArmorAcolyteMaskShock,
-33702142,DLC2ArmorAcolyteMaskFire,
-33702143,DLC2ArmorAcolyteMaskFrost,
-33714456,DLC2SkinAshGuardian,
-33717782,DLC2SkinSprigganBurnt,
-33719545,DLC2EnchArmorBonemoldHelmetAlchemy01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719546,DLC2EnchArmorBonemoldHelmetAlchemy02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719547,DLC2EnchArmorBonemoldHelmetAlchemy03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719548,DLC2EnchArmorBonemoldHelmetAlteration01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719549,DLC2EnchArmorBonemoldHelmetAlteration02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719550,DLC2EnchArmorBonemoldHelmetAlteration03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719551,DLC2EnchArmorBonemoldHelmetConjuration01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719552,DLC2EnchArmorBonemoldHelmetConjuration02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719553,DLC2EnchArmorBonemoldHelmetConjuration03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719554,DLC2EnchArmorBonemoldHelmetDestruction01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719555,DLC2EnchArmorBonemoldHelmetDestruction02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719556,DLC2EnchArmorBonemoldHelmetDestruction03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719557,DLC2EnchArmorBonemoldHelmetIllusion01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719558,DLC2EnchArmorBonemoldHelmetIllusion02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719559,DLC2EnchArmorBonemoldHelmetIllusion03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719560,DLC2EnchArmorBonemoldHelmetMagicka01,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719561,DLC2EnchArmorBonemoldHelmetMagicka02,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33719562,DLC2EnchArmorBonemoldHelmetMagicka03,DLC2ArmorBonemoldHelmet "Bonemold Helmet" [ARMO:0401CD95]
-33722392,DLC2EnchArmorChitinLightHelmetAlchemy02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722393,DLC2EnchArmorChitinLightHelmetAlchemy03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722394,DLC2EnchArmorChitinLightHelmetAlchemy04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722395,DLC2EnchArmorChitinLightHelmetAlteration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722396,DLC2EnchArmorChitinLightHelmetAlteration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722397,DLC2EnchArmorChitinLightHelmetAlteration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722398,DLC2EnchArmorChitinLightHelmetConjuration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722399,DLC2EnchArmorChitinLightHelmetConjuration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722400,DLC2EnchArmorChitinLightHelmetConjuration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722401,DLC2EnchArmorChitinLightHelmetDestruction02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722402,DLC2EnchArmorChitinLightHelmetDestruction03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722403,DLC2EnchArmorChitinLightHelmetIllusion02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722404,DLC2EnchArmorChitinLightHelmetDestruction04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722405,DLC2EnchArmorChitinLightHelmetIllusion03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722406,DLC2EnchArmorChitinLightHelmetIllusion04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722407,DLC2EnchArmorChitinLightHelmetMagicka02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722408,DLC2EnchArmorChitinLightHelmetMagicka03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722409,DLC2EnchArmorChitinLightHelmetMagicka04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722410,DLC2EnchArmorChitinLightHelmetMarksman02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722411,DLC2EnchArmorChitinLightHelmetMarksman03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722412,DLC2EnchArmorChitinLightHelmetMarksman04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722413,DLC2EnchArmorChitinLightHelmetRestoration02,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722414,DLC2EnchArmorChitinLightHelmetRestoration03,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722415,DLC2EnchArmorChitinLightHelmetRestoration04,DLC2ArmorChitinLightHelmet "Chitin Helmet" [ARMO:0401CD89]
-33722581,DLC2EnchArmorStalhrimLightHelmetAlchemy03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722582,DLC2EnchArmorStalhrimLightHelmetAlchemy04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722583,DLC2EnchArmorStalhrimLightHelmetAlchemy05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722584,DLC2EnchArmorStalhrimLightHelmetAlteration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722585,DLC2EnchArmorStalhrimLightHelmetAlteration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722586,DLC2EnchArmorStalhrimLightHelmetAlteration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722587,DLC2EnchArmorStalhrimLightHelmetConjuration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722588,DLC2EnchArmorStalhrimLightHelmetConjuration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722589,DLC2EnchArmorStalhrimLightHelmetConjuration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722590,DLC2EnchArmorStalhrimLightHelmetDestruction03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722591,DLC2EnchArmorStalhrimLightHelmetDestruction04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722592,DLC2EnchArmorStalhrimLightHelmetDestruction05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722593,DLC2EnchArmorStalhrimLightHelmetIllusion03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722594,DLC2EnchArmorStalhrimLightHelmetIllusion04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722595,DLC2EnchArmorStalhrimLightHelmetIllusion05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722596,DLC2EnchArmorStalhrimLightHelmetMagicka03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722597,DLC2EnchArmorStalhrimLightHelmetMagicka04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722598,DLC2EnchArmorStalhrimLightHelmetMagicka05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722599,DLC2EnchArmorStalhrimLightHelmetMagickaRate03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722600,DLC2EnchArmorStalhrimLightHelmetMagickaRate04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722601,DLC2EnchArmorStalhrimLightHelmetMagickaRate05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722602,DLC2EnchArmorStalhrimLightHelmetMarksman03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722603,DLC2EnchArmorStalhrimLightHelmetMarksman04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722604,DLC2EnchArmorStalhrimLightHelmetMarksman05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722605,DLC2EnchArmorStalhrimLightHelmetRestoration03,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722606,DLC2EnchArmorStalhrimLightHelmetRestoration04,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722607,DLC2EnchArmorStalhrimLightHelmetRestoration05,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722623,DLC2EnchArmorStalhrimLightHelmetWaterbreathing,DLC2ArmorStalhrimLightHelmet "Stalhrim Light Helmet" [ARMO:0401CDA3]
-33722759,DLC2EnchArmorChitinHeavyHelmetAlchemy02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722760,DLC2EnchArmorChitinHeavyHelmetAlchemy03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722761,DLC2EnchArmorChitinHeavyHelmetAlchemy04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722762,DLC2EnchArmorChitinHeavyHelmetAlteration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722763,DLC2EnchArmorChitinHeavyHelmetAlteration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722764,DLC2EnchArmorChitinHeavyHelmetAlteration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722765,DLC2EnchArmorChitinHeavyHelmetConjuration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722766,DLC2EnchArmorChitinHeavyHelmetConjuration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722767,DLC2EnchArmorChitinHeavyHelmetConjuration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722768,DLC2EnchArmorChitinHeavyHelmetDestruction02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722769,DLC2EnchArmorChitinHeavyHelmetDestruction03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722770,DLC2EnchArmorChitinHeavyHelmetDestruction04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722771,DLC2EnchArmorChitinHeavyHelmetIllusion02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722772,DLC2EnchArmorChitinHeavyHelmetIllusion03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722773,DLC2EnchArmorChitinHeavyHelmetIllusion04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722774,DLC2EnchArmorChitinHeavyHelmetMagicka02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722775,DLC2EnchArmorChitinHeavyHelmetMagicka03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722776,DLC2EnchArmorChitinHeavyHelmetMagicka04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722777,DLC2EnchArmorChitinHeavyHelmetMarksman02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722778,DLC2EnchArmorChitinHeavyHelmetMarksman03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722779,DLC2EnchArmorChitinHeavyHelmetMarksman04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722780,DLC2EnchArmorChitinHeavyHelmetRestoration02,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722781,DLC2EnchArmorChitinHeavyHelmetRestoration03,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722782,DLC2EnchArmorChitinHeavyHelmetRestoration04,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722783,DLC2EnchArmorChitinHeavyHelmetWaterbreathing,DLC2ArmorChitinHeavyHelmet "Chitin Heavy Helmet" [ARMO:0401CD8C]
-33722836,DLC2EnchArmorNordicHeavyHelmetAlchemy03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722837,DLC2EnchArmorNordicHeavyHelmetAlchemy04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722838,DLC2EnchArmorNordicHeavyHelmetAlchemy05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722839,DLC2EnchArmorNordicHeavyHelmetAlteration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722840,DLC2EnchArmorNordicHeavyHelmetAlteration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722841,DLC2EnchArmorNordicHeavyHelmetAlteration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722842,DLC2EnchArmorNordicHeavyHelmetConjuration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722843,DLC2EnchArmorNordicHeavyHelmetConjuration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722844,DLC2EnchArmorNordicHeavyHelmetConjuration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722845,DLC2EnchArmorNordicHeavyHelmetDestruction03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722846,DLC2EnchArmorNordicHeavyHelmetDestruction04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722847,DLC2EnchArmorNordicHeavyHelmetDestruction05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722848,DLC2EnchArmorNordicHeavyHelmetIllusion03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722849,DLC2EnchArmorNordicHeavyHelmetIllusion04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722850,DLC2EnchArmorNordicHeavyHelmetIllusion05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722851,DLC2EnchArmorNordicHeavyHelmetMagicka03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722852,DLC2EnchArmorNordicHeavyHelmetMagicka04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722853,DLC2EnchArmorNordicHeavyHelmetMagicka05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722854,DLC2EnchArmorNordicHeavyHelmetMarksman03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722855,DLC2EnchArmorNordicHeavyHelmetMarksman04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722856,DLC2EnchArmorNordicHeavyHelmetMarksman05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722857,DLC2EnchArmorNordicHeavyHelmetRestoration03,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722858,DLC2EnchArmorNordicHeavyHelmetRestoration04,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722859,DLC2EnchArmorNordicHeavyHelmetRestoration05,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722860,DLC2EnchArmorNordicHeavyHelmetWaterbreathing,DLC2ArmorNordicHeavyHelmet "Nordic Carved Helmet" [ARMO:0401CD99]
-33722934,DLC2EnchArmorStalhrimHeavyHelmetAlchemy04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722935,DLC2EnchArmorStalhrimHeavyHelmetAlchemy05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722936,DLC2EnchArmorStalhrimHeavyHelmetAlchemy06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722937,DLC2EnchArmorStalhrimHeavyHelmetAlteration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722938,DLC2EnchArmorStalhrimHeavyHelmetAlteration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722939,DLC2EnchArmorStalhrimHeavyHelmetAlteration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722940,DLC2EnchArmorStalhrimHeavyHelmetConjuration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722941,DLC2EnchArmorStalhrimHeavyHelmetConjuration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722942,DLC2EnchArmorStalhrimHeavyHelmetConjuration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722943,DLC2EnchArmorStalhrimHeavyHelmetDestruction04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722944,DLC2EnchArmorStalhrimHeavyHelmetDestruction05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722945,DLC2EnchArmorStalhrimHeavyHelmetDestruction06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722946,DLC2EnchArmorStalhrimHeavyHelmetIllusion04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722947,DLC2EnchArmorStalhrimHeavyHelmetIllusion05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722948,DLC2EnchArmorStalhrimHeavyHelmetIllusion06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722949,DLC2EnchArmorStalhrimHeavyHelmetMagicka04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722950,DLC2EnchArmorStalhrimHeavyHelmetMagicka05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722951,DLC2EnchArmorStalhrimHeavyHelmetMagicka06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722952,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722953,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722954,DLC2EnchArmorStalhrimHeavyHelmetMagickaRate06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722955,DLC2EnchArmorStalhrimHeavyHelmetMarksman04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722956,DLC2EnchArmorStalhrimHeavyHelmetMarksman05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722957,DLC2EnchArmorStalhrimHeavyHelmetMarksman06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722958,DLC2EnchArmorStalhrimHeavyHelmetRestoration04,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722959,DLC2EnchArmorStalhrimHeavyHelmetRestoration05,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722960,DLC2EnchArmorStalhrimHeavyHelmetRestoration06,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33722961,DLC2EnchArmorStalhrimHeavyHelmetWaterbreathing,DLC2ArmorStalhrimHeavyHelmet "Stalhrim Helmet" [ARMO:0401CDA1]
-33723054,DLC2MoragTongHood,
-33725026,DLC2MiraakMaskNew,
-33726205,DLC2dunInstrumentsSkin,
-33729841,DLC2TGArmorVariantHood,
-33730635,DLC2SkinAshSpawn,
-33758033,Dragon_Black_BloodWingRFXArmor,
-33779813,DLC2DarkElfOutfitBlue,
-33779814,DLC2DarkElfOutfitRed,
-33782664,DLC2CultistMask,
-33783793,DLC2dunHaknirArmorHelmNP,
-33786589,DLC2dunFahlbtharzDwarvenHelmet,
-33788180,DLC2ClothesSkaalHat,
-33791275,DLC2MKMiraakMask1L,
-33791278,DLC2MKMiraakMask2L,
-33791279,DLC2MKMiraakMask3L,
-33791905,DLC2MKMiraakMask1H,
-33791906,DLC2MKMiraakMask2H,
-33791907,DLC2MKMiraakMask3H,
-33794851,DLC2ArmorBonemoldImprovedHelmet,
-33796174,DLC2TemplePriestHood,
-33800433,DLC2MKMiraakFightMask1,
-33800434,DLC2MKMiraakFightMask2,
-33800435,DLC2MKMiraakFightMask3,
-33800436,DLC2MKMiraakFightMask4,
-33800437,DLC2MKMiraakFightMask5,
-33800438,DLC2MKMiraakFightMask6,
-33804085,DLC2DummyHelmet,
-33805784,DLC2MiraakSkinHider,
+Record,EDID,PNAM,Model\MODL
+102201748,YAVaalsarkChildHead,Face,actors\character\BDHeadParts\head\VaalsarkGirlHead.nif
+101641193,YAVaalsarkChildEyes,Eyes,actors\character\BDHeadParts\eyesKhajiitFemale.nif
+103886141,YASXebaMaleHead,Face,YAS\Xeba\XebaMaleHead.nif
+107743668,YASXebaMaleEarrings09,Eyebrows,YAS\Xeba\Earrings\XebaMaleFeather00.nif
+107743667,YASXebaMaleEarrings08,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings07.nif
+107743666,YASXebaMaleEarrings07,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings07.nif
+107743665,YASXebaMaleEarrings06,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings06.nif
+107743664,YASXebaMaleEarrings05,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings05.nif
+107743663,YASXebaMaleEarrings04,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings04.nif
+107743662,YASXebaMaleEarrings03,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings03.nif
+107743661,YASXebaMaleEarrings02,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings02.nif
+107743660,YASXebaMaleEarrings01,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings01.nif
+107743659,YASXebaMaleEarrings00,Eyebrows,YAS\Xeba\Earrings\XebaMaleEarrings00.nif
+107743658,YASXebaMaleEarFeatherXP,Misc,YAS\Xeba\Earrings\XebaMaleFeather00.nif
+108573265,YASXebaFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Xeba.nif
+108573259,YASXebaFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Xeba.nif
+108573253,YASXebaFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Xeba.nif
+108573247,YASXebaFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Xeba.nif
+108573241,YASXebaFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Xeba.nif
+108573235,YASXebaFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Xeba.nif
+108573229,YASXebaFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Xeba.nif
+108573223,YASXebaFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Xeba.nif
+108573217,YASXebaFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Xeba.nif
+108262086,YASXebaFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Xeba.nif
+103906888,YASXebaFemHead,Face,YAS\Dog\Head\DogFemHead_Xeba.nif
+108594177,YASXebaFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Xeba.nif
+108594171,YASXebaFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Xeba.nif
+108594165,YASXebaFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Xeba.nif
+108594183,YASXebaFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Xeba.nif
+108594159,YASXebaFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Xeba.nif
+108594153,YASXebaFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Xeba.nif
+108594147,YASXebaFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Xeba.nif
+108594141,YASXebaFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Xeba.nif
+108594135,YASXebaFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Xeba.nif
+108594129,YASXebaFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Xeba.nif
+108594123,YASXebaFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Xeba.nif
+108594117,YASXebaFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Xeba.nif
+107577736,YASVaalsarkMaleScarR05BlindR,Scar,YAS\Vaalsark\VaaMaleScarR04.nif
+107577735,YASVaalsarkMaleScarR04,Scar,YAS\Vaalsark\VaaMaleScarR05BlindR.nif
+107577734,YASVaalsarkMaleScarR03,Scar,YAS\Vaalsark\VaaMaleScarR03.nif
+107577733,YASVaalsarkMaleScarR02,Scar,YAS\Vaalsark\VaaMaleScarR02.nif
+107577732,YASVaalsarkMaleScarR01,Scar,YAS\Vaalsark\VaaMaleScarR01.nif
+107577731,YASVaalsarkMaleScarL04,Scar,YAS\Vaalsark\VaaMaleScarR01.nif
+107577730,YASVaalsarkMaleScarL03BlindL,Scar,YAS\Vaalsark\VaaMaleScarL03BlindL.nif
+107577729,YASVaalsarkMaleScarL02,Scar,YAS\Vaalsark\VaaMaleScarL02.nif
+107577728,YASVaalsarkMaleScarL01,Scar,YAS\Vaalsark\VaaMaleScarL01.nif
+107577727,YASVaalsarkMaleScarC02,Scar,YAS\Vaalsark\VaaMaleScarL01.nif
+107577726,YASVaalsarkMaleScarC01,Scar,YAS\Vaalsark\VaaMaleScarC01.nif
+106292002,YASVaalsarkMaleMouth,Misc,YAS\Vaalsark\VaalsarkMaleMouth.nif
+100669487,YASVaalsarkMaleHead,Face,YAS\Vaalsark\vaalsarkmalehead.nif
+108573264,YASVaalsarkFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Vaalsark.nif
+108573258,YASVaalsarkFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Vaalsark.nif
+108573252,YASVaalsarkFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Vaalsark.nif
+108573246,YASVaalsarkFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Vaalsark.nif
+108573240,YASVaalsarkFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Vaalsark.nif
+108573234,YASVaalsarkFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Vaalsark.nif
+108573228,YASVaalsarkFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Vaalsark.nif
+108573222,YASVaalsarkFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Vaalsark.nif
+108573216,YASVaalsarkFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Vaalsark.nif
+100670871,YASVaalsarkFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Vaalsark.nif
+105690461,YASVaalsarkFemHead,Face,YAS\Dog\Head\DogFemHead_Vaalsark.nif
+108594176,YASVaalsarkFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Vaalsark.nif
+108594170,YASVaalsarkFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Vaalsark.nif
+108594164,YASVaalsarkFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Vaalsark.nif
+108594182,YASVaalsarkFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Vaalsark.nif
+108594158,YASVaalsarkFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Vaalsark.nif
+108594152,YASVaalsarkFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Vaalsark.nif
+108594146,YASVaalsarkFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Vaalsark.nif
+108594140,YASVaalsarkFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Vaalsark.nif
+108594134,YASVaalsarkFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Vaalsark.nif
+108594128,YASVaalsarkFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Vaalsark.nif
+108594122,YASVaalsarkFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Vaalsark.nif
+108594116,YASVaalsarkFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Vaalsark.nif
+101641192,YASVaallsarkChildMouth,Misc,actors\character\BDHeadParts\mouth\VaalsarkGirlMouth.nif
+105815048,YASNightPredMaleEyesYellowNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815047,YASNightPredMaleEyesYellowBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+105815045,YASNightPredMaleEyesYellow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815044,YASNightPredMaleEyesVampire,Eyes,YAS\Dog\Eyes\eyeskhajiitfemaledemon.nif
+105815043,YASNightPredMaleEyesRedNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815042,YASNightPredMaleEyesRed,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815041,YASNightPredMaleEyesOrangeNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815046,YASNightPredMaleEyesOrangeBlindLeft,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815040,YASNightPredMaleEyesOrange,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815039,YASNightPredMaleEyesLilac,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815038,YASNightPredMaleEyesIceNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815037,YASNightPredMaleEyesIce,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815036,YASNightPredMaleEyesGreenNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815035,YASNightPredMaleEyesGreenBright,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815034,YASNightPredMaleEyesGreenBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+105815033,YASNightPredMaleEyesGreenBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815032,YASNightPredMaleEyesGreen2,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815031,YASNightPredMaleEyesGreen,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815030,YASNightPredMaleEyesGold,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815029,YASNightPredMaleEyesBrownDark,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815028,YASNightPredMaleEyesBrown,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815027,YASNightPredMaleEyesBlueBright,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815026,YASNightPredMaleEyesBlueBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815025,YASNightPredMaleEyesBlue,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815024,YASNightPredMaleEyesBlind,Eyes,YAS\Dog\Eyes\PredEyesBlind.nif
+105815023,YASNightPredMaleEyesAmberNarrow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815022,YASNightPredMaleEyesAmberBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+105815021,YASNightPredMaleEyesAmberBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105690431,YASNightPredMaleEyesAmber,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105690416,YASNightPredFemEyesYellowNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105815020,YASNightPredFemEyesYellowBlindR,Eyes,YAS\Dog\Eyes\PredFemEyesBlindR.nif
+105690446,YASNightPredFemEyesYellowBlindLeft,Eyes,YAS\Dog\Eyes\PredFemEyesBlindL.nif
+105690415,YASNightPredFemEyesYellow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814954,YASNIghtPredFemEyesVampire,Eyes,YAS\Dog\Eyes\eyeskhajiitfemaledemon.nif
+105690407,YASNightPredFemEyesRedNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814910,YASNightPredFemEyesRed,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814952,YASNIghtPredFemEyesOrangeNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814953,YASNIghtPredFemEyesOrange,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105690443,YASNightPredFemEyesLilac,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814950,YASNIghtPredFemEyesIceNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814949,YASNIghtPredFemEyesIce,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105690411,YASNightPredFemEyesGreenNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814905,YASNightPredFemEyesGreenBright,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105690410,YASNightPredFemEyesGreenBlindR,Eyes,YAS\Dog\Eyes\PredFemEyesBlindR.nif
+105815018,YASNightPredFemEyesGreenBlindL,Eyes,YAS\Dog\Eyes\PredFemEyesBlindL.nif
+105814904,YASNightPredFemEyesGreen2,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814908,YASNightPredFemEyesGreen,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105690442,YASNightPredFemEyesGold,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814915,YASNightPredFemEyesBrownDark,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814947,YASNightPredFemEyesBrown,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814943,YASNIghtPredFemEyesBlueBright,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105815017,YASNightPredFemEyesBlueBlindL,Eyes,YAS\Dog\Eyes\PredFemEyesBlindL.nif
+105814944,YASNIghtPredFemEyesBlue,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105690406,YASNightPredFemEyesBlind,Eyes,YAS\Dog\Eyes\eyeskhajiitfemaleblind.nif
+105814941,YASNIghtPredFemEyesAmberNarrow,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+105814906,YASNightPredFemEyesAmberBlindR,Eyes,YAS\Dog\Eyes\PredFemEyesBlindR.nif
+105814907,YASNightPredFemEyesAmberBlindL,Eyes,YAS\Dog\Eyes\PredFemEyesBlindL.nif
+105814942,YASNIghtPredFemEyesAmber,Eyes,YAS\Dog\Eyes\PredFemEyesGlow.nif
+102932045,YASMaleHairApachiiEX02,Misc,YAS\Dog\Hair\Apachii\male\HairlineKhajiitmale_longvanillahair.nif
+102932044,YASMaleHairApachiiEX01,Misc,YAS\Dog\Hair\Apachii\male\HairlineKhajiitmale_LongDreads.nif
+102932047,YASMaleHairApachii02,Hair,YAS\Dog\Hair\Apachii\male\Khajiitmale_longvanillahair.nif
+102932046,YASMaleHairApachii01,Hair,YAS\Dog\Hair\Apachii\male\Khajiitmale_LongDreads.nif
+107204450,YASLykMaleScarR04,Scar,YAS\Lykaios\scars\LykMaleScarR04.nif
+107204449,YASLykMaleScarR03BlindR,Scar,YAS\Lykaios\scars\LykMaleScarR03BlindR.nif
+107204447,YASLykMaleScarR01,Scar,YAS\Lykaios\scars\LykMaleScarR01.nif
+107204446,YASLykMaleScarL08,Scar,YAS\Lykaios\scars\LykMaleScarL08.nif
+107204445,YASLykMaleScarL07,Scar,YAS\Lykaios\scars\LykMaleScarL07.nif
+107204444,YASLykMaleScarL06,Scar,YAS\Lykaios\scars\LykMaleScarL06.nif
+107204443,YASLykMaleScarL05LBlindL,Scar,YAS\Lykaios\scars\LykMaleScarL05LBlindL.nif
+107204442,YASLykMaleScarC10,Scar,YAS\Lykaios\scars\LykMaleScarC10.nif
+107204441,YASLykMaleScarC09,Scar,YAS\Lykaios\scars\LykMaleScarC09.nif
+100699841,YASLykaiosMaleMouth,Misc,YAS\Lykaios\LykMaleMouth.nif
+100666735,YASLykaiosMaleHead,Face,YAS\Lykaios\LykMaleHead.nif
+101542253,YASLykaiosHairMaleVanillaCropHL,Misc,YAS\Canine\HairMale\VanillaCrop_HL_M.nif
+108573263,YASLykaiosFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Lykaios.nif
+108573257,YASLykaiosFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Lykaios.nif
+108573251,YASLykaiosFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Lykaios.nif
+108573245,YASLykaiosFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Lykaios.nif
+108573239,YASLykaiosFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Lykaios.nif
+108573233,YASLykaiosFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Lykaios.nif
+108573227,YASLykaiosFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Lykaios.nif
+108573221,YASLykaiosFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Lykaios.nif
+108573215,YASLykaiosFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Lykaios.nif
+100668171,YASLykaiosFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Lykaios.nif
+100666734,YASLykaiosFemHead,Face,YAS\Dog\Head\DogFemHead_Lykaios.nif
+108594175,YASLykaiosFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Lykaios.nif
+108594169,YASLykaiosFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Lykaios.nif
+108594163,YASLykaiosFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Lykaios.nif
+108594181,YASLykaiosFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Lykaios.nif
+108594157,YASLykaiosFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Lykaios.nif
+108594151,YASLykaiosFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Lykaios.nif
+108594145,YASLykaiosFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Lykaios.nif
+108594139,YASLykaiosFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Lykaios.nif
+108594133,YASLykaiosFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Lykaios.nif
+108594127,YASLykaiosFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Lykaios.nif
+108594121,YASLykaiosFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Lykaios.nif
+108594115,YASLykaiosFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Lykaios.nif
+102181005,YASLykaiosChildMouth,Misc,actors\character\BDHeadParts\Lykaios\LykaiosBoyMouth.nif
+101661932,YASLykaiosChildHead,Face,actors\character\BDHeadParts\Lykaios\LykaiosBoyHead.nif
+107370348,YASKygarraMaleScarR04,Scar,YAS\Kygarra\KygarraMaleScarR04.nif
+107370347,YASKygarraMaleScarR03,Scar,YAS\Kygarra\KygarraMaleScarR03.nif
+107370346,YASKygarraMaleScarR02,Scar,YAS\Kygarra\KygarraMaleScarR02.nif
+107370345,YASKygarraMaleScarR01,Scar,YAS\Kygarra\KygarraMaleScarR01.nif
+107370352,YASKygarraMaleScarL04,Scar,YAS\Kygarra\KygarraMaleScarL04.nif
+107370351,YASKygarraMaleScarL03,Scar,YAS\Kygarra\KygarraMaleScarL03.nif
+107370350,YASKygarraMaleScarL02,Scar,YAS\Kygarra\KygarraMaleScarL02.nif
+107370349,YASKygarraMaleScarL01,Scar,YAS\Kygarra\KygarraMaleScarL01.nif
+107370344,YASKygarraMaleScarC02,Scar,YAS\Kygarra\KygarraMaleScarC02.nif
+107370343,YASKygarraMaleScarC01,Scar,YAS\Kygarra\KygarraMaleScarC01.nif
+105980947,YASKygarraMaleMouth,Misc,YAS\Kygarra\KygarraMaleMouth.nif
+100666746,YASKygarraMaleHead,Face,YAS\Kygarra\kygarramalehead.nif
+107743646,YASKygarraMaleEarrings08,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings03.nif
+107743645,YASKygarraMaleEarrings07,Eyebrows,YAS\Kygarra\Earrings\KygMaleFeather00.nif
+107743644,YASKygarraMaleEarrings06,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings06.nif
+107743643,YASKygarraMaleEarrings05,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings05.nif
+107743642,YASKygarraMaleEarrings04,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings04.nif
+107743641,YASKygarraMaleEarrings03,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings03.nif
+107743640,YASKygarraMaleEarrings02,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings02.nif
+107743639,YASKygarraMaleEarrings01,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings01.nif
+107743638,YASKygarraMaleEarrings00,Eyebrows,YAS\Kygarra\Earrings\KygMaleEarrings00.nif
+107743637,YASKygarraMaleEarFeatherXP,Misc,YAS\Kygarra\Earrings\KygMaleFeather00.nif
+108573262,YASKygarraFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Kygarra.nif
+108573256,YASKygarraFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Kygarra.nif
+108573250,YASKygarraFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Kygarra.nif
+108573244,YASKygarraFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Kygarra.nif
+108573238,YASKygarraFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Kygarra.nif
+108573232,YASKygarraFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Kygarra.nif
+108573226,YASKygarraFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Kygarra.nif
+108573220,YASKygarraFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Kygarra.nif
+108573214,YASKygarraFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Kygarra.nif
+108096187,YASKygarraFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Kygarra.nif
+102118506,YASKygarraFemHead,Face,YAS\Dog\Head\DogFemHead_Kygarra.nif
+108594174,YASKygarraFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Kygarra.nif
+108594168,YASKygarraFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Kygarra.nif
+108594162,YASKygarraFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Kygarra.nif
+108594180,YASKygarraFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Kygarra.nif
+108594156,YASKygarraFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Kygarra.nif
+108594150,YASKygarraFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Kygarra.nif
+108594144,YASKygarraFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Kygarra.nif
+108594138,YASKygarraFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Kygarra.nif
+108594132,YASKygarraFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Kygarra.nif
+108594126,YASKygarraFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Kygarra.nif
+108594120,YASKygarraFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Kygarra.nif
+108594114,YASKygarraFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Kygarra.nif
+103575062,YASKonoiMaleHead,Face,YAS\Konoi\KonoiMaleHead.nif
+107743657,YASKonoiMaleEarrings09,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings07.nif
+107743656,YASKonoiMaleEarrings08,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings07.nif
+107743655,YASKonoiMaleEarrings07,Eyebrows,YAS\Konoi\Earrings\KonMaleFeather00.nif
+107743654,YASKonoiMaleEarrings06,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings06.nif
+107743653,YASKonoiMaleEarrings05,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings05.nif
+107743652,YASKonoiMaleEarrings04,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings04.nif
+107743651,YASKonoiMaleEarrings03,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings03.nif
+107743650,YASKonoiMaleEarrings02,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings02.nif
+107743649,YASKonoiMaleEarrings01,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings01.nif
+107743648,YASKonoiMaleEarrings00,Eyebrows,YAS\Konoi\Earrings\KonMaleEarrings00.nif
+107743647,YASKonoiMaleEarFeatherXP,Misc,YAS\Konoi\Earrings\KonMaleFeather00.nif
+108573261,YASKonoiFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Konoi.nif
+108573255,YASKonoiFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Konoi.nif
+108573249,YASKonoiFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Konoi.nif
+108573243,YASKonoiFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Konoi.nif
+108573237,YASKonoiFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Konoi.nif
+108573231,YASKonoiFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Konoi.nif
+108573225,YASKonoiFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Konoi.nif
+108573219,YASKonoiFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Konoi.nif
+108573213,YASKonoiFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Konoi.nif
+102118504,YASKonoiFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Konoi.nif
+103575063,YASKonoiFemHead,Face,YAS\Dog\Head\DogFemHead_Konoi.nif
+108594173,YASKonoiFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Konoi.nif
+108594167,YASKonoiFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Konoi.nif
+108594161,YASKonoiFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Konoi.nif
+108594179,YASKonoiFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Konoi.nif
+108594155,YASKonoiFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Konoi.nif
+108594149,YASKonoiFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Konoi.nif
+108594143,YASKonoiFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Konoi.nif
+108594137,YASKonoiFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Konoi.nif
+108594131,YASKonoiFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Konoi.nif
+108594125,YASKonoiFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Konoi.nif
+108594119,YASKonoiFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Konoi.nif
+108594113,YASKonoiFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Konoi.nif
+106955591,YASKettuMaleScarR04,Scar,YAS\Kettu\KettuMaleScarR04.nif
+106955590,YASKettuMaleScarR03,Scar,YAS\Kettu\KettuMaleScarR03.nif
+106955589,YASKettuMaleScarR02BlindR,Scar,YAS\Kettu\KettuMaleScarR02BlindR.nif
+106955588,YASKettuMaleScarR01,Scar,YAS\Kettu\KettuMaleScarR01.nif
+106955587,YASKettuMaleScarL04,Scar,YAS\Kettu\KettuMaleScarL04.nif
+106955586,YASKettuMaleScarL03BlindL,Scar,YAS\Kettu\KettuMaleScarL03BlindL.nif
+106955585,YASKettuMaleScarL02,Scar,YAS\Kettu\KettuMaleScarL02.nif
+106955584,YASKettuMaleScarL01,Scar,YAS\Kettu\KettuMaleScarL01.nif
+106955583,YASKettuMaleScarC02,Scar,YAS\Kettu\KettuMaleScarC02.nif
+106955582,YASKettuMaleScarC01,Scar,YAS\Kettu\KettuMaleScarC01.nif
+106748218,YASKettuMaleRuff04XP,Misc,YAS\Kettu\SideRuff04Blend.nif
+106748217,YASKettuMaleRuff04,Facial Hair,YAS\Kettu\SideRuff04.nif
+106706736,YASKettuMaleRuff01XP,Misc,YAS\Kettu\SideRuffSoft01.nif
+106665263,YASKettuMaleRuff01,Facial Hair,YAS\Kettu\SideRuff01.nif
+105151160,YASKettuMaleMouth,Misc,YAS\Kettu\KettuMaleMouth.nif
+105669644,YASKettuMaleHead,Face,YAS\Kettu\KettuMaleHead.nif
+107722899,YASKettuMaleEarrings08,Eyebrows,YAS\Kettu\Earrings\KettuEarrings06.nif
+107722898,YASKettuMaleEarrings07,Eyebrows,YAS\Kettu\Earrings\KettuEarrings07.nif
+107722897,YASKettuMaleEarrings06,Eyebrows,YAS\Kettu\Earrings\KettuEarrings06.nif
+107722896,YASKettuMaleEarrings05,Eyebrows,YAS\Kettu\Earrings\KettuEarrings05.nif
+107722895,YASKettuMaleEarrings04,Eyebrows,YAS\Kettu\Earrings\KettuEarrings04.nif
+107722894,YASKettuMaleEarrings03,Eyebrows,YAS\Kettu\Earrings\KettuEarrings03.nif
+107722893,YASKettuMaleEarrings02,Eyebrows,YAS\Kettu\Earrings\KettuEarrings02.nif
+107722892,YASKettuMaleEarrings01,Eyebrows,YAS\Kettu\Earrings\KettuEarrings01.nif
+107702155,YASKettuMaleEarrings00,Eyebrows,YAS\Kettu\Earrings\KettuEarrings00.nif
+107743636,YASKettuMaleEarFeatherXP,Misc,YAS\Kettu\Earrings\KettuEarrings07.nif
+108573260,YASKettuFemScarR03,Scar,YAS/Dog/Scar/DogFemScarR03_Kettu.nif
+108573254,YASKettuFemScarR02,Scar,YAS/Dog/Scar/DogFemScarR02_Kettu.nif
+108573248,YASKettuFemScarR01,Scar,YAS/Dog/Scar/DogFemScarR01_Kettu.nif
+108573242,YASKettuFemScarL04,Scar,YAS/Dog/Scar/DogFemScarL04_Kettu.nif
+108573236,YASKettuFemScarL03,Scar,YAS/Dog/Scar/DogFemScarL03_Kettu.nif
+108573230,YASKettuFemScarL02,Scar,YAS/Dog/Scar/DogFemScarL02_Kettu.nif
+108573224,YASKettuFemScarL01,Scar,YAS/Dog/Scar/DogFemScarL01_Kettu.nif
+108573218,YASKettuFemScarC02,Scar,YAS/Dog/Scar/DogFemScarC02_Kettu.nif
+108573212,YASKettuFemScarC01,Scar,YAS/Dog/Scar/DogFemScarC01_Kettu.nif
+100677762,YASKettuFemMouth,Misc,YAS\Dog\Head\DogFemMouth_Kettu.nif
+100668111,YASKettuFemHead,Face,YAS\Dog\Head\DogFemHead_Kettu.nif
+108594172,YASKettuFemFeatherREX,Misc,YAS/Dog/Earrings/Fem/DogFemFeatherR_Kettu.nif
+108594166,YASKettuFemFeatherR,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherR_Kettu.nif
+108594160,YASKettuFemFeatherL,Eyebrows,YAS/Dog/Earrings/Fem/DogFemFeatherL_Kettu.nif
+108594178,YASKettuFemEarringsFeth,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Kettu.nif
+108594154,YASKettuFemEarrings08,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings08_Kettu.nif
+108594148,YASKettuFemEarrings07,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings07_Kettu.nif
+108594142,YASKettuFemEarrings06,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings06_Kettu.nif
+108594136,YASKettuFemEarrings05,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings05_Kettu.nif
+108594130,YASKettuFemEarrings04,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings04_Kettu.nif
+108594124,YASKettuFemEarrings03,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings03_Kettu.nif
+108594118,YASKettuFemEarrings02,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings02_Kettu.nif
+108594112,YASKettuFemEarrings01,Eyebrows,YAS/Dog/Earrings/Fem/DogFemEarrings01_Kettu.nif
+101641191,YASKettuChildMouth,Misc,actors\character\BDHeadParts\mouth\FoxGirlMouth.nif
+101641189,YASKettuChildHead,Face,actors\character\BDHeadParts\head\FoxGirlHead.nif
+100669506,YASHyenaMaleEyesYellowGreen,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100695307,YASHyenaMaleEyesVampire,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100669508,YASHyenaMaleEyesIceDark,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100669507,YASHyenaMaleEyesGold,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100669510,YASHyenaMaleEyesBrownRed,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815010,YASHyenaMaleEyesBrownDark,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100666737,YASHyenaFemEyesYellowGreen,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100695306,YASHyenaFemEyesVampire,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100666736,YASHyenaFemEyesIceDark,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+102118496,YASHyenaFemEyesGold,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100666738,YASHyenaFemEyesBrownRed,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+102118503,YASHyenaFemEyesBrownDark,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+101542313,YASHairlineKhajiitFemale03,Misc,YAS\Dog\Hair\Female\hairline03.nif
+101542312,YASHairlineKhajiitFemale02,Misc,YAS\Dog\Hair\Female\hairline02.nif
+101542311,YASHairKhajiitFemale03,Hair,YAS\Dog\Hair\Female\hair03.nif
+101542310,YASHairKhajiitFemale02,Hair,YAS\Dog\Hair\Female\Hair02.nif
+102932057,YASFemHairApachiiEX05,Misc,YAS\Dog\Hair\Apachii\female\hairline05.nif
+102932056,YASFemHairApachiiEX04,Misc,YAS\Dog\Hair\Apachii\female\hairline04.nif
+102932055,YASFemHairApachiiEX03,Misc,YAS\Dog\Hair\Apachii\female\hairline03.nif
+102932054,YASFemHairApachiiEX02,Misc,YAS\Dog\Hair\Apachii\female\hairline02.nif
+102932053,YASFemHairApachiiEX01,Misc,YAS\Dog\Hair\Apachii\female\hairline01.nif
+102932052,YASFemHairApachii05,Hair,YAS\Dog\Hair\Apachii\female\hair05.nif
+102932051,YASFemHairApachii04,Hair,YAS\Dog\Hair\Apachii\female\hair04.nif
+102932050,YASFemHairApachii03,Hair,YAS\Dog\Hair\Apachii\female\hair03.nif
+102932049,YASFemHairApachii02,Hair,YAS\Dog\Hair\Apachii\female\hair02.nif
+102932048,YASFemHairApachii01,Hair,YAS\Dog\Hair\Apachii\female\hair01.nif
+107577737,YASDogNoScar,Scar,
+105669643,YASDogNoHair,Hair,
+105628160,YASDogNoBrow,Eyebrows,
+105628159,YASDogNoBeard,Facial Hair,
+101542255,YASDogMaleHairVanillaHairHL,Misc,YAS\Dog\Hair\Male\VanillaLongHair_HL_M.nif
+101542254,YASDogMaleHairVanillaHair001,Hair,YAS\Dog\Hair\Male\VanillaLongHair_M.nif
+101542251,YASDogMaleHairVanillaBraidHL02,Misc,YAS\Dog\Hair\Male\VanillaBraid_HL02_M.nif
+101542250,YASDogMaleHairVanillaBraidHL01,Misc,YAS\Dog\Hair\Male\VanillaBraid_HL01_M.nif
+101542249,YASDogMaleHairVanillaBraid001,Hair,YAS\Dog\Hair\Male\VanillaBraid_M.nif
+101542248,YASDogMaleHairTiedStyleHL02,Misc,YAS\Dog\Hair\Male\TiedStyle_HL02_M.nif
+101542247,YASDogMaleHairTiedStyleHL01,Misc,YAS\Dog\Hair\Male\TiedStyle_HL01_M.nif
+101542246,YASDogMaleHairTiedStyleHeadband,Hair,YAS\Dog\Hair\Male\TiedStyle_M.nif
+101542245,YASDogMaleHairTiedStyleFringe,Hair,YAS\Dog\Hair\Male\TiedStyle_M.nif
+101542244,YASDogMaleHairTiedStyle001,Hair,YAS\Dog\Hair\Male\TiedStyle_M.nif
+102869827,YASDogMaleHairSidehawk,Hair,YAS\Dog\Hair\male\Sidehawk.nif
+101542243,YASDogMaleHairShortCropHL,Misc,YAS\Dog\Hair\Male\Shortcrop_HL_M.nif
+101542242,YASDogMaleHairShorCrop004,Hair,YAS\Dog\Hair\Male\Shortcrop_M.nif
+101542241,YASDogMaleHairShorCrop003,Hair,YAS\Dog\Hair\Male\Shortcrop_M.nif
+101542240,YASDogMaleHairShorCrop002,Hair,YAS\Dog\Hair\Male\Shortcrop_M.nif
+101542239,YASDogMaleHairShorCrop001,Hair,YAS\Dog\Hair\Male\Shortcrop_M.nif
+101542236,YASDogMaleHairShaggyHairHL,Misc,YAS\Dog\Hair\Male\ShaggyHair_HL_M.nif
+101542234,YASDogMaleHairShaggyHairAltHL,Misc,YAS\Dog\Hair\Male\ShaggyHairAlt_HL_M.nif
+101542233,YASDogMaleHairShaggyHair003,Hair,YAS\Dog\Hair\Male\ShaggyHair_M.nif
+101542232,YASDogMaleHairShaggyHair002,Hair,YAS\Dog\Hair\Male\ShaggyHair_M.nif
+101542235,YASDogMaleHairShaggyHair001,Hair,YAS\Dog\Hair\Male\ShaggyHairAlt_M.nif
+101542229,YASDogMaleHairMohawkHL02,Misc,YAS\Dog\Hair\Male\MohawkAlt_HL_M.nif
+101542228,YASDogMaleHairMohawkHL,Misc,YAS\Dog\Hair\Male\mohawk_HL_M.nif
+101542227,YASDogMaleHairMohawkFringe,Hair,YAS\Dog\Hair\Male\Mohawk_M.nif
+101542226,YASDogMaleHairMohawk003,Hair,YAS\Dog\Hair\Male\MohawkAlt_M.nif
+101542225,YASDogMaleHairMohawk002,Hair,YAS\Dog\Hair\Male\MohawkAlt_M.nif
+101542224,YASDogMaleHairMohawk001,Hair,YAS\Dog\Hair\Male\Mohawk_M.nif
+101542223,YASDogMaleHairLongBraidleft,Hair,YAS\Dog\Hair\Male\Longbraidbase_M.nif
+101542222,YASDogMaleHairLongBraidHL,Misc,YAS\Dog\Hair\Male\Longbraidbase_HL_M.nif
+101542221,YASDogMaleHairLongBraid002,Hair,YAS\Dog\Hair\Male\Longbraidbase_M.nif
+101542220,YASDogMaleHairLongBraid001,Hair,YAS\Dog\Hair\Male\Longbraidbase_M.nif
+101459236,YASDogMaleHairLionManeHL,Misc,YAS\Dog\Hair\Male\LionMane_HL_M.nif
+101542217,YASDogMaleHairLionManeHeadband,Hair,YAS\Dog\Hair\Male\LionMane_M.nif
+101542216,YASDogMaleHairLionManeFringeLeftBraid,Hair,YAS\Dog\Hair\Male\LionMane_M.nif
+101542215,YASDogMaleHairLionManebraids,Hair,YAS\Dog\Hair\Male\LionMane_M.nif
+101542382,YASDogMaleHairLionMane002,Hair,YAS\Dog\Hair\Male\LionMane_M.nif
+101542381,YASDogMaleHairLionMane001,Hair,YAS\Dog\Hair\Male\LionMane_M.nif
+105690459,YASDogMaleHairImperial01,Hair,YAS\Beast\HairMale\HairShortHumanM.nif
+101542213,YASDogMaleHairFringeFlipHL,Misc,YAS\Dog\Hair\Male\FringeFlip_HL_M.nif
+101542212,YASDogMaleHairFringeFlip001,Hair,YAS\Dog\Hair\Male\FringeFlip_M.nif
+101521466,YASDogMaleHairDreadsHeadband,Hair,YAS\Dog\Hair\Male\Dreads_HL02_M.nif
+101521465,YASDogMaleHairDreadsFringe,Hair,YAS\Dog\Hair\Male\Dreads_HL02Dark_M.nif
+101521464,YASDogMaleHairDreads004,Hair,YAS\Dog\Hair\Male\Dreads_HL02Dark_M.nif
+101521463,YASDogMaleHairDreads003,Hair,YAS\Dog\Hair\Male\Dreads_HL02_M.nif
+101521462,YASDogMaleHairDreads002,Hair,YAS\Dog\Hair\Male\Dreads_HL02Dark_M.nif
+101521461,YASDogMaleHairDreads001,Hair,YAS\Dog\Hair\Male\Dreads_HL02_M.nif
+105690440,YASDogMaleHair09,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair09.nif
+105690439,YASDogMaleHair08,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair08.nif
+105690438,YASDogMaleHair07,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair07.nif
+105690437,YASDogMaleHair06,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair06.nif
+105690436,YASDogMaleHair05,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair05.nif
+105690435,YASDogMaleHair04,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair04.nif
+105690434,YASDogMaleHair03,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair03.nif
+105690433,YASDogMaleHair02,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair02.nif
+105690432,YASDogMaleHair01,Hair,Actors\Character\Character Assets\Hair\Khajiit\Male\KhajiitHair01.nif
+101542309,YASDogFemHairVanillaHairHL,Misc,YAS\Dog\Hair\Female\hairline03.nif
+101542308,YASDogFemHairVanillaHair001,Hair,YAS\Dog\Hair\Female\hair03.nif
+101542307,YASDogFemHairVanillaCropHL,Misc,YAS\Dog\Hair\Female\hairline02.nif
+101542306,YASDogFemHairVanillaCrop001,Hair,YAS\Dog\Hair\Female\Hair02.nif
+101542305,YASDogFemHairVanillaBraidHL02,Misc,YAS\Dog\Hair\Female\VanillaBraid_HL02_F.nif
+101542304,YASDogFemHairVanillaBraidHL,Misc,YAS\Dog\Hair\Female\VanillaBraid_HL01_F.nif
+101542303,YASDogFemHairVanillaBraid001,Hair,YAS\Dog\Hair\Female\Hair04.nif
+101542302,YASDogFemHairTiedStyleHL02,Misc,YAS\Dog\Hair\Female\TiedStyle_HL02_F.nif
+101542301,YASDogFemHairTiedStyleHL01,Misc,YAS\Dog\Hair\Female\TiedStyle_HL01_F.nif
+101542300,YASDogFemHairTiedStyle001,Hair,YAS\Dog\Hair\Female\TiedStyle_F.nif
+101542299,YASDogFemHairShortCropHL,Misc,YAS\Dog\Hair\Female\Shortcrop_HL_F.nif
+101542298,YASDogFemHairShortCrop003,Hair,YAS\Dog\Hair\Female\Shortcrop_F.nif
+101542297,YASDogFemHairShortCrop002,Hair,YAS\Dog\Hair\Female\Shortcrop_F.nif
+101542296,YASDogFemHairShortCrop001,Hair,YAS\Dog\Hair\Female\Shortcrop_F.nif
+101542295,YASDogFemHairShaggyHL,Misc,YAS\Dog\Hair\Female\ShaggyHair_HL_F.nif
+101542294,YASDogFemHairShaggy002,Hair,YAS\Dog\Hair\Female\ShaggyHair_F.nif
+101542293,YASDogFemHairShaggy001,Hair,YAS\Dog\Hair\Female\ShaggyHair_F.nif
+101542292,YASDogFemHairMohawkHL,Misc,YAS\Dog\Hair\Female\mohawk_HL_F.nif
+101542291,YASDogFemHairMohawk002,Hair,YAS\Dog\Hair\Female\Mohawk_F.nif
+101542290,YASDogFemHairMohawk001,Hair,YAS\Dog\Hair\Female\Mohawk_F.nif
+101542289,YASDogFemHairManeHL,Misc,YAS\Dog\Hair\Female\LionMane_HL_F.nif
+101542288,YASDogFemHairMane003,Hair,YAS\Dog\Hair\Female\LionMane_F.nif
+101542287,YASDogFemHairMane002,Hair,YAS\Dog\Hair\Female\LionMane_F.nif
+101542286,YASDogFemHairMane001,Hair,YAS\Dog\Hair\Female\LionMane_F.nif
+101542276,YASDogFemHairFringeFlipHL,Misc,YAS\Dog\Hair\Female\FringeFlip_HL_F.nif
+101542275,YASDogFemHairFringeFlip001,Hair,YAS\Dog\Hair\Female\FringeFlip_F.nif
+101542274,YASDogFemHairDreads004,Hair,YAS\Dog\Hair\Female\Dreads_Dark_HL02_F.nif
+101542273,YASDogFemHairDreads003,Hair,YAS\Dog\Hair\Female\Dreads_Dark_HL02_F.nif
+101542272,YASDogFemHairDreads002,Hair,YAS\Dog\Hair\Female\Dreads_HL02_F.nif
+101542271,YASDogFemHairDreads001,Hair,YAS\Dog\Hair\Female\Dreads_HL02_F.nif
+101542258,YASDogFemHairBraidHL,Misc,YAS\Dog\Hair\Female\Longbraidbase_HL_F.nif
+101542257,YASDogFemHairBraid002,Hair,YAS\Dog\Hair\Female\Longbraidbase_F.nif
+101542256,YASDogFemHairBraid001,Hair,YAS\Dog\Hair\Female\Longbraidbase_F.nif
+105690427,YASDogFemHair10,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair02.nif
+105690426,YASDogFemHair09,Hair,YAS\Dog\Hair\Female\KhajiitHair01.nif
+105690425,YASDogFemHair08,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair04.nif
+105690424,YASDogFemHair07,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair03.nif
+105690422,YASDogFemHair06,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair06.nif
+105690421,YASDogFemHair05,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair05.nif
+105690420,YASDogFemHair04,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair04.nif
+105690419,YASDogFemHair03,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair03.nif
+105690418,YASDogFemHair02,Hair,Actors\Character\Character Assets\Hair\Khajiit\Female\Hair02.nif
+105690417,YASDogFemHair01,Hair,YAS\Dog\Hair\Female\KhajiitHair01.nif
+107639946,YASDLC1HairFemaleSerana,Hair,Actors\DLC01\Character\Hair\DLC1FemaleSeranaHair.nif
+106416421,YASDayPredMaleOneEyeSnowL,Misc,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+106416423,YASDayPredMaleOneEyeGreenL,Misc,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+106416422,YASDayPredMaleOneEyeBrownL,Misc,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+106437161,YASDayPredMaleOneEyeBlindR,Misc,YAS\Dog\Eyes\PredMaleEyesBlindRight.nif
+106437160,YASDayPredMaleOneEyeBlindL,Misc,YAS\Dog\Eyes\PredMaleEyesBlindLeft.nif
+100686156,YASDayPredMaleEyesYellow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686155,YASDayPredMaleEyesVampire,Eyes,YAS\Dog\Eyes\eyeskhajiitDemon.nif
+100686154,YASDayPredMaleEyesSnow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815008,YASDayPredMaleEyesRedBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+100686153,YASDayPredMaleEyesRed,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815007,YASDayPredMaleEyesMixYellowGreen,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815006,YASDayPredMaleEyesMixBlueGreen,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815005,YASDayPredMaleEyesMixBlueBrown,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815004,YASDayPredMaleEyesMixAmberSnow,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+100686152,YASDayPredMaleEyesLilac,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686151,YASDayPredMaleEyesGrey,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815003,YASDayPredMaleEyesGreenBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+105815002,YASDayPredMaleEyesGreenBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+100686150,YASDayPredMaleEyesGreen,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686145,YASDayPredMaleEyesGold,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686149,YASDayPredMaleEyesBrownDark,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105815001,YASDayPredMaleEyesBlueGreyBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+105815000,YASDayPredMaleEyesBlueDark,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686147,YASDayPredMaleEyesBlue,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+105814998,YASDayPredMaleEyesBlind,Eyes,YAS\Dog\Eyes\PredEyesBlind.nif
+105814997,YASDayPredMaleEyesAmberBlindR,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowLeft.nif
+105814996,YASDayPredMaleEyesAmberBlindL,Eyes,YAS\Dog\Eyes\PredMaleEyesGlowRight.nif
+100686146,YASDayPredMaleEyesAmber,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686137,YASDayPredMaleEyesAlbino,Eyes,YAS\Dog\Eyes\PredMaleEyesGlow.nif
+100686141,YASDayPredFemEyesYellow,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100686143,YASDayPredFemEyesVampire,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100686144,YASDayPredFemEyesSnow,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+105814963,YASDayPredFemEyesRedBlindR,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+100686138,YASDayPredFemEyesRed,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+108469473,YASDayPredFemEyeSnowRXP,Misc,YAS\Dog\Eyes\DogFemEyeRight.nif
+105814995,YASDayPredFemEyesMixYellowGreen,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+105814994,YASDayPredFemEyesMixBlueGreen,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+105814993,YASDayPredFemEyesMixBlueBrown,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+100677770,YASDayPredFemEyesMixAmberSnow,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+100686139,YASDayPredFemEyesLilac,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+105814992,YASDayPredFemEyesGreenBlindR,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+105814990,YASDayPredFemEyesGreenBlindL,Eyes,YAS\Dog\Eyes\DogFemEyeRight.nif
+100686136,YASDayPredFemEyesGreen,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100686140,YASDayPredFemEyesGold,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100686133,YASDayPredFemEyesBrownDark,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100677768,YASDayPredFemEyesBlueDark,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+105814989,YASDayPredFemEyesBlueBlindL,Eyes,YAS\Dog\Eyes\DogFemEyeRight.nif
+100686131,YASDayPredFemEyesBlue,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+105814924,YASDayPredFemEyesBlind,Eyes,YAS\Dog\Eyes\DogFemEyesBlind.nif
+105814988,YASDayPredFemEyesAmberBlindR,Eyes,YAS\Dog\Eyes\DogFemEyeLeft.nif
+105814923,YASDayPredFemEyesAmberBlindL,Eyes,YAS\Dog\Eyes\DogFemEyeRight.nif
+100686130,YASDayPredFemEyesAmber,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+100686142,YASDayPredFemEyesAlbino,Eyes,YAS\Dog\Eyes\DogFemEyes.nif
+108469475,YASDayPredFemEyeGreenRXP,Misc,YAS\Dog\Eyes\DogFemEyeRight.nif
+108469474,YASDayPredFemEyeBrownRXP,Misc,YAS\Dog\Eyes\DogFemEyeRight.nif
+108469472,YASDayPredFemEyeBlindRXP,Misc,YAS\Dog\Eyes\DogFemEyeBlindRight.nif
+108469471,YASDayPredFemEyeBlindLXP,Misc,YAS\Dog\Eyes\DogFemEyeBlindLeft.nif
+101542252,YASCanMaleHairShorCrop001,Hair,YAS\Dog\Hair\Male\VanillaCrop_M.nif
+101542238,YASAccMaleShaggyFeathersHL,Misc,YAS\Dog\Hair\Male\ACC_Shaggyfeathers_HL_M.nif
+101542237,YASAccMaleShaggyFeathers,Misc,YAS\Dog\Hair\Male\ACC_Shaggyfeathers_M.nif
+101542231,YASAccMaleMohawkFeathersHL,Misc,YAS\Dog\Hair\Male\ACC_Mohawkfeathers_HL_M.nif
+101542230,YASAccMaleMohawkFeathers,Misc,YAS\Dog\Hair\Male\ACC_Mohawkfeathers_M.nif
+101521471,YASAccMaleheadbandfeatherHL01,Misc,YAS\Dog\Hair\Male\ACC_FeatherAcc_HL01_M.nif
+101521470,YASAccMaleheadbandfeatherHL,Misc,YAS\Dog\Hair\Male\ACC_FeatherAcc_HL_M.nif
+101521472,YASAccMaleheadbandbase,Misc,YAS\Dog\Hair\Male\ACC_FeatherAcc_M.nif
+101459234,YASAccMaleFringeHL01,Misc,YAS\Dog\Hair\Male\ACC_Fringe_HL_M.nif
+101542219,YASAccMaleFringeBraidleft,Misc,YAS\Dog\Hair\Male\ACC_Fringe_Leftbraid_bead_M.nif
+101542218,YASAccMaleFringeBraidBead,Misc,YAS\Dog\Hair\Male\ACC_Fringe_braid_bead_M.nif
+101521469,YASAccMaleFringeAltHL,Misc,YAS\Dog\Hair\Male\ACC_FringeAlt_HL_M.nif
+101521468,YASAccMaleFringeAlt,Misc,YAS\Dog\Hair\Male\ACC_FringeAlt_M.nif
+101459235,YASAccMaleFringe001,Misc,YAS\Dog\Hair\Male\ACC_Fringe_M.nif
+101542210,YASAccMaleDreadsHL01Dark,Misc,YAS\Dog\Hair\Male\Dreads_HL01Dark_M.nif
+101521460,YASAccMaleDreadsHL01,Misc,YAS\Dog\Hair\Male\Dreads_HL01_M.nif
+101521459,YASAccMaleDreadsHL,Misc,YAS\Dog\Hair\Male\Dreads_M.nif
+101521458,YASAccMaleDreadsDarkHL,Misc,YAS\Dog\Hair\Male\Dreads_Dark_M.nif
+101521457,YASAccMaleDreadsBeadsHL,Misc,YAS\Dog\Hair\Male\Dreads_Beads_M.nif
+101521456,YASAccMaleDreadsBeadsDarkHL,Misc,YAS\Dog\Hair\Male\Dreads_BeadsDark_M.nif
+101542270,YASAccFemaleMohawkfeathers01,Misc,YAS\Dog\Hair\Female\ACC_Mohawkfeathers_F.nif
+101542269,YASAccFemaleMohawkfeatherHL01,Misc,YAS\Dog\Hair\Female\ACC_Mohawkfeathers_HL_F.nif
+101542268,YASAccFemaleManeBraidBead01,Misc,YAS\Dog\Hair\Female\ACC_Fringe_braid_beadMane.nif
+101542266,YASAccFemaleFringeHL01,Misc,YAS\Dog\Hair\Female\ACC_Fringe_HL_F.nif
+101542265,YASAccFemaleFringeBraidBeadShaggy01,Misc,YAS\Dog\Hair\Female\ACC_Fringe_braid_bead.nif
+101542264,YASAccFemaleFringe01,Misc,YAS\Dog\Hair\Female\ACC_Fringe_F.nif
+101542263,YASAccFemaleDreadsHL02,Misc,YAS\Dog\Hair\Female\Dreads_HL01_F.nif
+101542262,YASAccFemaleDreadsHL,Misc,YAS\Dog\Hair\Female\Dreads_F.nif
+101542285,YASAccFemaleDreadsDarkHL02,Misc,YAS\Dog\Hair\Female\Dreads_Dark_HL01_F.nif
+101542261,YASAccFemaleDreadsDarkHL,Misc,YAS\Dog\Hair\Female\Dreads_Dark_F.nif
+101542260,YASAccFemaleDreadsBeadsHL,Misc,YAS\Dog\Hair\Female\Dreads_Beads_F.nif
+101542259,YASAccFemaleDreadsBeadsDarkHL,Misc,YAS\Dog\Hair\Female\Dreads_BeadsDark_F.nif
+102181008,YANordChildGirlMouth,Misc,actors\character\BDHeadParts\Lykaios\LykaiosGirlMouth.nif
+102160187,YANordChildGirlHead,Face,actors\character\BDHeadParts\Lykaios\LykaiosGirlHead.nif
+101682670,YALykaiosChildEyesBlue,Eyes,actors\character\BDHeadParts\Lykaios\boylykaioseyes.nif
+101641190,YAKygarraChildMouth,Misc,actors\character\BDHeadParts\mouth\KygarraGirlMouth.nif
+101641187,YAKygarraChildHead,Face,actors\character\BDHeadParts\head\KygarraGirlHead.nif
+104176479,YAAWDChildHead,Face,actors\character\BDHeadParts\head\KygarraGirlHead.nif
+101542360,LykaiosMuttonChop_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542371,LykaiosMuttonChopNoTint_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsnotint.nif
+101542373,LykaiosMuttonChopNoTintHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsnotint_HL.nif
+101542372,LykaiosMuttonChopNoTintEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsnotint.nif
+101542370,LykaiosMuttonChopHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops_HL.nif
+101542369,LykaiosMuttonChopEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542366,LykaiosMuttonChopDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsDark.nif
+101542368,LykaiosMuttonChopDarkHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsDark_HL.nif
+101542367,LykaiosMuttonChopDarkEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsDark.nif
+101542361,LykaiosMuttonChopBraid_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542363,LykaiosMuttonChopBraids_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopbraid.nif
+101542365,LykaiosMuttonChopBraidsNoTint_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopbraidNotint.nif
+101542364,LykaiosMuttonChopBraidsDark_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopbraidDark.nif
+101542362,LykaiosMuttonChopBraidDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsDark.nif
+101542354,LykaiosMoustache_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustache.nif
+101542358,LykaiosMoustacheNoTint_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustachenotint.nif
+101542359,LykaiosMoustacheNoTintHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustachenotint_HL.nif
+101542357,LykaiosMoustacheHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustache_HL.nif
+101542355,LykaiosMoustacheDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustachedark.nif
+101542356,LykaiosMoustacheDarkHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustacheDark_HL.nif
+101542353,LykaiosbeardMoustacheNoTintEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustachenotint.nif
+101542352,LykaiosbeardMoustacheEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustache.nif
+101542351,LykaiosbeardMoustacheDarkEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmoustachedark.nif
+101542350,LykaiosBeardGoatee_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin.nif
+101542349,LykaiosBeardChopsStache_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542335,LykaiosbeardChin_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin.nif
+101542346,LykaiosbeardChinnotint_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinnotint.nif
+101542348,LykaiosBeardChinNoTintHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinnotint_HL.nif
+101542347,LykaiosbeardChinNoTintEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinnotint.nif
+101542345,LykaiosbeardChinMoustache_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin.nif
+101542344,LykaiosBeardChinHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin_HL.nif
+101542343,LykaiosbeardChinEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin.nif
+101542340,LykaiosbeardChinDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinDark.nif
+101542342,LykaiosBeardChinDarkHL_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinDark_HL.nif
+101542341,LykaiosbeardChinDarkEXTRA_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinDark.nif
+101542336,LykaiosbeardChinBraid_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchin.nif
+101542337,LykaiosBeardChinBraids_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinbraid.nif
+101542339,LykaiosBeardChinBraidsNoTint_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinbraidnotint.nif
+101542338,LykaiosBeardChinBraidsDark_,Misc,actors\character\BDHeadParts\Lykaios\facehair\lykaiosbeardchinbraiddark.nif
+100686195,LykaiosBeardAlpha,Misc,Actors\Character\Character Assets\Beards\KhajiitBeardAlpha.nif
+101542329,LykaiosBeardALL_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542334,LykaiosBeardALLnotint_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsnotint.nif
+101542333,LykaiosBeardALLDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542330,LykaiosBeardALLbraid_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchops.nif
+101542332,LykaiosBeardALLbraidnotint_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsnotint.nif
+101542331,LykaiosBeardALLbraidDark_,Facial Hair,actors\character\BDHeadParts\Lykaios\facehair\lykaiosmuttonchopsDark.nif

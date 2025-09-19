@@ -187,16 +187,16 @@ begin
     AssertStr('Astrid', Unalias('AstridEnd'), 'Astrid alias works');
     AssertStr('AstridXXX', Unalias('AstridXXX'), 'Non-alias works');
 
-    // FEMALES TBS
-    // old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
-    // e := FurrifyNPC(old);
-    // AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
+    // FEMALES 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Ingun');
+    e := FurrifyNPC(old);
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
 
-    // // This pit fan has invalid tint layers (looks like they changed her to a woman
-    // // without fixing the tint layers). It just has to not crash.
-    // old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
-    // e := FurrifyNPC(old);
-    // AssertNameInList(ElementByPath(e, 'Head Parts'), 'BDCanFemHairShortCrop003');
+    // This pit fan has invalid tint layers (looks like they changed her to a woman
+    // without fixing the tint layers). It just has to not crash.
+    old := FindAsset(FileByIndex(0), 'NPC_', 'WindhelmPitFan6');
+    e := FurrifyNPC(old);
+    AssertNameInList(ElementByPath(e, 'Head Parts'), 'Hair');
 
 end;
 
@@ -204,6 +204,8 @@ end;
 procedure TestRaces;
 var
     kr, ch: integer;
+    r: IwbMainRecord;
+    e: IwbElement;
 begin
     AddMessage(#13#10#13#10 + '============ CHECKING RACES ===============');
 
@@ -229,6 +231,18 @@ begin
     Assert(ContainsText(PathName(ObjectToElement(tintAssets[SEX_MALEADULT].objects[kr].objects[ch].Objects[0])),
         'Tint Masks'),
         'Class tint path 0 contains Tint Masks');
+
+    // Presets
+    FurrifyRacePresets;
+    r := FindAsset(Nil, 'RACE', 'NordRace');
+    e := WinningOverride(LinksTo(ElementByIndex(
+        ElementByPath(r, 'Head Data\Male Head Data\Race Presets Male'),
+        0)));
+    AssertStr(GetElementEditValues(e, 'RNAM'), 'NordRace*', 'Preset race');
+
+    // Headpart race lists
+    r := FindAsset(Nil, 'FLST', 'HeadPartsAllRacesMinusBeast');
+    AssertEQ(ElementListNameIndex(ElementByPath(r, 'FormIDs'), 'NordRace'), -1, 'NordRace in vanilla headparts');
 end;
 
 
@@ -723,22 +737,25 @@ begin
         targetFile := FileByIndex(targetFileIndex);
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
-    LOGGING := FALSE; // Log the setup y/n
+    LOGGING := TRUE; // Log the setup y/n
     TestSystemFunc;
 
     SetPreferences;
     ShowRaceAssignments;
     FurrifyAllRaces;
     ShowRaceTints;
+    LOGGING := TRUE;
+    FurrifyAllHeadpartLists;
     TestRaces;
 
-    FurrifyHeadpartLists;
     // ShowHeadparts;
     // CollectArmor;
     // ShowArmor;
 
     LOGGING := True;
-    if TEST_NPCS then TestNPCs;
+    if TEST_NPCS then begin
+        TestNPCs;
+    end;
     if TEST_ARMOR then TestArmor;
     if TEST_SCHLONGS then TestSchlongs;
 
