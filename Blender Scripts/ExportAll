@@ -1,0 +1,23 @@
+"""Export all selected objects."""
+from pathlib import Path
+import bpy
+
+target_dir = Path(r"C:\Users\hughr\AppData\Roaming\Vortex\skyrimse\mods\Cat Races-44919-2-2-1611793835\meshes\YAS\Feline\Earrings")
+target_objs = [obj for obj in bpy.context.scene.objects if obj.select_get()]
+target_active = bpy.context.view_layer.objects.active
+
+try:
+    for obj in target_objs:
+        for n in bpy.context.scene.objects:
+            n.select_set(False)
+
+        obj.select_set(True)
+        bpy.context.view_layer.objects.active = obj
+        s = target_dir / Path(obj.name)
+        if s.suffix.lower() != ".nif":
+            s = s.with_suffix(".nif")
+        bpy.ops.export_scene.pynifly(filepath=str(s))
+finally:
+    for obj in target_objs:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = target_active

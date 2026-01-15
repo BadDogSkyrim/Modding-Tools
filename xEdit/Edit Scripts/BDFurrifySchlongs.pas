@@ -173,15 +173,25 @@ begin
     if removeRaces.Count > 0 then begin
         for i := ElementCount(listEntries)-1 downto 0 do begin
             e := ElementByIndex(listEntries, i);
-            if removeRaces.IndexOf(EditorID(LinksTo(e))) > 0 then
+            if LOGGING then LogD(Format('Checking for removal: %s at index %d', [
+                EditorID(LinksTo(e)), i
+            ]));
+            if removeRaces.IndexOf(EditorID(LinksTo(e))) >= 0 then begin
                 RemoveFurrifiedRace(i, raceCompat, raceProb, raceSize);
+                if LOGGING then LogD(Format('Removed %s at index %d', [
+                    EditorID(LinksTo(e)), i
+                ]));
+            end;
         end;
     end;
 
-    for i := 0 to addRaces.Count-1 do begin
+    for i := 0 to addRaces.Count-1 do begin 
         AddFurrifiedRace(
             ObjectToElement(addRaces.objects[i]), 
             raceCompat, raceProb, raceSize);
+        if LOGGING then LogD(Format('Added %s', [
+            EditorID(ObjectToElement(addRaces.objects[i]))
+        ]));
     end;
 
     schlongRaces.Free;

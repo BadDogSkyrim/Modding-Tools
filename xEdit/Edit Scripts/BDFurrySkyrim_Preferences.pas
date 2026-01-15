@@ -14,32 +14,39 @@ begin
     BEGIN // ============ NORD ============
         SetRace('NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
         SetRace('NordRaceVampire', 'YASLykaiosRaceVampire', 'DOG', 'KhajiitRace');
-        // SetRace('DLC1NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
-        // SetRace('NordRaceAstrid', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceChild', 'YASLykaiosRaceChild', 'DOG', 'KhajiitRace');
+        SetRace('DLC1NordRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('NordRaceAstrid', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
     END;
 
     BEGIN // =========== ELDER  ===========
         SetRace('ElderRace', 'YASLykaiosRace', 'DOG', 'KhajiitRace');
+        SetRace('ElderRaceVampire', 'YASLykaiosRaceVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== IMPERIAL ============
         SetRace('ImperialRace', 'YASVaalsarkRace', 'DOG', 'KhajiitRace');
+        SetRace('ImperialRaceChild', 'YASVaalsarkRaceChild', 'DOG', 'KhajiitRace');
         SetRace('ImperialRaceVampire', 'YASVaalsarkRaceVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== BRETON  ===========
         SetRace('BretonRace', 'YASKettuRace', 'DOG', 'KhajiitRace');
+        SetRace('BretonRaceChild', 'YASKettuRaceChild', 'DOG', 'KhajiitRace');
         SetRace('BretonRaceVampire', 'YASKettuRaceVampire', 'DOG', 'KhajiitRace');
+        SetRace('BretonRaceChildVampire', 'YASKettuRaceChildVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== REDGUARD ============
         SetRace('RedguardRace', 'YASKygarraRace', 'DOG', 'KhajiitRace');
+        SetRace('RedguardRaceChild', 'YASKygarraRaceChild', 'DOG', 'KhajiitRace');
         SetRace('RedguardRaceVampire', 'YASKygarraRaceVampire', 'DOG', 'KhajiitRace');
     end;
 
     BEGIN // =========== REACHMAN ============
         SetSubrace('YASReachmanRace', 'Reachmen', 'BretonRace', 'YASKonoiRace', 'DOG', 'KhajiitRace');
-        // SetSubrace('YASReachmanRaceVampire', 'Reachmen', 'BretonRaceVampire', 'YASKonoiRaceVampire', 'DOG', 'KhajiitRace');
+        SetSubrace('YASReachmanRaceVampire', 'Reachmen', 'BretonRaceVampire', 'YASKonoiRaceVampire', 'DOG', 'KhajiitRace');
+        SetSubrace('YASReachmanRaceChild', 'Reachmen', 'BretonRaceChild', 'YASKonoiRaceChild', 'DOG', 'KhajiitRace');
         SetFactionRace('ForswornFaction', 'YASReachmanRace');
         SetFactionRace('MS01TreasuryHouseForsworn', 'YASReachmanRace');
         SetFactionRace('DruadachRedoubtFaction', 'YASReachmanRace');
@@ -48,7 +55,8 @@ begin
 
     BEGIN // ========== SKAAL ============
         SetSubrace('YASSkaalRace', 'Skaal', 'NordRace', 'YASXebaRace', 'DOG', 'KhajiitRace');
-        // SetSubrace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASXebaRaceVampire', 'DOG', 'KhajiitRace');
+        SetSubrace('YASSkaalRaceChild', 'Skaal', 'NordRaceChild', 'YASXebaRaceChild', 'DOG', 'KhajiitRace');
+        SetSubrace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASXebaRaceVampire', 'DOG', 'KhajiitRace');
         SetFactionRace('DLC2SkaalVillageCitizenFaction', 'YASSkaalRace');
     end;
 
@@ -70,6 +78,17 @@ begin
     BEGIN
         SetRace('DarkElfRace', 'BDPantherRace', 'CAT', 'KhajiitRace');
         SetRace('DarkElfRaceVampire', 'BDPantherRaceVampire', 'CAT', 'KhajiitRaceVampire');
+    end;
+
+    { ================================== ORC (Sabrelion) ============================= }
+    BEGIN
+        SetRace('OrcRace', 'BDTigerRace', 'CAT', 'KhajiitRace');
+        SetRace('OrcRaceVampire', 'BDTigerRaceVampire', 'CAT', 'KhajiitRaceVampire');
+    end;
+
+    BEGIN // ========== WINTERHOLD ============
+        SetSubrace('YASWinterholdRace', 'Winterhold', 'NordRace', 'BDSnowLeopardRace', 'CAT', 'KhajiitRace');
+        SetFactionRace('TownWinterholdFaction', 'YASWinterholdRace');
     end;
 
     { ================================== ORC (MINO) ============================= }
@@ -240,12 +259,14 @@ begin
     end;
 
     begin // KETTU
-        SetTintLayerRequired('KonoiMuzzle', TRUE);
-        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\Cheek00.dds', 'KettuCheek');
-        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower00.dds', 'KettuCheek');
-        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower01.dds', 'KettuCheek');
-        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower02.dds', 'KettuCheek');
-        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\CheekLower03.dds', 'KettuCheek');
+        SetTintLayerRequired('KettuCheek', TRUE);
+        SetTintLayerClass('YASKettuRace', 'YAS\Dog\Tints\FemFoxMask01Tint.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Dog\Tints\FemFoxMask02Tint.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Dog\Tints\FemFoxMask03Tint.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Dog\Tints\FemFoxMask04Tint.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\FoxMask00.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\FoxMask01.dds', 'KettuCheek');
+        SetTintLayerClass('YASKettuRace', 'YAS\Kettu\Male\tints\FoxMask02.dds', 'KettuCheek');
     end;
 
     begin // KONOI
@@ -259,18 +280,26 @@ begin
         SetTintLayerClass('YASKonoiRace', 'YAS\Kygarra\Male\Tints\Muzzle02.dds', 'KonoiMuzzle');
         SetTintLayerClass('YASKonoiRace', 'YAS\Kygarra\Male\Tints\Muzzle03.dds', 'KonoiMuzzle');
     end;
+
+    begin // KYGARRA
+        SetTintLayerRequired('KygarraSpots', TRUE);
+        SetTintLayerClass('YASKygarraRace', 'YAS\Kygarra\Male\Tints\Spots01.dds', 'KygarraSpots');
+        SetTintLayerClass('YASKygarraRace', 'YAS\Kygarra\Male\Tints\Spots02.dds', 'KygarraSpots');
+        SetTintLayerClass('YASKygarraRace', 'YAS\Kygarra\Male\Tints\Spots03.dds', 'KygarraSpots');
+        SetTintLayerClass('YASKygarraRace', 'YAS\Kygarra\Male\Tints\Spots04.dds', 'KygarraSpots');
+    end;
 end;
 
 
 procedure VanillaSettings;
 begin
     begin // Descriptions of furry hair styles
-        LabelHeadpartList('YASDogMaleHairDreads001', 'DREADS,BOLD,FUNKY');
+        LabelHeadpartList('YASDogMaleHairDreads001', 'DREADS,BOLD,FUNKY,LONG');
         // LabelHeadpart('BDLykMaleHairDreads002', 'DREADS'); // Dark version
-        LabelHeadpartList('YASDogMaleHairDreads003', 'DREADS,NOBLE,BOLD,FUNKY');
+        LabelHeadpartList('YASDogMaleHairDreads003', 'DREADS,NOBLE,BOLD,FUNKY,LONG');
         // LabelHeadpart('BDLykMaleHairDreads004', 'DREADS'); // Dark version
-        LabelHeadpartList('YASDogMaleHairDreadsFringe', 'DREADS,NOBLE,BOLD,FUNKY,YOUNG');
-        LabelHeadpartList('YASDogMaleHairDreadsHeadband', 'DREADS,NOBLE,BOLD,FUNKY,FEATHERS');
+        LabelHeadpartList('YASDogMaleHairDreadsFringe', 'DREADS,NOBLE,BOLD,FUNKY,YOUNG,LONG');
+        LabelHeadpartList('YASDogMaleHairDreadsHeadband', 'DREADS,NOBLE,BOLD,FUNKY,FEATHERS,LONG');
         LabelHeadpartList('YASDogMaleHairFringeFlip001', 'YOUNG,SHORT');
         LabelHeadpartList('YASDogMaleHairLionMane001', 'MANE,LONG');
         LabelHeadpartList('YASDogMaleHairLionMane002', 'MANE,LONG,YOUNG');
@@ -280,7 +309,7 @@ begin
         LabelHeadpartList('YASDogMaleHairLongBraid001', 'BRAIDS,NEAT,TIEDBACK');
         LabelHeadpartList('YASDogMaleHairLongBraid002', 'TIEDBACK,BRAIDS,NOBLE');
         LabelHeadpartList('YASDogMaleHairLongBraidleft', 'NEAT,TIEDBACK,BRAIDS,NOBLE');
-        LabelHeadpartList('YASDogMaleHairMohawk001', 'MOHAWK,BRAIDS,MILITARY,BOLD');
+        LabelHeadpartList('YASDogMaleHairMohawk001', 'MOHAWK,BRAIDS,MILITARY,BOLD,FANCY');
         LabelHeadpartList('YASDogMaleHairMohawk003', 'MOHAWK,FEATHERS,BOLD');
         LabelHeadpartList('YASDogMaleHairMohawkFringe', 'MOHAWK,YOUNG,BOLD');
         LabelHeadpartList('YASDogMaleHairShaggyHair002', 'LONG,MESSY');
@@ -308,10 +337,10 @@ begin
         LabelHeadpartList('YASDogFemHair10', 'NEAT,TIEDBACK');
         LabelHeadpartList('YASDogFemHairBraid001', 'NEAT,TIEDBACK,LONG,BRAIDS');
         LabelHeadpartList('YASDogFemHairBraid002', 'NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
-        LabelHeadpartList('YASDogFemHairDreads001', 'DREADS,BOLD,FUNKY');
-        LabelHeadpartList('YASDogFemHairDreads002', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
-        LabelHeadpartList('YASDogFemHairDreads003', 'DREADS,BOLD,FUNKY');
-        LabelHeadpartList('YASDogFemHairDreads004', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE');
+        LabelHeadpartList('YASDogFemHairDreads001', 'DREADS,BOLD,FUNKY,LONG');
+        LabelHeadpartList('YASDogFemHairDreads002', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE,LONG');
+        LabelHeadpartList('YASDogFemHairDreads003', 'DREADS,BOLD,FUNKY,LONG');
+        LabelHeadpartList('YASDogFemHairDreads004', 'DREADS,BOLD,FUNKY,NOBLE,ELABORATE,LONG');
         LabelHeadpartList('YASDogFemHairFringeFlip001', 'YOUNG,NEAT,SHORT');
         LabelHeadpartList('YASDogFemHairMane001', 'MANE,LONG,BOLD');
         LabelHeadpartList('YASDogFemHairMane002', 'MANE,LONG,BOLD');
@@ -843,9 +872,10 @@ begin
     SetNPCRace('Cosnach', 'YASReachmanRace');
     SetNPCRace('Duach', 'YASReachmanRace');
     SetNPCRace('Enmon', 'YASReachmanRace');
-    // SetNPCRace('Gralnach', 'YASReachmanRaceChild');
+    SetNPCRace('Gralnach', 'YASReachmanRaceChild');
     SetNPCRace('Mena', 'YASReachmanRace');
     SetNPCRace('Rondach', 'YASReachmanRace');
+    SetNPCRace('MS01Weylin', 'YASReachmanRace');
     SetNPCRace('Anton', 'YASReachmanRace'); // "Anton sure looks like he's from the Reach"
 end;
 

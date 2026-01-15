@@ -21,12 +21,12 @@ const
     FURRIFY_NPCS_MALE = TRUE;
     FURRIFY_NPCS_FEM = TRUE;
     SHOW_HAIR_ASSIGNMENT = TRUE;
-    MAX_TINT_LAYERS = 8; // Max tint layers to apply to a NPC
+    MAX_TINT_LAYERS = 200; // Max tint layers to apply to a NPC
     LOG_ARMOR = 0;
     LOG_NPCS = 0;
     LOG_SCHLONGS = 0;
     CLEAR_MESSAGE_WINDOW = TRUE;
-    CLEAN_TARGET_FILE = FALSE;
+    CLEAN_TARGET_FILE = TRUE;
 
     IS_NONE = 0;
     IS_FURRIFIABLE = 1;
@@ -164,21 +164,30 @@ var
     i, j: integer;
     score: integer;
 begin
+    if LOGGING then LogEntry2(10, 'CalculateLabelMatchScore', 
+        headpartLabels.strings[hpLabelIdx], headpartLabels.objects[hpLabelIdx].CommaText);
     score := 0;
 
     for i := 0 to curNPClabels.Count - 1 do begin
-        if headpartLabels.objects[hpLabelIdx].IndexOf(curNPClabels[i]) >= 0 then
-            Inc(score) // Increase score for each match
-        else
+        if headpartLabels.objects[hpLabelIdx].IndexOf(curNPClabels[i]) >= 0 then begin
+            Inc(score); // Increase score for each match
+            // if LOGGING then LogD(Format('Label match: %s', [curNPClabels[i]]));
+        end
+        else begin
             Dec(score); // Decrease score for each non-match
+            // if LOGGING then LogD(Format('Label mismatch: %s', [curNPClabels[i]]));
+        end;
         for j := 0 to headpartLabels.objects[hpLabelIdx].Count -1 do begin
-            if LabelsConflict(curNPClabels.strings[i], headpartLabels.objects[hpLabelIdx].strings[j]) then 
+            if LabelsConflict(curNPClabels.strings[i], headpartLabels.objects[hpLabelIdx].strings[j]) then begin
                 score := -1000;
+                // if LOGGING then LogD(Format('Label conflict: %s/%s', [
+                //     curNPClabels.strings[i], headpartLabels.objects[hpLabelIdx].strings[j]]));
+            end;
         end;
     end;
 
-    if LOGGING then LogT(Format('CalculateLabelMatchScore %s ~ %s = %d', [curNPCalias, headpartLabels.strings[hpLabelIdx], score]));
     result := score;
+    if LOGGING then LogExitT(Format('CalculateLabelMatchScore %s ~ %s = %d', [curNPCalias, headpartLabels.strings[hpLabelIdx], score]));
 end;
 
 
@@ -343,7 +352,7 @@ var
     color: IwbMainRecord;
     sktLayer: IwbElement;
     tintAsset: IwbContainer;
-    tinv: single;
+    tinv: float;
     cnam: IwbElement;
     qnam: IwbElement;
     i: integer;
@@ -368,7 +377,7 @@ begin
     // Use the tint intensity from the preset.
     tinv := GetElementNativeValues(skintonePreset, 'TINV');
 
-    if LOGGING then LogD(Format('Tint HashVal %s = %f', [curNPCalias, tinv]));
+    if LOGGING then LogD(Format('Tint HashVal %s = %s', [curNPCalias, FloatToStr(tinv)]));
     SetElementNativeValues(sktLayer, 'TINV', tinv);
     LogD(Format('Assigned TINI %s, TIAS %s, TINV %s',
         [GetElementEditValues(sktLayer, 'TINI'),
@@ -393,7 +402,7 @@ begin
         end;
     end
     else
-        Warn('No color found for preset ' + FullPath(skintonePreset));
+        Warn(Format('No color found for %s preset %s', [Name(npc), FullPath(skintonePreset)]));
 
     LogD('Tint layers: ' + IntToStr(ElementCount(ElementByPath(npc, 'Tint Layers'))));
 
@@ -421,8 +430,12 @@ begin
     end;
 
     h := Hash(curNPCalias, 1455, hi) + lo;
+    if h >= ElementCount(presetList) then h := ElementCount(presetList) - 1;
     p := ElementByIndex(presetList, h);
-    SetNPCTintLayer(npc, p);
+    if ASSIGNED(p) then
+        SetNPCTintLayer(npc, p)
+    else
+        Warn(Format('No preset found at index %d in %s', [h, PathName(presetList)]));
 
     if LOGGING then LogExitT('ChooseFurryTintLayer');
 end;
@@ -452,6 +465,7 @@ var
     cid: integer;
     cl: integer;
     cnam: string;
+    creq: boolean;
     raceIndex: integer;
     thisTintAsset: IwbElement;
     tintAssetIndex: integer;
@@ -459,6 +473,7 @@ var
     furLayerCount: integer;
     raceTintClasses: TStringList;
     p: IwbElement;
+    s: string;
 begin
     if LOGGING then LogEntry1(10, 'CurNPCChooseFurryTints', Name(curNPC));
 
@@ -482,19 +497,31 @@ begin
     RandomizeIndexList(curNPCAlias, 5345, raceTintClasses.Count);
     furLayerCount := 0;
 
+    if LOGGING then begin
+        LogD(Format('raceTintClasses: %s', [raceTintClasses.CommaText]));
+        s := '';
+        for i := 0 to indexList.Count-1 do begin
+            if Length(s) > 0 then s := s + ', ';
+            s := s + raceTintClasses.strings[Integer(indexList.objects[i])];
+        end;
+        LogD(Format('Randomized tint class order: %s', [s]));
+    end;
+
     for cl := 0 to indexList.Count-1 do begin
         i := Integer(indexList.objects[cl]);
         cnam := raceTintClasses.strings[i];
         cid := tintLayerNames.IndexOf(cnam);
-        if (cid > TINT_SKIN_TONE) then begin
+        creq := tintClassRequired.values[cnam] = '1';
+        if (cid > TINT_SKIN_TONE) or creq then begin
             if LOGGING then LogD(Format('Found tint class %d: %s', [cid, cnam]));
 
             if  // It's a fur layer and we haven't reached the max fur layers yet
                 ((cid < TINT_DECORATION_LO) and (furLayerCount < MAX_TINT_LAYERS))
                 // It's a decoration layer and the NPC has it
                 or ((cid >= TINT_DECORATION_LO) and (curNPCTintLayers.IndexOf(cnam) >= 0))
+                // It's required
+                or creq
             then begin
-
                 tintList := raceTintClasses.objects[i];
                 If tintList.Count > 0 then 
                     tintAssetIndex := Hash(curNPCalias, 529, tintList.Count)
@@ -502,12 +529,11 @@ begin
                     tintAssetIndex := 0;
                 thisTintAsset := ObjectToElement(tintList.objects[tintAssetIndex]);
                 if LOGGING then LogD(Format('Assigning tint layer %s from %s', [cnam, PathName(thisTintAsset)]));
-                ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), False);
+                ChooseFurryTintLayer(curNPC, ElementByPath(thisTintAsset, 'Presets'), True);
                 if LOGGING then LogD(Format('Applied layer of type %s', [cnam]));
 
                 // Keep track of applied fur layers 
                 if cid < TINT_DECORATION_LO then Inc(furLayerCount);
-                
             end;
         end;
     end;
@@ -821,28 +847,39 @@ begin
     femaleHairCount.Free;
 end;
 
+{==================================================================
+Remove all records from the target group.
+}
+procedure CleanTargetGroup(const sig: string);
+var
+    g: IwbElement;
+    i: integer;
+    rec: IwbMainRecord;
+begin
+    if LOGGING then LogEntry1(1, 'CleanTargetGroup', sig);
+
+    g := GroupBySignature(targetFile, sig);
+    for i := ElementCount(g) - 1 downto 0 do begin
+        rec := ElementByIndex(g, i);
+        Remove(rec);
+    end;
+    if LOGGING then LogExitT('CleanTargetGroup');
+end;
 
 procedure CleanTargetFile;
 var
     i: integer;
     rec: IwbMainRecord;
 begin
-    AddMessage('Clearing out old records');
-    AddMessage('Clearing out old records from ' + GetFileName(targetFile));
-    for i := RecordCount(targetFile) - 1 downto 0 do begin
-        rec := RecordByIndex(targetFile, i);
-        if (Signature(rec) = 'FLST') 
-            or (Signature(rec) = 'NPC_') 
-            or (Signature(rec) = 'RACE')  
-            or (Signature(rec) = 'GLOB') 
-            or (Signature(rec) = 'ARMA') 
-            or (Signature(rec) = 'ARMO') 
-        then  begin
-            AddMessage(Format('[%d] Removing %s', [i, EditorID(rec)]));
-            Remove(rec);
-        end;
-    end;
-    AddMessage('Done clearing old records');
+    if LOGGING then LogEntry(1, 'CleanTargetFile');
+    AddMessage(Format('Cleaning old records from %s', [GetFileName(targetFile)]));
+    CleanTargetGroup('ARMO');
+    CleanTargetGroup('ARMA');
+    CleanTargetGroup('FLST');
+    CleanTargetGroup('GLOB');
+    CleanTargetGroup('NPC_');
+    CleanTargetGroup('RACE');
+    if LOGGING then LogExitT('CleanTargetFile');
 end;
 
 
@@ -863,7 +900,7 @@ begin
     cancelFurrification := FALSE;
     InitializeLogging;
     LOGGING := 0;
-    LOGLEVEL := 1;
+    LOGLEVEL := 5;
     if LOGGING then LogEntry(1, 'Initialize');
 
     targetFileIndex := FindFile(PATCH_FILE_NAME);

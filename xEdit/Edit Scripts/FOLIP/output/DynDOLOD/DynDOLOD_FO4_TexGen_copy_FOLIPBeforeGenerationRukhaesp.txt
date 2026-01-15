@@ -1,0 +1,4 @@
+textures\setdressing\machinekit\machinekitquad03_n.dds,textures\setdressing\machinekit\machinekitquad03a_n.dds
+textures\setdressing\machinekit\machinekitquad03_s.dds,textures\setdressing\machinekit\machinekitquad03a_s.dds
+textures\setdressing\machinekit\machinekitquad04_n.dds,textures\setdressing\machinekit\machinekitquad04a_n.dds
+textures\setdressing\machinekit\machinekitquad04_s.dds,textures\setdressing\machinekit\machinekitquad04a_s.dds

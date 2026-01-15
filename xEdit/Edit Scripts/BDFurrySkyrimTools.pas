@@ -54,7 +54,7 @@ const
     SEX_MALE = 0;
     SEX_FEM = 1;
     SEX_LO = 0;
-    SEX_HI = 1;
+    SEX_HI = 3;
 
     SPECIALTYPE_BLACKBLOOD = 0;
     SPECIALTYPE_BOTHIAH = 1;
@@ -706,10 +706,11 @@ begin
     if result = '' then begin
         mn := GetElementEditValues(tintAsset, 'Tint Layer\TINP');
         if LOGGING then LogD(Format('Layer mask name "%s", file "%s"', [mn, fn]));
-        if (mn <> '') and (mn <> 'Dirt') and (mn <> 'Paint') then
-            result := mn
-        else begin
+        // if (mn <> '') and (mn <> 'Dirt') and (mn <> 'Paint') then
+        //     result := mn
+        // else begin
             if ContainsText(fn, 'Frekles') then result := 'Frekles'
+            // else if ContainsText(fn, 'Mask') then result := 'Mask'
             else if ContainsText(fn, 'BlackBlood') then result := 'WarpaintBlackblood'
             else if ContainsText(fn, 'Bothiah') then result := 'WarpaintBothiah'
             else if ContainsText(fn, 'Forsworn') then result := 'WarpaintForsworn'
@@ -721,7 +722,7 @@ begin
             else if ContainsText(fn, 'RedguardWarPaint') then result := 'WarpaintRedguard'
             else if ContainsText(fn, 'WoodElfWarPaint') then result := 'WarpaintWoodElf'
             else result := mn;
-        end;
+        // end;
     end;
     if LOGGING then LogExitT1('GetLayerClass', result);
 end;
@@ -1237,6 +1238,9 @@ end;
 function LabelsConflict(const label1, label2: string): boolean;
 begin
     result := (labelConflicts.IndexOf(label1 + '/' + label2) >= 0);
+    // if LOGGING then LogT(Format('LabelsConflict %s / %s = %d (%s)', [
+    //     label1, label2, Integer(labelConflicts.IndexOf(label1 + '/' + label2)),
+    //     BoolToStr(result)]));
 end;
 
 
@@ -1312,6 +1316,11 @@ begin
         AddMessage(headpartLabels.strings[i] + ': ' + headpartLabels.objects[i].CommaText);
     end;
     AddMessage('--HEADPART LABELS--');
+    AddMessage('==LABEL CONFLICTS==');
+    for i := 0 to labelConflicts.Count-1 do begin
+        AddMessage(labelConflicts.strings[i]);
+    end;
+    AddMessage('--LABEL CONFLICTS--');
     AddMessage('==HEADPART RACES==');
     for t := 0 to HP_COUNT - 1 do begin
         AddMessage(HeadpartToStr(t));

@@ -56,7 +56,8 @@ end;
 
 procedure TestSchlongs;
 var 
-    e: IwbMainRecord;
+    aa: IwbElement;
+    e, old: IwbMainRecord;
     flst: IwbMainRecord;
 begin
     AddMessage(#13#10#13#10 + '============ CHECKING SCHLONGS ===============');
@@ -76,6 +77,12 @@ begin
     Assert(Assigned(flst), 'Have override for SOS_Addon_SmurfAverage_CompatibleRaces');
     AssertEQ(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 0,
         'NordRace removed from SOS_Addon_SmurfAverage_CompatibleRaces');
+
+    flst := FindAsset(targetFile, 'FLST', 'SOS_Addon_VectorPlexusMuscular_CompatibleRaces');
+    Assert(Assigned(flst), 'Have override for SOS_Addon_VectorPlexusMuscular_CompatibleRaces');
+    AssertEQ(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'BretonRace'), 0,
+        'BretonRace removed from SOS_Addon_VectorPlexusMuscular_CompatibleRaces');
+
 end;
 
 procedure TestNPCs;
@@ -84,6 +91,11 @@ var
     i: integer;
 begin
     AddMessage('============ CHECKING NPCS ===============');
+
+    // Breton has mask 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Eltrys');
+    e := FurrifyNPC(old);
+    AssertInt(ActorHasTint(e, 'FoxMask'), 1, 'Eltrys has mask tint');
 
     // REACHMEN
     // Konoi male skin tone layer index = 302
@@ -221,6 +233,7 @@ begin
     kr := tintAssets[SEX_MALEADULT].IndexOf('YASKettuRace');
     Assert(kr > 0, 'Have kettu race tints');
 
+    AddMessage(tintAssets[SEX_MALEADULT].objects[kr].commatext);
     ch := tintAssets[SEX_MALEADULT].objects[kr].indexOf('KettuCheek');
     Assert(ch > 0, 'Have kettu cheek tint class');
 
@@ -307,7 +320,11 @@ begin
 
     // Dog & cat addons have been extended with furrified races
     aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YASStormcloakHelm_DOG');
-    AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRace');
+    assert(assigned(aa), Format('Have %s addon in %s', [Name(aa), GetFileName(FileByIndex(targetFileIndex))]));
+    AssertInList(ElementByPath(aa, 'Additional Races'), 'NordRaceVampire');
+    AssertInt(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRaceVampire'),
+        1, 
+        Format('NordRace in list once', [PathName(aa)]));
     AssertInList(ElementByPath(aa, 'Additional Races'), 'ElderRace');
     aa := FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'BDStormcloakHelm_CAT');
     AssertInList(ElementByPath(aa, 'Additional Races'), 'WoodElfRace');
@@ -332,7 +349,9 @@ begin
     AddMessage(#13#10#13#10 + '==Archmage hood=='); 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesMGRobesArchmage1Hooded'));
     e := FurrifyArmorRecord(old);
-    AssertLT(GetLoadOrder(GetFile(e)), GetLoadOrder(targetFile), 'ClothesMGRobesArchmage1Hooded not overridden');
+    AddMessage('Original file: ' + GetFileName(GetFile(old)));
+    AddMessage('Override file: ' + GetFileName(GetFile(e)));
+    AssertLT(GetLoadOrder(GetFile(old)), GetLoadOrder(targetFile), 'ClothesMGRobesArchmage1Hooded not overridden');
     AssertInList(ElementByName(e, 'Armature'), 'ArchmageHood_KhaAA');
     // aa := WinningOverride(FindAsset(nil, 'ARMA', 'ArchmageHood_KhaAA'));
     // AssertLT(GetLoadOrder(GetFile(aa)), targetFileIndex, 'ArchmageHood_KhaAA not overridden');
@@ -384,6 +403,13 @@ begin
     aa := WinningOverride(FindAsset(Nil, 'ARMA', 'DraugrHelmetAA'));
     AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0, 
         Format('NordRace removed from %s addon', [EditorID(aa)]));
+
+    old := WinningOverride(FindAsset(nil, 'ARMO', 'YASCatMaleSheath_P00'));
+    Assert(Assigned(old), 'Have YASCatMaleSheath_P00');
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(targetFileIndex), 'ARMA', 'YASPantherMaleSheathAA_P00'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'DarkElfRaceVampire'), 1,
+        'DarkElf race added to YASPantherMaleSheathAA_P00');
 
     FurrifyArmorsFinish;
 end;

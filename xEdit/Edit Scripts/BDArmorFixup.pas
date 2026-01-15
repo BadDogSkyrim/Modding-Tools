@@ -314,8 +314,9 @@ Fix an addon to reflect furrification by adding furrified races.
 
 A furrified race is added if the armor is good for its furry race.
 
-A furrified race is also added if the armor is good for the fallback of a furrified race
-and there's no addon covering the same slots that references the furrified race directly.
+A furrified race is also added if the armor is good for that race or the fallback of a
+furry race and there's no addon covering the same slots that references the furrified race
+directly.
 
 Return TRUE if this is a furry addon and we added furrified races
     OR if this addon works for the armor fallback race of a furrified race.
@@ -324,15 +325,16 @@ Add the biped slots for this addon to maFurrySlots.
 }
 function AddonAddFurrifiedRaces(addon: IwbMainRecord): boolan;
 var
+    aaOverride: IwbMainRecord;
+    curRaceList: TStringList;
+    e: IwbElement;
+    fl: integer;
+    furryList: TStringList;
+    haveFurryRace: boolean;
     i, fidx: integer;
     raceList: IwbElement;
     raceName: string;
     vanillaRec: IwbMainRecord;
-    e: IwbElement;
-    aaOverride: IwbMainRecord;
-    furryList: TStringList;
-    fl: integer;
-    curRaceList: TStringList;
 begin
     if LOGGING then LogEntry1(5, 'AddonAddFurrifiedRaces', PathName(addon));
 
@@ -340,6 +342,8 @@ begin
 
     // Only process once: if it's already in the targetFile or it's in the processedAddons
     // list, we've already done it.
+    if LOGGING then LogD(Format('Found %s at index %d', 
+        [EditorID(addon), processedAddons.IndexOf(EditorID(addon))]));
     if (GetLoadOrder(GetFile(addon)) < targetFileIndex) 
         and (processedAddons.IndexOf(EditorID(addon)) < 0) 
     then begin
@@ -356,28 +360,37 @@ begin
             if LOGGING then LogD(Format('Found existing race %s', [raceName]));
         end;
 
+        // Walk through every race the addon is good for.
+        haveFurryRace := false;
         for i := -1 to ElementCount(racelist)-1 do begin
             if i < 0 then 
                 raceName := EditorID(LinksTo(ElementByPath(addon, 'RNAM')))
             else 
                 raceName := EditorID(LinksTo(ElementByIndex(raceList, i)));
 
-            // Check whether the addon is good for a furry race
+            // Check whether this race is a furry race
             furryList := nil;
             fidx := furryRaces.IndexOf(raceName);
             if fidx >= 0 then begin
-                if LOGGING then LogD(Format('Works for %s', [raceName]));
+                if LOGGING then LogD(Format('Works for furry race %s', [raceName]));
                 furryList := furryRaces.objects[fidx];
+                haveFurryRace := true;
             end
-            // No? Then see if it's good for a fallback armor race where the race isn't
-            // referenced directly
-            else if raceAssignments.indexOf(raceName) < 0 then  begin
-                fidx := armorFallbacks.IndexOf(raceName);
+            // No? Then see if this is a fallback armor race of a furry race, but only
+            // if there's no direct reference to a furry race.
+            else if (not haveFurryRace) and (raceAssignments.indexOf(raceName) < 0) 
+            then begin
+                 fidx := armorFallbacks.IndexOf(raceName);
                 if fidx >= 0 then begin
                     if LOGGING then LogD(Format('Works for fallback %s', [raceName]));
                     furryList := armorFallbacks.objects[fidx];
-                end;
-            end;
+                end
+            end
+            else
+                if LOGGING then 
+                    if haveFurryRace 
+                    then LogD(Format('Works for fallback race %s, ignoring because furry race referenced directly', [raceName]))
+                    else LogD(Format('Works for furrified race %s', [raceName]));
 
             // If the addon is for a furry race, add the furrified vanilla race.
             if Assigned(furryList) then begin
@@ -388,6 +401,7 @@ begin
                         aaOverride := addon;
                 end;
 
+                // Walk through the furrified races and add them if necessary.
                 for fl := 0 to furryList.Count-1 do begin
                     vanillaRec := ObjectToElement(furryList.objects[fl]);
                     if maAddonRaces.IndexOf(EditorID(vanillaRec)) >= 0 then begin
@@ -642,28 +656,46 @@ begin
     maAddonRaces.Duplicates := dupIgnore;
     maAddonRaces.Sorted := true;
 
-    addonList := ElementByPath(WinningOverride(maMaster), 'Armature');
-    for i := 0 to ElementCount(addonList)-1 do begin
-        arma := WinningOverride(LinksTo(ElementByIndex(addonList, i)));
-        if (EditorID(arma) <> EditorID(targetAddon))
-            and ((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)) <> 0) 
-        then begin
-            if LOGGING then LogD(Format('Found overlapping addon %s:%s | %s:%s = %s', [
-                EditorID(targetAddon), IntToHex(GetBodypartFlags(targetAddon), 8),
-                EditorID(arma), IntToHex(GetBodypartFlags(arma), 8),
-                IntToHex((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)), 8)
-            ]));
-            raceList := ElementByPath(arma, 'Additional Races');
-            if Assigned(raceList) then raceCount := ElementCount(raceList)
-            else raceCount := 0;
-            for j := -1 to raceCount-1 do begin
-                if j < 0 then 
-                    thisRace := LinksTo(ElementByPath(arma, 'RNAM'))
-                else 
-                    thisRace := LinksTo(ElementByIndex(raceList, j));
-                if furryRaces.IndexOf(EditorID(thisRace)) >= 0 then begin
-                    maAddonRaces.Add(EditorID(thisRace));
-                    if LOGGING then LogD(Format('Added race %s to addon list', [EditorID(thisRace)]));
+    If True
+    then begin
+        for i := -1 to ElementCount(ElementByPath(targetAddon, 'Additional Races')) - 1 do begin
+            if i < 0 then 
+                thisRace := LinksTo(ElementByPath(targetAddon, 'RNAM'))
+            else 
+                thisRace := LinksTo(ElementByIndex(ElementByPath(targetAddon, 'Additional Races'), i));
+            if furryRaces.IndexOf(EditorID(thisRace)) >= 0 then begin
+                maAddonRaces.Add(EditorID(thisRace));
+                if LOGGING then LogD(Format('Added race %s to addon list', [EditorID(thisRace)]));
+            end;
+        end;
+    end
+    else begin
+        // Walking through all the addons associated with the armor and collecting all
+        // their races. For schlongs, this collects too many races; the different addons are 
+        // designed to work with different races.
+        addonList := ElementByPath(WinningOverride(maMaster), 'Armature');
+        for i := 0 to ElementCount(addonList)-1 do begin
+            arma := WinningOverride(LinksTo(ElementByIndex(addonList, i)));
+            if (EditorID(arma) <> EditorID(targetAddon))
+                and ((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)) <> 0) 
+            then begin
+                if LOGGING then LogD(Format('Found overlapping addon %s:%s | %s:%s = %s', [
+                    EditorID(targetAddon), IntToHex(GetBodypartFlags(targetAddon), 8),
+                    EditorID(arma), IntToHex(GetBodypartFlags(arma), 8),
+                    IntToHex((GetBodypartFlags(arma) and GetBodypartFlags(targetAddon)), 8)
+                ]));
+                raceList := ElementByPath(arma, 'Additional Races');
+                if Assigned(raceList) then raceCount := ElementCount(raceList)
+                else raceCount := 0;
+                for j := -1 to raceCount-1 do begin
+                    if j < 0 then 
+                        thisRace := LinksTo(ElementByPath(arma, 'RNAM'))
+                    else 
+                        thisRace := LinksTo(ElementByIndex(raceList, j));
+                    if furryRaces.IndexOf(EditorID(thisRace)) >= 0 then begin
+                        maAddonRaces.Add(EditorID(thisRace));
+                        if LOGGING then LogD(Format('Added race %s to addon list', [EditorID(thisRace)]));
+                    end;
                 end;
             end;
         end;
