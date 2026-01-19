@@ -7,8 +7,10 @@ unit BDFurrySkyrimTEST;
 
 interface
 implementation
-uses BDFurrySkyrim, BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrifySchlongs,
-    BDFurrySkyrimTools, BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils;
+uses 
+    BDFurrySkyrim_Furrifier, BDFurrySkyrimSetup, BDFurrySkyrimRaceDefs,
+    BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils;
 
 const
     TEST_FILE_NAME = 'TEST.esp';
@@ -75,7 +77,7 @@ begin
 
     flst := FindAsset(targetFile, 'FLST', 'SOS_Addon_SmurfAverage_CompatibleRaces');
     Assert(Assigned(flst), 'Have override for SOS_Addon_SmurfAverage_CompatibleRaces');
-    AssertEQ(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 0,
+    AssertEq(ElementListNameCount(ElementByPath(flst, 'FormIDs'), 'NordRace'), 0,
         'NordRace removed from SOS_Addon_SmurfAverage_CompatibleRaces');
 
     flst := FindAsset(targetFile, 'FLST', 'SOS_Addon_VectorPlexusMuscular_CompatibleRaces');
@@ -89,6 +91,9 @@ procedure TestNPCs;
 var 
     e, aa, old, r: IwbElement;
     i: integer;
+    qnam, tinc: IwbElement;
+    opac: double;
+    qv, tv: double;
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
@@ -128,6 +133,34 @@ begin
         'Ainethach is now Reachman');
     AssertNpcTintLayersExist(e);
 
+    // Athis
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Athis');
+    e := FurrifyNPC(old);
+    AssertInt(ActorHasTint(e, 'Actors\Character\Character Assets\TintMasks\SkinTone.dds'), 
+        0, 'Original skin tone not found');
+    AssertInt(ActorHasTint(e, 'YAS\Kalo\Tints\SkinToneMale.dds'), 1, 'Furry skin tone found');
+    qnam := ElementByPath(e, 'QNAM');
+    tinc := ElementByPath(e, 'Tint Layers\[0]\TINC');
+    opac := GetElementNativeValues(e, 'Tint Layers\[0]\TINV')/100.0;
+    AssertFloat(opac, 1.0, 'Athis skin tint opacity');
+    for i := 0 to 2 do begin
+        AddMessage(Format('Found skin tint [%d]: QNAM %s TINC %s TINV %s', [
+            i, 
+            FloatToStr(GetNativeValue(ElementByIndex(qnam, i))),
+            FloatToStr(GetNativeValue(ElementByIndex(tinc, i))),
+            FloatToStr(opac)
+            ]));
+        AddMessage(Format('Calc skin tint [%d]: QNAM %s TINC %s', [
+            i, 
+            FloatToStr(GetNativeValue(ElementByIndex(qnam, i))/255.0),
+            FloatToStr(opac*GetNativeValue(ElementByIndex(tinc, i))/255.0)
+            ]));
+        qv := GetNativeValue(ElementByIndex(qnam, i))/255.0;
+        tv := (GetNativeValue(ElementByIndex(tinc, i))/255.0) * opac;
+        AssertFloat(qv, tv,
+            Format('Tint [%d] QNAM %s matches TINC %s', [i, FloatToStr(qv), FloatToStr(tv)]));
+    end;
+
     // BRETONS
     old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
     e := FurrifyNPC(old);
@@ -135,6 +168,27 @@ begin
     AssertInt(ActorHasTint(e, 'Actors\Character\Character Assets\TintMasks\SkinTone.dds'), 
         0, 'Original skin tone not found');
     AssertInt(ActorHasTint(e, 'YAS\Kettu\Male\tints\SkinTone.dds'), 1, 'Furry skin tone found');
+    qnam := ElementByPath(e, 'QNAM');
+    tinc := ElementByPath(e, 'Tint Layers\[0]\TINC');
+    opac := GetElementNativeValues(e, 'Tint Layers\[0]\TINV')/100.0;
+    for i := 0 to 2 do begin
+        AddMessage(Format('Found skin tint [%d]: QNAM %s TINC %s TINV %s', [
+            i, 
+            FloatToStr(GetNativeValue(ElementByIndex(qnam, i))),
+            FloatToStr(GetNativeValue(ElementByIndex(tinc, i))),
+            FloatToStr(opac)
+            ]));
+        AddMessage(Format('Calc skin tint [%d]: QNAM %s TINC %s', [
+            i, 
+            FloatToStr(GetNativeValue(ElementByIndex(qnam, i))/255.0),
+            FloatToStr(opac*GetNativeValue(ElementByIndex(tinc, i))/255.0)
+            ]));
+        qv := GetNativeValue(ElementByIndex(qnam, i))/255.0;
+        tv := (GetNativeValue(ElementByIndex(tinc, i))/255.0) * opac;
+        AssertFloat(qv, tv,
+            Format('Tint [%d] QNAM %s matches TINC %s', [i, FloatToStr(qv), FloatToStr(tv)]));
+    end;
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit01MagicBretonM');
     e := FurrifyNPC(old);
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncBandit02MagicBretonM');
@@ -453,6 +507,9 @@ begin
     // SetLength(dynlist, 5);
     // dynlist[4] := 4;
     // AssertInt(dynlist[4], 4, 'Can use dynamic list');
+    AddMessage(Format('Rounding %s to %d', [FloatToStr(3.6), Round(3.6)]));
+    AddMessage(Format('Rounding %s to %d', [FloatToStr(0.1234), Round(255.0*0.1234)]));
+
     e := FindAsset(FileByIndex(0), 'NPC_', 'AcolyteJenssen');
 
     // How to access the sex flag
@@ -768,7 +825,9 @@ begin
     LOGGING := TRUE; // Log the setup y/n
     TestSystemFunc;
 
-    SetPreferences;
+    DefineFurryRaces;
+    SetRacePreferences;
+    SetupVanilla;
     ShowRaceAssignments;
     FurrifyAllRaces;
     ShowRaceTints;

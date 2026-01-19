@@ -278,8 +278,12 @@ end;
 
 Function LogToStr: string;
 begin
-    result := Format('callIndex=%d, logIndent=%d, curLogLevel=%d', [
-        callIndex, logIndent, curLogLevel[callIndex]]);
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
+        result := Format('callIndex=%d, logIndent=%d, curLogLevel=INVALID', [
+            callIndex, logIndent])
+    else
+        result := Format('callIndex=%d, logIndent=%d, curLogLevel=%d', [
+            callIndex, logIndent, curLogLevel[callIndex]]);
 end;
 
 Procedure Log(importance: integer; txt: string);
@@ -309,20 +313,24 @@ end;
 // Log a text string at the current importance level.
 Procedure LogT(txt: string);
 begin
-    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
-        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex))
-    else 
-        Log(curLogLevel[callIndex], txt);
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then begin
+        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex));
+        callIndex := max(0, callIndex);
+        callIndex := min(length(curLogLevel)-1, callIndex);
+    end;
+    Log(curLogLevel[callIndex], txt);
 end;
 
 //===========================================================
 // Log details about the current function (current importance + 5).
 Procedure LogD(txt: string);
 begin
-    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then 
-        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex))
-    else 
-        Log(curLogLevel[callIndex]+5, txt);
+    if (callIndex < 0) or (callIndex >= length(curLogLevel)) then begin
+        AddMessage('ERROR: callIndex = ' + IntToStr(callIndex));
+        callIndex := max(0, callIndex);
+        callIndex := min(length(curLogLevel)-1, callIndex);
+    end;
+    Log(curLogLevel[callIndex]+5, txt);
 end;
 
 Procedure LogEntry(importance: integer; routineName: string);
@@ -864,7 +872,27 @@ begin
     c.top := b.top;
     c.left := formParent.width/2 + LBL_MSPACE;
     
-    formParent.height := b.top + 80;
+    formPosTop := b.top + 80 + LBL_GAP;
+    formParent.height := formPosTop;
+end;
+
+//=========================================================
+// Create a form image.
+function MakeFormImage(pic: TPicture):
+    TImage;
+var
+    img: TImage;
+begin
+    img := TImage.Create(bdstForm);
+    img.Picture := pic;
+    img.Parent := formParent;
+    img.Width := pic.Width;
+    img.Height := pic.Height;
+    img.Left := formPosLeft;
+    img.Top := formPosTop;
+    img.Stretch := False;
+    formPosTop := img.Top + img.Height + LBL_GAP;
+    result := img;
 end;
 
 end.

@@ -12,9 +12,9 @@ implementation
 uses xEditAPI, Classes, StrUtils;
 
 const
-    oldString = 'YAS\Feline\Hair';
-    newString = 'YAS\Beast\Hair';
-    targetPath = 'Model\MODL';
+    oldString = 'BDNakedTiger';
+    newString = 'YASTiger';
+    targetPath = 'EDID';
     secondPath = '';
     doIt = TRUE;
 

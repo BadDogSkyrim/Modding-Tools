@@ -861,6 +861,7 @@ begin
     end;
 
     FurrifyArmorsFinish;
+    if LOGGING then LogExit('FurrifyAllArmors');
 end;
 
 

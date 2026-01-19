@@ -37,6 +37,15 @@ begin
 end;
 
 
+function IsEQ(actual, expected: integer; msg: string): boolean;
+begin
+    result := actual = expected;
+    if not result then
+        AddMessage(Format('XXXXXX IsEQ fail: ' + msg + ': %d = %d', 
+            [integer(actual), integer(expected)]));
+end;
+
+
 procedure AssertLT(actual, expected: integer; msg: string);
 begin
     Assert(actual < expected, Format(msg + ': %d < %d', 

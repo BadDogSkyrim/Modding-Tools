@@ -4,29 +4,17 @@
   Hotkey: Ctrl+Alt+D
 
 }
-unit BDFurrySkyrim;
+unit BDFurrySkyrim_Furrifier;
 interface
 implementation
 
 uses 
-    BDFurrySkyrim_Preferences, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDFurrySkyrimRaceDefs, BDFurrySkyrimOptions, BDFurrySkyrim_Preferences, BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
     BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
-    FURRIFIER_VERSION = 'X0.01';
-    SHOW_OPTIONS_DIALOG = False;
-    PATCH_FILE_NAME = 'YASNPCPatch.esp'; // Set to whatever
-    USE_SELECTION = FALSE;           // FALSE or TRUE
-    FURRIFY_ARMOR = TRUE;         
-    FURRIFY_NPCS_MALE = TRUE;
-    FURRIFY_NPCS_FEM = TRUE;
-    SHOW_HAIR_ASSIGNMENT = TRUE;
-    MAX_TINT_LAYERS = 200; // Max tint layers to apply to a NPC
-    LOG_ARMOR = 0;
-    LOG_NPCS = 0;
-    LOG_SCHLONGS = 0;
-    CLEAR_MESSAGE_WINDOW = TRUE;
-    CLEAN_TARGET_FILE = TRUE;
+    FURRIFIER_VERSION = 'X0.02';
+    SHOW_OPTIONS_DIALOG = True;
 
     IS_NONE = 0;
     IS_FURRIFIABLE = 1;
@@ -356,7 +344,7 @@ var
     cnam: IwbElement;
     qnam: IwbElement;
     i: integer;
-    c: integer;
+    c: float;
 begin
     if LOGGING then LogEntry2(10, 'SetNPCTintLayer', Name(npc), PathName(skintonePreset));
 
@@ -376,6 +364,7 @@ begin
 
     // Use the tint intensity from the preset.
     tinv := GetElementNativeValues(skintonePreset, 'TINV');
+    if LOGGING then LogD(Format('Preset TINV %s', [FloatToStr(tinv)]));
 
     if LOGGING then LogD(Format('Tint HashVal %s = %s', [curNPCalias, FloatToStr(tinv)]));
     SetElementNativeValues(sktLayer, 'TINV', tinv);
@@ -396,8 +385,10 @@ begin
             cnam := ElementByPath(color, 'CNAM');
             qnam := ElementByPath(npc, 'QNAM');
             for i := 0 to 2 do begin
-                c := GetNativeValue(ElementByIndex(cnam, i));
-                SetNativeValue(ElementByIndex(qnam, i), round((127-(128-c)*tinv)));
+                c := GetNativeValue(ElementByIndex(cnam, i))/255.0;
+                if LOGGING then LogD(Format('Setting QNAM [%d] %s -> %s', [
+                    i, FloatToStr(c), IntToStr(round(255.0*tinv*c))]));
+                SetNativeValue(ElementByIndex(qnam, i), round(255.0*tinv*c));
             end;
         end;
     end
@@ -688,9 +679,10 @@ var
     npcList: IwbElement;
     npc: IwbMainRecord;
 begin
+    if LOGGING then LogEntry(1, 'FurrifyAllNPCs');
     for f := 0 to targetFileIndex-1 do begin
         fn := GetFileName(FileByIndex(f));
-        if LOGGING Then Log(2, 'File ' + GetFileName(FileByIndex(f)));
+        if LOGGING Then LogD('File ' + GetFileName(FileByIndex(f)));
         processedNPCcount := 0;
         npcList := GroupBySignature(FileByIndex(f), 'NPC_');
         for n := 0 to ElementCount(npcList)-1 do begin
@@ -699,7 +691,7 @@ begin
                     [GetFileName(FileByIndex(f)), 100*processedNPCcount/ElementCount(npcList)]) + '%');
 
             npc := ElementByIndex(npcList, n);
-            if LOGGING then Log(10, 'Found NPC ' + Path(npc));
+            if LOGGING then LogD('Found NPC ' + Path(npc));
             if IsWinningOverride(npc) then begin
                 // Only furrify the winning override. We'll get to it unless it's in
                 // FFO or later, in which case it doesn't need furrification.
@@ -711,6 +703,7 @@ begin
         AddMessage(Format('Furrified %s: %d', 
             [GetFileName(FileByIndex(f)), processedNPCcount]));
     end;
+    if LOGGING then LogExitT('FurrifyAllNPCs');
 end;
 
 
@@ -888,6 +881,8 @@ end;
 //
 function Initialize: integer;
 begin
+    if CLEAR_MESSAGE_WINDOW then ClearMessages;
+
     AddMessage(' ');
     AddMessage(' ');
     AddMessage('====================================================');
@@ -901,26 +896,35 @@ begin
     InitializeLogging;
     LOGGING := 0;
     LOGLEVEL := 5;
-    if LOGGING then LogEntry(1, 'Initialize');
 
-    targetFileIndex := FindFile(PATCH_FILE_NAME);
+    if not SetOptions(SHOW_OPTIONS_DIALOG) then begin
+        cancelFurrification := TRUE;
+        result := 0;
+        if LOGGING then LogExitT('Initialize');
+        Exit;
+    end;
+    if LOGGING then LogEntry(0, 'Initialize');
+
+    targetFileIndex := FindFile(settingPatchFileName);
     LogD(Format('Found target file at %d', [targetFileIndex]));
     if targetFileIndex < 0 then begin
-        targetFile := AddNewFileName(PATCH_FILE_NAME);
+        targetFile := AddNewFileName(settingPatchFileName);
         LogT('Creating file ' + GetFileName(targetFile));
         targetFileIndex := GetLoadOrder(targetFile);
     end
     else 
         targetFile := FileByIndex(targetFileIndex);
 
-    if CLEAN_TARGET_FILE then CleanTargetFile;
-    if CLEAR_MESSAGE_WINDOW then ClearMessages;
+    if settingCleanTargetFile then CleanTargetFile;
 
     hairAssignments := TStringList.Create;
 
     PreferencesInit;
-    SetPreferences;
-    ShowRaceAssignments;
+    SetupVanilla;
+    DefineFurryRaces;
+    SetRacePreferences;
+    AssignNPCRaces;
+    if LOGGING then ShowRaceAssignments;
 
     FurrifyAllRaces;
     FurrifyAllHeadpartLists;
@@ -930,14 +934,17 @@ begin
     processedNPCcount := 0;
     result := 0;
     if LOGGING then LogExitT('Initialize');
-    LOGLEVEL := LOG_NPCS;
-    LOGGING := (LOG_NPCS > 0);
+    if not SHOW_OPTIONS_DIALOG then begin
+        LOGLEVEL := LOG_NPCS;
+        LOGGING := (LOG_NPCS > 0);
+    end;
 end;
 
 function Process(entity: IwbMainRecord): integer;
 var
     s: integer;
 begin
+    If LOGGING then LogEntry1(5, 'Process', Path(entity));
     if (not cancelFurrification) and USE_SELECTION and (Signature(entity) = 'NPC_') then begin
         s := IfThen(GetElementEditValues(entity, 'ACBS - Configuration\Flags\Female') = '1',
             SEX_FEM, SEX_MALE);
@@ -948,6 +955,7 @@ begin
     end;
     
     result := 0;
+    If LOGGING then LogExitT('Process');
 end;
 
 function Finalize: integer;
@@ -959,30 +967,35 @@ var
 begin
     if LOGGING then LogEntry(1, 'Finalize');
 
-    if (FURRIFY_NPCS_MALE or FURRIFY_NPCS_FEM) 
-        and (not USE_SELECTION) 
-        and (not cancelFurrification) 
-    then begin
-        FurrifyAllNPCs;
-        FurrifyRacePresets;
-    end;
+    if not cancelFurrification then begin
+        
+        if (FURRIFY_NPCS_MALE or FURRIFY_NPCS_FEM) 
+            and (not USE_SELECTION) 
+        then begin
+            FurrifyAllNPCs;
+            FurrifyRacePresets;
+        end;
 
-    if FURRIFY_ARMOR and (not cancelFurrification) then begin
-        LOGGING := (LOG_ARMOR > 0);
-        LOGLEVEL := LOG_ARMOR;
-        FurrifyAllArmors;
-    end;
+        if FURRIFY_ARMOR then begin
+            if not SHOW_OPTIONS_DIALOG then begin
+                LOGLEVEL := LOG_ARMOR;
+                LOGGING := (LOG_ARMOR > 0);
+            end;
+            FurrifyAllArmors;
+        end;
 
-    if (not cancelFurrification) then begin
-        LOGGING := (LOG_SCHLONGS > 0);
-        LOGLEVEL := LOG_SCHLONGS;
+        if not SHOW_OPTIONS_DIALOG then begin
+            LOGGING := (LOG_SCHLONGS > 0);
+            LOGLEVEL := LOG_SCHLONGS;
+        end;
         FurrifyAllSchlongs;
+
+        if (processedNPCcount > 0) and LOGGING then ShowHair;
+
+        PreferencesFree;
+        if Assigned(hairAssignments) then hairAssignments.Free;
     end;
 
-    if (processedNPCcount > 0) and SHOW_HAIR_ASSIGNMENT then ShowHair;
-
-    PreferencesFree;
-    if Assigned(hairAssignments) then hairAssignments.Free;
     result := 0;
     if LOGGING then LogExitT('Finalize');
 
