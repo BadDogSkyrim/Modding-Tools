@@ -24,7 +24,7 @@
         * Faction editor ID
         * Subrace editor ID'ForswornFaction', 'YASReachmanRace');
     
-    [SetTattooRace] assigns any NPC with a particular tattoo to a subrace. Not yet implemented. 
+    Not yet implemented. [SetTattooRace] assigns any NPC with a particular tattoo to a subrace.
     Parameters:
         * Tattoo string. NPC must have a tint layer containing this string in the filename.
         * Subrace editor ID
@@ -53,22 +53,22 @@ begin
     end;
 
     BEGIN // =========== IMPERIAL ============
-        SetRace('ImperialRace', 'YASKettuRace', 'DOG');
-        SetRace('ImperialRaceChild', 'YASKettuRaceChild', 'DOG');
-        SetRace('ImperialRaceVampire', 'YASKettuRaceVampire', 'DOG');
+        SetRace('ImperialRace', 'YASVaalsarkRace', 'DOG');
+        SetRace('ImperialRaceChild', 'YASVaalsarkRaceChild', 'DOG');
+        SetRace('ImperialRaceVampire', 'YASVaalsarkRaceVampire', 'DOG');
     end;
 
     BEGIN // =========== BRETON  ===========
-        SetRace('BretonRace', 'YASKygarraRace', 'DOG');
-        SetRace('BretonRaceChild', 'YASKygarraRaceChild', 'DOG');
-        SetRace('BretonRaceVampire', 'YASKygarraRaceVampire', 'DOG');
+        SetRace('BretonRace', 'YASKettuRace', 'DOG');
+        SetRace('BretonRaceChild', 'YASKettuRaceChild', 'DOG');
+        SetRace('BretonRaceVampire', 'YASKettuRaceVampire', 'DOG');
         SetRace('BretonRaceChildVampire', 'YASKettuRaceChildVampire', 'DOG');
     end;
 
     BEGIN // =========== REDGUARD ============
-        SetRace('RedguardRace', 'YASXebaRace', 'DOG');
-        SetRace('RedguardRaceChild', 'YASXebaRaceChild', 'DOG');
-        SetRace('RedguardRaceVampire', 'YASXebaRaceVampire', 'DOG');
+        SetRace('RedguardRace', 'YASKygarraRace', 'DOG');
+        SetRace('RedguardRaceChild', 'YASKygarraRaceChild', 'DOG');
+        SetRace('RedguardRaceVampire', 'YASKygarraRaceVampire', 'DOG');
     end;
 
     BEGIN // =========== REACHMAN ============
@@ -82,9 +82,9 @@ begin
     end;
 
     BEGIN // ========== SKAAL ============
-        SetSubrace('YASSkaalRace', 'Skaal', 'NordRace', 'YASVaalsarkRace', 'DOG');
-        SetSubrace('YASSkaalRaceChild', 'Skaal', 'NordRaceChild', 'YASVaalsarkRaceChild', 'DOG');
-        SetSubrace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASVaalsarkRaceVampire', 'DOG');
+        SetSubrace('YASSkaalRace', 'Skaal', 'NordRace', 'YASXebaRace', 'DOG');
+        SetSubrace('YASSkaalRaceChild', 'Skaal', 'NordRaceChild', 'YASXebaRaceChild', 'DOG');
+        SetSubrace('YASSkaalRaceVampire', 'Skaal', 'NordRaceVampire', 'YASXebaRaceVampire', 'DOG');
         SetFactionRace('DLC2SkaalVillageCitizenFaction', 'YASSkaalRace');
     end;
 
@@ -92,14 +92,14 @@ begin
 
     { ================================== HIGH ELF ================================== }
     BEGIN
-        SetRace('HighElfRace', 'YASMahaRace', 'CAT');
-        SetRace('HighElfRaceVampire', 'YASMahaRaceVampire', 'CAT');
+        SetRace('HighElfRace', 'YASDumaRace', 'CAT');
+        SetRace('HighElfRaceVampire', 'YASDumaRaceVampire', 'CAT');
     end;
 
     { ================================== WOOD ELF ================================== }
     BEGIN
-        SetRace('WoodElfRace', 'YASDumaRace', 'CAT');
-        SetRace('WoodElfRaceVampire', 'YASDumaRaceVampire', 'CAT');
+        SetRace('WoodElfRace', 'YASBaghaRace', 'CAT');
+        SetRace('WoodElfRaceVampire', 'YASBaghaRaceVampire', 'CAT');
     end;
 
     { ================================== DARK ELF ================================== }
@@ -110,19 +110,13 @@ begin
 
     { ================================== ORC (Sabrelion) ============================= }
     BEGIN
-        SetRace('OrcRace', 'YASBaghaRace', 'CAT');
-        SetRace('OrcRaceVampire', 'YASBaghaRaceVampire', 'CAT');
+        SetRace('OrcRace', 'YASMahaRace', 'CAT');
+        SetRace('OrcRaceVampire', 'YASMahaRaceVampire', 'CAT');
     end;
 
-    { ================================== SNOW ELF ============================= }
-    BEGIN
+    BEGIN // ========== SNOW ELF ============
         SetRace('SnowElfRace', 'YASShanRace', 'CAT');
-    end;
-
-    BEGIN // ========== WINTERHOLD ============
-        SetSubrace('YASWinterholdRace', 'Winterhold', 'NordRace', 'YASShanRace', 'CAT');
-        SetFactionRace('TownWinterholdFaction', 'YASWinterholdRace');
-        SetFactionRace('CrimeFactionWinterhold', 'YASWinterholdRace');
+        SetRace('SnowElfRaceVampire', 'YASShanRaceVampire', 'CAT');
     end;
 
     { ================================== ORC (MINO) ============================= }

@@ -9,7 +9,7 @@ interface
 implementation
 
 uses 
-    BDFurrySkyrimRaceDefs, BDFurrySkyrimOptions, BDFurrySkyrim_Preferences, BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDFurrySkyrimRaceDefs, BDFurrySkyrimUserRaceDefs, BDFurrySkyrimOptions, BDFurrySkyrim_Preferences, BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
     BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
@@ -922,6 +922,7 @@ begin
     PreferencesInit;
     SetupVanilla;
     DefineFurryRaces;
+    DefineFurryRacesUser;
     SetRacePreferences;
     AssignNPCRaces;
     if LOGGING then ShowRaceAssignments;

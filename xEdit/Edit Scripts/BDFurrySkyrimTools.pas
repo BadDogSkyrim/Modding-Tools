@@ -95,11 +95,6 @@ var
     // NOT CURRENTLY USED.
     furryRaceClass: TStringList;
 
-    // Default armor races: key is furry race name, value is vanilla race record. When an
-    // armor addon tailored to the furry race cannot be found, the armor addon for this
-    // race will be used. 
-    armorRaces: TStringList;
-
     // List of vanilla headpart names; values are a list of equivalent furry headpart
     // names. This is for when the user wants a 1:1 match (or 1:choices match) between
     // vanilla and furry headparts.
@@ -209,10 +204,6 @@ begin
     furryRaceClass := TStringList.Create;
     furryRaceClass.Duplicates := dupIgnore;
     furryRaceClass.Sorted := true;
-
-    armorRaces := TStringList.Create;
-    armorRaces.Duplicates := dupIgnore;
-    armorRaces.Sorted := true;
 
     vanillaRaces := TStringList.Create;
     vanillaRaces.Duplicates := dupIgnore;
@@ -350,7 +341,6 @@ begin
     raceAssignments.Free;
     factionRaces.Free;
     furryRaceClass.Free;
-    armorRaces.Free;
     vanillaRaces.free;
     
     for i := 0 to armorFallbacks.Count-1 do
@@ -834,7 +824,7 @@ end;
 {========================================================================
 Record a vanilla to furry race equivalent. 
 }
-Procedure SetRace(vanillaRaceName, furryRaceName, frClass, defaultArmorRace: String);
+Procedure SetRace(vanillaRaceName, furryRaceName, frClass: String);
 var
     vanillaRace: IwbMainRecord;
     furryRace: IwbMainRecord;
@@ -895,15 +885,15 @@ begin
                 PathName(vanillaRace)]));
 
         if frClass <> '' then furryRaceClass.add(furryRaceName + '=' + frClass);
-        if defaultArmorRace <> '' then begin
-            armorRace := FindAsset(nil, 'RACE', defaultArmorRace);
-            if not Assigned(armorRace) then
-                Warn(Format('Race %s not found, race %s may have trouble wearing armor', [
-                    defaultArmorRace, vanillaRaceName]))
-            else begin
-                armorRaces.add(furryRaceName + '=' + defaultArmorRace);
-            End;
-        end;
+        // if defaultArmorRace <> '' then begin
+        //     armorRace := FindAsset(nil, 'RACE', defaultArmorRace);
+        //     if not Assigned(armorRace) then
+        //         Warn(Format('Race %s not found, race %s may have trouble wearing armor', [
+        //             defaultArmorRace, vanillaRaceName]))
+        //     else begin
+        //         armorRaces.add(furryRaceName + '=' + defaultArmorRace);
+        //     End;
+        // end;
     end; 
 
     if LOGGING then LogExitT1('SetRace', EditorID(furryRace));
@@ -922,7 +912,7 @@ Parameters:
     raceClass: The class to assign to the new race
     armorRace: The fallback armor race
 }
-Procedure SetSubrace(subraceEditorID, subraceName, vanillaRaceName, furryRaceName, raceClass, armorRace: string);
+Procedure SetSubrace(subraceEditorID, subraceName, vanillaRaceName, furryRaceName, raceClass: string);
 var
     vanillaRace: IwbMainRecord;
     subrace: IwbMainRecord;
@@ -939,7 +929,7 @@ begin
             Add(subrace, 'FULL', TRUE);
             SetElementEditValues(subrace, 'FULL', subraceName);
             // Then the subrace is registered as being furrified from the furry race.
-            SetRace(subraceEditorID, furryRaceName, raceClass, armorRace);
+            SetRace(subraceEditorID, furryRaceName, raceClass);
         end
         else
             Raise Exception.Create(Format(
