@@ -121,11 +121,16 @@ begin
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncVigilantOfStendarr05RedguardF');
     e := FurrifyNPC(old);
 
+    // Konoi use kygarra scars
     old := FindAsset(FileByIndex(0), 'NPC_', 'EncForsworn01Melee1HBretonM01');
     e := FurrifyNPC(old);
     AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'YASReachmanRace', 
         'EncForsworn01Melee1HBretonM01 is now Reachman');
     AssertNpcTintLayersExist(e);
+    AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'Kettu'), 0,
+        'EncForsworn01Melee1HBretonM01 does not have kettu head part');
+    AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'KygarraMaleScar'), 1,
+        'EncForsworn01Melee1HBretonM01 has a Konoi scar');
 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Ainethach');
     e := FurrifyNPC(old);
@@ -825,10 +830,7 @@ begin
     LOGGING := TRUE; // Log the setup y/n
     TestSystemFunc;
 
-    DefineFurryRaces;
-    SetRacePreferences;
-    SetupVanilla;
-    ShowRaceAssignments;
+    InitializeEverything;
     FurrifyAllRaces;
     ShowRaceTints;
     LOGGING := TRUE;

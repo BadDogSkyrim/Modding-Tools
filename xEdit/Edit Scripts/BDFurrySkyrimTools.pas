@@ -1423,7 +1423,7 @@ end;
 Set the races for an NPC.
 
 curNPCrace = The current vanilla race for the NPC
-cuNPCFurryRace = The furry race to use for the NPC
+curNPCFurryRace = The furry race to use for the NPC
 curNPCAssignedRace = The race to assign to the NPC. This will be the new subrace, if any;
     or the new vanilla race if one has been assigned; or the current vanilla race
     otherwise.

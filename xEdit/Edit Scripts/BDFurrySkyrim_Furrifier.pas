@@ -213,7 +213,7 @@ begin
         hplist := headpartEquivalents.objects[equivIdx];
         for hpIdx := 0 to hplist.count-1 do begin
             thisHPName := EditorID(ObjectToElement(hplist.objects[hpIdx]));
-            hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCRace));
+            hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCFurryRace));
             hpInRaceIdx := -1;
             if hpRaceIdx >= 0 then 
                 hpInRaceIdx := raceHeadparts[hpType, curNPCsex].objects[hpRaceIdx].IndexOf(thisHPname);
@@ -876,6 +876,17 @@ begin
 end;
 
 
+procedure InitializeEverything;
+begin
+    PreferencesInit;
+    SetupVanilla;
+    DefineFurryRaces;
+    DefineFurryRacesUser;
+    SetRacePreferences;
+    AssignNPCRaces;
+end;
+
+
 //==================================================================
 //==================================================================
 //
@@ -919,12 +930,7 @@ begin
 
     hairAssignments := TStringList.Create;
 
-    PreferencesInit;
-    SetupVanilla;
-    DefineFurryRaces;
-    DefineFurryRacesUser;
-    SetRacePreferences;
-    AssignNPCRaces;
+    InitializeEverything;
     if LOGGING then ShowRaceAssignments;
 
     FurrifyAllRaces;
@@ -946,7 +952,7 @@ var
     s: integer;
 begin
     If LOGGING then LogEntry1(5, 'Process', Path(entity));
-    if (not cancelFurrification) and USE_SELECTION and (Signature(entity) = 'NPC_') then begin
+    if (not cancelFurrification) and settingUseSelection and (Signature(entity) = 'NPC_') then begin
         s := IfThen(GetElementEditValues(entity, 'ACBS - Configuration\Flags\Female') = '1',
             SEX_FEM, SEX_MALE);
         if (FURRIFY_NPCS_MALE and (s = SEX_MALE)) or (FURRIFY_NPCS_FEM and (s = SEX_FEM)) then begin
@@ -971,13 +977,14 @@ begin
     if not cancelFurrification then begin
         
         if (FURRIFY_NPCS_MALE or FURRIFY_NPCS_FEM) 
-            and (not USE_SELECTION) 
+            and (not settingUseSelection) 
         then begin
             FurrifyAllNPCs;
             FurrifyRacePresets;
         end;
 
         if FURRIFY_ARMOR then begin
+            AddMessage('Furrifying Armors...');
             if not SHOW_OPTIONS_DIALOG then begin
                 LOGLEVEL := LOG_ARMOR;
                 LOGGING := (LOG_ARMOR > 0);
