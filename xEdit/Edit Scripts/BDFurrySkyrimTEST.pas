@@ -59,12 +59,28 @@ end;
 procedure TestSchlongs;
 var 
     aa: IwbElement;
-    e, old: IwbMainRecord;
+    e, e1, e2, old: IwbMainRecord;
     flst: IwbMainRecord;
 begin
     AddMessage(#13#10#13#10 + '============ CHECKING SCHLONGS ===============');
     
     FurrifyAllSchlongs;
+
+    // Compatible races, race probabilities, and race sizes updated together.
+    e := FindAsset(targetFile, 'FLST', 'SOS_Addon_BDCellan_CompatibleRaces');
+    Assert(Assigned(e), 'Have override for SOS_Addon_BDCellan_CompatibleRaces');
+    AssertInt(ElementListNameCount(ElementByPath(e, 'FormIDs'), 'YASSailorRace'), 1,
+        'Sailors added to SOS_Addon_BDCellan_CompatibleRaces');
+    e1 := FindAsset(targetFile, 'FLST', 'SOS_Addon_BDCellan_RaceProbabilities');
+    AssertInt(ElementListNameCount(ElementByPath(e1, 'FormIDs'), 
+        'SOS_Addon_BDCellan_RaceProbabilityCel_YASSailorRace'), 
+        1,
+        'SOS_Addon_BDCellan_RaceProbabilityCel_YASSailorRace');
+    e2 := FindAsset(targetFile, 'FLST', 'SOS_Addon_BDCellan_RaceSizes');
+    AssertInt(ElementListNameCount(ElementByPath(e2, 'FormIDs'), 
+        'SOS_Addon_BDCellan_RaceSizeCel_YASSailorRace'), 
+        1,
+        'SOS_Addon_BDCellan_RaceSizeCel_YASSailorRace');
 
     e := FindAsset(targetFile, 'GLOB', 'YASDogSheathMale_ProbLykaios_NordRace');
     Assert(Assigned(e), 'Have new global for Nord sheath probability');
@@ -97,10 +113,21 @@ var
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
-    // Breton has mask 
-    old := FindAsset(FileByIndex(0), 'NPC_', 'Eltrys');
+    // WINTERHOLD DENIZEN
+    r := FindAsset(Nil, 'RACE', 'YASWinterholdRace');
+    AssertValueListTest(r, 'Head Data\Male Head Data\Tint Masks', 
+        'Tint Layer\TINP', 'Skin Tone', TRUE); 
+    e := FindElementInCompoundList(r, 'Head Data\Male Head Data\Tint Masks', 
+        'Tint Layer\TINP', 'Skin Tone');
+    AddMessage('Found skin tone layer: ' + PathName(e));
+    AssertStr(GetElementEditValues(e, 'Tint Layer\TINT'),
+        'YAS\Shan\Tints\SkinToneMale.dds', 
+        'Shan skin tone file');
+
+    // Furrified kettu has mask 
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Aerin');
     e := FurrifyNPC(old);
-    AssertInt(ActorHasTint(e, 'FoxMask'), 1, 'Eltrys has mask tint');
+    AssertInt(ActorHasTint(e, 'FoxMask'), 1, 'Aerin has mask tint');
 
     // REACHMEN
     // Konoi male skin tone layer index = 302
@@ -167,7 +194,7 @@ begin
     end;
 
     // BRETONS
-    old := FindAsset(FileByIndex(0), 'NPC_', 'GiraudGemane');
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Gallus');
     e := FurrifyNPC(old);
     // Breton Skin tone layer index = 2
     AssertInt(ActorHasTint(e, 'Actors\Character\Character Assets\TintMasks\SkinTone.dds'), 
@@ -830,6 +857,7 @@ begin
     LOGGING := TRUE; // Log the setup y/n
     TestSystemFunc;
 
+    settingRaceScheme := 'All Races';
     InitializeEverything;
     FurrifyAllRaces;
     ShowRaceTints;

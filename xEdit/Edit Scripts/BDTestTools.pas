@@ -513,20 +513,20 @@ begin
     for i := 0 to ElementCount(actorTintLayers) - 1 do begin
         actorTintLayer := ElementByIndex(actorTintLayers, i);
         actorTINI := GetNativeValue(ElementByPath(actorTintLayer, 'TINI'));
-        AddMessage(Format('ActorHasTint: Actor tint layer %d has TINI %d', [i, actorTINI]));
+        // AddMessage(Format('ActorHasTint: Actor tint layer %d has TINI %d', [i, actorTINI]));
 
         // Find matching TINI in race tint layers
         for j := 0 to ElementCount(raceTintLayers) - 1 do begin
             raceTintLayer := ElementByIndex(raceTintLayers, j);
             raceTINI := GetElementNativeValues(raceTintLayer, 'Tint Layer\TINI');
-            AddMessage(Format('ActorHasTint: Comparing actor TINI %d with race TINI %d (index %d)', [actorTINI, raceTINI, j]));
+            // AddMessage(Format('ActorHasTint: Comparing actor TINI %d with race TINI %d (index %d)', [actorTINI, raceTINI, j]));
 
             if actorTINI = raceTINI then begin
                 // Get the TINT file name from the race tint layer
                 tintFile := GetElementEditValues(raceTintLayer, 'Tint Layer\TINT');
-                AddMessage(Format('ActorHasTint: Found matching TINI. Tint file: %s', [tintFile]));
+                // AddMessage(Format('ActorHasTint: Found matching TINI. Tint file: %s', [tintFile]));
                 if Pos(LowerCase(aSubStr), LowerCase(tintFile)) > 0 then begin
-                    AddMessage('ActorHasTint: Substring found in tint file.');
+                    // AddMessage('ActorHasTint: Substring found in tint file.');
                     Inc(Result);
                 end else begin
                     AddMessage('ActorHasTint: Substring not found in tint file.');

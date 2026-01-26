@@ -30,14 +30,14 @@
         * Subrace editor ID
 
 }
-unit BDFurrySkyrim_Preferences;
+unit BDFurrySkyrim_Preferences_CatsDogs;
 
 interface
 implementation
 uses BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 
-Procedure SetRacePreferences;
+Procedure SetRacePreferences_CatsDogs;
 begin
     BEGIN // ============ NORD ============
         SetRace('NordRace', 'YASLykaiosRace', 'DOG');
@@ -120,7 +120,7 @@ begin
     end;
 
     BEGIN // ========== WINTERHOLD ============
-        SetSubrace('YASWinterholdRace', 'Winterhold', 'NordRace', 'YASShanRace', 'CAT');
+        SetSubrace('YASWinterholdRace', 'Winterhold Denizen', 'NordRace', 'YASShanRace', 'CAT');
         SetFactionRace('TownWinterholdFaction', 'YASWinterholdRace');
         SetFactionRace('CrimeFactionWinterhold', 'YASWinterholdRace');
     end;

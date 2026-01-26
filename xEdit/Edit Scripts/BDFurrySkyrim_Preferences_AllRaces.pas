@@ -30,14 +30,14 @@
         * Subrace editor ID
 
 }
-unit BDFurrySkyrim_Preferences;
+unit BDFurrySkyrim_Preferences_AllRaces;
 
 interface
 implementation
 uses BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 
-Procedure SetRacePreferences;
+Procedure SetRacePreferences_AllRaces;
 begin
     BEGIN // ============ NORD ============
         SetRace('NordRace', 'YASLykaiosRace', 'DOG');
@@ -120,20 +120,21 @@ begin
     end;
 
     BEGIN // ========== WINTERHOLD ============
-        // SetSubrace('YASWinterholdRace', 'Winterhold', 'NordRace', 'YASShanRace', 'CAT');
-        SetFactionRace('TownWinterholdFaction', 'YASShanRace');
-        SetFactionRace('CrimeFactionWinterhold', 'YASShanRace');
+        SetSubrace('YASWinterholdRace', 'Winterhold Denizen', 'NordRace', 'YASShanRace', 'CAT');
+        SetFactionRace('TownWinterholdFaction', 'YASWinterholdRace');
+        SetFactionRace('CrimeFactionWinterhold', 'YASWinterholdRace');
     end;
 
     BEGIN // ========== SAILORS ============
-        SetFactionRace('SailorFaction', 'CellanRace');
-        SetFactionRace('ShipsRedWaveFaction', 'CellanRace');
-        SetFactionRace('DLC2WaterStoneSailors', 'CellanRace');
-        SetFactionRace('ShipsSeaSquallFaction', 'CellanRace');
-        SetFactionRace('ShipsNorthwindFaction', 'CellanRace');
-        SetFactionRace('DawnstarFishingShipFaction', 'CellanRace');
-        SetFactionRace('DawnstarSmallShipFaction', 'CellanRace');
-        SetFactionRace('DawnstarImperialShipFaction', 'CellanRace');
+        SetSubrace('YASSailorRace', 'Sailor', 'NordRace', 'CellanRace', 'CAT');
+        SetFactionRace('DawnstarFishingShipFaction', 'YASSailorRace');
+        SetFactionRace('DawnstarImperialShipFaction', 'YASSailorRace');
+        SetFactionRace('DawnstarSmallShipFaction', 'YASSailorRace');
+        SetFactionRace('DLC2WaterStoneSailors', 'YASSailorRace');
+        SetFactionRace('SailorFaction', 'YASSailorRace');
+        SetFactionRace('ShipsNorthwindFaction', 'YASSailorRace');
+        SetFactionRace('ShipsRedWaveFaction', 'YASSailorRace');
+        SetFactionRace('ShipsSeaSquallFaction', 'YASSailorRace');
     end;
 
     { ================================== ORC (MINO) ============================= }

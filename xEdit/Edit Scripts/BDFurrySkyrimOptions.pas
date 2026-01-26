@@ -19,27 +19,30 @@ const
     LOG_SCHLONGS = 0;
     CLEAR_MESSAGE_WINDOW = TRUE;
     CLEAN_TARGET_FILE = TRUE;
+    RACE_ASSIGNMENT_SCHEME = 'All Races';
 
 var
     settingPatchFileName: string;
     settingUseSelection: Boolean;
     settingShowHairAssignment: boolean;
     settingCleanTargetFile: Boolean;
-    settingGhoulRace: string;
-    settingGhoulChildRace: string;
+    settingRaceScheme: string;
     settingLogLevel: Integer;
 
 //=========================================================
 // Create options form
 function SetOptions(showForm: Boolean): Boolean;
 var
-    bannerPic: TPicture;
+    assignmentScheme: TEdit;
     banner: TImage;
+    bannerPic: TPicture;
+    cb1, cb2, cb3, cb4, cb5: TCheckBox;
     pluginName: TEdit;
-    rname: TEdit;
-    cb1, cb2, cb3, cb4, cb5, terseDebugBtn, verboseDebugBtn: TCheckBox;
-    ghoulRace, ghoulChildRace: TEdit;
     races, childraces: string;
+    rname: TEdit;
+    targetCombo: TComboBox;
+    terseDebugBtn: TCheckBox;
+    verboseDebugBtn: TCheckBox;
 begin
     if not showForm then begin
         // Use defaults
@@ -47,6 +50,7 @@ begin
         settingUseSelection := USE_SELECTION;
         settingShowHairAssignment := SHOW_HAIR_ASSIGNMENT;
         settingCleanTargetFile := CLEAN_TARGET_FILE;
+        settingRaceScheme := RACE_ASSIGNMENT_SCHEME;
         Result := TRUE;
         Exit;
     end;
@@ -60,8 +64,18 @@ begin
     pluginName := MakeFormEdit('New plugin name', PATCH_FILE_NAME);
 
     MakeFormSectionLabel('Patch');
-    cb1 := MakeFormCheckBox('Entire load order', (not USE_SELECTION));
-    cb2 := MakeFormCheckBox('Selected NPCs', USE_SELECTION);
+    targetCombo := MakeFormComboBox(
+        'Patch', 'Entire load order' + #13 + 'Selected NPCs', 
+        IfThen(USE_SELECTION, 1, 0) 
+    );
+    // cb1 := MakeFormCheckBox('Entire load order', (not USE_SELECTION));
+    // cb2 := MakeFormCheckBox('Selected NPCs', USE_SELECTION);
+
+    MakeFormSectionLabel('Race Assignment');
+    assignmentScheme := MakeFormComboBox(
+        'Scheme', 
+        'All Races' + #13 + 'Cats and Dogs' + #13 + 'Legacy', 
+        0);
 
     MakeFormSectionLabel('Debugging');
     terseDebugBtn := MakeFormCheckBox('Terse', FALSE);
@@ -75,7 +89,8 @@ begin
             settingPatchFileName := pluginName.text
         else
             settingPatchFileName := pluginName.text + '.esp';
-        settingUseSelection := cb2.checked;
+        settingUseSelection := (targetCombo.text = 'Selected NPCs');
+        settingRaceScheme := assignmentScheme.text;
 
         LOGLEVEL := 0;
         if terseDebugBtn.checked then LOGLEVEL := 5;

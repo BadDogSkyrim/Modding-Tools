@@ -9,7 +9,11 @@ interface
 implementation
 
 uses 
-    BDFurrySkyrimRaceDefs, BDFurrySkyrimUserRaceDefs, BDFurrySkyrimOptions, BDFurrySkyrim_Preferences, BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDFurrySkyrimRaceDefs, BDFurrySkyrimUserRaceDefs, BDFurrySkyrimOptions, 
+    BDFurrySkyrim_Preferences_Legacy, 
+    BDFurrySkyrim_Preferences_AllRaces, 
+    BDFurrySkyrim_Preferences_CatsDogs, 
+    BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
     BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 const
@@ -882,7 +886,12 @@ begin
     SetupVanilla;
     DefineFurryRaces;
     DefineFurryRacesUser;
-    SetRacePreferences;
+    if settingRaceScheme = 'All Races' then
+        SetRacePreferences_AllRaces
+    else if settingRaceScheme = 'Cats and Dogs' then
+        SetRacePreferences_CatsDogs
+    else if settingRaceScheme = 'Legacy' then
+        SetRacePreferences_Legacy;
     AssignNPCRaces;
 end;
 
