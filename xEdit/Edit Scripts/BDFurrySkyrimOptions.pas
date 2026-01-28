@@ -74,7 +74,7 @@ begin
     MakeFormSectionLabel('Race Assignment');
     assignmentScheme := MakeFormComboBox(
         'Scheme', 
-        'All Races' + #13 + 'Cats and Dogs' + #13 + 'Legacy', 
+        'All Races' + #13 + 'Cats and Dogs' + #13 + 'Legacy' + #13 + 'User Defined', 
         0);
 
     MakeFormSectionLabel('Debugging');

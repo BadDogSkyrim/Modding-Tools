@@ -13,6 +13,7 @@ uses
     BDFurrySkyrim_Preferences_Legacy, 
     BDFurrySkyrim_Preferences_AllRaces, 
     BDFurrySkyrim_Preferences_CatsDogs, 
+    BDFurrySkyrim_Preferences_User, 
     BDFurrySkyrimSetup, BDArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
     BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
@@ -891,7 +892,9 @@ begin
     else if settingRaceScheme = 'Cats and Dogs' then
         SetRacePreferences_CatsDogs
     else if settingRaceScheme = 'Legacy' then
-        SetRacePreferences_Legacy;
+        SetRacePreferences_Legacy
+    else if settingRaceScheme = 'User Defined' then
+        SetRacePreferences_User;
     AssignNPCRaces;
 end;
 

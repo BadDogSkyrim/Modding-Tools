@@ -30,14 +30,14 @@
         * Subrace editor ID
 
 }
-unit BDFurrySkyrim_Preferences;
+unit BDFurrySkyrim_Preferences_User;
 
 interface
 implementation
 uses BDFurrySkyrimTools, BDScriptTools, xEditAPI, Classes, SysUtils, StrUtils, Windows;
 
 
-Procedure SetRacePreferences;
+Procedure SetRacePreferences_User;
 begin
     BEGIN // ============ NORD ============
         SetRace('NordRace', 'YASLykaiosRace', 'DOG');

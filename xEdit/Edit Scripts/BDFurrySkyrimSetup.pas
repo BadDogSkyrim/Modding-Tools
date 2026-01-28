@@ -276,6 +276,7 @@ begin
         NPCAlias('DA05Sinding', 'DA05SindingGhost');
         NPCAlias('DA05Sinding', 'DA05SindingHuman');
         NPCAlias('DBLis', 'DBLisDead');
+        NPCAlias('Delphine', 'Delphine3DNPC');
         NPCAlias('DLC1Harkon', 'DLC1HarkonCombat');
         NPCAlias('DLC1LD_Katria', 'DLC1LD_KatriaCorpse');
         NPCAlias('DLC1Malkus', 'DLC1MalkusDead');
