@@ -489,6 +489,33 @@ begin
     // result := GetElementNativeValues(arma, '[2]\[0]');
 end;
 
+
+//=======================================================================
+// Determine if the given race represents a child race
+Function IsChildRace(race: IwbMainRecord): Boolean;
+var
+    raceFlags: Int64;
+begin
+    if not Assigned(race) then
+        result := false
+    else begin
+        result := (GetElementEditValues(race, 'DATA - DATA\Flags\Child') = '1');
+    end;
+end;
+
+
+//=======================================================================
+// Determine if the given NPC record is female
+Function IsNPCFemale(npc: IwbMainRecord): Boolean;
+begin
+    if not Assigned(npc) then
+        result := false
+    else begin
+        result := (GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1');
+    end;
+end;
+
+
 //=======================================================================
 // Return the record referenced by the field of the element at the given index
 Function RecordAtIndex(e: IwbElement; idx: integer; field: string): IwbElement;

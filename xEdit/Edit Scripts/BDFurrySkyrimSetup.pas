@@ -68,7 +68,8 @@ begin
         LabelHeadpartList('HairFemaleNord08', 'SHORT,BRAIDS,FUNKY');
         LabelHeadpartList('HairFemaleNord09', 'TIEDBACK,BRAIDS');
         LabelHeadpartList('HairFemaleNord10', 'BRAIDS,TIEDBACK,ELABORATE');
-        LabelHeadpartList('HairFemaleNord11', 'TIEDBACK,BRAIDS,YOUNG,TIEDBACK');
+        LabelHeadpartList('HairFemaleNord11', 'TIEDBACK,BRAIDS,YOUNG');
+        LabelHeadpartList('HairFemaleNord12', 'TIEDBACK,NEAT');
         LabelHeadpartList('HairFemaleNord13', 'SHORT,BRAIDS');
         LabelHeadpartList('HairFemaleNord14', 'LONG,TIEDBACK');
         LabelHeadpartList('HairFemaleNord15', 'SHORT,NEAT');

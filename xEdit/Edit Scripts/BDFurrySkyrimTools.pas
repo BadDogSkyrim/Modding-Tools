@@ -53,6 +53,7 @@ const
     AGE_MASK = 2;
     SEX_MALE = 0;
     SEX_FEM = 1;
+    SEX_CHILD = 2;
     SEX_LO = 0;
     SEX_HI = 3;
 
@@ -1483,10 +1484,16 @@ var
 begin
     if LOGGING then LogEntry1(10, 'LoadNPC', Name(npc));
     curNPC := npc;
+    curNPCrace := LinksTo(ElementByPath(npc, 'RNAM'));
     curNPCoriginal := originalNPC;
-    curNPCsex := IfThen(GetElementEditValues(npc, 'ACBS - Configuration\Flags\Female') = '1',
-        SEX_FEMADULT, SEX_MALEADULT) 
-        + IfThen(GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child') = '1', 2, 0);
+    curNPCsex := IfThen(IsNPCFemale(curNPC), SEX_FEMADULT, SEX_MALEADULT) 
+        + IfThen(IsChildRace(curNPCrace), SEX_CHILD, 0);
+    // if LOGGING and (EditorID(curNPC) = 'Delphine') then begin
+    //     LogD('Debug breakpoint for Delphine');
+    //     LogD('Race: ' + EditorID(curNPCrace));
+    //     LogD('Child flag on race: ' + GetElementEditValues(curNPCrace, 'DATA - DATA\Flags\Child'));
+    //     Raise Exception.Create('BREAK');
+    // end;
     curNPCalias := Unalias(Name(npc));
     curNPCHash := curNPCalias + GetElementEditValues(npc, 'Record Header\Data Size');
 
@@ -1516,11 +1523,13 @@ begin
     end;
 
     if LOGGING then begin
+        LogT('+++');
         LogT('Original Race is ' + EditorID(curNPCrace));
         LogT('Assigned Race is ' + EditorID(curNPCAssignedRace));
         LogT('Furry Race is ' + EditorID(curNPCFurryrace));
         LogT('Age/Sex is ' + SexToStr(curNPCsex));
         LogT('Tint Layers: ' + curNPCTintLayers.CommaText);
+        LogT('---');
     end;
     
     if LOGGING then LogExitT1('LoadNPC', Format('%s %s', [Name(curNPCrace), SexToStr(curNPCsex)]));

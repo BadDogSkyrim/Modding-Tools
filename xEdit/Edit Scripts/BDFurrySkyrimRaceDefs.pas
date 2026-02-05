@@ -237,6 +237,7 @@ begin
     end;
 
     begin // Descriptions of furry hair styles
+        // Dogs
         LabelHeadpartList('YASDogMaleHairDreads001', 'HAIR,DREADS,BOLD,FUNKY,LONG');
         // LabelHeadpart('BDLykMaleHairDreads002', 'DREADS'); // Dark version
         LabelHeadpartList('YASDogMaleHairDreads003', 'HAIR,DREADS,NOBLE,BOLD,FUNKY,LONG');
@@ -305,6 +306,65 @@ begin
         LabelHeadpartList('YASFemHairApachii03', 'HAIR,NEAT,SHORT');
         LabelHeadpartList('YASFemHairApachii04', 'HAIR,MESSY,LONG');
         LabelHeadpartList('YASFemHairApachii05', 'HAIR,MESSY,LONG');
+
+        // Cats
+        LabelHeadpartList('YASCatMaleHairDreads001', 'HAIR,DREADS,BOLD,FUNKY,LONG');
+        // LabelHeadpart('BDLykMaleHairDreads002', 'DREADS'); // Dark version
+        LabelHeadpartList('YASCatMaleHairDreads003', 'HAIR,DREADS,NOBLE,BOLD,FUNKY,LONG');
+        // LabelHeadpart('BDLykMaleHairDreads004', 'DREADS'); // Dark version
+        LabelHeadpartList('YASCatMaleHairDreadsFringe', 'HAIR,DREADS,NOBLE,BOLD,FUNKY,YOUNG,LONG');
+        LabelHeadpartList('YASCatMaleHairDreadsHeadband', 'HAIR,DREADS,NOBLE,BOLD,FUNKY,FEATHERS,LONG');
+        LabelHeadpartList('YASCatMaleHairFringeFlip001', 'HAIR,YOUNG,SHORT');
+        LabelHeadpartList('YASCatMaleHairLionMane001', 'HAIR,MANE,LONG');
+        LabelHeadpartList('YASCatMaleHairLionMane002', 'HAIR,MANE,LONG,YOUNG');
+        LabelHeadpartList('YASCatMaleHairLionManebraids', 'HAIR,MANE,LONG,NOBLE,BRAIDS');
+        LabelHeadpartList('YASCatMaleHairLionManeFringeLeftBraid', 'HAIR,MANE,LONG,NOBLE,BRAIDS');
+        LabelHeadpartList('YASCatMaleHairLionManeHeadband', 'HAIR,MANE,LONG,NOBLE,FEATHERS');
+        LabelHeadpartList('YASCatMaleHairLongBraid001', 'HAIR,BRAIDS,NEAT,TIEDBACK');
+        LabelHeadpartList('YASCatMaleHairLongBraid002', 'HAIR,TIEDBACK,BRAIDS,NOBLE');
+        LabelHeadpartList('YASCatMaleHairLongBraidleft', 'HAIR,NEAT,TIEDBACK,BRAIDS,NOBLE');
+        LabelHeadpartList('YASCatMaleHairMohawk001', 'HAIR,MOHAWK,BRAIDS,MILITARY,BOLD,FANCY');
+        LabelHeadpartList('YASCatMaleHairMohawk003', 'HAIR,MOHAWK,FEATHERS,BOLD');
+        LabelHeadpartList('YASCatMaleHairMohawkFringe', 'HAIR,MOHAWK,YOUNG,BOLD');
+        LabelHeadpartList('YASCatMaleHairShaggyHair002', 'HAIR,LONG,MESSY');
+        LabelHeadpartList('YASCatMaleHairShaggyHair003', 'HAIR,LONG,MESSY,FEATHERS');
+        LabelHeadpartList('YASCatMaleHairShorCrop001', 'HAIR,SHORT,NEAT');
+        LabelHeadpartList('YASCatMaleHairShorCrop002', 'HAIR,SHORT,NEAT,YOUNG');
+        LabelHeadpartList('YASCatMaleHairShorCrop003', 'HAIR,SHORT,NEAT,NOBLE');
+        LabelHeadpartList('YASCatMaleHairShorCrop004', 'HAIR,SHORT,NEAT,NOBLE,FEATHERS');
+        LabelHeadpartList('YASCatMaleHairTiedStyle001', 'HAIR,LONG,NOBLE,NEAT');
+        LabelHeadpartList('YASCatMaleHairTiedStyleFringe', 'HAIR,LONG,NOBLE,NEAT,YOUNG');
+        LabelHeadpartList('YASCatMaleHairTiedStyleHeadband', 'HAIR,LONG,NOBLE,NEAT,YOUNG,FEATHERS');
+        LabelHeadpartList('YASCatMaleHairVanillaBraid001', 'HAIR,LONG,NEAT,TIEDBACK');
+        LabelHeadpartList('YASCatMaleHairVanillaHair001', 'HAIR,MESSY,LONG');
+        LabelHeadpartList('YASCatMaleHairSidehawk', 'HAIR,MOHAWK,FUNKY,BOLD');
+
+        LabelHeadpartList('YASCatFemHairBraid001', 'HAIR,NEAT,TIEDBACK,LONG,BRAIDS');
+        LabelHeadpartList('YASCatFemHairBraid002', 'HAIR,NEAT,TIEDBACK,LONG,BRAIDS,NOBLE');
+        LabelHeadpartList('YASCatFemHairDreads001', 'HAIR,DREADS,BOLD,FUNKY,LONG');
+        LabelHeadpartList('YASCatFemHairDreads002', 'HAIR,DREADS,BOLD,FUNKY,NOBLE,ELABORATE,LONG');
+        LabelHeadpartList('YASCatFemHairDreads003', 'HAIR,DREADS,BOLD,FUNKY,LONG');
+        LabelHeadpartList('YASCatFemHairDreads004', 'HAIR,DREADS,BOLD,FUNKY,NOBLE,ELABORATE,LONG');
+        LabelHeadpartList('YASCatFemHairFringeFlip001', 'HAIR,YOUNG,NEAT,SHORT');
+        LabelHeadpartList('YASCatFemHairMane001', 'HAIR,MANE,LONG,BOLD');
+        LabelHeadpartList('YASCatFemHairMane002', 'HAIR,MANE,LONG,BOLD');
+        LabelHeadpartList('YASCatFemHairMane003', 'HAIR,MANE,LONG,BOLD,NOBLE');
+        LabelHeadpartList('YASCatFemHairMohawk001', 'HAIR,MOHAWK,BOLD,FUNKY');
+        LabelHeadpartList('YASCatFemHairMohawk002', 'HAIR,MOHAWK,BOLD,FUNKY,FEATHERS');
+        LabelHeadpartList('YASCatFemHairShaggy001', 'HAIR,LONG,MESSY,LONG');
+        LabelHeadpartList('YASCatFemHairShaggy002', 'HAIR,MESSY,BRAIDS');
+        LabelHeadpartList('YASCatFemHairShortCrop001', 'HAIR,SHORT,NEAT,MILITARY');
+        LabelHeadpartList('YASCatFemHairShortCrop002', 'HAIR,SHORT,NEAT');
+        LabelHeadpartList('YASCatFemHairShortCrop003', 'HAIR,SHORT,NEAT,BRAIDS,NOBLE');
+        LabelHeadpartList('YASCatFemHairTiedStyle001', 'HAIR,LONG,NOBLE,ELABORATE');
+        LabelHeadpartList('YASCatFemHairVanillaBraid001', 'HAIR,TIEDBACK,BRAIDS');
+        LabelHeadpartList('YASCatFemHairVanillaCrop001', 'HAIR,SHORT,TIEDBACK');
+        LabelHeadpartList('YASCatFemHairVanillaHair001', 'HAIR,SHORT,BRAIDS,FUNKY');
+        LabelHeadpartList('YASCatFemHairApachii01', 'HAIR,NEAT,YOUNG,BRAIDS');
+        LabelHeadpartList('YASCatFemHairApachii02', 'HAIR,DREADS,LONG,BOLD,FUNKY');
+        LabelHeadpartList('YASCatFemHairApachii03', 'HAIR,NEAT,SHORT');
+        LabelHeadpartList('YASCatFemHairApachii04', 'HAIR,MESSY,LONG');
+        LabelHeadpartList('YASCatFemHairApachii05', 'HAIR,MESSY,LONG');
     end;
 
     begin // Common eye correspondences human <-> furry

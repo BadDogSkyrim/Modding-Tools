@@ -269,7 +269,11 @@ begin
                         [thisHPname, bestMatchScore]));
                 end;
             end;
-        end;
+        end
+        else
+            if hpType = HP_HAIR and LOGGING 
+            then LogD(Format('HAIR: No headparts of type %s for race %s/%s', [
+                    HeadpartToStr(hpType), SexToStr(curNPCsex), EditorID(curNPCrace)]));
     end;
 
     if (bestMatchScore > -10) and (bestMatches.count > 0) then begin
@@ -696,7 +700,7 @@ begin
                     [GetFileName(FileByIndex(f)), 100*processedNPCcount/ElementCount(npcList)]) + '%');
 
             npc := ElementByIndex(npcList, n);
-            if LOGGING then LogD('Found NPC ' + Path(npc));
+            if LOGGING then LogD('Found NPC ' + Name(npc));
             if IsWinningOverride(npc) then begin
                 // Only furrify the winning override. We'll get to it unless it's in
                 // FFO or later, in which case it doesn't need furrification.
@@ -947,7 +951,7 @@ begin
 
     FurrifyAllRaces;
     FurrifyAllHeadpartLists;
-    // ShowHeadparts;
+    if LOGLEVEL >= 10 then ShowHeadparts;
     // ShowRaceTints;
 
     processedNPCcount := 0;

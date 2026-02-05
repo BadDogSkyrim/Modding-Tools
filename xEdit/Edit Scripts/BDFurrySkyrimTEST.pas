@@ -9,7 +9,7 @@ interface
 implementation
 uses 
     BDFurrySkyrim_Furrifier, BDFurrySkyrimSetup, BDFurrySkyrimRaceDefs,
-    BDFurrySkyrim_Preferences, BDFurryArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
+    BDFurrySkyrim_Preferences_AllRaces, BDFurryArmorFixup, BDFurrifySchlongs, BDFurrySkyrimTools,
     BDScriptTools, BDTestTools, xEditAPI, Classes, SysUtils, StrUtils;
 
 const
@@ -112,6 +112,12 @@ var
     qv, tv: double;
 begin
     AddMessage('============ CHECKING NPCS ===============');
+
+    // Hair properly assigned
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Delphine');
+    e := FurrifyNPC(old);
+    AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'Hair'), 1,
+        'Delphine has hair');
 
     // WINTERHOLD DENIZEN
     r := FindAsset(Nil, 'RACE', 'YASWinterholdRace');
@@ -535,6 +541,14 @@ var
     tintPreset: IwbElement;
     tintMaskList: IwbElement;
 begin
+    AddMessage(#13#10#13#10 + '============ TESTING SYSTEM FUNCTIONS ===============');
+    e := FindAsset(FileByIndex(0), 'RACE', 'BretonRace');
+    AddMessage(Format('Can see BretonRace is not child: %s', [
+        IfThen(IsChildRace(e), 'CHILD', 'NOT CHILD')]));
+    e := FindAsset(FileByIndex(0), 'RACE', 'BretonRaceChild');
+    AddMessage(Format('Can see BretonRaceChild is child: %s', [
+        IfThen(IsChildRace(e), 'CHILD', 'NOT CHILD')]));
+
     // // Cannot use dynamic lists--the following does not compile.
     // SetLength(dynlist, 5);
     // dynlist[4] := 4;
