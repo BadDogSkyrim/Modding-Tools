@@ -917,7 +917,6 @@ begin
     AddMessage('====================================================');
     AddMessage('Version ' + FURRIFIER_VERSION);
     AddMessage('xEdit Version ' + GetXEditVersion());
-    AddMessage(' ');
 
     cancelFurrification := FALSE;
     InitializeLogging;
@@ -930,6 +929,8 @@ begin
         if LOGGING then LogExitT('Initialize');
         Exit;
     end;
+    AddMessage('Furrification scheme: ' + settingRaceScheme);
+    AddMessage(' ');
     if LOGGING then LogEntry(0, 'Initialize');
 
     targetFileIndex := FindFile(settingPatchFileName);
@@ -1040,6 +1041,7 @@ begin
     AddMessage(errRpt);
     AddMessage('Version ' + FURRIFIER_VERSION);
     AddMessage('xEdit Version ' + GetXEditVersion());
+    AddMessage('Furrification scheme: ' + settingRaceScheme);
 
 end;
 

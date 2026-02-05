@@ -84,7 +84,6 @@ begin
     MakeFormOKCancel;
 
     if bdstForm.ShowModal = mrOK then begin
-        AddMessage('OK');
         if EndsText('.esp', pluginName.text) then
             settingPatchFileName := pluginName.text
         else
