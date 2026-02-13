@@ -110,10 +110,18 @@ var
     qnam, tinc: IwbElement;
     opac: double;
     qv, tv: double;
+    t: string;
 begin
     AddMessage('============ CHECKING NPCS ===============');
 
     // Hair properly assigned
+    old := FindAsset(FileByIndex(0), 'NPC_', 'SailorXander');
+    e := FurrifyNPC(old);
+    AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'Hair'), 1,
+        'Xander has hair');
+    t := EditorID(ElementListNameFind(ElementByPath(e, 'Head Parts'), 'Hair'));
+    Assert(not ContainsText(t, 'Dog'), 'Xander hair is not a dog hair: ' + t);
+
     old := FindAsset(FileByIndex(0), 'NPC_', 'Delphine');
     e := FurrifyNPC(old);
     AssertInt(ElementListNameCount(ElementByPath(e, 'Head Parts'), 'Hair'), 1,
@@ -879,7 +887,7 @@ begin
     FurrifyAllHeadpartLists;
     TestRaces;
 
-    // ShowHeadparts;
+    ShowHeadparts;
     // CollectArmor;
     // ShowArmor;
 

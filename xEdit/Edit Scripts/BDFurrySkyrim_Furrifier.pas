@@ -238,7 +238,7 @@ begin
     else begin
         // No equivalents, find best match by labels.
         if LOGGING then LogD('NPC labels ' + curNPClabels.CommaText);
-        hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCrace));
+        hpRaceIdx := raceHeadparts[hpType, curNPCsex].IndexOf(EditorID(curNPCFurryRace));
         if hpRaceIdx >= 0 then begin
             // Have at least one HP of this type for this sex and race.
             // Find the ones with the highest score.

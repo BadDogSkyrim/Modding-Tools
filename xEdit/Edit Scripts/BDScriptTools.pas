@@ -677,6 +677,24 @@ begin
 end;
 
 
+{=========================================================
+Returns the first element referenced by elist whose EditorID contains targetSubstr.
+}
+function ElementListNameFind(elist: IwbContainer; targetSubstr: string): IwbElement;
+var
+    i: integer;
+    ref: IwbMainRecord;
+begin
+    Result := nil;
+    for i := 0 to ElementCount(elist) - 1 do begin
+        ref := LinksTo(ElementByIndex(elist, i));
+        if Assigned(ref) and ContainsText(EditorID(ref), targetSubstr) then
+            result := ref;
+            break;
+    end;
+end;
+
+
 //=========================================================
 // Create a form button
 function FormButton(f: TForm; parent: TForm; lab: String; res: Cardinal; left, top: integer):

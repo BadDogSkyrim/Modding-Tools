@@ -367,6 +367,16 @@ begin
         LabelHeadpartList('YASCatFemHairApachii05', 'HAIR,MESSY,LONG');
     end;
 
+    begin // Otters
+        LabelHeadpartList('HairCellanMale01', 'HAIR,BRAIDS,NEAT');
+        LabelHeadpartList('HairCellanMale02', 'HAIR,BRAIDS,TIEDBACK');
+        LabelHeadpartList('HairCellanMale03', 'HAIR,FUNKY,MOHAWK');
+        LabelHeadpartList('HairCellanMale04', 'HAIR,BRAIDS');
+        LabelHeadpartList('HairCellanFemale01', 'HAIR,BRAIDS');
+        LabelHeadpartList('HairCellanFemale02', 'HAIR,SHORT');
+        LabelHeadpartList('HairCellanFemale04', 'HAIR,LONG,NEAT,BRAIDS');
+    end;
+
     begin // Common eye correspondences human <-> furry
         AssignHeadpart('MaleEyesHumanAmber', 'YASDayPredMaleEyesAmber');
         AssignHeadpart('MaleEyesHumanAmberBlindRight', 'YASDayPredMaleEyesAlbino');
