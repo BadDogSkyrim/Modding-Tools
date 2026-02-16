@@ -379,6 +379,18 @@ begin
     aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHoodAA'));
     AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
         'Nord race removed from MageApprenticeHoodAA');
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHood_ArgKhajAA'));
+    AssertGT(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race added to MageApprenticeHood_ArgKhajAA');
+
+    { ClothesCollegeHoodVariant1 uses MageApprenticeHood_ArgKhajAA for Argonians & Khajiit 
+    but MageApprenticeHoodvariant1AA for humans (yes, this is lame). Make sure the human addon
+    has had the furrified races removed. }
+    old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesCollegeHoodVariant1'));
+    e := FurrifyArmorRecord(old);
+    aa := WinningOverride(FindAsset(FileByIndex(0), 'ARMA', 'MageApprenticeHoodvariant1AA'));
+    AssertEQ(ElementListNameCount(ElementByPath(aa, 'Additional Races'), 'NordRace'), 0,
+        'Nord race removed from MageApprenticeHoodvariant1AA');
 
     old := WinningOverride(FindAsset(FileByIndex(0), 'ARMO', 'ClothesRedguardHood'));
     e := FurrifyArmorRecord(old);
@@ -877,7 +889,7 @@ begin
     LogD(Format('Found target file at %d', [targetFileIndex]));
 
     LOGGING := TRUE; // Log the setup y/n
-    TestSystemFunc;
+    // TestSystemFunc;
 
     settingRaceScheme := 'All Races';
     InitializeEverything;

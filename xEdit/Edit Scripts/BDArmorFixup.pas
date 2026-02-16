@@ -342,7 +342,7 @@ begin
 
     // Only process once: if it's already in the targetFile or it's in the processedAddons
     // list, we've already done it.
-    if LOGGING then LogD(Format('Found %s at index %d', 
+    if LOGGING then LogD(Format('Found processedAddons[%s] at index %d', 
         [EditorID(addon), processedAddons.IndexOf(EditorID(addon))]));
     if (GetLoadOrder(GetFile(addon)) < targetFileIndex) 
         and (processedAddons.IndexOf(EditorID(addon)) < 0) 
@@ -357,7 +357,7 @@ begin
             if i < 0 then raceName := EditorID(LinksTo(ElementByPath(addon, 'RNAM')))
             else raceName := EditorID(LinksTo(ElementByIndex(raceList, i)));
             curRaceList.Add(raceName);
-            if LOGGING then LogD(Format('Found existing race %s', [raceName]));
+            // if LOGGING then LogD(Format('Found existing race %s', [raceName]));
         end;
 
         // Walk through every race the addon is good for.
@@ -372,7 +372,7 @@ begin
             furryList := nil;
             fidx := furryRaces.IndexOf(raceName);
             if fidx >= 0 then begin
-                if LOGGING then LogD(Format('Works for furry race %s', [raceName]));
+                // if LOGGING then LogD(Format('Works for furry race %s', [raceName]));
                 furryList := furryRaces.objects[fidx];
                 haveFurryRace := true;
             end
@@ -602,7 +602,7 @@ var
 begin
     if LOGGING then LogEntry2(10, 'FixupOverlappingAddons', Name(armor), PathName(addon));
 
-    // Collect the races covered by this addon. These are the ones to remove from other addons.
+    // Collect the races covered by the given addon. These are the ones to remove from other addons.
     for i := -1 to ElementCount(ElementByPath(addon, 'Additional Races')) - 1 do begin
         if i < 0 then 
             thisRace := LinksTo(ElementByPath(addon, 'RNAM'))
@@ -651,7 +651,7 @@ var
     j: integer;
     thisRace: IwbMainRecord;
 begin
-    if LOGGING then LogEntry1(15, 'CollectArmorRaces', PathName(targetAddon));
+    if LOGGING then LogEntry1(10, 'CollectArmorRaces', PathName(targetAddon));
     maAddonRaces := TStringList.Create;
     maAddonRaces.Duplicates := dupIgnore;
     maAddonRaces.Sorted := true;
@@ -715,7 +715,7 @@ var
     newAddon: IwbMainRecord;
     e: IwbElement;
 begin
-    if LOGGING then LogEntry1(15, 'MergeArmorAddons', PathName(maOverride));
+    if LOGGING then LogEntry1(10, 'MergeArmorAddons', PathName(maOverride));
 
     aaList := ElementByPath(maOverride, 'Armature');
     if Assigned(aaList) then begin
@@ -726,20 +726,25 @@ begin
                 PathName(addon),
                 Integer(GetLoadOrder(GetFile(addon))),
                 Integer(GetLoadOrder(targetFile))]));
-            if (GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile))
-                and ((GetBodypartFlags(addon) and relevantBodyparts) <> 0)
+            if {(GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile))
+                and} ((GetBodypartFlags(addon) and relevantBodyparts) <> 0)
             then begin
                 // Furrify the addon's races if needed.
                 CollectArmorRaces(addon);
-                if AddonAddFurrifiedRaces(addon) then 
-                    FixupOverlappingAddons(maOverride, addon);
+                // if AddonAddFurrifiedRaces(addon) then 
+                //     FixupOverlappingAddons(maOverride, addon);
+                if GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile) then
+                    AddonAddFurrifiedRaces(addon);
+                FixupOverlappingAddons(maOverride, addon);
 
                 // Make sure this addon is in the armor's list.
-                if maAddons.IndexOf(EditorID(addon)) < 0 then begin
-                    MergeArmorMakeOverride;
-                    e := InsertAddonSlot(ElementByPath(maNewOverride, 'Armature'), addon);
-                    AssignElementRef(e, addon);
-                    maAddons.AddObject(EditorID(addon), addon);
+                if GetLoadOrder(GetFile(addon)) < GetLoadOrder(targetFile) then begin
+                    if maAddons.IndexOf(EditorID(addon)) < 0 then begin
+                        MergeArmorMakeOverride;
+                        e := InsertAddonSlot(ElementByPath(maNewOverride, 'Armature'), addon);
+                        AssignElementRef(e, addon);
+                        maAddons.AddObject(EditorID(addon), addon);
+                    end;
                 end;
                 if Assigned(maAddonRaces) then maAddonRaces.Free;
             end;

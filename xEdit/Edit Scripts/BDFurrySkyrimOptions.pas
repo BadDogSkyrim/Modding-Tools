@@ -42,6 +42,7 @@ var
     rname: TEdit;
     targetCombo: TComboBox;
     terseDebugBtn: TCheckBox;
+    validSchemes: string;
     verboseDebugBtn: TCheckBox;
 begin
     if not showForm then begin
@@ -72,10 +73,13 @@ begin
     // cb2 := MakeFormCheckBox('Selected NPCs', USE_SELECTION);
 
     MakeFormSectionLabel('Race Assignment');
-    assignmentScheme := MakeFormComboBox(
-        'Scheme', 
-        'All Races' + #13 + 'Cats and Dogs' + #13 + 'Legacy' + #13 + 'User Defined', 
-        0);
+    validSchemes := 'User Defined';
+    if (FindFile('YASCanineRaces.esp') >= 0) and (FindFile('BDCatRaces.esp') >= 0) then begin
+        validSchemes := 'Cats and Dogs' + #13+ 'Legacy' + #13  + validSchemes;
+        if (FindFile('CellandRace.esp') >= 0) then
+            validSchemes := 'All Races' + #13 + validSchemes;
+    end;
+    assignmentScheme := MakeFormComboBox('Scheme', validSchemes, 0);
 
     MakeFormSectionLabel('Debugging');
     terseDebugBtn := MakeFormCheckBox('Terse', FALSE);
