@@ -76,7 +76,7 @@ begin
     validSchemes := 'User Defined';
     if (FindFile('YASCanineRaces.esp') >= 0) and (FindFile('BDCatRaces.esp') >= 0) then begin
         validSchemes := 'Cats and Dogs' + #13+ 'Legacy' + #13  + validSchemes;
-        if (FindFile('CellandRace.esp') >= 0) then
+        if (FindFile('CellanRace.esp') >= 0) then
             validSchemes := 'All Races' + #13 + validSchemes;
     end;
     assignmentScheme := MakeFormComboBox('Scheme', validSchemes, 0);

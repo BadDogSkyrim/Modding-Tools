@@ -929,6 +929,7 @@ begin
             SetEditorID(subrace, subraceEditorID);
             Add(subrace, 'FULL', TRUE);
             SetElementEditValues(subrace, 'FULL', subraceName);
+            SetElementEditValues(subrace, 'DATA - DATA\Flags\Playable', False);
             // Then the subrace is registered as being furrified from the furry race.
             SetRace(subraceEditorID, furryRaceName, raceClass);
         end

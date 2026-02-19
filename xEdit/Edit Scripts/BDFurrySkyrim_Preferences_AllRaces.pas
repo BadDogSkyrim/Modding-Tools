@@ -135,6 +135,7 @@ begin
         SetFactionRace('ShipsNorthwindFaction', 'YASSailorRace');
         SetFactionRace('ShipsRedWaveFaction', 'YASSailorRace');
         SetFactionRace('ShipsSeaSquallFaction', 'YASSailorRace');
+        SetNPCRace('Jolf', 'YASSailorRace');
     end;
 
     { ================================== ORC (MINO) ============================= }
