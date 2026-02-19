@@ -137,6 +137,10 @@ begin
     AssertStr(GetElementEditValues(e, 'Tint Layer\TINT'),
         'YAS\Shan\Tints\SkinToneMale.dds', 
         'Shan skin tone file');
+    old := FindAsset(FileByIndex(0), 'NPC_', 'Eirid');
+    e := FurrifyNPC(old);
+    AssertStr(EditorID(LinksTo(ElementByPath(e, 'RNAM'))), 'NordRaceChild', 
+        'Eirid is still a Nord child');
 
     // Furrified kettu has mask 
     old := FindAsset(FileByIndex(0), 'NPC_', 'Aerin');

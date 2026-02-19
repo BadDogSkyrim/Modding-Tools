@@ -1433,6 +1433,7 @@ curNPCAssignedRace = The race to assign to the NPC. This will be the new subrace
 Procedure SetNpcRaces(npc: IwbMainRecord);
 var
     npcFactionList: IwbElement;
+    proposedRace: IwbMainRecord;
     fn: string;
     i, j, k: integer;
 begin
@@ -1451,17 +1452,41 @@ begin
             fn := EditorID(LinksTo(ElementByPath(ElementByIndex(npcFactionList, i), 'Faction')));
             j := factionRaces.IndexOfName(fn);
             LogD(Format('Faction %s has index %d', [fn, j]));
-            if j >= 0 then begin
-            if LOGGING then LogD(Format('Faction %s -> race %s', [
+            if (j >= 0) // have a faction race
+            then begin
+                if LOGGING then LogD(Format('Faction %s -> race %s', [
                     fn, factionRaces.ValueFromIndex[j]]));
                 k := vanillaRaces.IndexOf(factionRaces.ValueFromIndex[j]);
-                curNPCAssignedRace := ObjectToElement(vanillaRaces.objects[k]);
+                proposedRace := ObjectToElement(vanillaRaces.objects[k]);
+                if (IsChildRace(proposedRace) = IsChildRace(curNPCrace)) then begin
+                    // Either both adult or both child
+                    curNPCAssignedRace := proposedRace;
+                end;
             end;
         end;
     end;
 
     curNPCFurryRace := ObjectToElement(raceAssignments.objects[
         raceAssignments.IndexOf(EditorID(curNPCAssignedRace))]);
+
+    // For child NPCs, check if the furry race supports child variants
+    if LOGGING then LogD(Format('Checking child flag for %s %s', [
+        Name(npc), SexToStr(curNPCsex)]));
+    if (curNPCsex and AGE_MASK) <> 0 then begin
+        // Check if the furry race exists
+        if LOGGING then begin
+            LogD(Format('Child race tint assets exist: %s', [
+                BoolToStr(Assigned(tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace))))]));
+            // LogD(Format('Tint count: %d', [
+            //     integer(tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace)).Count)]));
+        end;
+        if (not Assigned(tintAssets[curNPCsex].IndexOf(EditorID(curNPCFurryRace)))) then begin
+            // No child support found, keep original race
+            curNPCFurryRace := curNPCrace;
+            if LOGGING then LogD(Format('Child NPC %s: no child support for furry race %s, keeping original race %s', [
+                Name(npc), EditorID(curNPCAssignedRace), EditorID(curNPCrace)]));
+        end;
+    end;
 
     if LOGGING then LogExitT1('SetNpcRaces', Format('%s -> %s -> %s', [
         EditorID(curNPCrace), EditorID(curNPCAssignedRace), EditorID(curNPCFurryRace)]));
